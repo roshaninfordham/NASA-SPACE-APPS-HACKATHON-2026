@@ -1,6 +1,40 @@
-# Red Veil media gallery
+# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> media gallery
 
-These are captures of the **0.4.0-alpha.1 Web build**, exported from source `48901d0bce68e72974b36377c3a060f90403ebe9` and captured on November 14, 2026. They show the current mechanics alpha: provisional geometry, materials, characters, interface, and animation. They are actual game screens and keyboard/mouse gameplay, not concept art or generated promotional images.
+These are actual Godot 4.6.3 renders of the **0.5.0-alpha.1** visual candidate, associated with release source `1b4d1b8e0907f76a055a8aca85e1073c4eff34eb`. They show original procedural interpretations of the design team's reference images. Final photoreal materials, character rigging and pixel-perfect likeness remain unfinished.
+
+## Walk through the habitat
+
+![Actual first-person walking and visor controls](media/komaku-0.5.0-alpha.1-gameplay.gif)
+
+The 7.1-second GIF uses ordinary movement/look/visor input and a fixed-timestep recording. Its 960×540, 10fps encoding and software-rendered capture are presentation choices, not real-device frame-rate evidence. It has no audio and does not show a completed mission or rescue campaign.
+
+## Environment and character
+
+![Ornamented habitat and shielded refuge](media/komaku-0.5.0-alpha.1-exterior.png)
+
+![Holographic mission control and live simulation readouts](media/komaku-0.5.0-alpha.1-interior.png)
+
+![Mira's procedural explorer suit and clear helmet](media/komaku-0.5.0-alpha.1-astronaut.png)
+
+![Current title menu](media/komaku-0.5.0-alpha.1-title.png)
+
+[First-person HUD](media/komaku-0.5.0-alpha.1-gameplay.png) · [Portrait layout](media/komaku-0.5.0-alpha.1-portrait.png)
+
+The environment/character shots use repeatable review cameras; gameplay uses the normal player camera. The portrait image is a 390×844 desktop viewport, not physical-phone validation; the handheld scanner is partly clipped at narrow aspect. The [capture manifest](media/komaku-0.5.0-alpha.1-capture.json) records exact source distinctions, file hashes, input-driver code, rendering counts and limitations. These are source-project captures, not photographs or images of a downloaded native installer.
+
+To reproduce a fixed view with an available graphics display:
+
+```sh
+godot --path game --script res://tests/capture_visuals.gd -- --view interior --output /tmp/komaku-interior.png
+```
+
+Other views: `exterior`, `astronaut`, `title`. Linux CI-style rendering can use an authenticated Xvfb display; software-renderer results do not establish physical GPU performance.
+
+---
+
+# Historical Red Veil 0.4 media
+
+These are captures of the **0.4.0-alpha.1 Web build**, exported from source `48901d0bce68e72974b36377c3a060f90403ebe9` and captured on November 14, 2026. They show the historical mechanics alpha: provisional geometry, materials, characters, interface, and animation. They are actual game screens and keyboard/mouse gameplay, not concept art or generated promotional images.
 
 ## First-person gameplay
 

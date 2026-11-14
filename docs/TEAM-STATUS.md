@@ -1,67 +1,35 @@
-# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> — team progress briefing
+# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> — team progress
 
-**Reviewed November 14, 2026. Latest published release: [0.4.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.4.0-alpha.1), with nine public assets.** Exact source: `48901d0bce68e72974b36377c3a060f90403ebe9`; signed build `43634324156`, attempt 1.
+**Latest release: [0.5.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.5.0-alpha.1), November 14, 2026.** Source `1b4d1b8e0907f76a055a8aca85e1073c4eff34eb`; build `43641694667`, attempt 1. Four platform ZIPs plus signed content, its manifest/signature, release manifest and checksums make nine assets.
 
-## Explain it in thirty seconds
+The game now has a shared brand configuration, a walkable ornamented habitat and holographic control room, a shielded refuge, Mira's redesigned suit, a new scanner, lantern-lit terrain and an untimed exploration mode. It retains the four-minute first-person science mission, separate energy stores, dust/radiation decisions, and five-concept local practice academy. The new scenes are procedural interpretations of supplied designs; final photoreal art and a complete escort/rescue campaign are not delivered.
 
-<!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> is a downloadable first-person Mars learning-game prototype for ages 7–12. The player explores an outpost, handles equipment, manages separate habitat and suit energy, and reaches a shielded refuge. Mira provides guidance, and five short practice lessons explain the science. The published release adds GitHub-connected update notices and verified desktop content installation with startup recovery. Its real signed content passed Linux acceptance, including automatic process relaunch under Xvfb. The design team can replace the current provisional presentation through documented scene and interface contracts. Final visuals, more missions, device testing and educational validation remain open.
+## What the team can demonstrate
 
-## What players can install today
+- Download and run the Mac universal, Windows x64 or Linux x64 build. Native Mac/Windows packages remain unsigned; Mac is not notarized or physically tested here.
+- Choose **Explore the habitat** to inspect the room without consuming mission time, batteries or dose. Choose the timed mission separately to test the survival decisions.
+- Use actual consoles, inspect the solar array, conserve power, manage visor/panel cleaning and walk into the passive refuge. The numerical rules were preserved through the visual pivot.
+- Open Mira's academy, use hints and explanations, and review locally stored progress. The tutor is a provisional Bayesian model, not a trained or validated AI educator.
+- Review [authentic screenshots and gameplay](MEDIA.md), [visual handoff](VISUAL-DIRECTION.md), [changelog](../CHANGELOG.md), and [shared branding](BRANDING.md).
 
-Published **0.4.0-alpha.1** includes one four-minute mission, Mira's Field Academy, local practice progress, and the new desktop update interface. It provides macOS universal, Windows x64, Linux x64 and Web ZIPs, plus a signed content pack, its manifest/signature, a release manifest and checksums. Content signatures do not replace Apple/Windows app signing; those native apps remain unsigned, and Mac is not notarized.
+## Verified delivery and update behavior
 
-Players on **0.3.0-alpha.1 or earlier must install 0.4 once manually**. Future compatible signed content releases can use the in-game install/restart flow. An already-current installation will not show a new-version popup. Automatic checks are limited to once per day; the Updates screen also offers a manual check. Engine or runtime-contract changes may require a new installer. Browser and mobile delivery have separate constraints.
+GitHub validation and the four-target build passed. Runtime checks cover numerical invariants, a successful mission, capsule-based walking routes, untimed exploration, keyboard-operated dialogs, and desktop/portrait/landscape bounds. Browser fixtures cover offline updates and overlapping worker activation; physical phones are not validated by those fixtures.
 
-Five practice concepts are not five new explorable 3D missions. The practice estimator remains a provisional Bayesian model, not trained AI or a measured mastery score.
+The **actual published 0.4 Linux executable** verified and mounted the new signed 0.5 pack, acknowledged healthy startup, repeated startup and recovered its original version after same-size pack tampering. Its executable hash stayed unchanged. [Exact evidence](evidence/update-0.4-to-0.5.json). This gate used local verified artifact bytes and headless launches. Separately, the earlier [0.4 synthetic-fixture acceptance](evidence/update-0.4.0-alpha.1.json) passed real GitHub transfers and automatic GUI relaunch under Xvfb. These are distinct scopes; neither proves physical Mac/Windows updating.
 
-## Signed release evidence
+Players on 0.4 can receive compatible content through **Updates → download → restart**. Earlier installers need one initial upgrade. The rename preserves save paths and signing identity; older installed application bundles can keep their historical filename. Engine/native dependency changes still require a full installer.
 
-The owner completed signing setup: public key commit `2d2aa7c` is in Git, and the signing secret was exercised successfully by [build 43634324156](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43634324156). The released source is **`48901d0bce68e72974b36377c3a060f90403ebe9`**. The private key is not in the repository or game.
+## Platform and repository limits
 
-The [native acceptance harness](../scripts/verify_native_update_acceptance.py) checked the exact artifacts and actual signature, installed their production PCK through an exported Linux fixture, reached the production game, acknowledged startup, persisted across another launch, and confirmed that same-size pack tampering restored the bundled baseline. A GUI acceptance pass also exercised the real automatic `OS.create_instance` restart under authenticated Xvfb/Mesa; the new production process remained alive with a healthy activation journal. The content hash was `e9cf215745acabeb7644ea64f9cc372997432b7a14de4c2c4da5ad82632af157`.
+Public hosting is deferred by owner choice. Pages deployment succeeded, but verification found an inherited custom-domain redirect to another website. Automatic web deployment is disabled until a separate game address is chosen. The Web archive remains available for self-hosting.
 
-The checks used **Linux headless plus authenticated Xvfb, real public GitHub HTTP transfers, and a disposable older-version fixture**. Metadata, manifest, signature and PCK each returned HTTP 200; exact downloaded bytes matched independently verified artifacts. Automatic GUI relaunch, repeated healthy startup and tamper recovery passed. Physical Mac/Windows, upgrades from a previously shipped installer, physical GPU performance and audio-device behavior remain separate gates. [Acceptance evidence](evidence/update-0.4.0-alpha.1.json) records the exact scope.
+Android tooling produced an earlier internal arm64 APK with a disposable test identity; no production Android/iOS native package, mobile self-updater or physical-device result is claimed. [Mobile routes](MOBILE-DISTRIBUTION.md).
 
-The accepted bytes were published without rebuilding, with nine public assets and the exact source retained in the release notes. [Update behavior and limits](UPDATES.md) describes the contract and recovery boundaries.
+The repository has releases, source commits, workflows, media and documentation. The About description still needs the owner to apply the new name because the integration returned HTTP 403. Downloads belong in Releases; the Packages registry is not required. Stars, watchers and forks reflect real users, not project tasks.
 
-## Current product scope
+## Remaining work
 
-| Area                 | Implemented baseline                                                                                                           | Remaining scope                                                                                 |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------- |
-| Player and mission   | First-person movement, scanner, Mira, equipment interactions, one four-minute survival mission                                 | More missions, richer onboarding and tactile in-world experiments                               |
-| Scientific model     | Separate energy stores, dust in the atmosphere versus on surfaces, cumulative exposure and passive refuge                      | Expert review and broader colony systems; operational limits remain illustrative                |
-| Learning             | Five concepts, ten authored questions, hints, explanations and local review suggestions                                        | Larger curriculum, supervised age-appropriate testing and measured learning outcomes            |
-| Presentation         | Replaceable world/equipment/companion/scanner scenes, palette/fonts and HUD contract                                           | Final heavenly sci-fi art, animation, sound direction and performance validation                |
-| Desktop distribution | Mac universal, Windows x64 and Linux x64 downloads; signed content updates with scoped Linux install/restart/recovery evidence | Physical Mac/M5 and Windows launch/restart, OS signing and notarization                         |
-| Browser/mobile       | Downloadable Godot Web build; tested internal Android arm64 export; browser delivery under active work                         | Verified hosted PWA, physical Safari/Android testing, native Android APK; no native iOS app yet |
-| Repository           | About description/website/topics complete, linked contributor identity, documentation, validation/build workflows              | Keep public-release evidence and new platform checks current                                    |
-
-The [ten-outcome roadmap](ROADMAP.md) tracks this delivery pass, with separate statuses for tested code, public releases, mobile routes, cleanup, media and documentation.
-
-## Mobile delivery evidence
-
-An internal Android arm64 APK has been exported and its signature/package/version/ABI checked. It uses a disposable `.internal` identity and is not a public production APK. Its manifest distinguishes committed game source `11aefc47c05ec2e1ef2f5448961d72c0ddc8412b` from the new build tools' uncommitted working state at that test. No emulator/physical launch, production Android signing identity, native installation flow or mobile content updater is claimed. [Mobile distribution](MOBILE-DISTRIBUTION.md) records the exact artifact and applicable Android/iOS routes.
-
-## Review the actual interface
-
-The release [title screen](media/red-veil-0.4.0-alpha.1-title.png), [academy](media/red-veil-0.4.0-alpha.1-academy.png) and [practice question](media/red-veil-0.4.0-alpha.1-question.png) were captured from the running Web artifact at 1280×720. They show real provisional software, not concept art or a native-update demonstration. [Media provenance](MEDIA.md) records the source and reproduction. The inspected [mission still](media/red-veil-0.4.0-alpha.1-mission.png) and [20-second gameplay GIF](media/red-veil-0.4.0-alpha.1-gameplay.gif) show real looking, walking and visor control. The GIF is 960×540 at 10 fps for presentation; it is not a performance benchmark or a completed-mission demonstration.
-
-## GitHub sidebar
-
-About now has the owner-provided description, website and topics. GitHub lists the owner as a contributor and detects GDScript, JavaScript, CSS, Python and HTML. Godot's C++ engine is an external dependency, so it does not appear as this repository's own C++ source. Game installers are Release assets; a separate Packages registry entry is not needed. Stars, watchers and forks represent real user activity. Alpha releases remain marked as prereleases.
-
-## Immediate team responsibilities
-
-1. Engineering: keep public release/source verification current, complete remaining live/device update checks, and integrate browser/mobile delivery with its own evidence. Pages deployment succeeded and local Web/offline checks passed, but the inherited custom domain redirects to another site. The owner chose downloadable builds for now; automatic hosting is paused.
-2. Design: supply licensed assets through the [replacement contracts](DESIGN-HANDOFF.md), and review authentic software captures without treating provisional art as final.
-3. Science and education: review the assumptions and run the proposed supervised [playtest protocol](PLAYTEST.md). No child-study results or professional-training claim exist yet.
-4. Device testers: report the exact version, OS, hardware, controls and reproducible steps. A successful cross-export does not replace a physical launch.
-5. Repository owner: About, desktop update signing setup and GitHub Pages Actions enablement are complete. New platform credentials or hosting settings may need a separate, concrete owner action; no repeat desktop signing setup is required.
-
----
+Design review and authored high-fidelity assets; a production character rig, rescue interactions and a sealed habitat/airlock cycle; broader curriculum and missions; reduced-effect/device performance profiles; physical Mac/Windows/mobile input and update testing; accessibility/device-cutout review; science-expert and supervised learner evaluation. The [roadmap](ROADMAP.md) keeps these separate from delivered code.
 
 made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC
-
-## 0.5 candidate on main
-
-The next candidate introduces the centrally configured KŌMAKU: Shield Protocol identity, modular ornamented habitat/control-room/refuge, stylized Mira, terrain and scanner, untimed exploration, and responsive dialogs/touch layout. Gold waves, blossom inlays, latticework and lanterns follow the latest supplied design direction. Actual collision-route and runtime UI checks pass. This is a procedural 3D interpretation; pixel identity, photoreal materials, production character animation, physical-device performance and a complete rescue storyline are not claimed.

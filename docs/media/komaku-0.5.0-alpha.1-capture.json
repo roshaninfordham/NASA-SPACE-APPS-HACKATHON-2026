@@ -1,0 +1,114 @@
+{
+  "product": "KŌMAKU: Shield Protocol",
+  "version": "0.5.0-alpha.1",
+  "release_source_commit": "1b4d1b8e0907f76a055a8aca85e1073c4eff34eb",
+  "visual_source_commit": "3b03ac4fde9b26369bdfe62e4251776d7682b8f5",
+  "capture_date_utc": "2026-11-14",
+  "source_provenance": "Exterior, interior, astronaut, title, and first-person stills captured from final visual source equivalent to revision 3b03ac4fde9b26369bdfe62e4251776d7682b8f5. Subsequent release commits add generated UIDs and nonvisual naming/documentation changes. Portrait and walkthrough were captured with release commit 1b4d1b8e0907f76a055a8aca85e1073c4eff34eb checked out. These are source-project renders, not captures of a downloaded signed installer.",
+  "engine": "Godot 4.6.3, Compatibility renderer",
+  "renderer": "Linux X11, authenticated Xvfb, Mesa llvmpipe (LLVM 19.1.7, 256 bits)",
+  "stills": {
+    "fixed_camera_script": "game/tests/capture_visuals.gd",
+    "fixed_camera_views": ["exterior", "interior", "astronaut", "title"],
+    "dimensions": "1670x941",
+    "gameplay": "Normal game.begin() at default player spawn; camera and HUD unchanged.",
+    "portrait": "390x844 desktop viewport through normal game.begin(); this is a layout capture, not physical mobile-device validation. The camera-mounted instrument is partly clipped at narrow aspect."
+  },
+  "walkthrough": {
+    "capture": "Godot --write-movie with --fixed-fps 12; movie output 1280x720. GIF resized to 960x540 with Lanczos filtering and palette encoding.",
+    "input_sequence": "Normal game.begin(); W held for 36 frames; 12 ordinary mouse-motion events turning right; Q key toggles visor cleaning; W held for 24 frames; release and hold view for 12 frames.",
+    "timing": "Fixed-timestep movie capture preserves simulation/input progression. It does not represent realtime rendering performance. Startup trimmed by 0.75 seconds.",
+    "encoding": "10 fps, 96-color palette, Bayer dithering, looping GIF, no audio.",
+    "source_movie_frames": 94,
+    "source_movie_fps": 12,
+    "source_movie_duration_seconds": 7.833333333333333,
+    "render_elapsed_seconds": 81,
+    "driver_gdscript": "extends SceneTree\n## Review-only movie driver. Uses ordinary physical key/mouse input; no simulation edits.\nfunc _initialize(): call_deferred(\"capture\")\nfunc key(code: Key, pressed: bool):\n\tvar event=InputEventKey.new()\n\tevent.keycode=code\n\tevent.physical_keycode=code\n\tevent.pressed=pressed\n\tInput.parse_input_event(event)\nfunc frames(count: int):\n\tfor i in range(count): await process_frame\nfunc capture():\n\troot.size=Vector2i(960,540)\n\tvar game=load(\"res://main.tscn\").instantiate()\n\troot.add_child(game)\n\tawait frames(3)\n\tgame.begin()\n\tawait frames(6)\n\tkey(KEY_W,true)\n\tawait frames(36)\n\tkey(KEY_W,false)\n\tfor i in range(12):\n\t\tvar event=InputEventMouseMotion.new()\n\t\tevent.relative=Vector2(12,0)\n\t\tInput.parse_input_event(event)\n\t\tawait process_frame\n\tkey(KEY_Q,true)\n\tawait frames(1)\n\tkey(KEY_Q,false)\n\tkey(KEY_W,true)\n\tawait frames(24)\n\tkey(KEY_W,false)\n\tawait frames(12)\n\tquit()\n",
+    "state_changes": "No teleport, mission-state editing, fabricated telemetry, composited features, or generated gameplay imagery."
+  },
+  "observed_fixed_camera_render_counts": [
+    {
+      "view": "exterior",
+      "render_errors": false,
+      "draw_calls": 360,
+      "primitives": 2145582
+    },
+    {
+      "view": "interior",
+      "render_errors": false,
+      "draw_calls": 728,
+      "primitives": 2892990
+    },
+    {
+      "view": "astronaut",
+      "render_errors": false,
+      "draw_calls": 312,
+      "primitives": 2426502
+    },
+    {
+      "view": "title",
+      "render_errors": false,
+      "draw_calls": 419,
+      "primitives": 2150068
+    }
+  ],
+  "limitations": [
+    "Provisional procedural alpha art, not final production assets.",
+    "These captures do not establish native Mac/Windows/mobile compatibility, educational effectiveness, completed-mission behavior, or update delivery.",
+    "Frame counts and draw calls are capture diagnostics, not physical-GPU performance benchmarks."
+  ],
+  "credits": "Underlying original procedural geometry and bundled assets are documented in CREDITS.md; no new third-party promotional imagery was added.",
+  "files": [
+    {
+      "file": "komaku-0.5.0-alpha.1-astronaut.png",
+      "bytes": 829332,
+      "sha256": "f7e94f98a6d292709175f5c791c393525f39a26abc0629ecbdad5af79e0dcbfa",
+      "width": 1670,
+      "height": 941
+    },
+    {
+      "file": "komaku-0.5.0-alpha.1-exterior.png",
+      "bytes": 758177,
+      "sha256": "f5d95b872b77734172c2af66a2d1722212d91914ae6db6e3c94dae5f15c40790",
+      "width": 1670,
+      "height": 941
+    },
+    {
+      "file": "komaku-0.5.0-alpha.1-gameplay.gif",
+      "bytes": 6845531,
+      "sha256": "88e611a08b4e6779ae1a33aa624dd73d894fdcdbe45209407fabe60d6f9362fd",
+      "width": 960,
+      "height": 540,
+      "frames": 71,
+      "duration_seconds": 7.1
+    },
+    {
+      "file": "komaku-0.5.0-alpha.1-gameplay.png",
+      "bytes": 657941,
+      "sha256": "bd600ddd3d16ac054a831ed5f29d97de77fd39fe322cedb8bda3325b257d9e2c",
+      "width": 1670,
+      "height": 941
+    },
+    {
+      "file": "komaku-0.5.0-alpha.1-interior.png",
+      "bytes": 867861,
+      "sha256": "f78277ecfb71f247e2f9b59248a46016cc077ca3c051a9aff530203d99911806",
+      "width": 1670,
+      "height": 941
+    },
+    {
+      "file": "komaku-0.5.0-alpha.1-portrait.png",
+      "bytes": 172124,
+      "sha256": "6544756bcda9e9e089678af9891f4d2531849ac9fc5480da53505c98c7dfad70",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "file": "komaku-0.5.0-alpha.1-title.png",
+      "bytes": 784386,
+      "sha256": "7c47d65846b55c91d70a7527e2abf3096c237a402221613348c607b4c2e019e7",
+      "width": 1670,
+      "height": 941
+    }
+  ]
+}

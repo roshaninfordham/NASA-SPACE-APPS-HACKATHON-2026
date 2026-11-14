@@ -1,14 +1,14 @@
 # <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand -->
 
-**Become the astronaut. Find a way through the veil.**
+**Become the astronaut. Protect your crew.**
 
 A first-person Mars survival adventure for ages 7–12. Explore an outpost, inspect its equipment, protect your suit, and make the energy decisions that bring your crew home.
 
 [![Validation](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml/badge.svg)](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml)
 
-**Status: early playable alpha.** The public download below contains the mechanics-era visuals. The 0.5 candidate on main adds a walkable ivory/crimson habitat, holographic mission control, gold wave/blossom ornaments, lanterns, a redesigned crewmate, and untimed exploration. The new name is centrally configured. It is not yet a released or production-certified game.
+**Status: early playable visual-development alpha.** Version 0.5 adds a walkable ivory/crimson habitat, holographic mission control, gold wave/blossom ornaments, lanterns, a redesigned crewmate, and untimed exploration. The new name is centrally configured. Pixel-perfect likeness, photoreal character work and physical-device performance validation remain unfinished.
 
-![Actual v0.4 gameplay before the visual pivot](docs/media/red-veil-0.4.0-alpha.1-gameplay.gif)
+![Actual KŌMAKU gameplay](docs/media/komaku-0.5.0-alpha.1-gameplay.gif)
 
 [Versioned screenshots and capture provenance](docs/MEDIA.md).
 
@@ -18,20 +18,20 @@ Get the game from [GitHub Releases](https://github.com/roshaninfordham/NASA-SPAC
 
 The build pipeline creates macOS universal, Windows x64, Linux x64, and Web archives, with licenses and SHA-256 checksums. The Mac universal binary includes arm64 for Apple Silicon, including M5, and x86_64 for Intel. Early Mac and Windows builds are unsigned; the Mac build is not notarized. Physical Mac/Windows launches and device-specific performance remain to be verified. Native Android and iOS installers are not yet provided.
 
-**Current download: [v0.4.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.4.0-alpha.1).**
+**Current download: [v0.5.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.5.0-alpha.1).**
 
-| Platform                               | Download                                                                                                                                                             |
-| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MacBook M5 / Apple Silicon / Intel Mac | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.4.0-alpha.1/Red-Veil-0.4.0-alpha.1-macOS-universal.zip) |
-| Windows x64                            | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.4.0-alpha.1/Red-Veil-0.4.0-alpha.1-Windows-x64.zip)             |
-| Linux x64                              | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.4.0-alpha.1/Red-Veil-0.4.0-alpha.1-Linux-x64.zip)                 |
-| WebGL2 browser                         | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.4.0-alpha.1/Red-Veil-0.4.0-alpha.1-Web.zip)                         |
+| Platform                               | Download                                                                                                                                                                           |
+| -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| MacBook M5 / Apple Silicon / Intel Mac | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.5.0-alpha.1/KOMAKU-Shield-Protocol-0.5.0-alpha.1-macOS-universal.zip) |
+| Windows x64                            | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.5.0-alpha.1/KOMAKU-Shield-Protocol-0.5.0-alpha.1-Windows-x64.zip)             |
+| Linux x64                              | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.5.0-alpha.1/KOMAKU-Shield-Protocol-0.5.0-alpha.1-Linux-x64.zip)                 |
+| WebGL2 browser                         | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.5.0-alpha.1/KOMAKU-Shield-Protocol-0.5.0-alpha.1-Web.zip)                         |
 
 See [download instructions](docs/DOWNLOADS.md). No development tools are required to play the native app.
 
 ## In-game updates
 
-The **v0.4.0-alpha.1 desktop downloads include signed content updates**: notice → download → explicit restart, with verification and recovery. Older releases need one manual upgrade. The Linux acceptance run fetched the actual public GitHub release, installed it, automatically relaunched, and recovered from a tampered pack. Mac/Windows physical acceptance and upgrades from previously shipped baselines remain separate gates. Engine/runtime changes require a full installer. [Behavior, evidence and limits](docs/UPDATES.md).
+The **v0.5.0-alpha.1 desktop downloads include signed content updates**: notice → download → explicit restart, with verification and recovery. Older releases need one manual upgrade. The Linux acceptance run fetched the actual public GitHub release, installed it, automatically relaunched, and recovered from a tampered pack. The actual previously published 0.4 Linux installer also passed the signed 0.5 mount/startup/recovery gate. Mac/Windows physical acceptance remains open. Engine/runtime changes require a full installer. [Behavior, evidence and limits](docs/UPDATES.md).
 
 Browser offline/update packaging and the GitHub Pages deployment workflow are available in the repository. Public hosting is deferred by owner choice after verification found an inherited custom-domain redirect to another site; use downloadable builds for now. An internal Android build route is documented; no production Android/iOS native download or mobile self-updater is published.
 
@@ -82,7 +82,7 @@ python3 scripts/test_updater.py
 With the official export templates installed:
 
 ```sh
-python3 scripts/build_game.py --version 0.4.0-alpha.1
+python3 scripts/build_game.py --version 0.5.0-alpha.1
 ```
 
 The Linux CI installer verifies the official SHA-512 manifest. The manual **Build downloadable game** workflow creates archives and a source-commit manifest. Publication is explicit and separate from building.

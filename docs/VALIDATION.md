@@ -2,7 +2,15 @@
 
 **Reviewed November 14, 2026.** Evidence is tied to a source/build and a test scope. Passing code checks, publishing an installer, launching it on a physical device, and demonstrating learning benefit are separate outcomes. [Team status](TEAM-STATUS.md) and [the roadmap](ROADMAP.md) record the current release boundary.
 
-## Published signed desktop content release
+## Current 0.5 release
+
+Source `1b4d1b8e0907f76a055a8aca85e1073c4eff34eb` passed validation run `43641676500` and signed build `43641694667`. Publication run `43642409838` published the accepted nine files without rebuilding. The release manifest SHA-256 is `6dcd7330517e41698cf10f707c74e6e8b5c90c74d934ae01cc9b760faacd16bd`.
+
+The [actual 0.4 → 0.5 installer gate](evidence/update-0.4-to-0.5.json) pins the published Linux ZIP and original executable, stages through its original verifier/store/key, and verifies new startup, repeat startup and tamper fallback. Staging uses matching Godot tooling because release templates do not expose script execution; all boot checks use the unchanged shipped executable. This is Linux/headless/local-artifact evidence, not a new network/GUI/other-OS test.
+
+New checks include continuous capsule routes to the control room/refuge/array, real untimed Explore behavior, and keyboard-operated guide/pause/debrief flows at desktop, portrait and landscape sizes. The downloaded Web archive launched in Chromium with the exact new title and no captured browser errors. Source-project visuals and their scope are recorded in [media provenance](MEDIA.md). Physical Mac/Windows/mobile behavior, educational efficacy and final art quality remain separate gates.
+
+## Historical 0.4 signed desktop content release
 
 [Build 43634324156](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43634324156) completed successfully for source **`48901d0bce68e72974b36377c3a060f90403ebe9`**, public release **0.4.0-alpha.1**, with nine assets and Godot 4.6.3 and runtime contract `red-veil-desktop-v1`. The public trust root was committed by the owner in `2d2aa7c`; the build signed the content manifest with its matching private key.
 

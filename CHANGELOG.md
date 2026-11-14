@@ -2,9 +2,9 @@
 
 All published game versions and notable unreleased work are recorded here. The version and source commit in each release manifest identify the exact downloadable build. Documentation on `main` can be newer than an installer.
 
-## [0.5.0-alpha.1] — release candidate, 2026-11-14
+## [0.5.0-alpha.1] — 2026-11-14
 
-This candidate is prepared for signed desktop publication; the release record identifies the final source and acceptance evidence.
+Published from `1b4d1b8e0907f76a055a8aca85e1073c4eff34eb`, build `43641694667`, with nine assets. The actual published 0.4 Linux installer passed signed-pack activation, repeated healthy startup and tamper recovery. [Acceptance evidence](docs/evidence/update-0.4-to-0.5.json).
 
 - Renamed current presentation to **KŌMAKU: Shield Protocol**, driven by one brand configuration and shared runtime/build accessors. Legacy save, signing, package identity and updater protocols remain stable.
 - Added modular ivory/crimson habitat and refuge scenes, a walkable holographic control room, lanterns, gold wave/blossom inlays, lattice supports, terrain and a pearlescent crewmate/scanner. These are original procedural interpretations, not pixel-identical or photoreal reference reproductions.

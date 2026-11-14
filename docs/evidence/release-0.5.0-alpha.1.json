@@ -1,0 +1,61 @@
+{
+  "version": "0.5.0-alpha.1",
+  "source_commit": "1b4d1b8e0907f76a055a8aca85e1073c4eff34eb",
+  "build_run": 43641694667,
+  "publication_run": 43642409838,
+  "public_assets_match_accepted_build": true,
+  "mac_universal_architectures": ["x86_64", "arm64"],
+  "web_export_check": {
+    "browser": "Chromium / software WebGL",
+    "loaded_title": "KŌMAKU: Shield Protocol",
+    "browser_errors": [],
+    "scope": "actual downloaded candidate archive launched locally; no public website or physical phone claim"
+  },
+  "assets": [
+    {
+      "name": "KOMAKU-Shield-Protocol-0.5.0-alpha.1-Linux-x64.zip",
+      "bytes": 27576626,
+      "sha256": "2031cd8141d63a31bcff81e4ac6c90d7d0241499eea92dad8d45e82a5744b60e"
+    },
+    {
+      "name": "KOMAKU-Shield-Protocol-0.5.0-alpha.1-Web.zip",
+      "bytes": 9980379,
+      "sha256": "b3c97a56bf71db2b9b83ddb78906877e5f6fee25ddf26d35bad5aef3e97107ce"
+    },
+    {
+      "name": "KOMAKU-Shield-Protocol-0.5.0-alpha.1-Windows-x64.zip",
+      "bytes": 36416021,
+      "sha256": "266214c17e33b02f7e09ce85f8482b8d88b891c4cf04219da9904bb6629836d6"
+    },
+    {
+      "name": "KOMAKU-Shield-Protocol-0.5.0-alpha.1-macOS-universal.zip",
+      "bytes": 62359553,
+      "sha256": "0901717e1c1ec3bb37ed53c2e03df5059346314d3ee4a2e3ad8a2dfb6bd01de7"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 730,
+      "sha256": "ecd7689dcf3680a9df2b8d69dd28d27296270e55c8eb7381e580ab00c444d55f"
+    },
+    {
+      "name": "red-veil-content.pck",
+      "bytes": 383124,
+      "sha256": "f8abbe64f69c0b576e439d56dc87f3701d3be3958a7dbeb3a8690b186daef5bd"
+    },
+    {
+      "name": "release-manifest.json",
+      "bytes": 2190,
+      "sha256": "6dcd7330517e41698cf10f707c74e6e8b5c90c74d934ae01cc9b760faacd16bd"
+    },
+    {
+      "name": "update-manifest.json",
+      "bytes": 354,
+      "sha256": "ae78950475ef077ba94ee997370d80e74ee31acea47d7ef88be262a7ade2174e"
+    },
+    {
+      "name": "update-manifest.sig",
+      "bytes": 384,
+      "sha256": "211b2269a824617160fd08abd2d577ec631f9660f1d3288286847fd9ac9f45c7"
+    }
+  ]
+}

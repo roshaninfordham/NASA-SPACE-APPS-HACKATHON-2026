@@ -1,4 +1,4 @@
-# Download and play KŌMAKU: Shield Protocol
+# Download and play <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand -->
 
 Downloads are published as **GitHub Release assets**, not GitHub Packages. A repository containing code and export presets does not imply that an installer exists. Use the release notes to distinguish built, launch-tested, unsigned, and unsupported targets.
 
