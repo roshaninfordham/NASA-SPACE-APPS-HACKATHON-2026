@@ -16,14 +16,14 @@ Get the game from [GitHub Releases](https://github.com/roshaninfordham/NASA-SPAC
 
 The build pipeline creates macOS universal, Windows x64, Linux x64, and Web archives, with licenses and SHA-256 checksums. The Mac universal binary includes arm64 for Apple Silicon, including M5, and x86_64 for Intel. Early Mac and Windows builds are unsigned; the Mac build is not notarized. Physical Mac/Windows launches and device-specific performance remain to be verified. Native Android and iOS installers are not yet provided.
 
-**Current download: [v0.2.0-alpha.2](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.2.0-alpha.2).**
+**Current download: [v0.3.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.3.0-alpha.1).**
 
 | Platform                               | Download                                                                                                                                                             |
 | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MacBook M5 / Apple Silicon / Intel Mac | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.2.0-alpha.2/Red-Veil-0.2.0-alpha.2-macOS-universal.zip) |
-| Windows x64                            | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.2.0-alpha.2/Red-Veil-0.2.0-alpha.2-Windows-x64.zip)             |
-| Linux x64                              | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.2.0-alpha.2/Red-Veil-0.2.0-alpha.2-Linux-x64.zip)                 |
-| WebGL2 browser                         | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.2.0-alpha.2/Red-Veil-0.2.0-alpha.2-Web.zip)                         |
+| MacBook M5 / Apple Silicon / Intel Mac | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.3.0-alpha.1/Red-Veil-0.3.0-alpha.1-macOS-universal.zip) |
+| Windows x64                            | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.3.0-alpha.1/Red-Veil-0.3.0-alpha.1-Windows-x64.zip)             |
+| Linux x64                              | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.3.0-alpha.1/Red-Veil-0.3.0-alpha.1-Linux-x64.zip)                 |
+| WebGL2 browser                         | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.3.0-alpha.1/Red-Veil-0.3.0-alpha.1-Web.zip)                         |
 
 See [download instructions](docs/DOWNLOADS.md). No development tools are required to play the native app.
 
@@ -40,9 +40,9 @@ Mira, your crewmate, needs you at the solar array. A dust storm will dim the sky
 
 Keyboard: **WASD** move, **mouse** look, **E** use/hold to inspect, **Q** visor, **Space** hop, **Escape** pause, **F1** guide. Controller and landscape touch controls are included; further device testing is required.
 
-## Learning work on main
+## Learn with Mira
 
-Mira's Field Academy adds five short science lessons, ten questions, hints and explanations, and a local review plan. It is accessible from the title menu and mission debrief. The existing alpha.2 download predates this work. The tutor uses provisional Bayesian estimates, not a trained AI model; [learning design](docs/LEARNING-DESIGN.md) documents the research and limits. The [request tracker](docs/REQUEST-TRACKER.md) distinguishes delivered features from open requirements.
+Mira's Field Academy adds five short science lessons, ten questions, hints and explanations, and a local review plan. It is accessible from the title menu and mission debrief. These lessons are included in alpha 0.3.0-alpha.1. The tutor uses provisional Bayesian estimates, not a trained AI model; [learning design](docs/LEARNING-DESIGN.md) documents the research and limits. The [request tracker](docs/REQUEST-TRACKER.md) distinguishes delivered features from open requirements.
 
 ## Design direction
 

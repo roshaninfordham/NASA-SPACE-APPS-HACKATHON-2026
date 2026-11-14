@@ -1,20 +1,20 @@
 # Red Veil — team progress briefing
 
-**Latest published release: 0.2.0-alpha.2, November 14, 2026.**
+**Latest published release: 0.3.0-alpha.1, November 14, 2026.**
 
 ## Explain it in thirty seconds
 
 We have a downloadable first-person mechanics prototype of Red Veil. A young player becomes an astronaut, explores a Mars outpost, handles equipment, manages separate habitat and suit energy, and reaches a shielded refuge during an emergency. The mission ends with an explanation of the player's decisions. The game uses Godot and has modular art/scene contracts so the design team can replace the current placeholder presentation. It is not yet the finished visual experience, a product-grade release, or validated astronaut training.
 
-Alpha.2 changed the bundled engine notices, not the gameplay. Its exact source is recorded in the release manifest.
+Alpha 0.3.0-alpha.1 adds local science practice and review guidance to the mission. The release manifest records source `1187c3d0faa314c18cbebbd1f73330656d11dac6`.
 
-## Next build: 0.3.0-alpha.1
+## New in 0.3.0-alpha.1
 
-The next build adds Mira's Field Academy: five short science lessons and ten authored questions, optional hints, explanations, a local practice profile, and scheduled review suggestions. Mission outcomes recommend relevant support. A hand-parameterized Bayesian estimate guides practice; it is not trained AI or validated mastery. This is still one 3D mission, not five new 3D levels.
+This build adds Mira's Field Academy: five short science lessons and ten authored questions, optional hints, explanations, a local practice profile, and scheduled review suggestions. Mission outcomes recommend relevant support. A hand-parameterized Bayesian estimate guides practice; it is not trained AI or validated mastery. This is still one 3D mission, not five new 3D levels.
 
-Signed-update verification now has 24 checks, but discovery, installation, rollback, and a production trust root are not complete. The updater is not enabled. Read the [learning design](LEARNING-DESIGN.md) and [request tracker](REQUEST-TRACKER.md) for evidence and open work. Once published, the release manifest will identify the exact source.
+Signed-update verification now has 24 checks, but discovery, installation, rollback, and a production trust root are not complete. The updater is not enabled. Read the [learning design](LEARNING-DESIGN.md) and [request tracker](REQUEST-TRACKER.md) for evidence and open work. GitHub validation and the release workflow passed. Four public archives and their hashes were verified, along with downloaded Linux startup.
 
-## What exists in the published alpha.2
+## Core mission inherited from alpha.2
 
 | Area              | Current state                                                                                                   |
 | ----------------- | --------------------------------------------------------------------------------------------------------------- |
@@ -41,11 +41,11 @@ Signed-update verification now has 24 checks, but discovery, installation, rollb
 
 ## Why GitHub's sidebar looks incomplete
 
-- **Releases:** two downloadable pre-releases exist. GitHub's stable-release summary can look sparse while every published version is an alpha. We will not label an alpha stable to change the sidebar.
+- **Releases:** three downloadable pre-releases exist. GitHub's stable-release summary can look sparse while every published version is an alpha. We will not label an alpha stable to change the sidebar.
 - **Packages:** game ZIPs/apps are Release assets. A container or library registry package is unnecessary for downloading the game.
-- **Contributors:** earlier commits use an author address that GitHub has not linked to an account. Future commits use the owner's GitHub noreply identity. Existing history is preserved.
-- **Languages:** GitHub computes and caches this breakdown. Its API was still reporting the initial JavaScript snapshot despite GDScript being present on main.
-- **About:** the connected integration is denied repository-administration updates. Exact owner-side values are in [repository setup](REPOSITORY-SETUP.md).
+- **Contributors:** GitHub now lists `roshaninfordham` for recent commits using the owner's linked noreply identity. Earlier history is preserved.
+- **Languages:** GitHub now detects GDScript, JavaScript, CSS, Python and HTML. Godot's C++ engine is an external binary dependency, so it is not counted as this repository's source.
+- **About:** the owner completed the description, website and topics through the browser gear. All were verified through the API. The managed integration still lacks administration access; details are in [repository setup](REPOSITORY-SETUP.md).
 - **Stars/watchers/forks:** these reflect real GitHub user activity, not implementation completeness.
 
 ## Immediate team responsibilities
@@ -54,7 +54,7 @@ Signed-update verification now has 24 checks, but discovery, installation, rollb
 2. Design team: supply the next visual iteration through the documented scene/HUD contracts, with asset licenses and constraints.
 3. Engineering: harden input/layout/performance and implement signed update infrastructure before enabling self-updates.
 4. Science/education: review the model's limits and run the proposed supervised playtest protocol.
-5. Repository owner: set the About fields and provision release-signing access when the update setup is ready.
+5. Repository owner: About is complete. Provision release-signing access when the update workflow is ready; no additional owner action is needed for this unsigned alpha.
 
 ---
 

@@ -7,9 +7,9 @@ All published game versions and notable unreleased work are recorded here. The v
 - Signed in-game update discovery, staging, activation, and startup rollback remain in development. No published alpha includes an updater.
 - Further missions, final art/audio, mobile input/accessibility, physical-device profiling, and learner evaluation remain open.
 
-## [0.3.0-alpha.1] — release candidate, 2026-11-14
+## [0.3.0-alpha.1] — 2026-11-14
 
-The candidate adds a small local practice academy to the existing first-person mechanics mission. It does not introduce five new 3D missions or a trained AI model. Source commit and build evidence are recorded in the release manifest when published.
+This release adds a small local practice academy to the existing first-person mechanics mission. It does not introduce five new 3D missions or a trained AI model. Built from `1187c3d0faa314c18cbebbd1f73330656d11dac6`. Validation and the four-target release workflow passed; public archives, SHA-256 hashes, and exported Linux startup were verified.
 
 ### Documentation and repository
 
@@ -34,7 +34,7 @@ The candidate adds a small local practice academy to the existing first-person m
 
 ### Planned, not shipped
 
-- Signed in-game update discovery, staging, activation, and startup rollback. Alpha.1 and alpha.2 do not include an updater.
+- Signed in-game update discovery, staging, activation, and startup rollback. No published alpha includes an updater.
 - Better mobile layout/input, performance characterization, and additional validation of design-owned replacement components.
 - Final design-team visuals and real-device feedback remain separate from the mechanics alpha.
 

@@ -4,17 +4,17 @@
 
 The README, screenshots, engine decision, science ledger, design handoff, validation record, credits, submission outline, playtest protocol, issue templates, CI, and reproducible download workflow are versioned in Git. Native binaries are Release assets, with source-commit manifests and checksums. GitHub Packages is not required for game installers.
 
-## About fields requiring repository settings access
+## About fields — completed by owner
 
 The connected integration can push code and manage release metadata, but GitHub rejected its repository-settings update with HTTP 403. The account's reported admin role did not grant this integration the required API permission. No credential values were requested or stored.
 
-A repository owner can use the About section's gear icon to set:
+The owner used the About gear on November 14, 2026. A subsequent API read verified the description, release-page website, and 16 topics. The intended core values were:
 
 - **Description:** Red Veil — a first-person Mars survival learning game for ages 7–12. Explore, protect your crew, and learn the science of energy, dust, and radiation.
 - **Website:** https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases
 - **Topics:** godot, mars, educational-game, space-apps, first-person, stem-education, offline-game
 
-GitHub computes Languages and Contributors from repository history and may update them asynchronously. Stars and watchers are not build or project-readiness indicators.
+GitHub computes Languages and Contributors from repository history and may update them asynchronously. Verified on November 14: GDScript, JavaScript, CSS, Python and HTML are detected, and `roshaninfordham` is listed as a contributor. Stars and watchers are not build or project-readiness indicators.
 
 ## Publication boundary
 
