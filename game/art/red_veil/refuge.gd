@@ -1,4 +1,6 @@
 extends Node3D
+const VisualStyle = preload("res://scripts/visual_style.gd")
+const Details = preload("res://art/red_veil/exterior_details.gd")
 ## Compact passive shelter. Local protected space is x +/-3.3, z +/-3.5.
 ## The +Z doorway stays open; mission state and dose calculations live elsewhere.
 const G = preload("res://art/red_veil/exterior_geometry.gd")
@@ -12,11 +14,11 @@ var coral: Material
 var cyan: Material
 
 func _ready() -> void:
-	pearl = G.material(Color("d8d2c9"), 0.22, 0.45)
-	ruby = G.material(Color("5f1628"), 0.35, 0.36)
+	pearl = Details.shell_material(VisualStyle.color("pearl"), false)
+	ruby = Details.shell_material(VisualStyle.color("crimson"), true)
 	earth = G.material(Color("6a4c46"), 0.04, 0.92)
-	coral = G.material(Color("ff735c"), 0.10, 0.30, 1.6)
-	cyan = G.material(Color("e4b57c"), 0.12, 0.30, 1.2)
+	coral = G.material(VisualStyle.color("coral"), 0.10, 0.30, 1.6)
+	cyan = G.material(VisualStyle.color("amber"), 0.12, 0.30, 1.2)
 	build_shell()
 	build_portal()
 	build_interior()
@@ -122,10 +124,10 @@ func build_collisions() -> void:
 	G.collision_box(self, "ShieldRoof", Vector3(0, 3.14, 0), Vector3(7.4, 0.26, 7.4))
 
 func build_ornaments() -> void:
-	var gold := G.material(Color("b98947"), 0.72, 0.34)
+	var gold := G.material(VisualStyle.color("rose_gold"), VisualStyle.number("gold_metallic"), VisualStyle.number("gold_roughness"), 0.18)
 	var lantern_glow := G.material(Color("ffd09a"), 0.05, 0.54, 0.65)
 	for side in [-1.0, 1.0]:
-		O.lantern(self, "RefugeLantern_%s" % side, Vector3(side * 2.45, 1.94, 3.82), 0.66, lantern_glow, gold)
+		O.square_lantern(self, "RefugeLantern_%s" % side, Vector3(side * 2.45, 1.94, 3.82), 0.66, lantern_glow, gold)
 		O.wave_patch(self, "RefugeGoldWave_%s" % side, func(u: float, v: float) -> Vector3:
 			return Vector3(side * 2.50 + (u - 0.5) * 1.25, 0.75 + 0.50 * v, 3.715)
 		, 2, 4, gold)

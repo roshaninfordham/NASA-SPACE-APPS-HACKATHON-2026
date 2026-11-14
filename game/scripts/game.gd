@@ -5,6 +5,8 @@ const World = preload("res://scripts/world.gd")
 const Mission = preload("res://scripts/mission.gd")
 const Learning = preload("res://scripts/learning.gd")
 const Academy = preload("res://scripts/academy.gd")
+const HabitatInspector = preload("res://scripts/habitat_inspector.gd")
+var exhibit: Control
 const UpdateClient = preload("res://updater/client.gd")
 const UpdatePanel = preload("res://updater/panel.gd")
 var update_client
@@ -63,8 +65,8 @@ func _ready() -> void:
 	add_child(player)
 	if art.interior_scene:
 		title_camera = Camera3D.new()
-		title_camera.position = Vector3(15, 5, 5)
-		title_camera.fov = 49
+		title_camera.position = Vector3(-6, 3.4, 10)
+		title_camera.fov = 45
 		add_child(title_camera)
 		title_camera.look_at(Vector3(0, 3, -16))
 		title_camera.current = true
@@ -280,7 +282,7 @@ func create_touch_controls(root: Control) -> void:
 	touch_controls.visible = false
 
 func show_academy() -> void:
-	if is_instance_valid(academy) or is_instance_valid(update_panel): return
+	if is_instance_valid(academy) or is_instance_valid(update_panel) or is_instance_valid(exhibit): return
 	var should_resume := running and not ended and not paused
 	paused = true
 	player.enabled = false
@@ -302,7 +304,7 @@ func show_academy() -> void:
 	)
 
 func begin() -> void:
-	if is_instance_valid(update_panel) or is_instance_valid(academy): return
+	if is_instance_valid(update_panel) or is_instance_valid(academy) or is_instance_valid(exhibit): return
 	if ended: get_tree().reload_current_scene(); return
 	menu.hide()
 	player.show()
@@ -317,7 +319,7 @@ func begin() -> void:
 	say("Follow the lights to the solar array on your right. I’ll stay on the radio.")
 
 func explore_habitat() -> void:
-	if is_instance_valid(update_panel) or is_instance_valid(academy): return
+	if is_instance_valid(update_panel) or is_instance_valid(academy) or is_instance_valid(exhibit): return
 	begin()
 	exploring = true
 	player.position = Vector3(-3, 0.2, -11)
@@ -339,12 +341,18 @@ func say(message: String) -> void:
 	mission_events.append({"hours": mission.time, "message": message})
 
 func toggle_pause() -> void:
-	if not running or ended or is_instance_valid(academy) or is_instance_valid(update_panel): return
+	if not running or ended or is_instance_valid(academy) or is_instance_valid(update_panel) or is_instance_valid(exhibit): return
 	paused = not paused
 	player.enabled = not paused
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if paused else Input.MOUSE_MODE_CAPTURED
 	if paused:
-		show_modal("TAKE A BREATH", "Your mission is paused. Nothing uses energy while you think.\n\nWASD / left stick: walk    Mouse / right stick: look\nE / X: use equipment    Q / Y: clean visor\nSpace / A: a small Mars hop", "BACK TO MARS", resume)
+		show_modal("TAKE A BREATH", "Your mission is paused. Nothing uses energy while you think.\n\nWASD / left stick: walk    Mouse / right stick: look\nE / X: use equipment    Q / Y: clean visor\nSpace / A: a small Mars hop", "BACK TO MARS", resume, "EXPLORER SUIT LAB", func():
+			if is_instance_valid(finish_panel):
+				finish_panel.queue_free()
+				finish_panel = null
+			# Opening from pause returns to that paused state on close.
+			show_suit_lab()
+		)
 	else: resume()
 
 func resume() -> void:
@@ -443,7 +451,7 @@ func show_modal(title: String, body: String, action: String, callback: Callable,
 	primary.grab_focus.call_deferred()
 
 func show_guide() -> void:
-	if is_instance_valid(academy) or is_instance_valid(update_panel): return
+	if is_instance_valid(academy) or is_instance_valid(update_panel) or is_instance_valid(exhibit): return
 	var was_running := running
 	paused = true
 	player.enabled = false
@@ -456,6 +464,7 @@ func show_guide() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"): toggle_pause()
 	if event.is_action_pressed("guide"): show_guide()
+	if event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_I and exploring: show_habitat_inspector()
 	if not running or paused or ended: return
 	if event.is_action_pressed("interact"): interact()
 	if event.is_action_pressed("visor"): toggle_visor()
@@ -530,7 +539,7 @@ func update_hud() -> void:
 	if nearby == "remote": prompt.text = "E / X  •  Remote panel cleaning: " + ("ON" if mission.cleaning else "OFF")
 	if nearby == "control": prompt.text = "E / X  •  Mission control — save power: " + ("ON" if mission.conserving else "OFF")
 	if exploring:
-		objective.text = "Explore the habitat · free roam"
+		objective.text = "Explore the habitat · I for field notes"
 		clock.text = "MISSION CLOCK STOPPED  •  ESC TO PAUSE"
 	if mission.visor_cleaning: prompt.text += "\nVISOR CLEANING  •  Q / Y to stop"
 
@@ -583,6 +592,10 @@ func bind_custom_interface(canvas: CanvasLayer) -> void:
 	root.get_node("%Sound").text = "SOUND: ON" if sound_on else "SOUND: OFF"
 	var academy_button := root.get_node_or_null("%Academy")
 	if academy_button: academy_button.pressed.connect(show_academy)
+	var suit_button := root.get_node_or_null("%SuitLab")
+	if suit_button: suit_button.pressed.connect(show_suit_lab)
+	var habitat_button := root.get_node_or_null("%HabitatNotes")
+	if habitat_button: habitat_button.pressed.connect(show_habitat_inspector)
 	var updates_button := root.get_node_or_null("%Updates")
 	if updates_button: updates_button.pressed.connect(show_updates)
 	hud.hide()
@@ -647,15 +660,16 @@ func refresh_update_notice() -> void:
 	var show_recovery := not update_recovery_notice.is_empty() and not recovery_notice_dismissed
 	if show_recovery: update_notice_label.text = update_recovery_notice
 	var show_available := not available.is_empty() and available != dismissed_update_version
-	update_notice.visible = (show_available or show_recovery) and (not running or ended) and not is_instance_valid(academy) and not is_instance_valid(update_panel)
+	update_notice.visible = (show_available or show_recovery) and (not running or ended) and not is_instance_valid(academy) and not is_instance_valid(update_panel) and not is_instance_valid(exhibit)
 
 func show_updates() -> void:
 	# Installation is offered between missions, never over an active mission.
 	if running and not ended: return
+	if is_instance_valid(exhibit) or is_instance_valid(academy): return
 	if OS.has_feature("web") and JavaScriptBridge.eval("Boolean(window.RedVeilWebUpdates)"):
 		JavaScriptBridge.eval("window.RedVeilWebUpdates.open()")
 		return
-	if not is_instance_valid(update_client) or is_instance_valid(update_panel) or is_instance_valid(academy): return
+	if not is_instance_valid(update_client) or is_instance_valid(update_panel) or is_instance_valid(academy) or is_instance_valid(exhibit): return
 	player.enabled = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	update_panel = UpdatePanel.new()
@@ -667,4 +681,60 @@ func show_updates() -> void:
 		refresh_update_notice()
 	)
 	add_child(update_panel)
+	refresh_update_notice()
+
+func show_suit_lab() -> void:
+	if is_instance_valid(exhibit) or is_instance_valid(academy) or is_instance_valid(update_panel): return
+	var scene_script = load("res://scripts/suit_lab.gd")
+	if scene_script == null: return
+	_open_exhibit(scene_script.new(), false)
+
+func show_habitat_inspector() -> void:
+	if is_instance_valid(exhibit) or is_instance_valid(academy) or is_instance_valid(update_panel): return
+	var anchor := world.get_node_or_null("HabitatAnchor")
+	if anchor == null or anchor.get_child_count() == 0: return
+	var habitat := anchor.get_child(0)
+	if not habitat.has_method("get_inspection_points"): return
+	var inspector := HabitatInspector.new()
+	inspector.points = habitat.get_inspection_points()
+	inspector.camera = title_camera
+	_open_exhibit(inspector, true)
+
+func _open_exhibit(view: Control, overview: bool) -> void:
+	var was_paused := paused
+	var was_menu := menu.visible
+	var was_hud := hud.visible
+	var previous_camera := get_viewport().get_camera_3d()
+	var focused := get_viewport().gui_get_focus_owner()
+	var previous_focus: WeakRef = weakref(focused) if focused else null
+	paused = true
+	player.enabled = false
+	player.touch_move = Vector2.ZERO
+	touch_interact = false
+	touch_controls.hide()
+	menu.hide()
+	hud.hide()
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	if overview and is_instance_valid(title_camera): title_camera.make_current()
+	exhibit = view
+	# The suit lab owns a separate 3D viewport. Skip the fully obscured world.
+	var host_viewport := get_viewport()
+	var previous_3d_disabled := host_viewport.disable_3d
+	if not overview:
+		host_viewport.disable_3d = true
+		view.tree_exiting.connect(func(): host_viewport.disable_3d = previous_3d_disabled)
+	view.closed.connect(func():
+		exhibit = null
+		menu.visible = was_menu
+		hud.visible = was_hud
+		if is_instance_valid(previous_camera): previous_camera.make_current()
+		if running and not ended:
+			if not was_paused: resume()
+			else:
+				paused = false
+				toggle_pause()
+		if previous_focus != null and is_instance_valid(previous_focus.get_ref()): previous_focus.get_ref().grab_focus.call_deferred()
+		refresh_update_notice()
+	)
+	menu.get_parent().add_child(view)
 	refresh_update_notice()

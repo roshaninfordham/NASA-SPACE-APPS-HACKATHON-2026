@@ -22,7 +22,7 @@ Linux x64: extract the ZIP and run `KOMAKU-Shield-Protocol.x86_64`. A headless l
 
 The Web ZIP is a static Godot export. Serve its folder over HTTP(S); do not double-click `index.html` with a file URL. For a local test, `python3 -m http.server 5190 --directory <extracted-folder>` is sufficient. The single-thread export avoids requiring cross-origin-isolation headers. WebGL2 is required.
 
-Touch controls are provided for landscape browser play. Native Android and iOS packages have not been built. Their SDK, signing, store, accessibility, and device testing remain separate work.
+Touch controls are provided for landscape browser play. No production native Android or iOS package is published. An earlier Android arm64 build was internal tooling validation only; production signing and physical-device testing remain separate work.
 
 ## Controls
 
@@ -34,5 +34,7 @@ Touch controls are provided for landscape browser play. Native Android and iOS p
 | Hop                      | Space              | A                          |
 | Pause                    | Escape             | Start                      |
 | Field guide              | F1                 | Open from the title screen |
+
+From alpha 0.6, choose **Explorer Suit Lab** or **Habitat Field Notes** on the title menu. In untimed exploration, **I** opens the habitat lessons. The suit lab also opens from Pause. Back/Escape returns you to the previous activity. These learning interfaces pause mission time and resources.
 
 No account is required. There are no ads, analytics, or remote game APIs. A mission summary is stored locally. Tell us the release version, device, OS, what you did, and what happened when reporting a problem; do not include personal information in public issues.

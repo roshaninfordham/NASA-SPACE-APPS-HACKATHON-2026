@@ -1,25 +1,30 @@
 extends Node3D
 ## Presentation-only Mars laboratory. Geometry is local to the habitat ground origin.
+const VisualStyle = preload("res://scripts/visual_style.gd")
 const Branding = preload("res://scripts/branding.gd")
+const Hologram = preload("res://art/red_veil/interior_hologram.gd")
 const Ornaments = preload("res://art/red_veil/exterior_ornaments.gd")
 @export_range(0, 2) var ornament_detail: int = 1
 @export var batch_static_geometry: bool = true
-const CORAL := Color("fa416a")
-const CYAN := Color("69f5fa")
-const IVORY := Color("ece3df")
-const GRAPHITE := Color("422b3b")
+var CORAL: Color = VisualStyle.color("coral")
+var CYAN: Color = VisualStyle.color("cyan")
+var IVORY: Color = VisualStyle.color("pearl")
+var GRAPHITE: Color = VisualStyle.color("wine")
 var _materials: Dictionary = {}
 var _power_label: Label3D
 var _dust_label: Label3D
 var _crew_label: Label3D
+var _forecast_label: Label3D
+var _tablet_labels: Array[Label3D] = []
+var _elapsed := 0.0
 var _mars: MeshInstance3D
 var _orbit: Node3D
 var _hologram_material: ShaderMaterial
 
 func _ready() -> void:
 	_materials.ivory = _material(IVORY, 0.3, 0.22)
-	_materials.pearl = _material(Color("d8cbcf"), 0.22, 0.25)
-	_materials.ruby = _material(Color("8e2444"), 0.33, 0.35)
+	_materials.pearl = _material(VisualStyle.color("pearl_pink"), VisualStyle.number("floor_roughness"), 0.25)
+	_materials.ruby = _material(VisualStyle.color("crimson"), VisualStyle.number("lacquer_roughness"), 0.35)
 	_materials.dark = _material(GRAPHITE, 0.5, 0.25)
 	_materials.chrome = _material(Color("93b9c3"), 0.22, 0.78)
 	_materials.coral = _material(CORAL, 0.3, 0.1, 0.8)
@@ -29,10 +34,12 @@ func _ready() -> void:
 	_materials.leaf = _material(Color("2d6855"), 0.57, 0.0)
 	_materials.leaf.cull_mode = BaseMaterial3D.CULL_DISABLED
 	_materials.leaf_light = _material(Color("75b99a"), 0.52, 0.0)
-	_materials.gold = _material(Color("d9aa5a"), 0.28, 0.6, 0.18)
-	_materials.amber = _material(Color("f4b65d"), 0.6, 0.0, 0.55)
+	_materials.gold = _material(VisualStyle.color("rose_gold"), VisualStyle.number("gold_roughness"), VisualStyle.number("gold_metallic"), 0.18)
+	_materials.amber = _material(VisualStyle.color("amber"), 0.6, 0.0, 0.55)
 	_materials.bark = _material(Color("513d3a"), 0.8, 0.0)
-	_materials.glass = _glass(Color(0.18, 0.86, 0.96, 0.18), 0.6)
+	_materials.glass = _glass(Color(0.035, 0.16, 0.20, 0.88), 0.15)
+	_materials.holo_line = _material(Color("ffd6dc"), 0.4, 0.0, 1.2)
+	_materials.holo_line.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	_materials.beam = _glass(Color(1.0, 0.19, 0.42, 0.045), 0.8)
 	_build_floor()
 	_build_projection()
@@ -171,6 +178,7 @@ func _label(value: String, position: Vector3, size: int, pixel_size: float, colo
 	label.outline_modulate = Color(0.04, 0.06, 0.10, 0.85)
 	label.shaded = false
 	label.no_depth_test = false
+	label.render_priority = 3
 	parent.add_child(label)
 	return label
 
@@ -209,7 +217,9 @@ func _build_projection() -> void:
 	_cylinder(Vector3(0, 0.69, 0), 1.24, 1.24, 0.055, _materials.dark)
 	for radius in [0.65, 1.0, 1.23]: _ring(Vector3(0, 0.73, 0), radius, 0.022, _materials.coral)
 	_solid_cylinder(Vector3(0, 0.36, 0), 1.34, 0.66)
-	var beam := _cylinder(Vector3(0, 3.12, 0), 1.64, 1.64, 4.74, _materials.beam)
+	var column_material := ShaderMaterial.new()
+	column_material.shader = load("res://art/red_veil/interior_column.gdshader")
+	var beam := _cylinder(Vector3(0, 3.12, 0), 1.64, 1.64, 4.74, column_material)
 	beam.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	for index in range(12):
 		var a := TAU * index / 12.0
@@ -230,13 +240,7 @@ func _build_projection() -> void:
 	_orbit = Node3D.new()
 	_orbit.position = Vector3(0, 3.05, 0)
 	add_child(_orbit)
-	for latitude in [-0.65, -0.32, 0.0, 0.32, 0.65]:
-		var y: float = latitude * 1.4
-		var radius := sqrt(1.4 * 1.4 - y * y)
-		_ring(Vector3(0, y, 0), radius, 0.007, _materials.cyan, _orbit)
-	for angle in [0.0, PI / 3.0, PI * 2.0 / 3.0]:
-		var meridian := _ring(Vector3.ZERO, 1.4, 0.007, _materials.cyan, _orbit)
-		meridian.rotation = Vector3(PI / 2.0, angle, 0)
+	Hologram.build_network(_mars, 1.405, _materials.holo_line, 2 if ornament_detail > 0 else 1)
 	var orbit := _ring(Vector3.ZERO, 1.93, 0.018, _materials.cyan, _orbit)
 	orbit.rotation = Vector3(0.25, 0, -0.24)
 	var satellite := _ellipsoid(Vector3(1.83, 0.45, 0.18), Vector3.ONE * 0.065, _materials.cyan, _orbit)
@@ -257,6 +261,18 @@ func _build_canopy() -> void:
 	_ring(Vector3(0, 6.06, 0), 3.25, 0.075, _materials.ruby)
 	_ring(Vector3(0, 6.025, 0), 3.10, 0.025, _materials.coral)
 	_ring(Vector3(0, 6.34, 0), 3.30, 0.055, _materials.chrome)
+	# Nested ceremonial ceiling rings follow the room's existing low outer shell.
+	for layer in range(3):
+		var radius := 4.1 + layer * 1.1
+		var level := 5.90 - layer * 0.40
+		_annular_segment(radius - 0.31, radius + 0.31, level, level + 0.12, 0, TAU, _materials.ruby)
+		_ring(Vector3(0, level - 0.02, 0), radius - 0.26, 0.025, _materials.holo_line)
+		_ring(Vector3(0, level - 0.02, 0), radius + 0.26, 0.025, _materials.soft_coral)
+		if ornament_detail > 0 and layer == 1:
+			for index in range(8):
+				var angle := TAU * index / 8.0
+				var sprig := Ornaments.blossom_branch(self, "CeilingSakuraInlay", Vector3(sin(angle) * radius, level - 0.035, cos(angle) * radius), 0.60, _materials.gold, _materials.holo_line)
+				sprig.rotation = Vector3(PI / 2, angle, 0)
 	_ring(Vector3(0, 6.01, 0), 2.03, 0.035, _materials.cyan)
 	for index in range(16):
 		var a := TAU * index / 16.0
@@ -300,12 +316,18 @@ func _build_consoles() -> void:
 				points.append(Vector3(sin(angle) * radius, 0.10 + k * 0.83, cos(angle) * radius))
 			_tube(points, 0.085, _materials.ivory)
 			_cylinder(Vector3(sin(angle) * 4.55, 0.09, cos(angle) * 4.55), 0.30, 0.30, 0.08, _materials.ruby)
-	_power_label = _build_display(Vector3(-2.85, 1.75, 3.72), 0.14, 2.15, "ENERGY / OUTPOST", "SOLAR  -- kW\nHABITAT  -- kWh")
-	_dust_label = _build_display(Vector3(-4.73, 1.69, 2.03), 0.43, 1.88, "SURFACE / SKY", "PANEL DUST  --%\nCLEAN SURFACES ≠ CLEAR SKY")
-	_crew_label = _build_display(Vector3(3.37, 1.78, 3.23), -0.25, 2.72, "CREW / PROTECTION", "SUIT  -- kWh\nEXPOSURE  -- mSv")
+	# Four readable hero displays; no decorative percentage is mistaken for telemetry.
+	_dust_label = _build_display(Vector3(-5.55, 2.35, 2.35), 0.40, 2.55, "MISSION CONTROL", "", "surface")
+	_power_label = _build_display(Vector3(-2.95, 2.32, 3.25), 0.12, 2.38, "ENVIRONMENT CONTROL", "", "energy")
+	_forecast_label = _build_display(Vector3(2.95, 2.32, 3.25), -0.12, 2.38, "RADIATION FORECAST", "", "forecast")
+	_crew_label = _build_display(Vector3(5.55, 2.35, 2.35), -0.40, 2.55, "LIFE SUPPORT", "", "crew")
+	for index in range(9):
+		var angle := lerpf(-1.16, -0.34, index / 3.0) if index < 4 else lerpf(0.34, 1.16, (index - 4) / 4.0)
+		_build_tablet(Vector3(sin(angle) * 4.55, 1.28, cos(angle) * 4.55), angle, index)
 
-func _build_display(position: Vector3, yaw: float, width: float, title: String, initial: String) -> Label3D:
+func _build_display(position: Vector3, yaw: float, width: float, title: String, initial: String, graphic: String) -> Label3D:
 	var panel := Node3D.new()
+	panel.name = "HeroPanel_" + graphic
 	panel.position = position
 	panel.rotation.y = yaw
 	add_child(panel)
@@ -315,27 +337,58 @@ func _build_display(position: Vector3, yaw: float, width: float, title: String, 
 	var bottom := PackedVector3Array()
 	for index in range(33):
 		var x := lerpf(-width / 2.0, width / 2.0, index / 32.0)
-		var z := x * x * 0.055
-		top.append(Vector3(x, 0.40, z - 0.10))
-		bottom.append(Vector3(x, -0.40, z + 0.10))
+		var z := x * x * 0.035
+		top.append(Vector3(x, 0.82, z))
+		bottom.append(Vector3(x, -0.82, z))
 	for index in range(32): _quad(surface, bottom[index], bottom[index + 1], top[index + 1], top[index])
 	surface.generate_normals()
 	var glass := _mesh(surface.commit(), _materials.glass, Vector3.ZERO, panel)
 	glass.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	_tube(top, 0.013, _materials.cyan, panel)
-	_tube(bottom, 0.013, _materials.cyan, panel)
-	_tube(PackedVector3Array([top[0], bottom[0]]), 0.013, _materials.cyan, panel)
-	_tube(PackedVector3Array([top[-1], bottom[-1]]), 0.013, _materials.cyan, panel)
-	var header := _label(title, Vector3(0, 0.245, 0.04), 30, 0.0034, CYAN, panel)
-	header.rotation.x = -0.24
-	var telemetry := _label(initial, Vector3(0, -0.01, 0.075), 30, 0.0033, Color("e4ffff"), panel)
-	telemetry.rotation.x = -0.24
-	var trace := PackedVector3Array()
-	for index in range(33):
-		var x := lerpf(-width * 0.40, width * 0.40, index / 32.0)
-		trace.append(Vector3(x, -0.29 + sin(index * 0.57) * 0.025, 0.12))
-	_tube(trace, 0.007, _materials.cyan, panel, 6)
+	for path in [top, bottom, PackedVector3Array([top[0], bottom[0]]), PackedVector3Array([top[-1], bottom[-1]])]:
+		_tube(path, 0.018, _materials.holo_line, panel)
+	_label(title, Vector3(0, 0.64, 0.12), 30, 0.0035, CYAN, panel)
+	var telemetry := _label(initial, Vector3(0, 0.16, 0.15), 28, 0.0034, Color("e4ffff"), panel)
+	_label("LIVE TRAINING MODEL", Vector3(0, -0.70, 0.15), 20, 0.0027, CYAN, panel)
+	if graphic == "surface":
+		for row in range(5):
+			var trace := PackedVector3Array()
+			for index in range(25):
+				var x := lerpf(-width * 0.42, width * 0.42, index / 24.0)
+				var peak := exp(-pow((index - 16.0) / 5.0, 2.0)) * 0.23
+				trace.append(Vector3(x, -0.56 + row * 0.035 + peak + sin(index * 0.8 + row * 0.6) * 0.025, 0.14))
+			_tube(trace, 0.005, _materials.cyan, panel, 4)
+	elif graphic == "energy":
+		for index in range(7):
+			var height := 0.10 + 0.18 * sin((index + 1) * PI / 8.0)
+			_tube(PackedVector3Array([Vector3(-0.8 + index * 0.25, -0.54, 0.14), Vector3(-0.8 + index * 0.25, -0.54 + height, 0.14)]), 0.035, _materials.cyan, panel, 4)
+		_label("SCHEMATIC / POWER BUDGET", Vector3(0, -0.17, 0.15), 18, 0.0027, CYAN, panel)
+	elif graphic == "forecast":
+		# Diagram of the existing mission's event window, explicitly a scenario.
+		_tube(PackedVector3Array([Vector3(-0.95, -0.54, 0.14), Vector3(-0.34, -0.54, 0.14), Vector3(-0.32, -0.25, 0.14), Vector3(0.19, -0.25, 0.14), Vector3(0.21, -0.54, 0.14), Vector3(0.95, -0.54, 0.14)]), 0.013, _materials.coral, panel)
+		_label("SCENARIO EVENT: HOURS 4–7", Vector3(0, -0.15, 0.15), 18, 0.0027, CYAN, panel)
+	else:
+		var head := _ring(Vector3(0.82, -0.23, 0.14), 0.07, 0.009, _materials.cyan, panel)
+		head.rotation.x = PI / 2
+		for path in [PackedVector3Array([Vector3(0.82, -0.30, 0.14), Vector3(0.82, -0.47, 0.14)]), PackedVector3Array([Vector3(0.64, -0.46, 0.14), Vector3(0.73, -0.32, 0.14), Vector3(0.91, -0.32, 0.14), Vector3(1.0, -0.46, 0.14)]), PackedVector3Array([Vector3(0.73, -0.62, 0.14), Vector3(0.82, -0.47, 0.14), Vector3(0.91, -0.62, 0.14)])]:
+			_tube(path, 0.012, _materials.cyan, panel)
+		_label("O₂ / H₂O: NOT SIMULATED", Vector3(-0.23, -0.40, 0.15), 18, 0.0027, CYAN, panel)
 	return telemetry
+
+func _build_tablet(position: Vector3, yaw: float, index: int) -> void:
+	var tablet := Node3D.new()
+	tablet.name = "ConsoleTablet_%02d" % index
+	tablet.position = position
+	tablet.rotation = Vector3(-1.10, yaw, 0)
+	add_child(tablet)
+	var screen := PlaneMesh.new()
+	screen.orientation = PlaneMesh.FACE_Z
+	screen.size = Vector2(0.78, 0.46)
+	_mesh(screen, _materials.glass, Vector3.ZERO, tablet)
+	_tube(PackedVector3Array([Vector3(-0.4, -0.24, 0.01), Vector3(0.4, -0.24, 0.01), Vector3(0.4, 0.24, 0.01), Vector3(-0.4, 0.24, 0.01), Vector3(-0.4, -0.24, 0.01)]), 0.011, _materials.holo_line, tablet)
+	var titles := ["SOLAR", "HABITAT", "SUIT", "DOSE", "DUST", "REFUGE", "EVENT", "TIME", "POWER MODE"]
+	_label(titles[index], Vector3(0, 0.14, 0.025), 24, 0.0025, CYAN, tablet)
+	_tablet_labels.append(_label("--", Vector3(0, -0.02, 0.025), 26, 0.0027, IVORY, tablet))
+	_tube(PackedVector3Array([Vector3(-0.30, -0.15, 0.025), Vector3(-0.12, -0.15, 0.025), Vector3(-0.08, -0.10, 0.025), Vector3(-0.02, -0.18, 0.025), Vector3(0.04, -0.13, 0.025), Vector3(0.3, -0.13, 0.025)]), 0.004, _materials.cyan, tablet, 4)
 
 func _build_chair(position: Vector3, yaw: float) -> void:
 	var chair := Node3D.new()
@@ -407,13 +460,27 @@ func _build_side_details() -> void:
 
 func apply_mission_visuals(snapshot: Dictionary) -> void:
 	if not is_instance_valid(_power_label): return
-	_power_label.text = "SOLAR  %.1f kW\nHABITAT  %.1f kWh" % [float(snapshot.get("solar_kw", 0.0)), float(snapshot.get("habitat_kwh", 8.0))]
-	_dust_label.text = "PANEL DUST  %d%%\nSURFACE ≠ ATMOSPHERE" % int(float(snapshot.get("panel_dust", 0.0)) * 100.0)
-	_crew_label.text = "SUIT  %.2f kWh   /   DOSE  %.2f mSv\n%s" % [float(snapshot.get("suit_kwh", 0.9)), float(snapshot.get("dose_msv", 0.0)), "REFUGE SHIELDING ACTIVE" if snapshot.get("sheltered", false) else "MONITOR CREW EXPOSURE"]
+	var solar := float(snapshot.get("solar_kw", 0.0))
+	var habitat := float(snapshot.get("habitat_kwh", 8.0))
+	var suit := float(snapshot.get("suit_kwh", 0.9))
+	var dose := float(snapshot.get("dose_msv", 0.0))
+	var dust := int(float(snapshot.get("panel_dust", 0.0)) * 100.0)
+	var hours := float(snapshot.get("time_hours", 0.0))
+	var sheltered := bool(snapshot.get("sheltered", false))
+	var event := bool(snapshot.get("event_active", false))
+	_power_label.text = "SOLAR  %.1f kW\nHABITAT  %.1f kWh" % [solar, habitat]
+	_dust_label.text = "MISSION  %04.1f h\nPANEL DUST  %d%%\nSURFACE ≠ ATMOSPHERE" % [hours, dust]
+	_crew_label.text = "SUIT  %.2f kWh\nDOSE  %.2f mSv\n%s" % [suit, dose, "REFUGE ACTIVE" if sheltered else "CREW OUTSIDE REFUGE"]
+	_forecast_label.text = "%s\nILLUSTRATIVE SOLAR EVENT\nUSE MASS FOR SHIELDING" % ("EVENT ACTIVE" if event else ("EVENT AHEAD" if hours < 4.0 else "EVENT PASSED"))
+	var values := ["%.1f kW" % solar, "%.1f kWh" % habitat, "%.2f kWh" % suit, "%.2f mSv" % dose, "%d%%" % dust, "ACTIVE" if sheltered else "STANDBY", "ACTIVE" if event else "QUIET", "%.1f h" % hours, "SAVE" if snapshot.get("conserving", false) else "NORMAL"]
+	for index in range(_tablet_labels.size()): _tablet_labels[index].text = values[index]
 	_hologram_material.set_shader_parameter("storm_level", clampf(float(snapshot.get("storm", 0.0)), 0.0, 1.0))
 
 func _process(delta: float) -> void:
-	if is_instance_valid(_mars): _mars.rotation.y += delta * 0.045
+	_elapsed += delta
+	if is_instance_valid(_mars):
+		_mars.rotation.y += delta * deg_to_rad(2.0)
+		_mars.position.y = 3.05 + sin(_elapsed * TAU * 0.2) * 0.05
 	if is_instance_valid(_orbit): _orbit.rotation.y -= delta * 0.035
 
 func _build_ornaments() -> void:
@@ -432,6 +499,7 @@ func _build_ornaments() -> void:
 		_build_bonsai(Vector3(side * 6.6, 0.08, -1.4), side)
 		# Side arch lattice is inset behind the routes; no extra collision.
 		_lattice_panel(Vector3(side * 7.0, 1.15, -4.0), Vector2(0.66, 1.7), 0.0, false)
+	_build_blossom_tree(Vector3(7.5, 0.08, -2.7))
 	for angle in [-1.05, -0.65, 0.65, 1.05]:
 		_lattice_panel(Vector3(sin(angle) * 4.64, 0.53, cos(angle) * 4.64 + 0.06), Vector2(0.48, 0.65), angle, true)
 
@@ -514,3 +582,16 @@ func _batch_static_meshes() -> void:
 		var mesh := surface.commit()
 		var combined := _mesh(mesh, material, Vector3.ZERO)
 		combined.name = "BatchedInteriorMaterial"
+
+func _build_blossom_tree(position: Vector3) -> void:
+	var tree := Node3D.new()
+	tree.name = "CultivatedSakura"
+	tree.position = position
+	add_child(tree)
+	_cylinder(Vector3(0, 0.36, 0), 0.27, 0.41, 0.68, _materials.ivory, tree)
+	_ring(Vector3(0, 0.67, 0), 0.40, 0.028, _materials.gold, tree)
+	_tube(PackedVector3Array([Vector3(0, 0.67, 0), Vector3(-0.08, 1.12, 0), Vector3(0.15, 1.65, 0.05), Vector3(-0.10, 2.15, 0.03)]), 0.055, _materials.bark, tree)
+	for index in range(5):
+		var sprig := Ornaments.blossom_branch(tree, "SakuraBlossomSpray", Vector3(0.04, 1.45 + index * 0.20, 0), 0.47 + 0.09 * (index % 2), _materials.bark, _materials.soft_coral)
+		sprig.rotation = Vector3(0, index * 1.1, -0.3 + index * 0.12)
+	_solid_cylinder(Vector3(0, 0.35, 0), 0.40, 0.7, tree)

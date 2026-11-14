@@ -43,6 +43,11 @@ jobs:
       - run: godot --headless --path game --script res://tests/art_contract_test.gd
       - run: godot --headless --path game --script res://tests/design_world_test.gd
       - run: godot --headless --path game --script res://tests/dialog_contract_test.gd
+      - run: godot --headless --path game --script res://tests/visual_style_test.gd
+      - run: godot --headless --path game --script res://tests/interior_spec_test.gd
+      - run: godot --headless --path game --script res://tests/exterior_spec_test.gd
+      - run: godot --headless --path game --script res://tests/suit_lab_test.gd
+      - run: godot --headless --path game --script res://tests/spec_integration_test.gd
       - run: python scripts/test_updater.py
       - run: godot --headless --path game --script res://tests/update_client_test.gd
       - run: godot --headless --path game --script res://tests/update_ui_test.gd

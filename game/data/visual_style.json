@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "palette": {
+    "pearl": "#EFD9DA",
+    "pearl_pink": "#E6C9C9",
+    "crimson": "#A8102A",
+    "rose_gold": "#E9B8A0",
+    "coral": "#FF5A6E",
+    "cyan": "#67E8F0",
+    "amber": "#FFB067",
+    "wine": "#3B0A14",
+    "teal_panel": "#0B2A33",
+    "white": "#F5FBFF",
+    "lacquer_shadow": "#3A2A2D",
+    "steel": "#A8B6BF"
+  },
+  "surface": {
+    "pearl_roughness": 0.25,
+    "lacquer_roughness": 0.12,
+    "gold_roughness": 0.3,
+    "gold_metallic": 1.0,
+    "floor_roughness": 0.12,
+    "glass_roughness": 0.08
+  },
+  "motifs": {
+    "seigaiha": "Japanese overlapping wave arcs",
+    "sakura": "Japanese cherry-blossom branches",
+    "kumiko": "Japanese geometric lattice joinery",
+    "obi": "Japanese sash-inspired harness",
+    "hakama": "Japanese wide-trouser-inspired silhouette",
+    "crane": "Crane embroidery inspired by Japanese textile design",
+    "endless_knot": "Chinese decorative knot-inspired airlock emblem"
+  }
+}

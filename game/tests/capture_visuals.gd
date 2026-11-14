@@ -21,18 +21,18 @@ func capture() -> void:
 	game.player.hide()
 	var camera := Camera3D.new()
 	game.add_child(camera)
-	camera.fov = 53
+	camera.fov = 45
 	match view:
 		"interior":
-			camera.position = Vector3(-1.6, 2.7, -9.8)
+			camera.position = Vector3(0, 2.3, -4.3)
 			camera.look_at(Vector3(0, 3.1, -16))
-			camera.fov = 88
+			camera.fov = 60
 		"astronaut":
 			camera.position = Vector3(-2.7, 1.35, 9.5)
 			camera.look_at(Vector3(-4, 0.95, 7))
 			camera.fov = 46
 		_:
-			camera.position = Vector3(15, 5, 5)
+			camera.position = Vector3(-6, 3.4, 10)
 			camera.look_at(Vector3(0, 3, -16))
 	camera.current = true
 	for i in range(12): await process_frame

@@ -1,11 +1,13 @@
 extends Node3D
+const VisualStyle = preload("res://scripts/visual_style.gd")
 ## Hollow, asymmetric ivory/ruby habitat. Origin: ground center; front: +Z.
 const G = preload("res://art/red_veil/exterior_geometry.gd")
 const O = preload("res://art/red_veil/exterior_ornaments.gd")
+const Details = preload("res://art/red_veil/exterior_details.gd")
 const Branding = preload("res://scripts/branding.gd")
-@export var pearl_color := Color("e8e1d8")
-@export var crimson_color := Color("6b1028")
-@export var coral_color := Color("ff664f")
+@export var pearl_color := VisualStyle.color("pearl")
+@export var crimson_color := VisualStyle.color("crimson")
+@export var coral_color := VisualStyle.color("coral")
 @export var collisions_enabled := true
 var pearl: Material
 var pearl_inner: Material
@@ -18,9 +20,9 @@ const RX := 10.8
 const RZ := 7.4
 
 func _ready() -> void:
-	pearl = G.material(pearl_color, 0.30, 0.30)
+	pearl = Details.shell_material(pearl_color, false)
 	pearl_inner = G.material(Color("bcb8b4"), 0.18, 0.48)
-	ruby = G.material(crimson_color, 0.42, 0.23)
+	ruby = Details.shell_material(crimson_color, true)
 	dark = G.material(Color("291a24"), 0.45, 0.36)
 	coral = G.material(coral_color, 0.12, 0.30, 0.8)
 	metal = G.material(Color("645d62"), 0.75, 0.28)
@@ -32,6 +34,8 @@ func _ready() -> void:
 	build_dish_and_antennae()
 	build_detail_seams()
 	build_ornaments()
+	Details.build(self, pearl, ruby, metal, coral, collisions_enabled)
+	_build_inspection_anchors()
 	if collisions_enabled: build_outer_collisions()
 	G.batch_static_meshes(self)
 
@@ -207,7 +211,7 @@ func build_airlock() -> void:
 	add_child(light)
 
 func build_dish_and_antennae() -> void:
-	var mount := Vector3(-6.9, 5.45, -1.5)
+	var mount := Vector3(5.5, 6.05, -2.1)
 	G.bar(self, "DishSupport", mount, mount + Vector3(0, 0.85, 0), 0.14, metal)
 	var center := mount + Vector3(0, 0.85, 0)
 	var normal := Vector3(-0.10, 0.82, 0.56).normalized()
@@ -229,7 +233,7 @@ func build_dish_and_antennae() -> void:
 	G.bar(self, "DishFeedHead", focus - normal * 0.12, focus + normal * 0.08, 0.11, ruby)
 	for index in range(3):
 		var point := Vector3(1.8 + index * 0.34, 7.30, -1.2 - index * 0.35)
-		var height := 0.65 - index * 0.12
+		var height := 2.10 - index * 0.58
 		G.bar(self, "AntennaMast_%d" % index, point, point + Vector3(0, height, 0), 0.028, metal)
 		G.bar(self, "AntennaCoralTip_%d" % index, point + Vector3(0, height - 0.07, 0), point + Vector3(0, height, 0), 0.038, coral)
 
@@ -260,7 +264,7 @@ func build_outer_collisions() -> void:
 		G.collision_box(self, "OuterWallCollider_%d" % index, (a + b) * 0.5 + Vector3(0, 1.9, 0), Vector3(tangent.length() + 0.06, 3.8, 0.34), -atan2(tangent.z, tangent.x))
 
 func build_ornaments() -> void:
-	var gold := G.material(Color("b98947"), 0.72, 0.34)
+	var gold := G.material(VisualStyle.color("rose_gold"), VisualStyle.number("gold_metallic"), VisualStyle.number("gold_roughness"), 0.18)
 	var peach := G.material(Color("f2c3a7"), 0.42, 0.38)
 	var lantern_glow := G.material(Color("ffd09a"), 0.05, 0.54, 0.65)
 	# Real contour-following raised engraving; one batched mesh per panel.
@@ -301,7 +305,7 @@ func build_ornaments() -> void:
 		key_paths.append(points)
 	O.strokes(self, "GoldAirlockGeometricKey", key_paths, 0.018, gold)
 	for side in [-1.0, 1.0]:
-		O.lantern(self, "AirlockLantern_%s" % side, Vector3(-7.15 + side * 1.92, 2.15, 6.25), 0.85, lantern_glow, gold)
+		O.square_lantern(self, "AirlockLantern_%s" % side, Vector3(-7.15 + side * 1.92, 2.15, 6.25), 0.85, lantern_glow, gold)
 	# Small eight-petal rosette above the portal, leaving the entire walking path clear.
 	var petals: Array = []
 	for petal in range(8):
@@ -312,3 +316,28 @@ func build_ornaments() -> void:
 			points.append(Vector3(-7.15, 4.13, 6.05) + Vector3(cos(b) * (0.12 + 0.11 * cos(a)) - sin(b) * 0.045 * sin(a), sin(b) * (0.12 + 0.11 * cos(a)) + cos(b) * 0.045 * sin(a), 0))
 		petals.append(points)
 	O.strokes(self, "AirlockGoldRosette", petals, 0.012, gold)
+
+## Presentation anchors share the habitat transform; callers never hard-code world positions.
+## These are science explanations, not claims that this alpha simulates pressure or shielding.
+func _build_inspection_anchors() -> void:
+	var data := [
+		["habitat_dome", "HABITAT DOME", Vector3(5.6, 5.8, 1.4), "A habitat needs an airtight pressure vessel, insulation and dust protection. Shielding depends on material, thickness and particle energy; decorative lacquer is not a radiation shield."],
+		["observation_windows", "OBSERVATION WINDOWS", Vector3(8.7, 2.6, 2.8), "Layered glazing lets a crew look outside. A real habitat also needs pressure-rated seals and engineered shutters. The viewing openings here are an art-development walkthrough, not a sealed pressure simulation."],
+		["regolith_shielding", "REGOLITH SHIELDING", Vector3(12.0, 1.6, -1.8), "Regolith is the loose dust and rock on Mars. A thick layer can help reduce radiation exposure and slow temperature changes. Protection is not a fixed percentage for every extra layer."],
+		["airlock", "AIRLOCK", Vector3(-7.15, 2.7, 6.8), "A real airlock uses two sealed doors and a pressure cycle to protect the habitat atmosphere. This alpha keeps the entry open for exploring; its doors do not yet simulate a pressure cycle."]
+	]
+	for item in data:
+		var anchor := Marker3D.new()
+		anchor.name = "Inspect_" + item[0]
+		anchor.position = item[2]
+		anchor.set_meta("inspection_id", item[0])
+		anchor.set_meta("inspection_title", item[1])
+		anchor.set_meta("inspection_text", item[3])
+		add_child(anchor)
+
+func get_inspection_points() -> Array[Dictionary]:
+	var result: Array[Dictionary] = []
+	for child in get_children():
+		if child is Marker3D and child.has_meta("inspection_id"):
+			result.append({"id": child.get_meta("inspection_id"), "title": child.get_meta("inspection_title"), "text": child.get_meta("inspection_text"), "position": child.global_position})
+	return result

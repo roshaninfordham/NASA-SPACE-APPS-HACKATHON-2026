@@ -52,6 +52,12 @@ Keyboard: **WASD** move, **mouse** look, **E** use/hold to inspect, **Q** visor,
 
 Mira's Field Academy adds five short science lessons, ten questions, hints and explanations, and a local review plan. It is accessible from the title menu and mission debrief. These lessons have been included since alpha 0.3.0-alpha.1. The tutor uses provisional Bayesian estimates, not a trained AI model; [learning design](docs/LEARNING-DESIGN.md) documents the research and limits. The [request tracker](docs/REQUEST-TRACKER.md) distinguishes delivered features from open requirements.
 
+## New design-specification work
+
+The current source adds **Explorer Suit Lab** (five live views, four cosmetic themes, five adjustable experiments) and **Habitat Field Notes** (four architecture lessons). Access both from the title menu; the suit lab is also in the pause menu, and **I** opens habitat notes during untimed exploration. The activities pause the mission and do not change its physical model.
+
+The control room now has four live data panels, nine tabletop screens and a geodesic globe. The habitat and suit add shared pearl/crimson/rose-gold finishes and specific Japanese craft references, with a Chinese knot-inspired airlock emblem. These remain procedural interpretations. Read the [adapted design specifications](docs/design-specs/README.md) and [implementation ledger](docs/SPEC-IMPLEMENTATION.md) for each completed, partial and deferred target. These source additions enter downloadable builds only when included in their release notes.
+
 ## Design direction
 
 Sci-fi wonder, unusual forms, tactile discovery, and a world young explorers want to revisit. Scientific behavior stays explicit while the art evolves. Normally invisible phenomena may appear through labeled instrument visualizations; spectacular presentation must not imply false physics.

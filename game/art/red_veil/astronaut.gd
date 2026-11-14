@@ -1,11 +1,12 @@
 extends Node3D
+const VisualStyle = preload("res://scripts/visual_style.gd")
 const Branding = preload("res://scripts/branding.gd")
 const Ornaments = preload("res://art/red_veil/exterior_ornaments.gd")
 ## Original stylized Mira sculpture: cosmetic character, not an engineered suit.
 ## Feet at y=0, height about 1.65 m, facing +Z. Geometry is built once and batched.
-@export var suit_color := Color("f2eee6")
-@export var crimson_color := Color("ab2743")
-@export var gold_color := Color("d6ad64")
+@export var suit_color := VisualStyle.color("pearl")
+@export var crimson_color := VisualStyle.color("crimson")
+@export var gold_color := VisualStyle.color("rose_gold")
 @export_range(0.0, 1.0, 0.05) var idle_amount := 0.65
 var _elapsed := 0.0
 var _upper: Node3D
@@ -14,7 +15,7 @@ var _glow: StandardMaterial3D
 var _batches: Dictionary = {}
 var _sphere: SphereMesh
 var _detail: SphereMesh
-var _soft: StandardMaterial3D
+var _soft: ShaderMaterial
 var _shell: StandardMaterial3D
 var _red: StandardMaterial3D
 var _gold: StandardMaterial3D
@@ -32,9 +33,12 @@ func _ready() -> void:
 	_detail.height = 2.0
 	_detail.radial_segments = 10
 	_detail.rings = 3
-	_soft = _material("PearlFabric", suit_color, 0.56, 0.09)
+	_soft = ShaderMaterial.new()
+	_soft.resource_name = "IridescentPearlFabric"
+	_soft.shader = preload("res://art/red_veil/suit_fabric.gdshader")
+	_soft.set_shader_parameter("pearl", suit_color)
 	_shell = _material("PearlArmor", suit_color.lightened(0.045), 0.25, 0.22)
-	_red = _material("CrimsonHarness", crimson_color, 0.34, 0.23)
+	_red = _material("CrimsonHarness", crimson_color, VisualStyle.number("lacquer_roughness"), 0.23)
 	_gold = _material("WarmGold", gold_color, 0.28, 0.63)
 	_joint = _material("FlexWeave", Color("453443"), 0.72, 0.0)
 	_glow = _material("WarmInstrumentLight", Color("ffdc96"), 0.28, 0.15)
@@ -46,6 +50,7 @@ func _ready() -> void:
 	add_child(_upper)
 	_build_legs()
 	_build_torso()
+	_build_craft_details()
 	_build_arms()
 	_build_head()
 	_flush_batches()
@@ -357,6 +362,21 @@ func _build_head() -> void:
 			streak.append(Vector3(x, y + 0.005, z + 0.001))
 		_curve(_head, streak, 0.0038 if x < 0 else 0.0016, reflection)
 
+
+	var cyan := _material("VisorData",Color("7be8f2"),0.3,0.0)
+	cyan.emission_enabled = true
+	cyan.emission = Color("7be8f2")
+	cyan.emission_energy_multiplier = 0.4
+	for row in range(3):
+		_curve(_head,PackedVector3Array([Vector3(0.11,0.015+row*0.018,0.205),Vector3(0.15,0.015+row*0.018,0.19)]),0.0015,cyan,3)
+	_ring(_head,Vector3(0.14,0.084,0.192),0.014,0.0014,cyan,Vector3(PI/2.0,0,0))
+	# Freckles and pearl studs remain original stylized geometry.
+	for side in [-1.0,1.0]:
+		_ellipsoid(_head,Vector3(side*0.147,-0.032,0.018),Vector3.ONE*0.004,_shell,Vector3.ZERO,true)
+		for spot in range(4):
+			_ellipsoid(_head,Vector3(side*(0.025+spot*0.012),-0.014-float(spot%2)*0.009,0.139-float(spot)*0.002),Vector3(0.0018,0.0016,0.001),lips,Vector3.ZERO,true)
+	_ellipsoid(_head,Vector3(0,0.11,-0.12),Vector3(0.07,0.065,0.06),hair)
+
 func _flush_batches() -> void:
 	var triangles := 0
 	var surfaces := 0
@@ -384,3 +404,56 @@ func _process(delta: float) -> void:
 	_head.rotation.z = -0.035 + sin(_elapsed * 0.43) * 0.012 * idle_amount
 	_head.rotation.y = sin(_elapsed * 0.37) * 0.016 * idle_amount
 	_glow.emission_energy_multiplier = 0.78 + sin(_elapsed * 1.25) * 0.07 * idle_amount
+
+## Pure presentation presets. They never change mission protection or resources.
+func apply_theme(index: int) -> void:
+	var accents := [Color("a8102a"), Color("3ce6f0"), Color("472538"), Color("b18b43")]
+	var fabrics := [Color("efd9da"), Color("dfebed"), Color("ada3b7"), Color("f2e5cb")]
+	var pick := clampi(index, 0, 3)
+	_red.albedo_color = accents[pick]
+	_soft.set_shader_parameter("pearl", fabrics[pick])
+	_shell.albedo_color = fabrics[pick].lightened(0.08)
+	set_meta("cosmetic_theme", pick)
+
+func _build_craft_details() -> void:
+	# Wrap jacket crossing and woven obi are geometry, so they read in silhouette.
+	_curve(_upper, PackedVector3Array([Vector3(-0.13,1.20,0.113),Vector3(-0.04,1.105,0.155),Vector3(0.12,0.95,0.142)]),0.008,_red,5)
+	_curve(_upper, PackedVector3Array([Vector3(0.12,1.20,0.113),Vector3(0.04,1.105,0.156),Vector3(-0.11,0.96,0.144)]),0.006,_gold,5)
+	var sash_mat := _material("LavenderSash",Color("b28bc9"),0.47,0.12)
+	# Sash hangs on the rear, tapering toward the knee; original crane line motif.
+	var sash := _loft([Vector3(0.49,0.052,0.010),Vector3(0.57,0.064,0.012),Vector3(0.76,0.073,0.014),Vector3(0.86,0.063,0.012)],16)
+	_add(sash,sash_mat,Transform3D(Basis.IDENTITY,Vector3(0.085,0,-0.143)),_upper)
+	for y in [0.55,0.60,0.65]:
+		for x in [-0.02,0.02]:
+			var arc := PackedVector3Array()
+			for step in range(9):
+				var a := PI*step/8.0
+				arc.append(Vector3(0.085+x+cos(a)*0.025,y+sin(a)*0.025,-0.161))
+			_curve(_upper,arc,0.0017,_gold,4)
+	var crane := [Vector3(0.024,0.76,-0.162),Vector3(0.063,0.726,-0.166),Vector3(0.085,0.719,-0.166),Vector3(0.118,0.74,-0.166),Vector3(0.146,0.79,-0.162)]
+	_curve(_upper,PackedVector3Array(crane),0.003,_shell,4)
+	_curve(_upper,PackedVector3Array([Vector3(0.085,0.72,-0.168),Vector3(0.079,0.757,-0.168),Vector3(0.095,0.773,-0.168),Vector3(0.109,0.769,-0.168)]),0.0025,_gold,4)
+	for side in [-1.0,1.0]:
+		for level in range(3):
+			var x: float = side*0.112
+			var y := 0.10+level*0.045
+			_curve(self,PackedVector3Array([Vector3(x-0.07,y,0.14),Vector3(x,y+0.012,0.17),Vector3(x+0.07,y,0.14)]),0.009,_red,5)
+			_ellipsoid(self,Vector3(x+0.045,y+0.007,0.16),Vector3(0.012,0.012,0.006),_gold,Vector3.ZERO,true)
+		_wave_motif(self,Vector3(side*0.115,0.335,0.079),0.078)
+		_curve(_upper,PackedVector3Array([Vector3(side*0.15,0.83,-0.12),Vector3(side*0.20,0.91,-0.13),Vector3(side*0.18,1.03,-0.20)]),0.008,_joint,6)
+	# Backpack crescents and name are shared identity, never baked old wordmarks.
+	_ring(_upper,Vector3(0.0,1.12,-0.262),0.029,0.004,_glow,Vector3(PI/2.0,0,0))
+	var crescent := PackedVector3Array()
+	for step in range(17):
+		var a := lerpf(-0.7,3.85,step/16.0)
+		crescent.append(Vector3(cos(a)*0.023,1.01+sin(a)*0.023,-0.28))
+	_curve(_upper,crescent,0.003,_gold,5)
+	var label := Label3D.new()
+	label.text = Branding.title()
+	label.font_size = 30
+	label.pixel_size = 0.00065
+	label.position = Vector3(0,0.958,-0.275)
+	label.rotation.y = PI
+	label.modulate = Color("f7e8df")
+	label.outline_size = 0
+	_upper.add_child(label)

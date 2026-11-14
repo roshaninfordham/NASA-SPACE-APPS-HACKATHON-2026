@@ -1,4 +1,5 @@
 extends Node3D
+const VisualStyle = preload("res://scripts/visual_style.gd")
 ## Cosmetic, deterministic terrain. Mission collision and coordinates stay in world.gd.
 ## Central y=0 mission surface is clear; terrain relief begins beyond player bounds.
 ## No external textures: original procedural meshes and mineral shaders.
@@ -6,7 +7,7 @@ extends Node3D
 @export_range(0, 2400, 100) var pebble_count: int = 1400
 @export_range(0, 400, 20) var boulder_count: int = 200
 @export var walkway_width: float = 3.7
-@export var coral_color: Color = Color("ff705d")
+@export var coral_color: Color = VisualStyle.color("coral")
 const REGOLITH = preload("res://art/red_veil/landscape_regolith.gdshader")
 const STONE = preload("res://art/red_veil/landscape_rock.gdshader")
 const ORNAMENT = preload("res://art/red_veil/exterior_ornaments.gd")
@@ -138,7 +139,7 @@ func _build_approach() -> void:
 	var joint := _material(Color("65545b"), 0.6, 0.4)
 	var luminous := _material(coral_color, 0.35, 0.15, 0.75)
 	var lantern_frame := _material(Color("4b1b2b"), 0.30, 0.58)
-	var lantern_glow := _material(Color("e8a758"), 0.40, 0.05, 0.60)
+	var lantern_glow := _material(VisualStyle.color("amber"), 0.40, 0.05, 0.60)
 	_ribbon(_path, 0.0, walkway_width + 0.46, -0.01, rim, "WalkwayInsetRim")
 	_ribbon(_path, 0.0, walkway_width, 0.0, paving, "PolishedApproachPanels")
 	for side in [-1.0, 1.0]:
@@ -165,7 +166,7 @@ func _build_approach() -> void:
 			post.height = 0.43
 			post.radial_segments = 12
 			_mesh(post, lantern_frame, "RubyLanternPost").position = base + Vector3.UP * 0.235
-			ORNAMENT.lantern(self, "WarmRouteLantern", base + Vector3.UP * 0.66, 0.42, lantern_glow, lantern_frame)
+			ORNAMENT.square_lantern(self, "WarmRouteLantern", base + Vector3.UP * 0.66, 0.42, lantern_glow, lantern_frame)
 			# Three small actual lights give the polished alloy a physical highlight.
 			# No painted reflection or extra shadow maps; all remaining lamps are emissive.
 			if i % 32 == 8 and side > 0.0:

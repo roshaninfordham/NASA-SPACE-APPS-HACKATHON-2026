@@ -2,6 +2,20 @@
 
 All published game versions and notable unreleased work are recorded here. The version and source commit in each release manifest identify the exact downloadable build. Documentation on `main` can be newer than an installer.
 
+## [0.6.0-alpha.1] — 2026-11-14
+
+Design-specification implementation candidate. Publication and exact source are recorded in the release manifest and GitHub release notes; the version entry alone is not proof of publication.
+
+- Added Explorer Suit Lab with one live 3D stage, five inspection views, four cosmetic themes, and five adjustable teaching experiments covering dose/time, dust removal, heat balance, supply duration and pressure-fit tradeoffs. Cosmetics do not alter mission physics.
+- Added Habitat Field Notes with four scene-anchored callouts, questions and explanations. Open from the title menu or press **I** during untimed exploration.
+- Refined four mission-control panels and nine tabletop screens with live simulation data, a triangular hologram network, projection grid, layered ceiling rings, blossoms and lattice details.
+- Added pearl/lacquer finish shaders, square lattice lanterns, airlock seams/rivets/knot ornament, lounge details, and a regolith berm with matching slope collision. The front aperture remains open; operational airlock/shutters and pressure simulation are not implemented.
+- Added shared, validated palette/material/motif configuration in `game/data/visual_style.json`; product naming still comes only from `brand.json`.
+- Preserved all three uploaded design specifications byte-for-byte with hashes; added adapted current-name briefs and a [requirement-by-requirement ledger](docs/SPEC-IMPLEMENTATION.md). Corrected the documented native mission acceleration to 180×.
+- Added integrated learning-menu, pause/resume, resource-freeze, keyboard-focus and 44-pixel target checks at desktop/portrait/landscape sizes, plus scene and experiment checks in CI and release builds.
+
+This is an iterative visual-development alpha. Pixel-identical art, production character rigging/cloth, six simultaneous character cameras, three new EVA missions, habitat construction and multi-sol campaigns remain open. Physical Mac/Windows/mobile performance is not established.
+
 ## [0.5.0-alpha.1] — 2026-11-14
 
 Published from `1b4d1b8e0907f76a055a8aca85e1073c4eff34eb`, build `43641694667`, with nine assets. The actual published 0.4 Linux installer passed signed-pack activation, repeated healthy startup and tamper recovery. [Acceptance evidence](docs/evidence/update-0.4-to-0.5.json).

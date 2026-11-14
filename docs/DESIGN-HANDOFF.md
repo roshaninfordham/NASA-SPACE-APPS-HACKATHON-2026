@@ -6,7 +6,7 @@
 
 The player is the astronaut, in first person. Mira is a companion character, not a camera mode. Aim for sci-fi wonder: futuristic, unconventional, warm, playful, and compelling to revisit. Young explorers should want to discover another system and try another idea. Do not use coercive rewards, advertising, purchases, or streak pressure.
 
-The current outpost is a mechanics blockout. No silhouette, palette, material, character, icon, typography, or HUD layout is final. The design team can iterate throughout development.
+The current outpost is a procedural visual-development alpha. The three supplied specifications now have [current-name implementation briefs](design-specs/README.md) and an [implementation ledger](SPEC-IMPLEMENTATION.md) that separate shipped/source behavior from remaining art and gameplay targets. No silhouette, palette, material, character, icon, typography, or HUD layout is final. The design team can iterate throughout development.
 
 ## Scientific honesty and artistic freedom
 
@@ -18,18 +18,18 @@ Habitat shells, motion, lighting, audio, materials, and companion expression are
 
 Open `game/art/default_art.tres` in Godot's Inspector. Duplicate the profile for a new art direction and assign it to the main game node. Do not copy or modify the numerical mission model to change art.
 
-| Slot        | Local origin / convention            | Stable responsibility                                     |
-| ----------- | ------------------------------------ | --------------------------------------------------------- |
-| Landscape   | World origin, meters, Y up           | Existing playable floor and boundaries remain             |
-| Habitat     | (0, 2.4, -16)                        | Cosmetic pressure-vessel/lab presentation                 |
-| Refuge      | (-14, 0, -7), entrance toward +Z     | Existing shelter bounds and collisions remain             |
-| Solar array | (16, 0, -8), approach from +Z        | Existing inspection and cleaning interaction remains      |
-| Companion   | (-4, 0, 7), faces +Z                 | Cosmetic character; radio behavior lives in orchestration |
-| Scanner     | Camera-local origin, camera looks -Z | Place visible hands/tool roughly 0.5–0.8 m forward        |
+| Slot               | Local origin / convention            | Stable responsibility                                         |
+| ------------------ | ------------------------------------ | ------------------------------------------------------------- |
+| Landscape          | World origin, meters, Y up           | Existing playable floor and boundaries remain                 |
+| Habitat / interior | (0, 0, -16), configurable origin     | Shell/control-room presentation and reviewed scene collisions |
+| Refuge             | (-14, 0, -7), entrance toward +Z     | Existing shelter bounds and collisions remain                 |
+| Solar array        | (16, 0, -8), approach from +Z        | Existing inspection and cleaning interaction remains          |
+| Companion          | (-4, 0, 7), faces +Z                 | Cosmetic character; radio behavior lives in orchestration     |
+| Scanner            | Camera-local origin, camera looks -Z | Place visible hands/tool roughly 0.5–0.8 m forward            |
 
 World replacements are `PackedScene` resources. GLB models can be imported into a `.tscn` wrapper. The wrapper may implement `apply_mission_visuals(snapshot: Dictionary)` to animate from a **detached** visual snapshot. Keys include time, storm, event state, solar output, both batteries, dose, dust fractions, inspection, shelter, cleaning, conservation, and terminal status. Do not mutate the simulation through the art adapter.
 
-Default procedural meshes are hidden when a replacement is assigned; their collision geometry remains. Changing footprints, walkways, doorway size, equipment locations, shelter volume, or camera clearance is a gameplay change. Update the collision/interaction contract and rerun the gameplay tests; cosmetic swaps must not silently change safety outcomes.
+Default procedural meshes are hidden when a replacement is assigned. Custom habitat/refuge scenes supply their own reviewed collisions; the earlier blockout colliders are not retained underneath them. Other replacement slots preserve their existing mission collision contract. Changing footprints, walkways, doorway size, equipment locations, shelter volume, or camera clearance is a gameplay change. Update the collision/interaction contract and rerun the gameplay tests; cosmetic swaps must not silently change safety outcomes.
 
 ### HUD
 
@@ -47,6 +47,10 @@ The orchestrator binds those names to existing state and actions. Keep instructi
 ### Shared appearance
 
 The art profile provides terrain, hull, structure, instrument, route, interface text and button colors, optional interface/title fonts, scene slots, frame cap, shadows, and particle budget. An optional Godot Theme can supply additional shared control styling. The fallback HUD still contains layout constants; full layout pivots should use a custom HUD scene rather than editing mission rules.
+
+The shared `game/data/visual_style.json` now defines palette, surface roughness/metallic and motif descriptions. Presentation modules use `game/scripts/visual_style.gd` through explicit preloads. The schema validates these tokens and excludes names, numerical science and cosmetic ability bonuses. Brand identity remains in `game/data/brand.json`; future visual pivots should not create an alternative naming source. Not every old per-scene color or camera preset has been extracted yet.
+
+Use the [motif glossary](design-specs/README.md#shared-creative-direction) to keep the design specific: Japanese wave arcs, lattice, blossoms, garment silhouettes and crane embroidery; separately identified Chinese knot inspiration at the airlock. These references describe art direction, not engineering properties or an unverified translation of the product name.
 
 ## Asset delivery
 
@@ -68,7 +72,7 @@ The update client lives under the persistent `Updates` autoload so a mission rel
 
 ## Captures and review material
 
-The inspected 0.4.0-alpha.1 [mission still](media/red-veil-0.4.0-alpha.1-mission.png), [20-second gameplay GIF](media/red-veil-0.4.0-alpha.1-gameplay.gif), [title](media/red-veil-0.4.0-alpha.1-title.png), [academy](media/red-veil-0.4.0-alpha.1-academy.png) and [question](media/red-veil-0.4.0-alpha.1-question.png) captures provide current review material. [Media provenance and reproduction](MEDIA.md) identifies the exact build and scope.
+The 0.5.0-alpha.1 [exterior](media/komaku-0.5.0-alpha.1-exterior.png), [interior](media/komaku-0.5.0-alpha.1-interior.png), [astronaut](media/komaku-0.5.0-alpha.1-astronaut.png), [gameplay](media/komaku-0.5.0-alpha.1-gameplay.gif) and [portrait](media/komaku-0.5.0-alpha.1-portrait.png) captures establish the released visual baseline. New source changes require new captures; these images do not prove that later Suit Lab or inspection changes were present in 0.5. [Media provenance and reproduction](MEDIA.md) identifies the exact build and scope, including historical 0.4 material.
 
 Screenshots and GIFs must come from the running software. Record the source commit or release, build target, viewport, input sequence, and any special test state. Caption the current scene as provisional where appropriate. A browser capture of an update-information screen is not evidence of native installation or restart, and a staged test notification must be labeled as such.
 
@@ -80,7 +84,7 @@ Prioritize a coherent first-person arrival, readable short instructions for ages
 
 Deliver changes through the existing art/theme/scene contracts first. If a design needs a new interaction, collision boundary, global class, autoload or runtime layout, agree that behavior with engineering and update its acceptance checks. A signed content pack must remain compatible with the baseline installer; otherwise use a planned full-installer transition.
 
-## 0.5 visual candidate
+## Scene integration and current limitations
 
 The active profile now binds explicit scene paths under `game/art/red_veil/` (a stable internal resource namespace), including the new `interior_scene` slot. `habitat_origin` is configurable; this design sets it to `(0, 0, -16)` rather than the old cylinder's `(0, 2.4, -16)`. Custom habitat/refuge scenes supply their own deliberately tested collisions; the old blockout colliders are not retained underneath them. Other legacy replacement slots continue to preserve their existing mission collision contract.
 
@@ -89,3 +93,11 @@ Shared `exterior_geometry.gd` and `exterior_ornaments.gd` build reusable surface
 The **Explore the habitat** action enters an untimed first-person review mode. It leaves mission time, energy and exposure unchanged while allowing the control-room power switch to be explored. The timed mission remains a separate action. Capture views and native collision tests document each iteration before release.
 
 The current habitat facade includes an open walkthrough aperture for review. Its transparent window treatment is presentation geometry; a sealed pressure boundary, operating airlock cycle and final window collision design remain unimplemented. The mission does not simulate habitat pressure. Keep this limitation explicit when reviewing the futuristic shell against the concept artwork.
+
+### New reference-led interfaces
+
+The habitat scene exposes inspection-point metadata for a separate `habitat_inspector.gd` overlay. It explains dome, glazing, regolith and airlock principles without changing the mission. A callout anchor is not a certified structure, simulated pressure chamber or interactive construction system.
+
+`suit_lab.gd` owns a single live 3D stage with selectable front/back/detail views, four cosmetic themes and a scrollable experiment card. `suit_experiments.gd` contains five isolated teaching models. The caller owns game pause/resume; the lab does not write to mission state or grant science bonuses for decoration. This efficient viewer differs from the concept's simultaneous multi-camera sheet and must be described accordingly.
+
+Review new interfaces at desktop, portrait and landscape sizes, including keyboard/touch navigation, readable explanations, reachable close controls and restoration of game focus. Check numerical exercises as illustrative lessons; their success thresholds are exercise goals, not exposure limits, real fit settings or equipment certification. The [implementation ledger](SPEC-IMPLEMENTATION.md) lists remaining rigging, reflection, campaign and scientific-model work explicitly.

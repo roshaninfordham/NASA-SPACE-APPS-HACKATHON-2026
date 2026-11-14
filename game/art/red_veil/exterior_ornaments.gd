@@ -114,3 +114,35 @@ static func lantern(parent: Node3D, title: String, center: Vector3, height: floa
 		paths.append(points)
 	strokes(node, "AmberLanternCage", paths, height * 0.018, frame_mat)
 	return node
+
+## Square kumiko lamp: four independently legible lattice faces and a pearl diffuser.
+## Same signature as lantern(), so art variants can be swapped without caller changes.
+static func square_lantern(parent: Node3D, title: String, center: Vector3, height: float, glow_mat: Material, frame_mat: Material) -> Node3D:
+	var node := Node3D.new()
+	node.name = title
+	node.position = center
+	parent.add_child(node)
+	var half_width := height * 0.31
+	var diffuser := MeshInstance3D.new()
+	var box := BoxMesh.new()
+	box.size = Vector3(half_width * 1.84, height * 0.88, half_width * 1.84)
+	diffuser.mesh = box
+	diffuser.material_override = glow_mat
+	node.add_child(diffuser)
+	var paths: Array = []
+	for side in range(4):
+		var angle := side * PI * 0.5
+		var outward := Vector3(sin(angle), 0, cos(angle))
+		var across := Vector3(cos(angle), 0, -sin(angle))
+		for x in [-1.0, -0.33, 0.33, 1.0]:
+			paths.append(PackedVector3Array([outward * half_width + across * x * half_width + Vector3.DOWN * height * 0.5, outward * half_width + across * x * half_width + Vector3.UP * height * 0.5]))
+		for y in [-0.5, -0.26, 0.0, 0.26, 0.5]:
+			paths.append(PackedVector3Array([outward * half_width + across * half_width + Vector3.UP * y * height, outward * half_width - across * half_width + Vector3.UP * y * height]))
+		# Offset rectangular keys make the grid read as joinery rather than bars.
+		for sign_value in [-1.0, 1.0]:
+			var key := PackedVector3Array()
+			for p in [Vector2(-0.16, -0.10), Vector2(0.16, -0.10), Vector2(0.16, 0.10), Vector2(0, 0.10)]:
+				key.append(outward * (half_width + 0.002) + across * p.x * height + Vector3.UP * (p.y + sign_value * 0.22) * height)
+			paths.append(key)
+	strokes(node, "SquareKumikoJoinery", paths, height * 0.018, frame_mat)
+	return node

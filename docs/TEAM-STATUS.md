@@ -4,6 +4,10 @@
 
 The game now has a shared brand configuration, a walkable ornamented habitat and holographic control room, a shielded refuge, Mira's redesigned suit, a new scanner, lantern-lit terrain and an untimed exploration mode. It retains the four-minute first-person science mission, separate energy stores, dust/radiation decisions, and five-concept local practice academy. The new scenes are procedural interpretations of supplied designs; final photoreal art and a complete escort/rescue campaign are not delivered.
 
+## Current source additions
+
+The 0.6 design-specification candidate adds live Suit Lab views and five educational experiments, four habitat callout lessons, denser control-room telemetry and geodesic hologram geometry, architectural/suit material detail, and a shared presentation style file. [The specification ledger](SPEC-IMPLEMENTATION.md) records exact source coverage and the larger unfinished art/campaign requirements. This section does not itself mean the candidate has been published.
+
 ## What the team can demonstrate
 
 - Download and run the Mac universal, Windows x64 or Linux x64 build. Native Mac/Windows packages remain unsigned; Mac is not notarized or physically tested here.

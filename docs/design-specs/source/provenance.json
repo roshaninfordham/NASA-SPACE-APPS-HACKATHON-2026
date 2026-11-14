@@ -1,0 +1,22 @@
+{
+  "received": "2026-11-14",
+  "source": "User-supplied Markdown design specifications",
+  "preservation": "Verbatim reference documents. Embedded branding, audience, engine recommendations and physical claims are not the accepted implementation contract. See ../README.md and ../../SPEC-IMPLEMENTATION.md.",
+  "files": [
+    {
+      "file": "01_Mission_Control_Room_Game_Spec.md",
+      "sha256": "6744976ebf587c2da01ac6e3f64d632843a1c2a4a9e6ec645ff215b281ad482a",
+      "bytes": 21410
+    },
+    {
+      "file": "02_Exterior_Habitat_Game_Spec.md",
+      "sha256": "34d9b805f2f51032d6507cf9b0e7b09b6e03687f26566184f696776467d2f15b",
+      "bytes": 18135
+    },
+    {
+      "file": "03_Explorer_Suit_Game_Spec.md",
+      "sha256": "c517c4ef22e4aa6609dfefb14e66a19e163c55129979ebc26ceb5ae21bb833d4",
+      "bytes": 19118
+    }
+  ]
+}

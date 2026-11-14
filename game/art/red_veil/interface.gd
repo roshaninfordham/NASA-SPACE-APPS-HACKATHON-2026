@@ -1,10 +1,11 @@
 extends Control
 const Branding = preload("res://scripts/branding.gd")
+const VisualStyle = preload("res://scripts/visual_style.gd")
 ## Presentation-only HUD. The game controller owns every action and reading.
-@export var ivory := Color("f1e6d2")
-@export var coral := Color("ff785f")
-@export var cyan := Color("91e7e7")
-@export var ruby := Color("4b1c2a")
+@export var ivory := VisualStyle.color("pearl")
+@export var coral := VisualStyle.color("coral")
+@export var cyan := VisualStyle.color("cyan")
+@export var ruby := VisualStyle.color("wine")
 var _supplied_theme: Theme
 var _font := SystemFont.new()
 var _semibold := SystemFont.new()
@@ -193,6 +194,8 @@ func _build_menu() -> void:
 	_menu_grid.add_theme_constant_override("h_separation", 8)
 	_menu_grid.add_theme_constant_override("v_separation", 8)
 	_menu_content.add_child(_menu_grid)
+	_button(_menu_grid, "SuitLab", "EXPLORER SUIT LAB")
+	_button(_menu_grid, "HabitatNotes", "HABITAT FIELD NOTES")
 	_button(_menu_grid, "Guide", "FIELD GUIDE")
 	_button(_menu_grid, "Academy", "MIRA’S ACADEMY")
 	_button(_menu_grid, "Updates", "UPDATES")
