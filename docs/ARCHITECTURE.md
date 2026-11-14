@@ -1,30 +1,51 @@
-# Architecture and platform decision
+# Red Veil system architecture
 
-## Current choice
+## Primary game runtime
 
-A browser-first game with JavaScript modules, Three.js rendering, and Vite builds. The runtime has one third-party dependency: Three.js. No application framework, physics engine, server, or network API is required during play. This keeps deployment and iteration simple and avoids a separate engine export for each platform.
+Godot 4.6.3 with typed GDScript and the compatibility renderer. The game is an offline first-person adventure. It has no account system, remote game service, analytics SDK, or runtime dependency on a research API.
 
-A Tauri shell is a suitable follow-on for desktop packaging when native capabilities or distribution warrant it. Tauri reuses the system webview; it does not make all webviews behave identically and it does not eliminate the need for macOS, Windows, Linux, Android, and iOS testing. Native signing and store distribution require their platform tooling and credentials. Neither “lowest possible memory” nor “every possible device” is an honest guarantee.
+```mermaid
+flowchart LR
+  Input[Keyboard / mouse / controller / touch] --> Player[Player movement and camera]
+  Player --> Interactions[Proximity and interaction routing]
+  Interactions --> Model[Fixed-step mission model]
+  Sources[Bundled NASA observation ledger] --> Model
+  Model --> Snapshot[Detached visual state]
+  Snapshot --> World[World and equipment adapters]
+  Snapshot --> HUD[Objectives / radio / HUD]
+  Art[Art profile and replacement scenes] --> World
+  Art --> HUD
+  Model --> Debrief[Debrief and local mission log]
+```
 
-## Boundaries
+| Module                             | Responsibility                                                  | Must not own                              |
+| ---------------------------------- | --------------------------------------------------------------- | ----------------------------------------- |
+| `game/scripts/mission.gd`          | Energy, exposure, dust, inspection, terminal rules, baseline    | Scene geometry, input, sound, network     |
+| `game/scripts/player.gd`           | Movement, gravity, camera, instrument presentation              | Resource-budget rules                     |
+| `game/scripts/world.gd`            | World construction, collisions, weather presentation, art slots | Mission outcome logic                     |
+| `game/scripts/game.gd`             | Interaction routing, mission clock, radio, UI binding           | Scientific source values                  |
+| `game/scripts/art_profile.gd`      | Scene, palette, font, and rendering-budget choices              | Physics or safety thresholds              |
+| `game/data/nasa-observations.json` | Units and provenance of sourced numerical observations          | Invented weather presented as measurement |
+| `scripts/build_game.py`            | Tests, exports, notices, checksums, manifest                    | Implicit publication                      |
 
-| Module                | Responsibility                                                   | Does not own          |
-| --------------------- | ---------------------------------------------------------------- | --------------------- |
-| `src/scenarios.js`    | Scenario data, system parameters, source metadata                | Rendering             |
-| `src/simulation.js`   | Pure state transitions, fixed-step integration, advice, baseline | DOM, network, audio   |
-| `src/scene.js`        | Replaceable 3D view adapter                                      | Game rules            |
-| `src/main.js`         | Input, accessible DOM, timing, dialogs, local export             | Scientific parameters |
-| `src/style.css`       | Responsive appearance and motion preference                      | Simulation state      |
-| `scripts/build-sw.js` | Content-versioned offline build cache                            | Remote caching        |
+The simulation updates in fixed steps of 1/120 hour. Four real minutes represent twelve fictional mission hours. Character movement uses real-time Godot physics and 3.71 m/s² gravity; the mission clock is deliberately compressed. This is a teaching abstraction, not a consistently time-scaled physical reconstruction.
 
-Simulation time uses hours, energy kWh, power kW, accumulated dose mSv. Fixed steps are 1/120 hour. The renderer targets 30 fps and caps pixel ratio at 1.5. Scene geometry is procedural, with no downloaded textures or character assets. No dynamic shadows or postprocessing passes. DOM updates are throttled. Hidden tabs pause rather than consuming mission resources.
+Native inspection is a physical hold-to-interact task. Its illustrative work-duration parameter is shorter than the earlier dashboard's passive inspection. The refuge is entered by walking into its spatial bounds; exposure continues while walking. There is no scripted return-time teleport in the first-person implementation.
 
-## Evolution
+## Design-team replacement boundary
 
-Add scenarios as data with explicit units and provenance. Extend pure state transitions before adding a control. Every coupled energy or exposure mechanism needs a regression test. Replace the scene adapter with commissioned art, a different character style, or a different renderer while preserving the simulation contract. Asset revisions must include license and attribution records. Avoid unbounded event histories; a mission is finite and sampled at a bounded cadence.
+Scene slots, shared palette/font settings, a custom HUD contract, and detached visual snapshots are implemented. See [design handoff](DESIGN-HANDOFF.md). A visual replacement preserves existing collision geometry. A different footprint, doorway, shelter volume, or interaction distance requires a gameplay change and validation.
 
-The current controller uses understandable rules. A future predictive controller should be compared against multiple baselines on held-out scenarios with identical inputs. ML is not justified until there is a dataset and a measurable benefit over these rules.
+This does not make every future engine change free. It makes presentation changes local and keeps numerical rules testable. The current orchestration module still contains the fallback HUD builder; design-owned HUD scenes are the intended route for larger interface pivots.
 
-## Known engineering work
+## Earlier web prototype
 
-The initial UI controller should be split into smaller view modules as screens grow. State exports are versioned but import/migration is not implemented. Native shell, localization, automated accessibility audit, WebKit/Firefox checks, graphics context-loss recovery, and physical-device performance measurements remain release gates. An offline first load still requires downloading the application.
+The repository-root Vite/Three.js application remains a reference prototype and independent model testbed. Its modules are `src/scenarios.js`, `src/simulation.js`, `src/scene.js`, `src/view.js`, and `src/main.js`. It must not be mistaken for the final game. The two implementations share source observations and scientific principles; their interaction-specific timing differs and is documented rather than claimed equivalent.
+
+## Performance and privacy
+
+The Godot art profile caps frame rate and particle count and can disable shadows. Assets are local. Short sound effects come from a licensed source. Bounded mission state is saved in a local JSON log, with no personal fields. Native memory, battery use, and thermal behavior are not yet characterized on the target M5 or mobile hardware. Do not call the implementation the lowest-resource engine choice without comparative measurements.
+
+## Release process
+
+The pinned engine/template installer verifies SHA-512 against the official release manifest. The build script runs native checks, exports four targets, smoke-tests the exported Linux binary, packages attribution and documentation, and emits SHA-256 checksums plus a source-commit manifest. The manual GitHub workflow produces downloadable CI artifacts; public game downloads are separately published as Release assets. Native signing and store distribution are separate release gates.

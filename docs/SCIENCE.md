@@ -14,9 +14,9 @@ The challenge URL returned HTTP 503 during verification. The user-supplied brief
 
 ## Explicitly illustrative inputs
 
-Every scenario storm curve and solar particle event is synthetic. Battery capacities, loads, dust-deposition and cleaning rates, nine-minute return time, inspection duration, capacity bonus, recovery threshold, radiation shelter factor, and dose abort threshold are game-design assumptions. The forecast is exact in this introductory model; real forecasts are uncertain.
+Every scenario storm timeline and solar particle event is synthetic. The reference prototype’s Red front peak optical depth is sourced from NASA’s published June 2018 Opportunity observation near 11; the curve around it remains invented. Battery capacities, loads, dust-deposition and cleaning rates, nine-minute return time, inspection duration, capacity bonus, recovery threshold, radiation shelter factor, and dose abort threshold are game-design assumptions. The forecast is exact in this introductory model; real forecasts are uncertain.
 
-The game's NASA data integration currently consists of a sourced historical radiation measurement plus NASA-supported mechanisms. It does **not** yet replay a NASA time-series dataset. Stronger competition data integration requires importing an appropriately licensed observational dataset, preserving provenance, and separating observed variables from synthetic extrapolation. Do not describe the prototype as a NASA-calibrated habitat simulator.
+The first-person game uses a sourced historical radiation measurement plus NASA-supported mechanisms. The reference web prototype additionally uses NASA’s published Opportunity optical depth near 11 in its Red front scenario. It does **not** yet replay a NASA time-series dataset. Stronger competition data integration requires importing an appropriately licensed observational dataset, preserving provenance, and separating observed variables from synthetic extrapolation. Do not describe the prototype as a NASA-calibrated habitat simulator.
 
 ## Equations and units
 
@@ -42,3 +42,9 @@ The game threshold of 4 mSv is not a NASA exposure limit or a claim of imminent 
 ## Fair comparisons
 
 The fixed baseline begins sheltered with panel cleaning on and normal electrical demand. It skips the EVA inspection. Both runs use the same environmental function and abort rules. Aborted runs stop accumulating resources and dose, so the debrief displays survival time as well as status. This baseline illustrates one bad policy; it does not establish that AEGIS is optimal or universally better. The transparent adviser can also be evaluated directly in the unit tests.
+
+## First-person implementation differences
+
+The native first mission uses the First light weather profile. Inspection requires holding the interaction at the equipment; its work-duration parameter is 0.3 simulated hours rather than the reference prototype's 2.5-hour passive-work parameter. This is deliberately compressed tactile gameplay. Shelter is a spatial volume entered on foot, so the actual walk replaces the dashboard's nine-minute return timer. The native log tracks the exposed player as the displayed crew dose, not independent dosimetry for both characters.
+
+The native mission clock runs twenty times faster than wall time for resource integration, while movement uses real-time engine physics with Mars gravity. Therefore scene distances, human activity times, and environmental evolution are not one physically coherent time-scale simulation. This limitation must remain explicit in scientific claims.

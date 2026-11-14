@@ -1,26 +1,36 @@
 # Validation record
 
-## Verified in this environment
+## First-person Godot game
 
-- Node 24.22.1; frozen dependency installation via package lock.
-- Sixteen simulation tests: habitat energy balance, dose accumulation, passive shielding, atmospheric-versus-surface dust, mandatory life support, deterministic and viable adaptive policies for three scenarios, fixed-policy failures, terminal-state invariance, invalid time steps, separate suit/visor energy, shelter travel, inspection visibility, and suit aborts.
-- Production build with local assets and a content-versioned offline cache.
-- Chromium desktop (1440 px) and mobile-sized (390 px) interaction checks: briefing, launch, conservation, shelter command, pause, field guide, scenario selection, no horizontal overflow, and no uncaught browser errors.
-- Complete guided mission in low-graphics mode on both browser sizes, successful debrief, mission-log download, and restart.
-- Production offline reload, mission launch, visor control, and zero third-party runtime requests.
-- Visual inspection of desktop capture. This is a prototype art direction, not final approved art.
+Verified with Godot 4.6.3 in the Linux build environment:
 
-## Still required before a product-grade claim
+- Nine numerical checks: habitat energy conservation, separate suit/visor power, visibility and inspection, viable shelter/conservation policy, indoor suit behavior, calculated fixed-policy failure, unsheltered dose abort, and terminal-state invariance.
+- Ten interaction checks: launch, HUD positioning, equipment proximity, held inspection, cleaning switch, conservation kiosk, physically entering refuge, pause, successful complete mission, and debrief.
+- Art replacement contract: custom scene injection and detached snapshots do not change mission state.
+- Headless full-scene startup and exported Linux binary startup.
+- Web export opened and launched in Chromium with no captured browser errors. Screenshots exposed a HUD anchoring issue that was corrected and covered by the integration check.
+- macOS universal export inspected for both arm64 and x86_64 Mach-O slices. This does not establish that it has launched on a Mac.
 
-- Physical MacBook M5 profiling: cold start, frame times, RSS, power use, and thermal behavior. Cloud Chromium timings are not a substitute.
-- Real Safari/WebKit, Firefox, iOS, Android, Windows, Linux, keyboard-only and screen-reader sessions.
-- Additional browser walkthroughs for each abort branch and graphics-context recovery.
-- Context-loss and low-memory recovery, versioned save migration, native package signing and verification.
-- Subject-matter review of radiation/energy simplifications and review of current challenge rules.
-- Age-appropriate supervised playtesting for comprehension, fun, reading burden, and learning transfer. No children have been recruited or data collected.
+## Earlier web simulation prototype
 
-## Proposed measurable acceptance criteria
+- Eighteen model tests, including meaningful visor-cleaning trade-offs and the sourced Opportunity opacity scenario.
+- Eight browser checks across desktop/mobile viewport configurations: interactions, complete mission and export, WebGL context loss/restoration, and automated WCAG checks on briefing, cockpit, and guide.
+- Production offline reload and zero third-party runtime requests during the tested flow.
 
-At least 80% of pilot participants should explain why clean panels may still produce little power under a dusty sky after one guided mission. At least 80% should identify that visor and habitat cleaners draw from different energy stores. These are targets, not results.
+These accessibility results apply to the web prototype, not automatically to Godot's canvas UI.
 
-Performance targets to measure on agreed devices: first interaction within two seconds from a local cached launch; stable 30 fps during the mission; no growing memory across ten restarts. Set hard memory targets after measuring a physical low-end device and the primary MacBook. Compare alternatives using identical content rather than framework marketing numbers.
+## Release gates still open
+
+- Physical MacBook M5 launch and profiling: frame pacing, memory, battery use, input, and thermal behavior.
+- Windows desktop launch, broader Linux graphics coverage, and actual Safari/WebKit, iOS, and Android devices.
+- Apple signing/notarization and Windows signing; native Android/iOS packaging.
+- Native screen-reader accessibility, localization, portrait/mobile safe areas, and stronger controller-navigation coverage.
+- Scientist/engineer review of shielding, energy, and atmosphere simplifications; current challenge and sponsor-rule verification.
+- Supervised playtesting with ages 7–12 for comprehension, engagement, and learning transfer. No children have been recruited and no user-study results exist.
+- Final design-team art, animation, audio direction, and optimized replacement assets.
+
+## Measurable next targets
+
+After a guided mission, aim for at least 80% of pilot participants to explain why clean panels may still generate little power under a dusty sky, and to distinguish suit energy from habitat energy. These are proposed acceptance criteria, not results.
+
+Measure cached launch time, stable 30/60 fps presets, and memory across ten restarts on agreed physical devices. Set hard memory budgets from those observations. Software-rendered cloud Chromium is not a substitute for Apple Silicon GPU measurements.
