@@ -1,41 +1,88 @@
 # Red Veil
 
-**Primary game: [first-person Godot implementation](game/README.md).** The web dashboard below remains a simulation/reference prototype. Native download packaging is in progress.
+**Become the astronaut. Find a way through the veil.**
 
-A Mars survival game for curious explorers ages 7–12. Coordinate a habitat, a spacesuit, and a dusty visor through two independent hazards. Protect the crew, preserve power, and discover why timing matters.
+A first-person Mars survival adventure for ages 7–12. Explore an outpost, inspect its equipment, protect your suit, and make the energy decisions that bring your crew home.
 
-**Status:** playable web prototype in active development. Not certified astronaut training. Native packages and device-specific performance certification are not yet complete.
+[![Validation](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml/badge.svg)](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml)
 
-## Run
+**Status: early playable mechanics alpha.** The design team is developing the visual identity. Current geometry, characters, scanner, and interface are provisional and replaceable. This is not final artwork, certified astronaut training, or a product-grade release.
 
-Requires Node.js 22.12+ (tested with Node 24.22.1).
+![First-person mechanics alpha with provisional art](docs/media/first-person-alpha.png)
+
+## Play on your laptop
+
+Get the game from [GitHub Releases](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases). Release notes identify available downloads, exact source commit, and what was tested. Game installers belong in Releases; an empty GitHub Packages tab does not mean downloads are missing.
+
+The build pipeline creates macOS universal, Windows x64, Linux x64, and Web archives, with licenses and SHA-256 checksums. The Mac universal binary includes arm64 for Apple Silicon, including M5, and x86_64 for Intel. Early Mac and Windows builds are unsigned; the Mac build is not notarized. Physical Mac/Windows launches and device-specific performance remain to be verified. Native Android and iOS installers are not yet provided.
+
+See [download instructions](docs/DOWNLOADS.md). No development tools are required to play the native app.
+
+## Your first mission
+
+Mira, your crewmate, needs you at the solar array. A dust storm will dim the sky. A separate particle event will make the refuge important. You have four minutes, two batteries, and decisions that matter.
+
+- Walk to the array and hold the interaction to inspect it.
+- Clear the visor when visibility slows your work. It uses **suit** energy.
+- Clean solar panels when sunlight makes it worthwhile. They use **habitat** energy.
+- Conserve nonessential power while preserving life support.
+- Walk into the pre-shielded refuge before the particle event.
+- Finish with enough reserve to recover, then discover what your choices changed.
+
+Keyboard: **WASD** move, **mouse** look, **E** use/hold to inspect, **Q** visor, **Space** hop, **Escape** pause, **F1** guide. Controller and landscape touch controls are included; further device testing is required.
+
+## Design direction
+
+Sci-fi wonder, unusual forms, tactile discovery, and a world young explorers want to revisit. Scientific behavior stays explicit while the art evolves. Normally invisible phenomena may appear through labeled instrument visualizations; spectacular presentation must not imply false physics.
+
+The game provides replaceable scene slots, palette/font profiles, a custom HUD contract, and detached visual-state snapshots. Your design team can replace the habitat, refuge, array, companion, scanner, landscape, and HUD without rewriting the mission equations. Changed collision shapes or shelter volumes still require gameplay validation.
+
+Read the [design-team handoff](docs/DESIGN-HANDOFF.md).
+
+## Build and develop
+
+The primary game uses **Godot 4.6.3**, typed GDScript, and the compatibility renderer. Open `game/project.godot` in the editor, or:
 
 ```sh
-npm ci
-npm run dev
+godot --path game
 ```
 
-Open the development server on port 5173. `npm run build` creates a static `dist/` deployment, including an offline service worker. `npm run preview` serves that build on port 4173. Service workers require HTTPS or a loopback address. First load must be online before offline use.
-
-## Play
-
-Read the short mission briefing, then launch. Use the habitat controls and the visor control; keyboard shortcuts 1–4 activate them. Space pauses when focus is outside a button. All controls are touch accessible. Shelter return takes nine simulated minutes; suit life support stays on during the journey. Sound is optional and synthesized locally. Tab switching pauses the mission. Use the field guide for equations and limitations.
-
-## Validate
+Run the native checks:
 
 ```sh
-npm test
-npm run build
-npm run test:e2e
+godot --headless --path game --editor --import
+godot --headless --path game --script res://tests/mission_test.gd
+godot --headless --path game --script res://tests/gameplay_test.gd
+godot --headless --path game --script res://tests/art_contract_test.gd
 ```
 
-Browser tests use `/usr/bin/chromium` by default. Set `CHROMIUM_PATH` to a local Chromium executable if necessary. Tests cover desktop and narrow mobile layouts. See [validation](docs/VALIDATION.md) for what has and has not been measured.
+With the official export templates installed:
 
-## Design and evidence
+```sh
+python3 scripts/build_game.py --version 0.2.0-alpha.2
+```
 
-- [Core brief](docs/CORE-BRIEF.md): source-of-truth scope and audience
-- [Science](docs/SCIENCE.md): equations, provenance, assumptions, and limitations
-- [Architecture](docs/ARCHITECTURE.md): module boundaries and extension points
-- [Validation](docs/VALIDATION.md): verification and release gaps
+The Linux CI installer verifies the official SHA-512 manifest. The manual **Build downloadable game** workflow creates archives and a source-commit manifest. Publication is explicit and separate from building.
 
-No remote fonts, advertising, analytics, runtime APIs, or account system. A best-score value is stored locally and can be cleared from the field guide. Mission logs are downloaded only on request. External NASA references open only when selected. Hosting providers may retain normal access logs; deployment policy is separate from game code.
+The earlier web dashboard remains a reference model in `src/`. For that prototype only: install Node 22.12+ and run `npm ci`, `npm run dev`, `npm test`, or `npm run test:e2e`. It is not the chosen final game interface.
+
+## Evidence and documentation
+
+| Topic                                        | Document                                   |
+| -------------------------------------------- | ------------------------------------------ |
+| Product scope and original brief             | [Core brief](docs/CORE-BRIEF.md)           |
+| Framework choice and open-source foundations | [Engine decision](docs/ENGINE-DECISION.md) |
+| Components and data flow                     | [Architecture](docs/ARCHITECTURE.md)       |
+| Art replacement contracts                    | [Design handoff](docs/DESIGN-HANDOFF.md)   |
+| Equations, source data, and limitations      | [Science](docs/SCIENCE.md)                 |
+| Completed checks and release gates           | [Validation](docs/VALIDATION.md)           |
+| Download and device instructions             | [Downloads](docs/DOWNLOADS.md)             |
+| Demo narrative and judging evidence          | [Submission workspace](docs/SUBMISSION.md) |
+| Learner and device testing                   | [Playtest protocol](docs/PLAYTEST.md)      |
+| Asset and engine attribution                 | [Credits](CREDITS.md)                      |
+
+## Privacy and scientific limits
+
+No accounts, ads, analytics, or remote game APIs. A mission summary is stored locally. Source observations are bundled for offline use; publication summaries are not raw time-series datasets. Hardware loads, shielding factors, mission limits, and the compressed emergency timeline are illustrative. The companion uses transparent rules, not a trained ML model. NASA does not endorse the project.
+
+For feedback, include the release version, device, OS, and steps to reproduce. Do not include personal information in public issues.
