@@ -54,8 +54,56 @@ jobs:
           path: releases/distribution/*
           if-no-files-found: error
           retention-days: 14
-      - name: Publish verified draft assets
-        if: inputs.publish
+
+  native_launch:
+    needs: exports
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.revision }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          name: red-veil-downloads
+          path: releases/distribution
+      - name: Verify exact native package and launch
+        run: python scripts/verify_native_package.py --distribution releases/distribution --report native-launch.json --require-graphical
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-launch-${{ matrix.os }}
+          path: |
+            native-launch.json
+            native-launch-logs/
+          if-no-files-found: error
+
+  publish:
+    needs: [exports, native_launch]
+    if: inputs.publish
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.revision }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/download-artifact@v4
+        with:
+          name: red-veil-downloads
+          path: releases
+      - name: Publish only after native launch gates pass
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_VERSION: ${{ inputs.version }}
@@ -64,7 +112,7 @@ jobs:
   # GITHUB_TOKEN-created releases do not trigger the release event workflow.
   # Hosting is deferred by the owner; opt in only after its public URL is verified.
   deploy_web:
-    needs: exports
+    needs: publish
     if: inputs.publish && vars.RED_VEIL_WEB_DEPLOY_ENABLED == 'true'
     permissions:
       contents: read

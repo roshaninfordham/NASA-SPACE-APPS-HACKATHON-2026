@@ -7,7 +7,6 @@ const Verifier = preload("res://updater/verifier.gd")
 const RELEASES_URL := "https://api.github.com/repos/" + Verifier.REPOSITORY + "/releases?per_page=20"
 const RELEASE_PAGE := "https://github.com/" + Verifier.REPOSITORY + "/releases"
 const MAX_RELEASE_BYTES := 1024 * 1024
-const DAY := 86400
 const MANUAL_COOLDOWN_MS := 15000
 
 var store: Object
@@ -27,14 +26,13 @@ var _signature := PackedByteArray()
 var _request: HTTPRequest
 var _request_generation := 0
 var _last_request_ticks := -MANUAL_COOLDOWN_MS
-var _last_check := 0
+var _checked_this_session := false
 var _download_cancelled := false
 
 func configure(update_store: Object, version: String, directory: String = "user://updates/incoming") -> void:
 	store = update_store
 	current_version = version
 	working_directory = directory
-	_last_check = _read_check_time()
 	repair_available = _needs_repair()
 	if not _desktop_supported():
 		message = "This build shows update notices, but installing updates inside the game is not available here. You can view current download options."
@@ -57,26 +55,6 @@ func can_install() -> bool:
 
 func release_url() -> String:
 	return RELEASE_PAGE if available_version.is_empty() else RELEASE_PAGE + "/tag/v" + available_version
-
-func _read_check_time() -> int:
-	var file := FileAccess.open(working_directory.path_join("last-check.json"), FileAccess.READ)
-	if file == null or file.get_length() > 256: return 0
-	var json := JSON.new()
-	if json.parse(file.get_as_text()) != OK or not json.data is Dictionary: return 0
-	var value: Variant = json.data.get("checked_at", 0)
-	if not (value is int or value is float) or not is_finite(float(value)) or value < 0 or value > 1000000000000: return 0
-	return int(value)
-
-func _record_check_time(now: int) -> void:
-	_last_check = now
-	if DirAccess.make_dir_recursive_absolute(working_directory) != OK: return
-	var path := working_directory.path_join("last-check.json")
-	var file := FileAccess.open(path + ".pending", FileAccess.WRITE)
-	if file == null: return
-	file.store_string(JSON.stringify({"checked_at": now}))
-	file.flush()
-	file.close()
-	DirAccess.rename_absolute(path + ".pending", path)
 
 static func select_release(raw: PackedByteArray, version: String) -> Dictionary:
 	if raw.is_empty() or raw.size() > MAX_RELEASE_BYTES: return {"ok": false, "error": "release_size"}
@@ -104,14 +82,15 @@ static func select_release(raw: PackedByteArray, version: String) -> Dictionary:
 
 func check_for_updates(force: bool = false) -> void:
 	if busy or ready_to_restart: return
-	var now := int(Time.get_unix_time_from_system())
-	if not force and _last_check > 0 and now - _last_check < DAY: return
+	# Each fresh launch checks once. A failed/offline launch must not suppress
+	# discovery on tomorrow's (or the next minute's) launch via persisted state.
+	if not force and _checked_this_session: return
 	if Time.get_ticks_msec() - _last_request_ticks < MANUAL_COOLDOWN_MS:
 		message = "Please wait a moment before checking again."
 		changed.emit()
 		return
 	_last_request_ticks = Time.get_ticks_msec()
-	_record_check_time(now)
+	_checked_this_session = true
 	busy = true
 	status = "checking"
 	message = "Checking GitHub for a new adventure…"

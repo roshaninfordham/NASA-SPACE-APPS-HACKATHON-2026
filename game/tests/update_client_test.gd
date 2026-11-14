@@ -215,9 +215,32 @@ func run() -> void:
 	await client.check_for_updates(true)
 	var requests_before := client.requests.size()
 	await client.check_for_updates(false)
-	check(client.requests.size() == requests_before, "Automatic checks are limited to once per day")
+	check(client.requests.size() == requests_before, "Automatic checks run at most once in the current session")
 	await client.check_for_updates(true)
 	check(client.requests.size() == requests_before, "Repeated manual checks are briefly throttled")
+	# A legacy timestamp must not hide a newly published release on a fresh launch.
+	var shared_folder: String = client.working_directory
+	DirAccess.make_dir_recursive_absolute(shared_folder)
+	var legacy_check := FileAccess.open(shared_folder.path_join("last-check.json"), FileAccess.WRITE)
+	legacy_check.store_string(JSON.stringify({"checked_at": int(Time.get_unix_time_from_system())}))
+	legacy_check.close()
+	var reopened := make_client()
+	reopened.configure(reopened.store, CURRENT, shared_folder)
+	await reopened.check_for_updates(false)
+	check(reopened.status == "available" and reopened.requests.size() == 3, "Fresh launch checks despite an old install's recent persisted timestamp")
+	client = make_client()
+	client.responses[Client.RELEASES_URL] = {"ok": false, "error": "offline"}
+	await client.check_for_updates(false)
+	await client.check_for_updates(false)
+	check(client.status == "error" and client.requests.size() == 1, "Failed automatic check does not retry repeatedly within one session")
+	reopened = make_client()
+	reopened.configure(reopened.store, CURRENT, client.working_directory)
+	await reopened.check_for_updates(false)
+	check(reopened.status == "available", "Next launch retries discovery after a previous offline launch")
+	client.responses[Client.RELEASES_URL] = {"ok": true, "body": encoded([release(NEXT)])}
+	client._last_request_ticks = -Client.MANUAL_COOLDOWN_MS
+	await client.check_for_updates(true)
+	check(client.status == "available", "Manual retry remains available after the short throttle expires")
 	# Exercise the real completion handler with a stale request after a retry began.
 	var real_client := Client.new()
 	root.add_child(real_client)

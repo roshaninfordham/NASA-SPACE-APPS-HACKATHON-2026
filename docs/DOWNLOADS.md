@@ -6,15 +6,20 @@ From version 0.5 onward, ZIP names begin with `KOMAKU-Shield-Protocol-<version>`
 
 ## MacBook with Apple Silicon, including M5
 
-Download the macOS universal ZIP from the release, extract it, and open `KŌMAKU- Shield Protocol.app`. The universal binary contains both arm64 and x86_64 slices. No Node, Rust, Godot editor, or terminal is needed to play the app.
+Version **0.6.1-alpha.1** corrects the invalid Mac bundle signature in 0.6.0. If your existing app says “damaged,” download the corrected macOS universal ZIP; an app that cannot launch cannot install its own content update. Saves stay in the existing user-data location.
 
-Early alpha builds are unsigned and not notarized. macOS may block opening them. Verify that the download comes from this repository and compare the published SHA-256 checksum. If you choose to trust this alpha, use Apple's documented **Privacy & Security → Open Anyway** workflow. Do not disable Gatekeeper globally. Signing and notarization require the project's Apple developer identity and are not completed by this build.
+1. Download the macOS universal ZIP from the official release and extract it. It includes Apple Silicon (arm64, including M5) and Intel (x86_64).
+2. Open `KŌMAKU- Shield Protocol.app`. This alpha is locally **ad-hoc signed**, but has **no Apple Developer ID or notarization**. A valid integrity signature does not grant Apple's downloaded-app approval.
+3. If macOS blocks it, use **System Settings → Privacy & Security → Open Anyway**, when offered, after confirming that you trust this project's download.
+4. If macOS offers no usable override, the ZIP includes **Install KŌMAKU.command**. It checks the app's signature, asks for explicit consent, copies it into your own `~/Applications`, keeps an existing app as a backup, removes quarantine **only from that verified copy**, and opens it. It needs no administrator password. It does not establish publisher authenticity: use it only for a trusted official download.
 
-The alpha has been cross-exported on Linux, not launched on a physical Mac. M5 performance and input behavior need your testing before any quality claim.
+If macOS also blocks the `.command` file, open Terminal, type `/bin/bash ` (including the trailing space), drag **Install KŌMAKU.command** from Finder into Terminal, and press Return. Read the consent dialog before continuing. This is a one-time local installation step; no developer tools or account enrollment are needed. Do not run commands that disable Gatekeeper globally. For an extra integrity check, compare `shasum -a 256 <downloaded-zip>` with the release's `SHA256SUMS.txt`.
+
+Native Actions gates check the exact archive's strict bundle signature, both architectures, and headless/graphical startup. They do not reproduce every Finder download route or certify M5 performance. [Root cause and verification limits](MACOS-LAUNCH-REPAIR.md).
 
 ## Windows and Linux
 
-Windows x64: extract the ZIP and run `KOMAKU-Shield-Protocol.exe`. The early build is unsigned and may trigger a reputation warning. Windows runtime testing is still required.
+Windows x64: extract the **whole ZIP** and run `KOMAKU-Shield-Protocol.exe`. No editor or development runtime is needed. Windows may show SmartScreen because this alpha has no publisher certificate/reputation. Only if you trust this repository's download, use the available **More info → Run anyway** option. Managed-device policy can prohibit that override. Release builds now require native Windows headless and graphical startup checks; this does not remove SmartScreen.
 
 Linux x64: extract the ZIP and run `KOMAKU-Shield-Protocol.x86_64`. A headless launch of the exported binary is verified in the build environment. Desktop-driver and distribution coverage are not established by that check.
 

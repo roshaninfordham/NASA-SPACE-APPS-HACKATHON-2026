@@ -2,6 +2,18 @@
 
 All published game versions and notable unreleased work are recorded here. The version and source commit in each release manifest identify the exact downloadable build. Documentation on `main` can be newer than an installer.
 
+## [0.6.1-alpha.1] — 2026-11-14
+
+Packaging and update-discovery repair. Gameplay and 0.6 artwork are unchanged.
+
+- Enable Godot's built-in ad-hoc Mac bundle signing, replacing the inherited engine-template signature that failed strict native verification in the public 0.6.0 download.
+- Include a consent-based Mac installer that verifies integrity, installs into the user's Applications folder, preserves the previous app and changes quarantine only for that copied app. No Developer ID/notarization is claimed.
+- Require native macOS signature, universal architecture, headless and graphical startup checks and native Windows startup checks on the exact exported ZIPs before publishing.
+- Check for content updates on every fresh launch; remove the persisted daily suppression that could hide releases after an offline launch. Keep manual checks, signature verification, explicit restart and rollback.
+- Document the initial-installation trust boundary and why a broken Mac bundle needs one corrected full download. Existing saves, bundle identity and signed-content trust root remain unchanged.
+
+[Mac root-cause report](docs/MACOS-LAUNCH-REPAIR.md). Native Windows remains unsigned; macOS remains unnotarized. Final release notes identify the accepted build and native test evidence.
+
 ## [0.6.0-alpha.1] — 2026-11-14
 
 Published from `c0beba698c32741fb17f6c8e9ec44fd6bb875852`, signed build `43645098947`, with nine assets. [The actual 0.4 installer compatibility gate](docs/evidence/update-0.4-to-0.6.json) verifies signed activation, repeat startup and corruption recovery; [release evidence](docs/evidence/release-0.6.0-alpha.1.json) records public-file verification.

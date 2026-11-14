@@ -2,7 +2,11 @@
 
 ## What players can expect
 
-The current **v0.6.0-alpha.1** desktop installer includes the signed-content updater introduced in 0.4. The actual published 0.4 Linux installer passed the [0.6 compatibility and recovery gate](evidence/update-0.4-to-0.6.json). The older v0.3 installer needs one manual upgrade. [Linux live-download/restart/recovery evidence](evidence/update-0.4.0-alpha.1.json) records the exact release and limits: the baseline was a disposable older-version fixture, not a previously shipped installer; physical Mac/Windows acceptance remains open.
+The **0.6.1-alpha.1 packaging repair** keeps the signed-content updater introduced in 0.4. Broken 0.6.0 Mac installations need one corrected full download: a content pack cannot repair the enclosing app signature, and a blocked app cannot run its updater. The older v0.3 installer also needs one manual upgrade. Existing saves and the pinned update key remain compatible.
+
+From 0.6.1, discovery runs on every fresh game launch, once per process. The title screen also has **Check for updates**. An offline launch does not suppress checks for the following day. Updates appear at safe menu/debrief points, not over an active mission. There are no background notifications while the game is closed and no forced restart. Network availability and GitHub rate limits can delay discovery.
+
+The actual published 0.4 Linux installer passed the [0.6 compatibility and recovery gate](evidence/update-0.4-to-0.6.json). [Earlier Linux live-download/restart/recovery evidence](evidence/update-0.4.0-alpha.1.json) used a disposable older-version fixture. Native startup gates and content activation tests have distinct evidence scopes; neither implies every physical device has been tested.
 
 The desktop flow is **Update available → Install → Restart**. Checks use this public GitHub repository without a GitHub login. The game checks a signed manifest and exact pack size/hash before staging new game content. It keeps the previous working content for recovery if startup fails. It never asks a player for administrator credentials or a GitHub token. A missing signing configuration allows a manual-preview release notice, not unsigned automatic installation.
 
@@ -67,6 +71,8 @@ Signed builds produce the four platform ZIPs plus these fixed assets:
 The content manifest binds the exact repository, version, source commit, Godot version, runtime contract, pack filename, length, and SHA-256 hash. Its detached RSA/SHA-256 signature is verified against the same public key included in the installers. Checksums cover all four ZIPs and all three update assets. Only the exact declared files enter `releases/distribution/` and the Actions artifact; stale packs from older local builds are excluded.
 
 ## Publication and source binding
+
+The build workflow must pass native Mac signature/universal-binary/startup checks and Windows startup checks on the exact archives before publication. The exported Linux startup is checked during export. A failed native gate blocks both direct publication and acceptance of that build run.
 
 Create a draft targeting the exact built source commit. The workflow's `publish=true` path verifies the draft version, source target, and any existing tag. It verifies local hashes and, for signed releases, the signature and full content manifest before uploading. After upload it checks the complete asset set, sizes, and GitHub-provided digests when available, then publishes a prerelease. It refuses to replace an already published release. Unexpected draft assets require review; they are not silently deleted.
 

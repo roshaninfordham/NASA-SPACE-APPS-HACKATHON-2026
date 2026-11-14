@@ -155,6 +155,11 @@ def export_game(version, private_key=None):
     shutil.copyfile(OUT / (brand()["package_stem"] + "-macOS-universal.zip"), mac)
     with zipfile.ZipFile(mac, "a", compression=zipfile.ZIP_DEFLATED) as archive:
         documents(archive)
+        installer = zipfile.ZipInfo("Install KŌMAKU.command")
+        installer.create_system = 3
+        installer.external_attr = 0o100755 << 16
+        installer.compress_type = zipfile.ZIP_DEFLATED
+        archive.writestr(installer, (ROOT / "scripts/macos-install.command").read_bytes())
     assets.append(mac)
     for folder, suffix in [("linux", "Linux-x64"), ("windows", "Windows-x64"), ("web", "Web")]:
         output = OUT / f"{prefix}-{suffix}.zip"
@@ -174,7 +179,7 @@ def export_game(version, private_key=None):
     manifest = {
         "display_name": brand()["display_name"], "package_stem": archive_stem(version),
         "version": version, "commit": commit, "engine": "Godot 4.6.3", "status": "early alpha",
-        "signing": "macOS and Windows unsigned; macOS not notarized",
+        "signing": "macOS ad-hoc signed (no Developer ID/notarization); Windows unsigned",
         "signed_content_updates": private_key is not None,
         "verified": ["headless numerical tests", "headless complete mission interactions", "art replacement contract", "local learning and profile recovery", "signed manifest rejection checks", "update client/UI integration", "real-PCK baseline boot and rollback fixtures", "release signing/publication tests", "exported Linux headless startup"],
         "not_verified": ["physical macOS and Windows launch", "M5 performance", "mobile devices", "child playtesting", "expert scientific review"],

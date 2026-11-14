@@ -1,0 +1,93 @@
+{
+  "version": "0.6.0-alpha.1",
+  "diagnostic_run": 43647118906,
+  "artifact_sha256": "4c0caf99c2d39d8c178aa8733508aab56d389bc057ea59fb402e4195f4df77b7",
+  "os": "macOS 26.7.2",
+  "hardware": "Apple M2 Pro virtual machine (arm64)",
+  "reported_user_hardware": "Apple M5; user reports Tahoe 26.6.2",
+  "checks": [
+    {
+      "label": "original-codesign-display",
+      "exit_code": 0,
+      "scene_ready_marker": false
+    },
+    {
+      "label": "original-codesign-verify",
+      "exit_code": 1,
+      "scene_ready_marker": false
+    },
+    {
+      "label": "original-gatekeeper-assess",
+      "exit_code": 1,
+      "scene_ready_marker": false
+    },
+    {
+      "label": "original-quarantine",
+      "exit_code": 0,
+      "scene_ready_marker": false
+    },
+    {
+      "label": "original-direct-smoke",
+      "exit_code": 0,
+      "scene_ready_marker": true
+    },
+    {
+      "label": "adhoc-sign",
+      "exit_code": -10,
+      "scene_ready_marker": false
+    },
+    {
+      "label": "adhoc-codesign-display",
+      "exit_code": 0,
+      "scene_ready_marker": false
+    },
+    {
+      "label": "adhoc-codesign-verify",
+      "exit_code": 1,
+      "scene_ready_marker": false
+    },
+    {
+      "label": "adhoc-gatekeeper-assess",
+      "exit_code": 1,
+      "scene_ready_marker": false
+    },
+    {
+      "label": "adhoc-quarantine",
+      "exit_code": 0,
+      "scene_ready_marker": false
+    },
+    {
+      "label": "adhoc-direct-smoke",
+      "exit_code": 0,
+      "scene_ready_marker": true
+    },
+    {
+      "label": "adhoc-set-quarantine",
+      "exit_code": 0,
+      "scene_ready_marker": false
+    },
+    {
+      "label": "adhoc-quarantined-codesign-display",
+      "exit_code": 0,
+      "scene_ready_marker": false
+    },
+    {
+      "label": "adhoc-quarantined-codesign-verify",
+      "exit_code": 1,
+      "scene_ready_marker": false
+    },
+    {
+      "label": "adhoc-quarantined-gatekeeper-assess",
+      "exit_code": 1,
+      "scene_ready_marker": false
+    },
+    {
+      "label": "adhoc-quarantined-quarantine",
+      "exit_code": 0,
+      "scene_ready_marker": false
+    }
+  ],
+  "original_bundle_verification_error": "code has no resources but signature indicates they must be present",
+  "original_signing_identifier": "godot.macos.template_release.arm64",
+  "scope": "Published archive hash matched. Direct native headless startup works; bundle signature fails. Neither Finder acceptance nor user M5 reproduced. Manual re-sign experiment crashed; replacement uses Godot built-in signing and must pass a separate native gate."
+}

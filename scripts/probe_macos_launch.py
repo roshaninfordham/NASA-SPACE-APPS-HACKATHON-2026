@@ -164,7 +164,11 @@ def main() -> int:
         if download["exit_code"] != 0:
             raise RuntimeError("Could not download the exact public release asset")
         archive = output / ASSET
-        digest = hashlib.file_digest(archive.open("rb"), "sha256").hexdigest() if sys.version_info >= (3, 11) else hashlib.sha256(archive.read_bytes()).hexdigest()
+        hasher = hashlib.sha256()
+        with archive.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                hasher.update(chunk)
+        digest = hasher.hexdigest()
         report["actual_sha256"] = digest
         report["actual_bytes"] = archive.stat().st_size
         if digest != SHA256 or archive.stat().st_size != ASSET_BYTES:
