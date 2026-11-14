@@ -2,6 +2,14 @@
 
 All published game versions and notable unreleased work are recorded here. The version and source commit in each release manifest identify the exact downloadable build. Documentation on `main` can be newer than an installer.
 
+## [0.7.0-alpha.1] — unreleased
+
+- Add AEGIS mission planning: press **P** during a mission or choose **Compare mission plans** from Pause. Compare four cleaner/conservation policies over the same one-hour scenario, inspect the maths and apply only the chosen switches. Opening the planner pauses mission time and resources.
+- Use the actual fixed-step mission model for each private projection. Show abort duration, separate suit/habitat stores and optional research trade-offs; no trained-AI, live-forecast or safety guarantee is implied.
+- Reduce decorative geometry and shadow work while preserving collision routes, boulders, motif placement and equipment cues. [Measured before/after evidence](docs/PERFORMANCE.md) separates mesh/renderer work from unmeasured physical-device frame rates and RAM.
+- Centralize native game validation so local Linux checks, CI and release exports run the same model, UI, performance and updater suites. Keep native desktop archive gates from 0.6.1.
+- Add a focused core proposal, demonstration script and research/source boundaries; preserve the current name and Mac Unicode-signing repair.
+
 ## [0.6.1-alpha.1] — 2026-11-14
 
 Packaging and update-discovery repair. Gameplay and 0.6 artwork are unchanged. Built from `587d6c9fc7a5cd504b1c1ea68707628572bbbe4e`, signed build `43648641582`. Native Mac/Windows launch gates and actual historical-installer content activation/recovery passed; [release evidence](docs/evidence/release-0.6.1-alpha.1.json) records exact files and scope.

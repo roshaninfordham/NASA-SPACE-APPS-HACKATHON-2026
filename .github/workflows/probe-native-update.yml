@@ -19,6 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-latest, windows-latest]
+        baseline: ["0.6.0-alpha.1", "0.6.1-alpha.1"]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     steps:
@@ -55,15 +56,26 @@ jobs:
       - name: Test unchanged public installer with signed candidate
         env:
           SOURCE_REVISION: ${{ inputs.revision }}
+          BASELINE_VERSION: ${{ matrix.baseline }}
         shell: bash
-        run: python scripts/verify_native_content_update.py --candidate-artifacts candidate-artifacts --expected-commit "$SOURCE_REVISION" --workspace native-update-evidence
+        run: python scripts/verify_native_content_update.py --candidate-artifacts candidate-artifacts --expected-commit "$SOURCE_REVISION" --workspace native-update-evidence --baseline "$BASELINE_VERSION"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: native-content-update-${{ matrix.os }}
+          name: native-content-update-${{ matrix.baseline }}-${{ matrix.os }}
           path: |
             native-update-evidence/acceptance-result.json
             native-update-evidence/harness-result.json
             native-update-evidence/logs/
           if-no-files-found: error
           retention-days: 30
+
+  native_update_gate:
+    needs: native_update
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Require both public baselines on both native platforms
+        env:
+          MATRIX_RESULT: ${{ needs.native_update.result }}
+        run: test "$MATRIX_RESULT" = success

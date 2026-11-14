@@ -1,12 +1,18 @@
 # <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> — team progress
 
-**Current package version: 0.6.1-alpha.1, November 14, 2026.** This is a packaging/update repair for the 0.6 gameplay release. The [release list](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases) and each archive's manifest identify the published source and downloads. Four platform ZIPs plus signed content, its manifest/signature, release manifest and checksums make nine assets.
+**Current source package version: 0.7.0-alpha.1, November 14, 2026.** This adds mission planning and rendering reductions to the repaired 0.6.1 baseline. The [release list](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases) and each archive's manifest identify the published source and downloads. Four platform ZIPs plus signed content, its manifest/signature, release manifest and checksums make nine assets.
 
 The repair enables Mac ad-hoc bundle signing and includes an explicit-consent installer, adds native Mac/Windows launch gates, checks Windows ANGLE fallback startup, and checks for updates at every fresh startup. [Root cause and limits](MACOS-LAUNCH-REPAIR.md). A blocked 0.6 Mac app needs one corrected full installation; it cannot repair its own bundle via content updates.
 
 The game now has a shared brand configuration, a walkable ornamented habitat and holographic control room, a shielded refuge, Mira's redesigned suit, a new scanner, lantern-lit terrain and an untimed exploration mode. It retains the four-minute first-person science mission, separate energy stores, dust/radiation decisions, and five-concept local practice academy. The new scenes are procedural interpretations of supplied designs; final photoreal art and a complete escort/rescue campaign are not delivered.
 
-## New in 0.6
+## New in 0.7
+
+AEGIS now lets the player compare four fixed cleaner/power-saving policies over the next simulated hour, using a private copy of the real mission equations. Press **P** or open it from Pause. The mission stays paused; **Use this plan** changes only those switches. Separate energy, research, exposure and abort duration avoid a misleading single “best” score. [Planner contract](MISSION-PLANNER.md).
+
+Geometry changes reduce retained triangles by 33.7% and measured rendered primitives by about 61% in two fixed software-rendered views, preserving stone placements and collision routes. These are workload measurements, not physical-device FPS or application-RAM measurements. [Comparison and captures](PERFORMANCE.md). The shared game-test runner keeps development, CI and release suites synchronized.
+
+## Preserved from 0.6
 
 The 0.6 release adds live Suit Lab views and five educational experiments, four habitat callout lessons, denser control-room telemetry and geodesic hologram geometry, architectural/suit material detail, and a shared presentation style file. [The specification ledger](SPEC-IMPLEMENTATION.md) records exact source coverage and the larger unfinished art/campaign requirements.
 

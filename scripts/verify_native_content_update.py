@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Test signed content using unchanged public 0.6 Mac/Windows installers.
+"""Test signed content using unchanged public 0.6/0.6.1 Mac/Windows installers.
 
 Runs only on a fresh native CI runner, refuses an existing player profile, and
 cleans its newly created profile. Staging uses the matching editor with the
@@ -28,8 +28,22 @@ from verify_native_update_acceptance import ENGINE, UPDATE_NAMES, digest, valida
 
 ROOT = Path(__file__).resolve().parent.parent
 REPOSITORY = "roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026"
-BASELINE = "0.6.0-alpha.1"
-BASELINE_COMMIT = "c0beba698c32741fb17f6c8e9ec44fd6bb875852"
+DEFAULT_BASELINE = "0.6.1-alpha.1"
+# Independent immutable identities; evidence files supply the complete asset list.
+BASELINES = {
+    "0.6.0-alpha.1": {
+        "source_commit": "c0beba698c32741fb17f6c8e9ec44fd6bb875852",
+        "manifest_sha256": "9173582180b1fbc3625dd2bda4418500cd4f64778071e837517cc10ea572dc4c",
+        "macOS-universal": "4c0caf99c2d39d8c178aa8733508aab56d389bc057ea59fb402e4195f4df77b7",
+        "Windows-x64": "b559fef9e6f7372e95f75cb218e9452734afb7c9e8201aa7e9ef3ea799d70029",
+    },
+    "0.6.1-alpha.1": {
+        "source_commit": "587d6c9fc7a5cd504b1c1ea68707628572bbbe4e",
+        "manifest_sha256": "1f03cb4a0b79b2a86c67e5e4da6209cedd07a2adc2bca2456c1fb66711590175",
+        "macOS-universal": "ee444fc6fc11ccef7d62a6d4f151ab5b051b3d42bd7a18f17258a69108364c7d",
+        "Windows-x64": "6bb0249dc616528821dc2ec2bad9901b3f643ec2783b22ca2644107ea0872761",
+    },
+}
 
 
 def download(url, path):
@@ -37,17 +51,39 @@ def download(url, path):
         shutil.copyfileobj(response, output)
 
 
-def fetch_baseline(folder):
-    folder.mkdir()
-    evidence = json.loads((ROOT / "docs/evidence/release-0.6.0-alpha.1.json").read_text(encoding="utf-8"))
-    if evidence["version"] != BASELINE or evidence["source_commit"] != BASELINE_COMMIT:
+def baseline_evidence(version):
+    if version not in BASELINES:
+        raise ValueError("Unsupported historical baseline")
+    pinned = BASELINES[version]
+    evidence = json.loads((ROOT / f"docs/evidence/release-{version}.json").read_text(encoding="utf-8"))
+    if evidence.get("version") != version or evidence.get("source_commit") != pinned["source_commit"]:
         raise ValueError("Historical evidence identity changed")
+    assets = evidence.get("assets", [])
+    expected_names = {f"KOMAKU-Shield-Protocol-{version}-{suffix}.zip" for suffix in ("macOS-universal", "Windows-x64", "Linux-x64", "Web")} | UPDATE_NAMES | {"release-manifest.json", "SHA256SUMS.txt"}
+    if not isinstance(assets, list) or len(assets) != len(expected_names):
+        raise ValueError("Historical evidence asset set changed")
+    names = set()
+    for entry in assets:
+        if not isinstance(entry, dict) or entry.get("name") not in expected_names or entry["name"] in names:
+            raise ValueError("Historical evidence contains missing, duplicate or unexpected assets")
+        names.add(entry["name"])
+        if type(entry.get("bytes")) is not int or entry["bytes"] <= 0 or not isinstance(entry.get("sha256"), str) or not re.fullmatch(r"[0-9a-f]{64}", entry["sha256"]):
+            raise ValueError("Invalid historical asset size or checksum")
+    by_name = {entry["name"]: entry for entry in assets}
+    pins = {"release-manifest.json": pinned["manifest_sha256"]}
+    pins.update({f"KOMAKU-Shield-Protocol-{version}-{suffix}.zip": pinned[suffix] for suffix in ("macOS-universal", "Windows-x64")})
+    if any(by_name[name]["sha256"] != expected for name, expected in pins.items()):
+        raise ValueError("Historical evidence differs from independently pinned release bytes")
+    return evidence
+
+
+def fetch_baseline(folder, version):
+    evidence = baseline_evidence(version)
+    folder.mkdir()
     for entry in evidence["assets"]:
         name = entry["name"]
-        if Path(name).name != name or "/" in name or "\\" in name:
-            raise ValueError("Invalid pinned asset name")
         path = folder / name
-        download(f"https://github.com/{REPOSITORY}/releases/download/v{BASELINE}/{name}", path)
+        download(f"https://github.com/{REPOSITORY}/releases/download/v{version}/{name}", path)
         if path.stat().st_size != entry["bytes"] or digest(path) != entry["sha256"]:
             raise ValueError("Historical public asset differs from independently pinned evidence: " + name)
     return folder
@@ -89,21 +125,23 @@ def acceptance(args):
     logs = workspace / "logs"
     logs.mkdir()
     report = {"passed": False, "system": platform.system(), "os": platform.platform(), "machine": platform.machine(),
-              "checks": [], "not_verified": ["Finder/Gatekeeper/SmartScreen approval", "HTTP update transport and notification UI", "OS.create_instance automatic relaunch", "graphics/audio or physical-device gameplay"]}
+              "baseline_version": args.baseline, "checks": [], "not_verified": ["Finder/Gatekeeper/SmartScreen approval", "HTTP update transport and notification UI", "OS.create_instance automatic relaunch", "graphics/audio or physical-device gameplay"]}
     profile = None
     owned_profile = False
     try:
         system = platform.system()
         if system not in ("Darwin", "Windows"):
             raise ValueError("Requires a native Mac or Windows runner")
+        baseline_version = args.baseline
+        baseline_commit = baseline_evidence(baseline_version)["source_commit"]
         candidate_dir = args.candidate_artifacts.resolve(strict=True)
         candidate = validate_artifacts(candidate_dir, args.expected_commit)
-        if version_order(candidate["version"]) <= version_order(BASELINE):
+        if version_order(candidate["version"]) <= version_order(baseline_version):
             raise ValueError("Candidate must be newer than pinned baseline")
-        baseline_dir = fetch_baseline(workspace / "baseline")
-        baseline = validate_artifacts(baseline_dir, BASELINE_COMMIT)
+        baseline_dir = fetch_baseline(workspace / "baseline", baseline_version)
+        baseline = validate_artifacts(baseline_dir, baseline_commit)
         suffix = "macOS-universal" if system == "Darwin" else "Windows-x64"
-        archive = baseline_dir / f"KOMAKU-Shield-Protocol-{BASELINE}-{suffix}.zip"
+        archive = baseline_dir / f"KOMAKU-Shield-Protocol-{baseline_version}-{suffix}.zip"
         validate_archive(archive)
         extracted = workspace / "original"
         extracted.mkdir()
@@ -152,11 +190,11 @@ def acceptance(args):
         editor, editor_evidence = install_editor(workspace, system)
         if not phase("matching-staging-engine", [editor, "--version"]).strip().startswith(ENGINE + ".stable."):
             raise ValueError("Wrong staging editor version")
-        harness = write_harness(workspace, candidate_dir, BASELINE, candidate["version"])
+        harness = write_harness(workspace, candidate_dir, baseline_version, candidate["version"])
         harness_command = [editor, "--headless", "--main-pack", str(baseline_pack), "--script", str(harness)]
         phase("inspect-original-installer", harness_command, game=True)
         evidence = bounded_json(workspace / "harness-result.json")
-        if Path(evidence["user_dir"]).resolve() != profile.resolve() or evidence.get("baseline") != BASELINE:
+        if Path(evidence["user_dir"]).resolve() != profile.resolve() or evidence.get("baseline") != baseline_version:
             raise ValueError("Unexpected original profile or baseline version")
         key = workspace / "baseline-public.pem"
         verify_signature(baseline_dir, key, baseline)
@@ -168,7 +206,7 @@ def acceptance(args):
             if not scene_ready(output, expected_version):
                 raise ValueError("Original executable did not reach version " + expected_version)
 
-        boot("untouched-public-baseline-start", BASELINE)
+        boot("untouched-public-baseline-start", baseline_version)
         phase("original-store-stage-and-activate", harness_command + ["--", "--stage-candidate"], game=True)
         journal = profile / "updates/state.json"
         expect_journal(journal, candidate["version"], "ready")
@@ -189,11 +227,11 @@ def acceptance(args):
             os.fsync(pack.fileno())
         if installed.stat().st_size != length or digest(installed) == manifest["pack_sha256"]:
             raise ValueError("Corruption fixture failed")
-        boot("same-size-tampering-restores-original-baseline", BASELINE)
+        boot("same-size-tampering-restores-original-baseline", baseline_version)
         expect_journal(journal, "", "healthy")
         if original_hashes != {str(path.relative_to(extracted)): digest(path) for path in extracted.rglob("*") if path.is_file()}:
             raise ValueError("Original package files changed during acceptance")
-        report.update(passed=True, baseline_version=BASELINE, baseline_source_commit=BASELINE_COMMIT,
+        report.update(passed=True, baseline_version=baseline_version, baseline_source_commit=baseline_commit,
                       baseline_archive_sha256=digest(archive), baseline_executable_sha256=digest(executable),
                       target_version=candidate["version"], source_commit=candidate["commit"],
                       pack_sha256=manifest["pack_sha256"], runtime_contract=manifest["runtime_contract"], editor=editor_evidence,
@@ -214,6 +252,7 @@ def main():
     parser.add_argument("--candidate-artifacts", required=True, type=Path)
     parser.add_argument("--expected-commit", required=True)
     parser.add_argument("--workspace", required=True, type=Path)
+    parser.add_argument("--baseline", choices=tuple(BASELINES), default=DEFAULT_BASELINE, help="Immutable published installer to test (default: repaired 0.6.1)")
     args = parser.parse_args()
     if not re.fullmatch(r"[0-9a-f]{40}", args.expected_commit):
         parser.error("Exact source SHA required")

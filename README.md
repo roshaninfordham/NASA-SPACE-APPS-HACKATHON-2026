@@ -88,7 +88,8 @@ python3 scripts/test_updater.py
 With the official export templates installed:
 
 ```sh
-python3 scripts/build_game.py --version 0.6.1-alpha.1
+python3 scripts/test_game.py  # Full suite on Linux; native package gates run separately
+python3 scripts/build_game.py --version 0.7.0-alpha.1
 ```
 
 The Linux CI installer verifies the official SHA-512 manifest. The manual **Build downloadable game** workflow creates archives and a source-commit manifest. Publication is explicit and separate from building.
@@ -99,18 +100,21 @@ The earlier web dashboard remains a reference model in `src/`. For that prototyp
 
 Start with the [team progress briefing](docs/TEAM-STATUS.md) and [versioned changelog](CHANGELOG.md).
 
-| Topic                                        | Document                                   |
-| -------------------------------------------- | ------------------------------------------ |
-| Product scope and original brief             | [Core brief](docs/CORE-BRIEF.md)           |
-| Framework choice and open-source foundations | [Engine decision](docs/ENGINE-DECISION.md) |
-| Components and data flow                     | [Architecture](docs/ARCHITECTURE.md)       |
-| Art replacement contracts                    | [Design handoff](docs/DESIGN-HANDOFF.md)   |
-| Equations, source data, and limitations      | [Science](docs/SCIENCE.md)                 |
-| Completed checks and release gates           | [Validation](docs/VALIDATION.md)           |
-| Download and device instructions             | [Downloads](docs/DOWNLOADS.md)             |
-| Demo narrative and judging evidence          | [Submission workspace](docs/SUBMISSION.md) |
-| Learner and device testing                   | [Playtest protocol](docs/PLAYTEST.md)      |
-| Asset and engine attribution                 | [Credits](CREDITS.md)                      |
+| Topic                                        | Document                                                        |
+| -------------------------------------------- | --------------------------------------------------------------- |
+| Product scope and original brief             | [Core brief](docs/CORE-BRIEF.md)                                |
+| Framework choice and open-source foundations | [Engine decision](docs/ENGINE-DECISION.md)                      |
+| Mission planner and model limits             | [Mission planner](docs/MISSION-PLANNER.md)                      |
+| Rendering work and measured comparisons      | [Performance](docs/PERFORMANCE.md)                              |
+| Core proposal and demonstration              | [Evidence](docs/CORE-PROPOSAL.md) · [Demo](docs/DEMO-SCRIPT.md) |
+| Components and data flow                     | [Architecture](docs/ARCHITECTURE.md)                            |
+| Art replacement contracts                    | [Design handoff](docs/DESIGN-HANDOFF.md)                        |
+| Equations, source data, and limitations      | [Science](docs/SCIENCE.md)                                      |
+| Completed checks and release gates           | [Validation](docs/VALIDATION.md)                                |
+| Download and device instructions             | [Downloads](docs/DOWNLOADS.md)                                  |
+| Demo narrative and judging evidence          | [Submission workspace](docs/SUBMISSION.md)                      |
+| Learner and device testing                   | [Playtest protocol](docs/PLAYTEST.md)                           |
+| Asset and engine attribution                 | [Credits](CREDITS.md)                                           |
 
 ## Privacy and scientific limits
 

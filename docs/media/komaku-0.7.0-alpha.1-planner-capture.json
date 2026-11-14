@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "captured_at_utc": "2026-11-14T22:53:40.042567+00:00",
+  "game_version": "0.7.0-alpha.1",
+  "source": {
+    "base_commit": "e2534d6",
+    "worktree": "/workspace/komaku-planner",
+    "state": "Repaired release base e2534d6 plus uncommitted planner feature; final feature commit not assigned at capture time. File SHA-256 hashes identify the exact captured source.",
+    "files_sha256": {
+      "game/scripts/game.gd": "0003bab7172c1ee6863ac1358d2f36df78af0433d5c356807b3c5c4468cdd869",
+      "game/scripts/mission_planner.gd": "427028285e67374b2ac01b75cb019c79979de4caeccbbbeb849f726bab68aab4",
+      "game/scripts/mission_adviser.gd": "4c9a0bb51f8b6adb58f0ba61c8fa5c2f8d44335c8c890c7629d67b6d772b774a",
+      "game/project.godot": "5544d24aaf6a5aadd0b8a74be8794ae366ebd3d0ab7ed4869d99bdcb9a34cb55"
+    }
+  },
+  "capture": {
+    "command": [
+      "godot",
+      "--audio-driver",
+      "Dummy",
+      "--path",
+      "game",
+      "--script",
+      "/tmp/capture_integrated_planner.gd"
+    ],
+    "script_sha256": "ef162a089d47a0c7511844c4eda213488318c4fe40ddc95df0444fbe9e229266",
+    "setup": "Instantiate main.tscn, wait 12 process frames, begin mission, open integrated planner. Resize sequentially; each screenshot waits for RenderingServer.frame_post_draw. Plan 4 remains selected after the first selection capture.",
+    "renderer": "Godot 4.6.3 stable; OpenGL Compatibility; Mesa llvmpipe software rendering under private Xvfb",
+    "initial_settling_process_frames": 12,
+    "settling_process_frames_per_resize": 24,
+    "selection_settling_process_frames": 12,
+    "performance_claim": "Functional UI layout evidence only. These are rendered screenshots, not physical-device performance measurements.",
+    "render_log_path": "/tmp/komaku-planner-render-current.log",
+    "render_log_sha256": "ca6a6076d56c50cdb8141aa8fd840714831fbd8df31d377235fe4ba3b3147c8e"
+  },
+  "screenshots": [
+    {
+      "path": "docs/media/komaku-0.7.0-alpha.1-planner-desktop.png",
+      "sha256": "271bd9c0caa9943ba0e1ad5770b2d209c834a3cf14d95039585a044f52e3f12b",
+      "viewport_pixels": [
+        1280,
+        720
+      ],
+      "capture_state": "Plan 1 selected, scroll at top",
+      "settling_frames_after_resize": 24,
+      "additional_settling_frames_after_focus_and_selection": 0
+    },
+    {
+      "path": "docs/media/komaku-0.7.0-alpha.1-planner-small-laptop.png",
+      "sha256": "ed6badc01cd428237f396f09c22d94ff3c893735a2c2fcdaafcefa66401ac610",
+      "viewport_pixels": [
+        960,
+        540
+      ],
+      "capture_state": "Plan 4 selected, scroll at top",
+      "settling_frames_after_resize": 24,
+      "additional_settling_frames_after_focus_and_selection": 0
+    },
+    {
+      "path": "docs/media/komaku-0.7.0-alpha.1-planner-portrait.png",
+      "sha256": "b797baded645b8de160e8d7a07536e90d02786ec15ba12bba333652df96e6b8a",
+      "viewport_pixels": [
+        390,
+        844
+      ],
+      "capture_state": "Plan 4 selected, scroll at top",
+      "settling_frames_after_resize": 24,
+      "additional_settling_frames_after_focus_and_selection": 0
+    },
+    {
+      "path": "docs/media/komaku-0.7.0-alpha.1-planner-landscape.png",
+      "sha256": "862f2a7a400688475c41ce09e8562a5e7e5139bb9f589f6a3bfced368b57a019",
+      "viewport_pixels": [
+        844,
+        390
+      ],
+      "capture_state": "Plan 4 selected, keyboard focus on Plan 4",
+      "settling_frames_after_resize": 24,
+      "additional_settling_frames_after_focus_and_selection": 12
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "recorded_utc": "2026-11-14T22:50:12.006256+00:00",
+  "purpose": "Compare geometry work and visual continuity; not an FPS, latency, memory-residency or physical-device benchmark.",
+  "engine": "Godot 4.6.3 stable, Compatibility",
+  "display": "Private authenticated Xvfb; Mesa 25.0.7 llvmpipe LLVM19.1.7 software OpenGL4.5",
+  "viewport": [
+    960,
+    540
+  ],
+  "scene": "Actual standalone VeilWorld using default_art.tres, default mission weather; no menu/player/updater/UI. Node animation and dust emission disabled identically. --fixed-fps60 controls simulation stepping, not achieved FPS.",
+  "views": [
+    {
+      "name": "title",
+      "position": [
+        -6,
+        3.4,
+        10
+      ],
+      "look_at": [
+        0,
+        3,
+        -16
+      ],
+      "fov": 45
+    },
+    {
+      "name": "interior",
+      "position": [
+        0,
+        2.2,
+        -8.2
+      ],
+      "look_at": [
+        0,
+        3.1,
+        -16
+      ],
+      "fov": 77
+    }
+  ],
+  "baseline": "Repaired 0.6.1-alpha.1 source in /workspace/komaku-release-fix",
+  "candidate": "Working tree geometry optimization in /workspace/komaku-planner",
+  "limitations": [
+    "The two cameras are representative samples, not exhaustive visual/device coverage.",
+    "Compatibility reports zero in the separate shadow draw-call counter while counting nonzero shadow primitives; use total draw calls, not that zero, for comparisons.",
+    "Frustum candidates are conservative CPU estimates; rendered work uses Godot counters, not those estimates.",
+    "No image edits, concept-image compositing, or generated artwork were used for these captures."
+  ],
+  "profiler_sha256": "83cb52aee4a7e19baaa60eee31edb55623b9e5dfbd1c48b39a2885350be0f469",
+  "inputs": {
+    "before": {
+      "game/art/red_veil/landscape.gd": "6d0fa8bcacaf0a7ba926439bc8de7d1b63d6c047f04027cb21d8ba6790a043d7",
+      "game/art/red_veil/exterior_ornaments.gd": "5b8d3fe99652e192d9e9baf57c7ef171022d721ea32338de2ae9255a7e853670",
+      "game/art/red_veil/exterior_geometry.gd": "dd97ae1b814f2cdcede6ecd12892eb9d25de94e4cd3468d01482e6b6a99e67b5",
+      "game/art/red_veil/interior.gd": "da7fa82b356774570cd3546d72d6bbbebf599b2d45aaa3fac918f66bbee8bd4e",
+      "game/scripts/world.gd": "4affe2b8475a4f2c73f0742f55ebaf07bb7292ba45ade56611338518a1a6c862",
+      "game/scripts/mission.gd": "8f483e340c38d196507022575fa74f510143d0c31d173ad807e7463a58746726",
+      "game/art/default_art.tres": "95f0efe91278cb8e052d3e229b248df7e543c235fae51185929b8fabd41efcb1",
+      "game/project.godot": "286e3ab0667fbdafaddb958bc36f23ec035c167ace6de1e174738288c301fc64"
+    },
+    "after": {
+      "game/art/red_veil/landscape.gd": "f226a8ae9b87bcb20f6093dde5a6393bd2e5ff0998fd368b6e84d0555aeac453",
+      "game/art/red_veil/exterior_ornaments.gd": "8f81b1c2a79ffed4c3bec077ffd4e33ae22a1ef301d9b7ccf9c88c880d230ba3",
+      "game/art/red_veil/exterior_geometry.gd": "5d406459b906f5864c2140f66b5a79f65f9835b76bc8cc1b3009d3926100fd74",
+      "game/art/red_veil/interior.gd": "032ecda671a8355eeb67233e099d77dde3cf34b4424a702d758d7bfb3af9c800",
+      "game/scripts/world.gd": "4affe2b8475a4f2c73f0742f55ebaf07bb7292ba45ade56611338518a1a6c862",
+      "game/scripts/mission.gd": "8f483e340c38d196507022575fa74f510143d0c31d173ad807e7463a58746726",
+      "game/art/default_art.tres": "95f0efe91278cb8e052d3e229b248df7e543c235fae51185929b8fabd41efcb1",
+      "game/project.godot": "5544d24aaf6a5aadd0b8a74be8794ae366ebd3d0ab7ed4869d99bdcb9a34cb55"
+    }
+  },
+  "captures": [
+    {
+      "file": "before/title.png",
+      "sha256": "15a277f96046a1e56da00655e55b983508a3b59b98fef783f18354e002b57fcc",
+      "bytes": 355880
+    },
+    {
+      "file": "before/interior.png",
+      "sha256": "82ace442487cf0237648b915a44f0d9af47e0293c1dc758c53188dfa4ddec048",
+      "bytes": 437518
+    },
+    {
+      "file": "after/title.png",
+      "sha256": "168573a27ab31e5d19fe8c6ca91ea30b92d4847df66f62e59afaa94067bbe8bd",
+      "bytes": 354572
+    },
+    {
+      "file": "after/interior.png",
+      "sha256": "e9f6d85eb2d35f0494e3d767ddec322e557f078643071ad43934fa59e2928961",
+      "bytes": 431985
+    }
+  ],
+  "comparisons": [
+    {
+      "view": "title",
+      "metrics": {
+        "rendered_primitives": {
+          "before": 3266658.0,
+          "after": 1255270.0,
+          "reduction_percent": 61.57
+        },
+        "rendered_draw_calls": {
+          "before": 624.0,
+          "after": 582.0,
+          "reduction_percent": 6.73
+        },
+        "viewport_visible_primitives": {
+          "before": 735804,
+          "after": 472108,
+          "reduction_percent": 35.84
+        },
+        "viewport_shadow_primitives": {
+          "before": 2530854,
+          "after": 783162,
+          "reduction_percent": 69.06
+        }
+      }
+    },
+    {
+      "view": "interior",
+      "metrics": {
+        "rendered_primitives": {
+          "before": 3271112.0,
+          "after": 1264484.0,
+          "reduction_percent": 61.34
+        },
+        "rendered_draw_calls": {
+          "before": 358.0,
+          "after": 327.0,
+          "reduction_percent": 8.66
+        },
+        "viewport_visible_primitives": {
+          "before": 674928,
+          "after": 417580,
+          "reduction_percent": 38.13
+        },
+        "viewport_shadow_primitives": {
+          "before": 2596184,
+          "after": 846904,
+          "reduction_percent": 67.38
+        }
+      }
+    }
+  ],
+  "stone_placement_preserved": true,
+  "stone_placement": {
+    "sorted_transform_sha256": "418c5d05c3722ae1a54805fc8489ad3f9fcd1aa1a3b7f75383e69db5a8039d3e",
+    "stone_instances": 1500
+  },
+  "visual_review": "Both actual before/after captures inspected: dome outline, entry, lantern positions, consoles, hologram, chairs and major object shadows remain. Small pebble silhouettes and fine ornamental shadows change intentionally. No claim of concept-image fidelity or pixel-identical output."
+}

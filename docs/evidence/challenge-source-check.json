@@ -1,0 +1,146 @@
+{
+  "checked_on": "2026-11-14",
+  "purpose": "Recheck official challenge access and public NASA source statements; not validation of game hardware assumptions, eligibility or learning efficacy.",
+  "network_scope": "Only public official source URLs requested. No project files, prompts, player information or credentials were submitted to these sources.",
+  "supplied_brief_hashes": [
+    {
+      "label": "challenge/judging pasted brief",
+      "bytes": 9088,
+      "sha256": "f8e0bdb603b4531ac277ef169ff763b933516f0474d1e28c12036714f2249c65"
+    },
+    {
+      "label": "long brainstorming A",
+      "bytes": 17869,
+      "sha256": "e30e7eb6637aa43874a1c1ce28525c3f0b35b6f9be228740e50e85639cab3da4"
+    },
+    {
+      "label": "long brainstorming B",
+      "bytes": 17869,
+      "sha256": "e30e7eb6637aa43874a1c1ce28525c3f0b35b6f9be228740e50e85639cab3da4"
+    }
+  ],
+  "checks": [
+    {
+      "id": "challenge",
+      "url": "https://www.spaceappschallenge.org/2026/challenges/junior-astronaut-mission-trainer/",
+      "checked_at_utc": "2026-11-14T22:46:47+00:00",
+      "method": "GET",
+      "project_content_uploaded": false,
+      "status": 503,
+      "error": "HTTP 503",
+      "final_url": "https://www.spaceappschallenge.org/2026/challenges/junior-astronaut-mission-trainer/"
+    },
+    {
+      "id": "submission_guide",
+      "url": "https://www.spaceappschallenge.org/resources/project-submission-guide/",
+      "checked_at_utc": "2026-11-14T22:46:47+00:00",
+      "method": "GET",
+      "project_content_uploaded": false,
+      "status": 503,
+      "error": "HTTP 503",
+      "final_url": "https://www.spaceappschallenge.org/resources/project-submission-guide/"
+    },
+    {
+      "id": "curiosity_rad",
+      "url": "https://www.nasa.gov/news-release/nasa-rover-results-include-first-age-measurement-on-mars-and-help-for-human-exploration/",
+      "checked_at_utc": "2026-11-14T22:03:59+00:00",
+      "method": "GET",
+      "project_content_uploaded": false,
+      "status": 200,
+      "final_url": "https://www.nasa.gov/news-release/nasa-rover-results-include-first-age-measurement-on-mars-and-help-for-human-exploration/",
+      "response_bytes": 273862,
+      "response_sha256": "16143e41dae70e9085b8717a499d7474ec2dba270a8f3f549094414367fe29e1",
+      "excerpts": [
+        {
+          "match": "0.67",
+          "text": "adiation environment on the surface of Mars. Cosmic rays from outside our solar system and energetic particles from the sun bombarded the surface at Gale Crater with an average of 0.67 millisieverts per day from August 2012 to June 2013, according to a report by Don Hassler of Southwest Research Institute in Boulder, Colo., and co-authors. For comparison, radiation exposure from a typical chest X-ray is about 0.02 millisievert. That 10-month measurement period did not include any major solar storms "
+        },
+        {
+          "match": "August 2012",
+          "text": "ace of Mars. Cosmic rays from outside our solar system and energetic particles from the sun bombarded the surface at Gale Crater with an average of 0.67 millisieverts per day from August 2012 to June 2013, according to a report by Don Hassler of Southwest Research Institute in Boulder, Colo., and co-authors. For comparison, radiation exposure from a typical chest X-ray is about 0.02 millisievert. That 10-month measurement period did not include any major solar storms affecting Mars, and more than 95 percen"
+        },
+        {
+          "match": "solar storms",
+          "text": "oulder, Colo., and co-authors. For comparison, radiation exposure from a typical chest X-ray is about 0.02 millisievert. That 10-month measurement period did not include any major solar storms affecting Mars, and more than 95 percent of the total came from cosmic rays. Results from the surface-radiation monitoring provide an additional piece of the puzzle for projecting the total round-trip radiation dose for a future human mission to Mars. Added to dose rates Curiosity measured during its flight to Mars, t"
+        }
+      ]
+    },
+    {
+      "id": "dust_shield",
+      "url": "https://www.nasa.gov/image-article/nasas-dust-shield-successfully-repels-lunar-regolith-on-moon/",
+      "checked_at_utc": "2026-11-14T22:03:59+00:00",
+      "method": "GET",
+      "project_content_uploaded": false,
+      "status": 200,
+      "final_url": "https://www.nasa.gov/image-article/nasas-dust-shield-successfully-repels-lunar-regolith-on-moon/",
+      "response_bytes": 272749,
+      "response_sha256": "a6674a379b215d1fdffb27997dc7bcff80d3b5a01af28469cf247ea828d1ac14",
+      "excerpts": [
+        {
+          "match": "Blue Ghost",
+          "text": "Electrodynamic Dust Shield (EDS) successfully demonstrated its ability to remove regolith, or lunar dust and dirt, from its various surfaces on the Moon during Firefly Aerospace’s Blue Ghost Mission 1, which concluded on March 16. Lunar dust is extremely abrasive and electrostatic, which means it clings to anything that carries a charge. It can damage everything from spacesuits and hardware to human lungs, making lunar dust one of the most challenging features of living and working on the lunar surface. T"
+        },
+        {
+          "match": "March 16",
+          "text": "ully demonstrated its ability to remove regolith, or lunar dust and dirt, from its various surfaces on the Moon during Firefly Aerospace’s Blue Ghost Mission 1, which concluded on March 16. Lunar dust is extremely abrasive and electrostatic, which means it clings to anything that carries a charge. It can damage everything from spacesuits and hardware to human lungs, making lunar dust one of the most challenging features of living and working on the lunar surface. The EDS technology uses electrodynamic f"
+        }
+      ]
+    },
+    {
+      "id": "mars_facts",
+      "url": "https://science.nasa.gov/mars/facts/",
+      "checked_at_utc": "2026-11-14T22:03:59+00:00",
+      "method": "GET",
+      "project_content_uploaded": false,
+      "status": 200,
+      "final_url": "https://science.nasa.gov/mars/facts/",
+      "response_bytes": 298042,
+      "response_sha256": "c477ca89fcba12957d9443096017eb138a43719c9293c2bad763e937ec7aa5b1",
+      "excerpts": [
+        {
+          "match": "thin atmosphere",
+          "text": "& Features Latest Mars Articles The Mars Report Newsletter Home More The Solar System Mars Facts Mars — the fourth planet from the Sun — is a dusty, cold, desert world with a very thin atmosphere. This dynamic planet has seasons, polar ice caps, extinct volcanoes, canyons, and weather. Introduction Namesake Potential for Life Size and Distance Orbit and Rotation Moons Rings Formation Structure Surface Atmosphere Magnetosphere Unable to render the provided source Introduction Mars is one of the most explored bo"
+        }
+      ]
+    },
+    {
+      "id": "opportunity_dust",
+      "url": "https://www.nasa.gov/missions/martian-dust-storm-grows-global-curiosity-captures-photos-of-thickening-haze/",
+      "checked_at_utc": "2026-11-14T22:03:59+00:00",
+      "method": "GET",
+      "project_content_uploaded": false,
+      "status": 200,
+      "final_url": "https://www.nasa.gov/missions/martian-dust-storm-grows-global-curiosity-captures-photos-of-thickening-haze/",
+      "response_bytes": 285212,
+      "response_sha256": "8bfab25082eae832ba980073bdce9ff32a66d447282f34412270c2778c4ec217",
+      "excerpts": [
+        {
+          "match": "tau",
+          "text": " Curiosity is on the other side of Mars from Opportunity, dust has steadily increased over it, more than doubling over the weekend. The atmospheric haze blocking sunlight, called “tau,” is now above 8.0 at Gale Crater — the highest tau the mission has ever recorded. Tau was last measured near 11 over Opportunity, thick enough that accurate measurements are no longer possible for Mars’ oldest active rover. For NASA’s human scientists watching from the ground, Curiosity offers an unprecedented window"
+        }
+      ]
+    }
+  ],
+  "previous_access_checks": [
+    {
+      "id": "challenge",
+      "url": "https://www.spaceappschallenge.org/2026/challenges/junior-astronaut-mission-trainer/",
+      "checked_at_utc": "2026-11-14T22:03:59+00:00",
+      "method": "GET",
+      "project_content_uploaded": false,
+      "status": 503,
+      "error": "HTTP 503",
+      "final_url": "https://www.spaceappschallenge.org/2026/challenges/junior-astronaut-mission-trainer/"
+    },
+    {
+      "id": "submission_guide",
+      "url": "https://www.spaceappschallenge.org/resources/project-submission-guide/",
+      "checked_at_utc": "2026-11-14T22:03:59+00:00",
+      "method": "GET",
+      "project_content_uploaded": false,
+      "status": 503,
+      "error": "HTTP 503",
+      "final_url": "https://www.spaceappschallenge.org/resources/project-submission-guide/"
+    }
+  ]
+}

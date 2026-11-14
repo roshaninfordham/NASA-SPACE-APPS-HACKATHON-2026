@@ -18,7 +18,7 @@ from sign_update import REPOSITORY, RUNTIME_CONTRACT, sign_pack, valid_version, 
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "releases"
-DOCS = ["CREDITS.md", "CHANGELOG.md", "docs/DOWNLOADS.md", "docs/MACOS-LAUNCH-REPAIR.md", "docs/SCIENCE.md", "docs/LEARNING-DESIGN.md", "docs/TEAM-STATUS.md", "docs/UPDATES.md", "docs/SPEC-IMPLEMENTATION.md"]
+DOCS = ["CREDITS.md", "CHANGELOG.md", "docs/DOWNLOADS.md", "docs/MACOS-LAUNCH-REPAIR.md", "docs/MISSION-PLANNER.md", "docs/PERFORMANCE.md", "docs/SCIENCE.md", "docs/LEARNING-DESIGN.md", "docs/TEAM-STATUS.md", "docs/UPDATES.md", "docs/SPEC-IMPLEMENTATION.md"]
 UPDATE_ASSETS = {"red-veil-content.pck", "update-manifest.json", "update-manifest.sig"}
 METADATA_ASSETS = {"release-manifest.json", "SHA256SUMS.txt"}
 
@@ -135,14 +135,7 @@ def export_game(version, private_key=None):
         subprocess.run(["git", "ls-files", "--error-unmatch", "game/updater/public_key.pem"], cwd=ROOT, check=True, stdout=subprocess.DEVNULL)
     for folder in ["web", "linux", "windows"]:
         clean_generated_folder(OUT / folder)
-    run("godot", "--headless", "--path", "game", "--editor", "--import")
-    with tempfile.TemporaryDirectory(prefix="red-veil-build-tests-") as isolated:
-        test_env = os.environ | {"XDG_DATA_HOME": isolated}
-        for test in ["mission_test", "learning_test", "gameplay_test", "art_contract_test", "design_world_test", "dialog_contract_test", "visual_style_test", "interior_spec_test", "exterior_spec_test", "suit_lab_test", "spec_integration_test", "update_client_test", "update_ui_test"]:
-            run("godot", "--headless", "--path", "game", "--script", f"res://tests/{test}.gd", env=test_env)
-        run("python3", "scripts/test_updater.py", env=test_env)
-        run("python3", "scripts/test_update_bootstrap.py", env=test_env)
-        run("python3", "-m", "unittest", "discover", "-s", "tests", "-p", "test_release_tools.py", env=test_env)
+    run("python3", "scripts/test_game.py")
     for platform in ["Web", "macOS", "Linux", "Windows"]:
         run("godot", "--headless", "--path", "game", "--export-release", platform)
     linux = OUT / "linux" / (brand()["package_stem"] + ".x86_64")

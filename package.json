@@ -14,7 +14,7 @@
     "format:check": "prettier --check .",
     "game:import": "godot --headless --path game --editor --import",
     "game:run": "godot --path game",
-    "game:test": "godot --headless --path game --script res://tests/mission_test.gd && godot --headless --path game --script res://tests/gameplay_test.gd && godot --headless --path game --script res://tests/art_contract_test.gd && godot --headless --path game --script res://tests/design_world_test.gd && godot --headless --path game --script res://tests/dialog_contract_test.gd && godot --headless --path game --script res://tests/learning_test.gd && python3 scripts/test_updater.py && godot --headless --path game --script res://tests/update_client_test.gd && godot --headless --path game --script res://tests/update_ui_test.gd && python3 scripts/test_update_bootstrap.py && python3 -m unittest discover -s tests -p test_release_tools.py && godot --headless --path game --script res://tests/visual_style_test.gd && godot --headless --path game --script res://tests/interior_spec_test.gd && godot --headless --path game --script res://tests/exterior_spec_test.gd && godot --headless --path game --script res://tests/suit_lab_test.gd && godot --headless --path game --script res://tests/spec_integration_test.gd",
+    "game:test": "python3 scripts/test_game.py",
     "game:build": "python3 scripts/build_game.py",
     "test:pwa": "playwright test --config playwright.web.config.js"
   },

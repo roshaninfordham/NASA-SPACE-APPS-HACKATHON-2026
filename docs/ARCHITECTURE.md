@@ -1,6 +1,6 @@
 # <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> system architecture
 
-**Reviewed November 14, 2026.** This describes the primary game and current update implementation. [Team status](TEAM-STATUS.md) identifies the published 0.4.0-alpha.1 release and scoped acceptance evidence; [roadmap](ROADMAP.md) tracks browser/mobile work that is not yet a verified deployment.
+**Reviewed November 14, 2026.** This describes the primary game and current update implementation. [Team status](TEAM-STATUS.md) identifies the current published release and scoped acceptance evidence; [roadmap](ROADMAP.md) tracks browser/mobile work that is not yet a verified deployment.
 
 ## Primary game runtime
 
@@ -17,6 +17,10 @@ flowchart LR
   Snapshot --> HUD[Objectives / radio / HUD]
   Art[Art profile and replacement scenes] --> World
   Art --> HUD
+  Model --> Projection[Private model copy: four fixed policies]
+  Projection --> Planner[Paused comparison and optional maths]
+  Planner --> Intent[Explicit cleaner and conservation choice]
+  Intent --> Interactions
   Model --> Debrief[Debrief and local mission log]
   Debrief --> Support[Suggested practice topic]
   Lessons[Authored lesson data] --> Tutor[Local practice and review policy]
@@ -47,6 +51,12 @@ Native inspection is a physical hold-to-interact task. Its illustrative work-dur
 
 The academy reads authored lesson data and calls a separate local tutor. Independent answers update a bounded Bayesian estimate; hints and repeated same-day prompts do not. Mission outcomes select a support topic without awarding mastery. The tutor never changes the mission equations. A bounded profile uses a pending file and previous-valid backup, with in-game reset. No learning telemetry leaves the device. [Learning design](LEARNING-DESIGN.md) records parameters, research and evaluation gaps.
 
+## Mission-planning boundary
+
+The local adviser copies the current mission into a private model and runs the same fixed-step equations for four fixed cleaner/conservation combinations. It never applies actions, advances the live mission or predicts a walking route. The planner presents energy, optional research, exposure, suit reserve and abort duration separately; explicit application changes only the two chosen switches. AEGIS is a transparent scenario preview, not a trained model or live NASA forecast. [Contract, equations and limits](MISSION-PLANNER.md).
+
+The game controller owns pausing, focus, movement and applying user intent. The report UI owns presentation only. Adviser tests exercise numerical comparison and non-mutation; integration tests use real input/menu paths at four viewport sizes.
+
 ## Design-team replacement boundary
 
 Scene slots, shared palette/font settings, a custom HUD contract, and detached visual snapshots are implemented. See [design handoff](DESIGN-HANDOFF.md). A visual replacement preserves existing collision geometry. A different footprint, doorway, shelter volume, or interaction distance requires a gameplay change and validation.
@@ -55,7 +65,7 @@ This does not make every future engine change free. It makes presentation change
 
 ## Two distinct browser paths
 
-The exported Godot game is the browser version of the first-person experience. The owner enabled GitHub Pages Actions, but a public deployment remains pending the browser packaging tests and deployment run. Browser installation/cache/update packaging is being developed separately from the native resource-pack updater. A Web ZIP, a locally served preview, an installable PWA, and a public HTTPS deployment are different delivery states. Current browser/mobile readiness is tracked in [the roadmap](ROADMAP.md); desktop acceptance must not be reported as Safari, iOS or Android validation.
+The exported Godot game is the browser version of the first-person experience. Offline/cache/update packaging is implemented and browser-tested. Public hosting is deferred by owner choice because the prior Pages URL inherited an unrelated custom-domain redirect. Automatic deployment remains disabled until a game address is chosen. A Web ZIP, locally served preview, installable PWA and public HTTPS deployment are different delivery states. Browser/mobile readiness is tracked in [the roadmap](ROADMAP.md); desktop checks do not establish Safari, iOS or Android support.
 
 ### Earlier reference prototype
 
@@ -64,6 +74,10 @@ The repository-root Vite/Three.js application remains a reference prototype and 
 ## Performance and privacy
 
 The Godot art profile caps frame rate and particle count and can disable shadows. Assets are local. Short sound effects come from a licensed source. Bounded mission state is saved in a local JSON log, with no personal fields. Native memory, battery use, and thermal behavior are not yet characterized on the target M5 or mobile hardware. Do not call the implementation the lowest-resource engine choice without comparative measurements.
+
+## Shared validation
+
+`scripts/test_game.py` is the authoritative Linux native-game suite used by development, CI and release exports. It imports the project, isolates user data, rejects Godot script/engine errors even when the process exits zero, and runs the same model, interface, performance and update checks in each route. Native Mac/Windows release checks run the exported archives separately. This avoids adding a new feature test to CI while accidentally omitting it from the release gate.
 
 ## Update and recovery boundary
 

@@ -1,0 +1,2508 @@
+{
+  "construction_ms_diagnostic_only": 1185,
+  "engine": "4.6.3-stable (official)",
+  "meshes": [
+    {
+      "instances": 378,
+      "mesh_array_bytes": 18480,
+      "mesh_triangles": 154,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/ScatteredStoneBatch1",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 58212,
+      "visible": true
+    },
+    {
+      "instances": 376,
+      "mesh_array_bytes": 18480,
+      "mesh_triangles": 154,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/ScatteredStoneBatch2",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 57904,
+      "visible": true
+    },
+    {
+      "instances": 373,
+      "mesh_array_bytes": 18480,
+      "mesh_triangles": 154,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/ScatteredStoneBatch0",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 57442,
+      "visible": true
+    },
+    {
+      "instances": 373,
+      "mesh_array_bytes": 18480,
+      "mesh_triangles": 154,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/ScatteredStoneBatch3",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 57442,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1667120,
+      "mesh_triangles": 48860,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993837992121",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 48860,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1669104,
+      "mesh_triangles": 44304,
+      "path": "InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial14",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 44304,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1469912,
+      "mesh_triangles": 43216,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371996572678490",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 43216,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1169232,
+      "mesh_triangles": 30528,
+      "path": "InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial3",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 30528,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1109616,
+      "mesh_triangles": 28608,
+      "path": "InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial9",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 28608,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 972336,
+      "mesh_triangles": 25704,
+      "path": "InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial5",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 25704,
+      "visible": true
+    },
+    {
+      "instances": 245,
+      "mesh_array_bytes": 2736,
+      "mesh_triangles": 60,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/ObservationLounge/InstancedFivePetalBlossoms",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 14700,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 556800,
+      "mesh_triangles": 14400,
+      "path": "InteriorAnchor/RedVeilInterior/@MeshInstance3D@196/GeodesicHologram/GeodesicEdges",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 14400,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 478800,
+      "mesh_triangles": 14400,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993821214904",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 14400,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1658880,
+      "mesh_triangles": 13824,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/ErodedRidge0",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 13824,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1658880,
+      "mesh_triangles": 13824,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/ErodedRidge1",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 13824,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1658880,
+      "mesh_triangles": 13824,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/ErodedRidge2",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 13824,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 460520,
+      "mesh_triangles": 13600,
+      "path": "RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371958169629705",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 13600,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 475208,
+      "mesh_triangles": 13584,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371996505569622",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 13584,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 459232,
+      "mesh_triangles": 13416,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371996555901273",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 13416,
+      "visible": true
+    },
+    {
+      "instances": 162,
+      "mesh_array_bytes": 3552,
+      "mesh_triangles": 80,
+      "path": "InteriorAnchor/RedVeilInterior/@MeshInstance3D@196/GeodesicHologram/GeodesicNodes",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 12960,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 432008,
+      "mesh_triangles": 12924,
+      "path": "RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371958136075271",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12924,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 424800,
+      "mesh_triangles": 11184,
+      "path": "InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial2",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 11184,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 393760,
+      "mesh_triangles": 11180,
+      "path": "RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371957481763808",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 11180,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 345696,
+      "mesh_triangles": 9408,
+      "path": "InteriorAnchor/RedVeilInterior/@MeshInstance3D@196",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 9408,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 367008,
+      "mesh_triangles": 9112,
+      "path": "InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial6",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 9112,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 326640,
+      "mesh_triangles": 8440,
+      "path": "InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial7",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 8440,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 356160,
+      "mesh_triangles": 8360,
+      "path": "InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 8360,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 274976,
+      "mesh_triangles": 7728,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371996539124056",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 7728,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 257520,
+      "mesh_triangles": 6516,
+      "path": "InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial10",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 6516,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 243360,
+      "mesh_triangles": 5848,
+      "path": "InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial8",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 5848,
+      "visible": true
+    },
+    {
+      "instances": 72,
+      "mesh_array_bytes": 3552,
+      "mesh_triangles": 80,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/AirlockFastenerInstances",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 5760,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 194880,
+      "mesh_triangles": 5112,
+      "path": "RefugeAnchor/RedVeilShieldedRefuge/RecessedInteriorLiner",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 5112,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 168480,
+      "mesh_triangles": 4960,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371996488792405",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 4960,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 191568,
+      "mesh_triangles": 4712,
+      "path": "InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial11",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 4712,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 151184,
+      "mesh_triangles": 3872,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/PearlArmor",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 3872,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 137656,
+      "mesh_triangles": 3848,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/WarmGold",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 3848,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 137904,
+      "mesh_triangles": 3360,
+      "path": "InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial13",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 3360,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 121160,
+      "mesh_triangles": 3280,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/WarmGold",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 3280,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 105672,
+      "mesh_triangles": 3076,
+      "path": "RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371958152852488",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 3076,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 116016,
+      "mesh_triangles": 3072,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/PartialRegolithBerm",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 3072,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 84840,
+      "mesh_triangles": 2260,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/CrimsonHarness",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 2260,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 81408,
+      "mesh_triangles": 2080,
+      "path": "InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial12",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 2080,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 72000,
+      "mesh_triangles": 2080,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371992814581884",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 2080,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 76664,
+      "mesh_triangles": 2072,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/MiraHeadAndHelmet/BraidedHair",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 2072,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 75016,
+      "mesh_triangles": 2028,
+      "path": "InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial4",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 2028,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 66872,
+      "mesh_triangles": 1776,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/IridescentPearlFabric",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 1776,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 62848,
+      "mesh_triangles": 1664,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/IridescentPearlFabric",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 1664,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 51400,
+      "mesh_triangles": 1600,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/InterwovenAirlockKnot",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 1600,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 48768,
+      "mesh_triangles": 1344,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/PearlArmor",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 1344,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 50400,
+      "mesh_triangles": 1320,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/RecessedRubyGlazing_6",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 1320,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 50400,
+      "mesh_triangles": 1320,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/RecessedRubyGlazing_4",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 1320,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 50400,
+      "mesh_triangles": 1320,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/RecessedRubyGlazing_1",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 1320,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 42584,
+      "mesh_triangles": 1192,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/MiraHeadAndHelmet/WarmSkin",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 1192,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 41232,
+      "mesh_triangles": 1060,
+      "path": "RefugeAnchor/RedVeilShieldedRefuge/CoralShelterThreshold",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 1060,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 34296,
+      "mesh_triangles": 1008,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/MiraHeadAndHelmet/ClearHelmet",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 1008,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 35520,
+      "mesh_triangles": 960,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/MiraHeadAndHelmet/WarmGold",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 960,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 32512,
+      "mesh_triangles": 896,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/FlexWeave",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 896,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 28680,
+      "mesh_triangles": 740,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/MiraHeadAndHelmet/SoftLipLine",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 740,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 27640,
+      "mesh_triangles": 720,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/CrimsonHarness",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 720,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 28000,
+      "mesh_triangles": 600,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@28/SquareKumikoJoinery",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 600,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 28000,
+      "mesh_triangles": 600,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@32/SquareKumikoJoinery",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 600,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 28000,
+      "mesh_triangles": 600,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@36/SquareKumikoJoinery",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 600,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 28000,
+      "mesh_triangles": 600,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@24/SquareKumikoJoinery",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 600,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 28000,
+      "mesh_triangles": 600,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@40/SquareKumikoJoinery",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 600,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 28000,
+      "mesh_triangles": 600,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@45/SquareKumikoJoinery",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 600,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 28000,
+      "mesh_triangles": 600,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@49/SquareKumikoJoinery",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 600,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 28000,
+      "mesh_triangles": 600,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@66/SquareKumikoJoinery",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 600,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 28000,
+      "mesh_triangles": 600,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@53/SquareKumikoJoinery",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 600,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 28000,
+      "mesh_triangles": 600,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@57/SquareKumikoJoinery",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 600,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 28000,
+      "mesh_triangles": 600,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@62/SquareKumikoJoinery",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 600,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 28000,
+      "mesh_triangles": 600,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/WarmRouteLantern/SquareKumikoJoinery",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 600,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 20352,
+      "mesh_triangles": 520,
+      "path": "InteriorAnchor/RedVeilInterior/@Node3D@197/@MeshInstance3D@199",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 520,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 20352,
+      "mesh_triangles": 520,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/ObservationLounge/WarmPendantGlobe",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 520,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 18272,
+      "mesh_triangles": 496,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/FlexWeave",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 496,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 21600,
+      "mesh_triangles": 480,
+      "path": "InteriorAnchor/RedVeilInterior/@MeshInstance3D@169",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 480,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 21600,
+      "mesh_triangles": 480,
+      "path": "InteriorAnchor/RedVeilInterior/@MeshInstance3D@133",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 480,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 19536,
+      "mesh_triangles": 480,
+      "path": "InteriorAnchor/RedVeilInterior/@Node3D@197/@MeshInstance3D@198",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 480,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 17760,
+      "mesh_triangles": 480,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/WarmInstrumentLight",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 480,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 17008,
+      "mesh_triangles": 464,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/WarmInstrumentLight",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 464,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 9816,
+      "mesh_triangles": 258,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/MiraHeadAndHelmet/VisorData",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 258,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 23040,
+      "mesh_triangles": 192,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@6",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 192,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 23040,
+      "mesh_triangles": 192,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@7",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 192,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 23040,
+      "mesh_triangles": 192,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/ApproachFineInlay",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 192,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 23040,
+      "mesh_triangles": 192,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/CoralEdgeLight",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 192,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 8928,
+      "mesh_triangles": 192,
+      "path": "@MeshInstance3D@571",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 192,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6264,
+      "mesh_triangles": 192,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/MiraHeadAndHelmet/VisorRim",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 192,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 8928,
+      "mesh_triangles": 192,
+      "path": "@MeshInstance3D@585",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 192,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 8928,
+      "mesh_triangles": 192,
+      "path": "@MeshInstance3D@627",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 192,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 8928,
+      "mesh_triangles": 192,
+      "path": "@MeshInstance3D@641",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 192,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 23040,
+      "mesh_triangles": 192,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/PolishedApproachPanels",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 192,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 23040,
+      "mesh_triangles": 192,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/WalkwayInsetRim",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 192,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 8928,
+      "mesh_triangles": 192,
+      "path": "@MeshInstance3D@613",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 192,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 8928,
+      "mesh_triangles": 192,
+      "path": "@MeshInstance3D@599",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 192,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6320,
+      "mesh_triangles": 160,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/MiraHeadAndHelmet/CrimsonHarness",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 160,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6320,
+      "mesh_triangles": 160,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/MiraHeadAndHelmet/EyeCatchlight",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 160,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 7200,
+      "mesh_triangles": 160,
+      "path": "RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371958102520837",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 160,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6320,
+      "mesh_triangles": 160,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/MiraHeadAndHelmet/Pupils",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 160,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 5520,
+      "mesh_triangles": 160,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/MiraHeadAndHelmet/VisorReflection",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 160,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6320,
+      "mesh_triangles": 160,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/MiraHeadAndHelmet/ChestnutEyes",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 160,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6320,
+      "mesh_triangles": 160,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/MiraHeadAndHelmet/EyeIvory",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 160,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6320,
+      "mesh_triangles": 160,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/MiraHeadAndHelmet/PearlArmor",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 160,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6816,
+      "mesh_triangles": 144,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@27",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 144,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6816,
+      "mesh_triangles": 144,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@65",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 144,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6816,
+      "mesh_triangles": 144,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@23",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 144,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6816,
+      "mesh_triangles": 144,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@31",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 144,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6816,
+      "mesh_triangles": 144,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@35",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 144,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6816,
+      "mesh_triangles": 144,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@61",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 144,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6816,
+      "mesh_triangles": 144,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@56",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 144,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6816,
+      "mesh_triangles": 144,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@52",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 144,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6816,
+      "mesh_triangles": 144,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/RubyLanternPost",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 144,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6816,
+      "mesh_triangles": 144,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@48",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 144,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6816,
+      "mesh_triangles": 144,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@39",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 144,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 6816,
+      "mesh_triangles": 144,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@44",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 144,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 5880,
+      "mesh_triangles": 140,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/ObservationLounge/FloweringTreeBranches",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 140,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 3872,
+      "mesh_triangles": 96,
+      "path": "CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/LavenderSash",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 96,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 7680,
+      "mesh_triangles": 64,
+      "path": "InteriorAnchor/RedVeilInterior/HeroPanel_surface/@MeshInstance3D@284",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 64,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 7680,
+      "mesh_triangles": 64,
+      "path": "InteriorAnchor/RedVeilInterior/HeroPanel_energy/@MeshInstance3D@297",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 64,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 7680,
+      "mesh_triangles": 64,
+      "path": "InteriorAnchor/RedVeilInterior/HeroPanel_crew/@MeshInstance3D@323",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 64,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 7680,
+      "mesh_triangles": 64,
+      "path": "InteriorAnchor/RedVeilInterior/HeroPanel_forecast/@MeshInstance3D@313",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 64,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 2208,
+      "mesh_triangles": 24,
+      "path": "HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993804437687",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 24,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 2208,
+      "mesh_triangles": 24,
+      "path": "RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371957464986591",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 24,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@24/@MeshInstance3D@25",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@22",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/WarmRouteLantern/@MeshInstance3D@21",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/LanternFoot",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@20",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@19",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@18",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@17",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@16",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@15",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@14",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@13",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@12",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@11",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@10",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@9",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@8",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/PanelExpansionJoint",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@MeshInstance3D@5",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@66/@MeshInstance3D@67",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@64",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@62/@MeshInstance3D@63",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@60",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@57/@MeshInstance3D@58",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@55",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@53/@MeshInstance3D@54",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@51",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@49/@MeshInstance3D@50",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@47",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@45/@MeshInstance3D@46",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@43",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@40/@MeshInstance3D@41",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@38",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@36/@MeshInstance3D@37",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@34",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@32/@MeshInstance3D@33",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@30",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@28/@MeshInstance3D@29",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@26",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@614/@MeshInstance3D@623",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@614/@MeshInstance3D@622",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@614/@MeshInstance3D@621",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@614/@MeshInstance3D@620",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@614/@MeshInstance3D@619",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@614/@MeshInstance3D@618",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@614/@MeshInstance3D@617",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@614/@MeshInstance3D@616",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@614/@MeshInstance3D@615",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@600/@MeshInstance3D@612",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@600/@MeshInstance3D@611",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@600/@MeshInstance3D@610",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@600/@MeshInstance3D@609",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@600/@MeshInstance3D@608",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@600/@MeshInstance3D@607",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@600/@MeshInstance3D@606",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@600/@MeshInstance3D@605",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@600/@MeshInstance3D@604",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@600/@MeshInstance3D@603",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@600/@MeshInstance3D@602",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@600/@MeshInstance3D@601",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@642/@MeshInstance3D@648",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@642/@MeshInstance3D@647",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@642/@MeshInstance3D@646",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@642/@MeshInstance3D@645",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@642/@MeshInstance3D@644",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@642/@MeshInstance3D@643",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@628/@MeshInstance3D@640",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@628/@MeshInstance3D@639",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@628/@MeshInstance3D@638",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@628/@MeshInstance3D@637",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@628/@MeshInstance3D@636",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@628/@MeshInstance3D@635",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@628/@MeshInstance3D@634",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@628/@MeshInstance3D@633",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@628/@MeshInstance3D@632",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@628/@MeshInstance3D@631",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@628/@MeshInstance3D@630",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@628/@MeshInstance3D@629",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@614/@MeshInstance3D@626",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@614/@MeshInstance3D@625",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@614/@MeshInstance3D@624",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@572/@MeshInstance3D@579",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@572/@MeshInstance3D@578",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@572/@MeshInstance3D@577",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@572/@MeshInstance3D@576",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@572/@MeshInstance3D@575",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@572/@MeshInstance3D@574",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@572/@MeshInstance3D@573",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@642/@MeshInstance3D@649",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@642/@MeshInstance3D@650",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@642/@MeshInstance3D@651",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@642/@MeshInstance3D@652",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@642/@MeshInstance3D@653",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@642/@MeshInstance3D@654",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@MeshInstance3D@656",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@MeshInstance3D@657",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@MeshInstance3D@658",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@MeshInstance3D@659",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@586/@MeshInstance3D@598",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@586/@MeshInstance3D@597",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@586/@MeshInstance3D@596",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@586/@MeshInstance3D@595",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@586/@MeshInstance3D@594",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@586/@MeshInstance3D@593",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@586/@MeshInstance3D@592",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@586/@MeshInstance3D@591",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@586/@MeshInstance3D@590",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@586/@MeshInstance3D@589",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@586/@MeshInstance3D@588",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@586/@MeshInstance3D@587",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@572/@MeshInstance3D@584",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@572/@MeshInstance3D@583",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@572/@MeshInstance3D@582",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@572/@MeshInstance3D@581",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 1296,
+      "mesh_triangles": 12,
+      "path": "@Node3D@572/@MeshInstance3D@580",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 12,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 216,
+      "mesh_triangles": 2,
+      "path": "InteriorAnchor/RedVeilInterior/ConsoleTablet_00/@MeshInstance3D@336",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 2,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 216,
+      "mesh_triangles": 2,
+      "path": "LandscapeAnchor/RoseRegolithLandscape/FineRegolith",
+      "shadow_caster": false,
+      "surfaces": 1,
+      "triangles": 2,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 216,
+      "mesh_triangles": 2,
+      "path": "InteriorAnchor/RedVeilInterior/ConsoleTablet_01/@MeshInstance3D@341",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 2,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 216,
+      "mesh_triangles": 2,
+      "path": "InteriorAnchor/RedVeilInterior/ConsoleTablet_02/@MeshInstance3D@346",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 2,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 216,
+      "mesh_triangles": 2,
+      "path": "InteriorAnchor/RedVeilInterior/ConsoleTablet_03/@MeshInstance3D@351",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 2,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 216,
+      "mesh_triangles": 2,
+      "path": "InteriorAnchor/RedVeilInterior/ConsoleTablet_04/@MeshInstance3D@356",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 2,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 216,
+      "mesh_triangles": 2,
+      "path": "InteriorAnchor/RedVeilInterior/ConsoleTablet_05/@MeshInstance3D@361",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 2,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 216,
+      "mesh_triangles": 2,
+      "path": "InteriorAnchor/RedVeilInterior/ConsoleTablet_06/@MeshInstance3D@366",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 2,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 216,
+      "mesh_triangles": 2,
+      "path": "InteriorAnchor/RedVeilInterior/ConsoleTablet_07/@MeshInstance3D@371",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 2,
+      "visible": true
+    },
+    {
+      "instances": 1,
+      "mesh_array_bytes": 216,
+      "mesh_triangles": 2,
+      "path": "InteriorAnchor/RedVeilInterior/ConsoleTablet_08/@MeshInstance3D@376",
+      "shadow_caster": true,
+      "surfaces": 1,
+      "triangles": 2,
+      "visible": true
+    }
+  ],
+  "renderer": "X11",
+  "scope": "All retained mesh geometry including MultiMesh multiplicity. Frustum candidates use conservative AABB/plane rejection, not occlusion, shadow-pass or GPU LOD accounting. Array bytes estimate uncompressed CPU mesh channels, not full resident process/GPU memory. Software-cloud timing is not a target-device benchmark.",
+  "totals": {
+    "mesh_instances": 246,
+    "scene_triangles": 768766,
+    "shadow_casting_triangles": 686276,
+    "unique_materials": 74,
+    "unique_mesh_array_bytes": 22337096,
+    "unique_meshes": 246,
+    "views": [
+      {
+        "capture": "title.png",
+        "frustum_candidate_surfaces": 168,
+        "frustum_candidate_triangles": 733556,
+        "name": "title",
+        "rendered_draw_calls": 624.0,
+        "rendered_primitives": 3266658.0,
+        "viewport_shadow_draw_calls": 0,
+        "viewport_shadow_primitives": 2530854,
+        "viewport_visible_draw_calls": 624,
+        "viewport_visible_primitives": 735804
+      },
+      {
+        "capture": "interior.png",
+        "frustum_candidate_surfaces": 58,
+        "frustum_candidate_triangles": 672908,
+        "name": "interior",
+        "rendered_draw_calls": 358.0,
+        "rendered_primitives": 3271112.0,
+        "viewport_shadow_draw_calls": 0,
+        "viewport_shadow_primitives": 2596184,
+        "viewport_visible_draw_calls": 358,
+        "viewport_visible_primitives": 674928
+      }
+    ],
+    "visible_triangles": 768766
+  },
+  "viewport_size": [
+    960,
+    540
+  ],
+  "world_only": true
+}

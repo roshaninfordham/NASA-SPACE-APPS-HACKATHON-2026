@@ -31,14 +31,17 @@ Touch controls are provided for landscape browser play. No production native And
 
 ## Controls
 
-| Action                   | Keyboard / mouse   | Controller                 |
-| ------------------------ | ------------------ | -------------------------- |
-| Walk / look              | WASD / mouse       | Left / right sticks        |
-| Inspect or use equipment | E; hold to inspect | X; hold to inspect         |
-| Clean visor              | Q                  | Y                          |
-| Hop                      | Space              | A                          |
-| Pause                    | Escape             | Start                      |
-| Field guide              | F1                 | Open from the title screen |
+| Action                   | Keyboard / mouse                    | Controller                 |
+| ------------------------ | ----------------------------------- | -------------------------- |
+| Walk / look              | WASD / mouse                        | Left / right sticks        |
+| Inspect or use equipment | E; hold to inspect                  | X; hold to inspect         |
+| Clean visor              | Q                                   | Y                          |
+| Hop                      | Space                               | A                          |
+| Pause                    | Escape                              | Start                      |
+| Compare mission plans    | P, or Pause → Compare mission plans | Open from Pause            |
+| Field guide              | F1                                  | Open from the title screen |
+
+From alpha 0.7, **P** opens a paused one-hour comparison of cleaner and power-saving choices during a mission. **Use this plan** applies only the chosen switches. See [planner assumptions](MISSION-PLANNER.md).
 
 From alpha 0.6, choose **Explorer Suit Lab** or **Habitat Field Notes** on the title menu. In untimed exploration, **I** opens the habitat lessons. The suit lab also opens from Pause. Back/Escape returns you to the previous activity. These learning interfaces pause mission time and resources.
 
