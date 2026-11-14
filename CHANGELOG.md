@@ -4,12 +4,21 @@ All published game versions and notable unreleased work are recorded here. The v
 
 ## Unreleased
 
-- Implemented the next updater candidate on main: title/debrief notification, bounded GitHub discovery, verified desktop download, staged activation, explicit restart, and startup recovery. No published alpha includes this flow yet.
-- Added pinned runtime compatibility, repeated per-boot verification, update-state persistence across mission reloads, download cancellation/retry, and manual-installer fallbacks.
-- Added secure owner key provisioning, opt-in signed release assets, exact-source/tag/asset publication checks, and automatic temporary-secret cleanup.
-- Added isolated client/UI, real-PCK boot/recovery, concurrency, tamper, and release-tool checks. Production signing and baseline-to-pack acceptance remain release gates; Mac/Windows physical restart and mobile updates are not validated.
-- Documented parallel task ownership and independent security review; commits represent actual reviewed work.
-- Further missions, final art/audio, mobile input/accessibility, physical-device profiling, and learner evaluation remain open.
+- Implementing the design team's ivory/crimson organic habitat and holographic mission-control direction as modular, walkable 3D scenes.
+- Added integrity-checked browser offline/update packaging, a Pages delivery workflow, and multi-window update controls.
+- Added a reproducible internal Android build route; production signing, device testing and native mobile updating remain open.
+- Added authentic versioned screenshots/GIFs and a ten-outcome roadmap with explicit evidence and limitations.
+
+## [0.4.0-alpha.1] — 2026-11-14
+
+Published from `48901d0bce68e72974b36377c3a060f90403ebe9`, with four platform archives and five signed-update/manifest/checksum assets. This release retains the mechanics-era visuals.
+
+- Added title/debrief update notifications, bounded public GitHub discovery, verified desktop content downloads, explicit restart, and startup recovery.
+- Pinned the RSA trust root and runtime contract; verifies signatures, exact sizes and hashes before installation and on boot. Incompatible runtime changes require a full installer.
+- Added cancellation/retry, persisted client state, concurrent-install protection, staged activation, and recovery to previous or bundled content.
+- Provisioned signing through the owner's machine and encrypted Actions secret. Releases publish the exact accepted build artifacts without rebuilding.
+- Verified real GitHub transfers and automatic exported Linux GUI relaunch under Xvfb/Mesa, repeat startup, and tamper recovery. The older-version fixture was synthetic; physical Mac/Windows and a previously shipped baseline transition remain unverified. [Acceptance evidence](docs/evidence/update-0.4.0-alpha.1.json).
+- Older releases require one manual upgrade. Native Android/iOS updating is not included.
 
 ## [0.3.0-alpha.1] — 2026-11-14
 

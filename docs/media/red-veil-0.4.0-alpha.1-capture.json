@@ -1,0 +1,42 @@
+{
+  "version": "0.4.0-alpha.1",
+  "source": "48901d0bce68e72974b36377c3a060f90403ebe9",
+  "url": "http://127.0.0.1:5192/",
+  "captured_utc": "2026-11-14T20:10:25.871Z",
+  "viewport": "1280x720 title/academy stills; 960x540 gameplay recording",
+  "gif": "960x540, 10 fps, 128-color GIF encoding",
+  "inputs": "Begin; mouse turn toward array; walk forward (W); toggle visor cleaning (Q); hold interaction (E)",
+  "actual_gameplay": true,
+  "limits": "Software-rendered Chromium capture, provisional artwork, not a performance benchmark or native-platform validation. GIF omits startup/loading and has no audio.",
+  "browser_errors": [],
+  "capture_date_utc": "2026-11-14",
+  "captured_utc_note": "Timestamp is the final gameplay capture completion; title and academy stills were captured earlier the same day from the same export.",
+  "gif_duration_seconds": 20.0,
+  "files": [
+    {
+      "file": "red-veil-0.4.0-alpha.1-academy.png",
+      "bytes": 54946,
+      "sha256": "ebb6f589867efc2f8407807d8a2e347fd9c7d4016575e7fb46755ed31857850a"
+    },
+    {
+      "file": "red-veil-0.4.0-alpha.1-gameplay.gif",
+      "bytes": 4115146,
+      "sha256": "e40e79ed4bb818842b2ce81ce9948e08b8da35fd6994aa4b43056eb59c42cfa1"
+    },
+    {
+      "file": "red-veil-0.4.0-alpha.1-mission.png",
+      "bytes": 149035,
+      "sha256": "24262bbd870795e756c9869cc23517e67dccf89e2a384d3c3f43f2d7b440b42a"
+    },
+    {
+      "file": "red-veil-0.4.0-alpha.1-question.png",
+      "bytes": 44274,
+      "sha256": "f2a6565e0a3ffcd112ce7bd77dc6deb568625c785e6c3ff2be60e620733ee788"
+    },
+    {
+      "file": "red-veil-0.4.0-alpha.1-title.png",
+      "bytes": 196143,
+      "sha256": "9f5e4d8eaa7ddad8b2b6d3b09b20793c0e277e30761867bc1c4fef837607fa60"
+    }
+  ]
+}

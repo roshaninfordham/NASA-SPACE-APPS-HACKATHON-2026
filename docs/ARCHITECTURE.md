@@ -1,5 +1,7 @@
 # Red Veil system architecture
 
+**Reviewed November 14, 2026.** This describes the primary game and current update implementation. [Team status](TEAM-STATUS.md) identifies the published 0.4.0-alpha.1 release and scoped acceptance evidence; [roadmap](ROADMAP.md) tracks browser/mobile work that is not yet a verified deployment.
+
 ## Primary game runtime
 
 Godot 4.6.3 with typed GDScript and the compatibility renderer. The game is an offline first-person adventure. It has no account system, remote gameplay service, analytics SDK, or runtime dependency on a research API. The updater can contact public GitHub release endpoints without sending learner profiles or mission logs.
@@ -16,17 +18,26 @@ flowchart LR
   Art[Art profile and replacement scenes] --> World
   Art --> HUD
   Model --> Debrief[Debrief and local mission log]
+  Debrief --> Support[Suggested practice topic]
+  Lessons[Authored lesson data] --> Tutor[Local practice and review policy]
+  Support --> Tutor
+  Tutor --> Academy[Replaceable academy interface]
+  Academy --> Tutor
 ```
 
-| Module                             | Responsibility                                                  | Must not own                              |
-| ---------------------------------- | --------------------------------------------------------------- | ----------------------------------------- |
-| `game/scripts/mission.gd`          | Energy, exposure, dust, inspection, terminal rules, baseline    | Scene geometry, input, sound, network     |
-| `game/scripts/player.gd`           | Movement, gravity, camera, instrument presentation              | Resource-budget rules                     |
-| `game/scripts/world.gd`            | World construction, collisions, weather presentation, art slots | Mission outcome logic                     |
-| `game/scripts/game.gd`             | Interaction routing, mission clock, radio, UI binding           | Scientific source values                  |
-| `game/scripts/art_profile.gd`      | Scene, palette, font, and rendering-budget choices              | Physics or safety thresholds              |
-| `game/data/nasa-observations.json` | Units and provenance of sourced numerical observations          | Invented weather presented as measurement |
-| `scripts/build_game.py`            | Tests, exports, notices, checksums, manifest                    | Implicit publication                      |
+| Module                                   | Responsibility                                                                     | Must not own                                       |
+| ---------------------------------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `game/scripts/mission.gd`                | Energy, exposure, dust, inspection, terminal rules, baseline                       | Scene geometry, input, sound, network              |
+| `game/scripts/player.gd`                 | Movement, gravity, camera, instrument presentation                                 | Resource-budget rules                              |
+| `game/scripts/world.gd`                  | World construction, collisions, weather presentation, art slots                    | Mission outcome logic                              |
+| `game/scripts/game.gd`                   | Interaction routing, mission clock, radio, UI binding                              | Scientific source values                           |
+| `game/scripts/art_profile.gd`            | Scene, palette, font, and rendering-budget choices                                 | Physics or safety thresholds                       |
+| `game/data/nasa-observations.json`       | Units and provenance of sourced numerical observations                             | Invented weather presented as measurement          |
+| `game/scripts/learning.gd`               | Local practice estimates, question rotation, review policy and recoverable profile | Mission physics, cloud telemetry or visual styling |
+| `game/scripts/academy.gd`                | Practice interface, hints, explanations and reset                                  | Scientific equations or signing decisions          |
+| `game/updater/bootstrap.gd` / `store.gd` | Pinned trust root, verified slots, activation journal and startup recovery         | Network discovery or learner records               |
+| `game/updater/client.gd` / `panel.gd`    | Public release checks, bounded download, progress and explicit restart controls    | Deciding that unverified code is safe              |
+| `scripts/build_game.py`                  | Tests, exports, notices, checksums, manifest                                       | Implicit publication                               |
 
 The simulation updates in fixed steps of 1/120 hour. Four real minutes represent twelve fictional mission hours. Character movement uses real-time Godot physics and 3.71 m/s² gravity; the mission clock is deliberately compressed. This is a teaching abstraction, not a consistently time-scaled physical reconstruction.
 
@@ -42,7 +53,11 @@ Scene slots, shared palette/font settings, a custom HUD contract, and detached v
 
 This does not make every future engine change free. It makes presentation changes local and keeps numerical rules testable. The current orchestration module still contains the fallback HUD builder; design-owned HUD scenes are the intended route for larger interface pivots.
 
-## Earlier web prototype
+## Two distinct browser paths
+
+The exported Godot game is the browser version of the first-person experience. The owner enabled GitHub Pages Actions, but a public deployment remains pending the browser packaging tests and deployment run. Browser installation/cache/update packaging is being developed separately from the native resource-pack updater. A Web ZIP, a locally served preview, an installable PWA, and a public HTTPS deployment are different delivery states. Current browser/mobile readiness is tracked in [the roadmap](ROADMAP.md); desktop acceptance must not be reported as Safari, iOS or Android validation.
+
+### Earlier reference prototype
 
 The repository-root Vite/Three.js application remains a reference prototype and independent model testbed. Its modules are `src/scenarios.js`, `src/simulation.js`, `src/scene.js`, `src/view.js`, and `src/main.js`. It must not be mistaken for the final game. The two implementations share source observations and scientific principles; their interaction-specific timing differs and is documented rather than claimed equivalent.
 
@@ -58,4 +73,14 @@ A persistent client checks bounded public GitHub metadata, verifies signatures b
 
 ## Release process
 
-The pinned engine/template installer verifies SHA-512 against the official release manifest. The build script runs native checks, exports four targets, smoke-tests the exported Linux binary, packages attribution and documentation, and emits SHA-256 checksums plus a source-commit manifest. The manual GitHub workflow produces downloadable CI artifacts; public game downloads are separately published as Release assets. Native signing and store distribution are separate release gates.
+The pinned engine/template installer verifies SHA-512 against the official release manifest. The build script runs native checks, exports four targets, smoke-tests the exported Linux binary, packages attribution and documentation, and emits SHA-256 checksums plus a source-commit manifest. The build workflow produces downloadable CI artifacts from a clean exact source revision. An accepted-artifact publication workflow can upload those same bytes to a matching draft without rebuilding; source, tag, manifest, signature and file hashes remain bound together. Public game downloads are Release assets. Native application signing/notarization, Android packaging and store distribution are separate release gates.
+
+Published 0.4.0-alpha.1 from `48901d0` passed Linux fixture-to-production-content acceptance using its actual signature and pack bytes. A GUI pass also exercised real `OS.create_instance` relaunch into healthy production content under authenticated Xvfb/Mesa. The fixture is not an earlier shipped installer and transport was local; physical Mac/Windows, real HTTP pack transfer, physical GPU/visual quality and audio remain unverified. Live GitHub metadata connectivity was checked separately. See [team status](TEAM-STATUS.md) for exact evidence and remaining device/network gaps.
+
+## Android and iOS delivery boundary
+
+Android uses a separate export-preset template and isolated build helper. The internal validation artifact has a distinct `.internal` package and disposable signing identity. A future production APK needs a stable app keystore, increasing version code and tested OS installation/upgrade flow; the existing content-update RSA key is a separate trust purpose. Native mobile content installation remains guarded off. The iOS near-term route is browser/PWA delivery subject to real Safari/device checks; no generic GitHub IPA installation or native iOS update capability is claimed. [Mobile distribution](MOBILE-DISTRIBUTION.md) records tools, evidence and platform requirements.
+
+## Maintenance and ownership
+
+The mission model, learner policy, presentation, updater and release tooling have separate responsibilities. Removing a file requires checking its entrypoint, test, build and documentation uses. The earlier model and source brief are retained intentionally; their presence is not evidence of dead code. New cross-module changes follow [parallel ownership and integration rules](PARALLEL-DEVELOPMENT.md), with one integration owner running the combined checks and serializing Git/release operations.

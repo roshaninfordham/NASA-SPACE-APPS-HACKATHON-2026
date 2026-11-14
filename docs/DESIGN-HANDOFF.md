@@ -1,5 +1,7 @@
 # Red Veil design-team handoff
 
+**Reviewed November 14, 2026.** [Team status](TEAM-STATUS.md) records the exact released build. [The roadmap](ROADMAP.md) separates presentation, media, platform and validation work.
+
 ## Creative direction
 
 The player is the astronaut, in first person. Mira is a companion character, not a camera mode. Aim for sci-fi wonder: futuristic, unconventional, warm, playful, and compelling to revisit. Young explorers should want to discover another system and try another idea. Do not use coercive rewards, advertising, purchases, or streak pressure.
@@ -63,3 +65,17 @@ Run `npm run game:test`, the gameplay integration script, and the art-contract t
 ### Update interface
 
 The update client lives under the persistent `Updates` autoload so a mission reload cannot lose an in-progress download or restart prompt. `updater/panel.gd` is presentation; it accepts the shared art profile/theme. The title/debrief notification is deferred during active play. Keep verification errors, cancellation, restart consent, manual-installer fallback, and explicit interrupted-storage repair accessible when redesigning. Changes to autoloads, global script registries, or runtime layout need compatibility review and may require a new full installer. See [updates](UPDATES.md).
+
+## Captures and review material
+
+The inspected 0.4.0-alpha.1 [mission still](media/red-veil-0.4.0-alpha.1-mission.png), [20-second gameplay GIF](media/red-veil-0.4.0-alpha.1-gameplay.gif), [title](media/red-veil-0.4.0-alpha.1-title.png), [academy](media/red-veil-0.4.0-alpha.1-academy.png) and [question](media/red-veil-0.4.0-alpha.1-question.png) captures provide current review material. [Media provenance and reproduction](MEDIA.md) identifies the exact build and scope.
+
+Screenshots and GIFs must come from the running software. Record the source commit or release, build target, viewport, input sequence, and any special test state. Caption the current scene as provisional where appropriate. A browser capture of an update-information screen is not evidence of native installation or restart, and a staged test notification must be labeled as such.
+
+Use actual gameplay to show scale, navigation, equipment interaction, readability and pacing. Keep an unmodified capture or repeatable capture procedure so the team can reproduce the view. Compression, trimming and a carefully chosen viewport can make review material clearer; do not composite nonexistent controls, characters, effects or outcomes into a product screenshot. Licensed concept art belongs in a separately labeled concept section.
+
+## Next design review
+
+Prioritize a coherent first-person arrival, readable short instructions for ages 7–12, meaningful equipment feedback, and a clear distinction between dust, sunlight, stored energy and invisible radiation shown through instruments. Review sound with volume/mute control, captions or equivalent visual cues, and an explicit asset license. The current mission and academy are functional prototypes; new artwork does not establish expert scientific approval or learner comprehension.
+
+Deliver changes through the existing art/theme/scene contracts first. If a design needs a new interaction, collision boundary, global class, autoload or runtime layout, agree that behavior with engineering and update its acceptance checks. A signed content pack must remain compatible with the baseline installer; otherwise use a planned full-installer transition.

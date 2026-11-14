@@ -6,9 +6,11 @@ A first-person Mars survival adventure for ages 7–12. Explore an outpost, insp
 
 [![Validation](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml/badge.svg)](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml)
 
-**Status: early playable mechanics alpha.** The design team is developing the visual identity. Current geometry, characters, scanner, and interface are provisional and replaceable. This is not final artwork, certified astronaut training, or a product-grade release.
+**Status: early playable alpha.** The public download below contains the mechanics-era visuals. A new design-team direction—flowing ivory/crimson architecture and holographic mission control—is being implemented on main. It is not yet a released or production-certified game.
 
-![First-person mechanics alpha with provisional art](docs/media/first-person-alpha.png)
+![Actual v0.4 gameplay before the visual pivot](docs/media/red-veil-0.4.0-alpha.1-gameplay.gif)
+
+[Versioned screenshots and capture provenance](docs/MEDIA.md).
 
 ## Play on your laptop
 
@@ -16,20 +18,22 @@ Get the game from [GitHub Releases](https://github.com/roshaninfordham/NASA-SPAC
 
 The build pipeline creates macOS universal, Windows x64, Linux x64, and Web archives, with licenses and SHA-256 checksums. The Mac universal binary includes arm64 for Apple Silicon, including M5, and x86_64 for Intel. Early Mac and Windows builds are unsigned; the Mac build is not notarized. Physical Mac/Windows launches and device-specific performance remain to be verified. Native Android and iOS installers are not yet provided.
 
-**Current download: [v0.3.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.3.0-alpha.1).**
+**Current download: [v0.4.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.4.0-alpha.1).**
 
 | Platform                               | Download                                                                                                                                                             |
 | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MacBook M5 / Apple Silicon / Intel Mac | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.3.0-alpha.1/Red-Veil-0.3.0-alpha.1-macOS-universal.zip) |
-| Windows x64                            | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.3.0-alpha.1/Red-Veil-0.3.0-alpha.1-Windows-x64.zip)             |
-| Linux x64                              | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.3.0-alpha.1/Red-Veil-0.3.0-alpha.1-Linux-x64.zip)                 |
-| WebGL2 browser                         | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.3.0-alpha.1/Red-Veil-0.3.0-alpha.1-Web.zip)                         |
+| MacBook M5 / Apple Silicon / Intel Mac | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.4.0-alpha.1/Red-Veil-0.4.0-alpha.1-macOS-universal.zip) |
+| Windows x64                            | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.4.0-alpha.1/Red-Veil-0.4.0-alpha.1-Windows-x64.zip)             |
+| Linux x64                              | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.4.0-alpha.1/Red-Veil-0.4.0-alpha.1-Linux-x64.zip)                 |
+| WebGL2 browser                         | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.4.0-alpha.1/Red-Veil-0.4.0-alpha.1-Web.zip)                         |
 
 See [download instructions](docs/DOWNLOADS.md). No development tools are required to play the native app.
 
-## Updates in development
+## In-game updates
 
-The published 0.3.0-alpha.1 download still needs manual updates. The next candidate on main adds a small in-game release notice and a verified desktop install/restart/recovery flow connected to GitHub Actions. Production signing setup and a baseline-installer-to-update acceptance run are required before enabling signed installs. Engine/runtime changes take a full-installer path; native mobile updating is not yet available. [Setup, behavior and limits](docs/UPDATES.md).
+The **v0.4.0-alpha.1 desktop downloads include signed content updates**: notice → download → explicit restart, with verification and recovery. Older releases need one manual upgrade. The Linux acceptance run fetched the actual public GitHub release, installed it, automatically relaunched, and recovered from a tampered pack. Mac/Windows physical acceptance and upgrades from previously shipped baselines remain separate gates. Engine/runtime changes require a full installer. [Behavior, evidence and limits](docs/UPDATES.md).
+
+Browser offline/update packaging and the GitHub Pages deployment workflow are now available in the repository. An internal Android build route is documented; no production Android/iOS native download or mobile self-updater is published.
 
 ## Your first mission
 
@@ -46,7 +50,7 @@ Keyboard: **WASD** move, **mouse** look, **E** use/hold to inspect, **Q** visor,
 
 ## Learn with Mira
 
-Mira's Field Academy adds five short science lessons, ten questions, hints and explanations, and a local review plan. It is accessible from the title menu and mission debrief. These lessons are included in alpha 0.3.0-alpha.1. The tutor uses provisional Bayesian estimates, not a trained AI model; [learning design](docs/LEARNING-DESIGN.md) documents the research and limits. The [request tracker](docs/REQUEST-TRACKER.md) distinguishes delivered features from open requirements.
+Mira's Field Academy adds five short science lessons, ten questions, hints and explanations, and a local review plan. It is accessible from the title menu and mission debrief. These lessons are included in alpha 0.4.0-alpha.1. The tutor uses provisional Bayesian estimates, not a trained AI model; [learning design](docs/LEARNING-DESIGN.md) documents the research and limits. The [request tracker](docs/REQUEST-TRACKER.md) distinguishes delivered features from open requirements.
 
 ## Design direction
 

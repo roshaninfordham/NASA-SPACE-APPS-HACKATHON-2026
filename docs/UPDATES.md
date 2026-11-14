@@ -2,9 +2,9 @@
 
 ## What players can expect
 
-The published 0.3.0-alpha.1 installer has no in-game updater. It needs one manual upgrade to an updater-enabled installer. Work on main adds the next update flow; it must not be described as shipped until the installer, signed release assets, and complete install/restart/recovery path are validated together.
+The published **v0.4.0-alpha.1** desktop installer includes the signed-content updater. The older v0.3 installer needs one manual upgrade. [Linux live-download/restart/recovery evidence](evidence/update-0.4.0-alpha.1.json) records the exact release and limits: the baseline was a disposable older-version fixture, not a previously shipped installer; physical Mac/Windows acceptance remains open.
 
-The intended desktop flow is **Update available → Install → Restart**. Checks use this public GitHub repository without a GitHub login. The game checks a signed manifest and exact pack size/hash before staging new game content. It keeps the previous working content for recovery if startup fails. It never asks a player for administrator credentials or a GitHub token. A missing signing configuration allows a manual-preview release notice, not unsigned automatic installation.
+The desktop flow is **Update available → Install → Restart**. Checks use this public GitHub repository without a GitHub login. The game checks a signed manifest and exact pack size/hash before staging new game content. It keeps the previous working content for recovery if startup fails. It never asks a player for administrator credentials or a GitHub token. A missing signing configuration allows a manual-preview release notice, not unsigned automatic installation.
 
 Updates can replace game scripts, scenes, models, textures, and audio for the same Godot 4.6.3 runtime. Replacing the native engine, changing the installer's pinned trust root, adding native libraries, or changing startup registries is outside the supported content-update contract and requires a new full installer. Signed scripts are executable trusted code, not a sandbox against a compromised release author. The desktop content pack is exported with desktop texture formats; it is not a native mobile update package. Browser and future mobile distribution need their own supported update flow. No Android/iOS installer is currently published.
 
@@ -12,7 +12,7 @@ Godot initializes global script-class and resource UID registries before content
 
 A successful startup acknowledgement only means that the startup checkpoint completed. It cannot certify every mission, device, or later gameplay path. Initial app signing/notarization, backups, real-device tests, and release review remain separate from content signatures.
 
-## One-time owner setup
+## One-time owner setup (completed for this repository)
 
 Run this on **your own trusted laptop**, outside the managed cloud terminal. That terminal's repository-administration and secrets requests were denied even after a personal login. No private signing key has been generated or provisioned by the development agents.
 
@@ -54,7 +54,7 @@ For local builds, use an existing key outside the checkout:
 python3 scripts/build_game.py --version 0.4.0-alpha.1 --signed-updates --private-key "$HOME/.config/red-veil/signing/update-private.pem"
 ```
 
-This version is an example for the next candidate, not a declaration that it is published. Update the project version deliberately before building a later release.
+Version 0.4.0-alpha.1 is already published. Update the project version deliberately before building a later release; published assets are immutable.
 
 Signed builds produce the four platform ZIPs plus these fixed assets:
 
