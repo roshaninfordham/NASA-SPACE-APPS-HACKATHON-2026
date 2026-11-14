@@ -19,7 +19,7 @@ Native Actions gates check the exact archive's strict bundle signature, both arc
 
 ## Windows and Linux
 
-Windows x64: extract the **whole ZIP** and run `KOMAKU-Shield-Protocol.exe`. Keep the included `libEGL.dll` and `libGLESv2.dll` beside the EXE; they provide the ANGLE graphics fallback. No editor or development runtime is needed. Windows may show SmartScreen because this alpha has no publisher certificate/reputation. Only if you trust this repository's download, use the available **More info → Run anyway** option. Managed-device policy can prohibit that override. Release builds now require native Windows headless and graphical startup checks; this does not remove SmartScreen.
+Windows x64: extract the **whole ZIP** and run `KOMAKU-Shield-Protocol.exe`. No editor or development runtime is needed. Windows may show SmartScreen because this alpha has no publisher certificate/reputation. Only if you trust this repository's download, use the available **More info → Run anyway** option. Managed-device policy can prohibit that override. Release builds now require native Windows headless and graphical startup checks; this does not remove SmartScreen.
 
 Linux x64: extract the ZIP and run `KOMAKU-Shield-Protocol.x86_64`. A headless launch of the exported binary is verified in the build environment. Desktop-driver and distribution coverage are not established by that check.
 

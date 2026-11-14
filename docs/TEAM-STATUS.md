@@ -2,7 +2,7 @@
 
 **Current package version: 0.6.1-alpha.1, November 14, 2026.** This is a packaging/update repair for the 0.6 gameplay release. The [release list](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases) and each archive's manifest identify the published source and downloads. Four platform ZIPs plus signed content, its manifest/signature, release manifest and checksums make nine assets.
 
-The repair enables Mac ad-hoc bundle signing and includes an explicit-consent installer, adds native Mac/Windows launch gates, bundles Windows ANGLE fallback libraries, and checks for updates at every fresh startup. [Root cause and limits](MACOS-LAUNCH-REPAIR.md). A blocked 0.6 Mac app needs one corrected full installation; it cannot repair its own bundle via content updates.
+The repair enables Mac ad-hoc bundle signing and includes an explicit-consent installer, adds native Mac/Windows launch gates, checks Windows ANGLE fallback startup, and checks for updates at every fresh startup. [Root cause and limits](MACOS-LAUNCH-REPAIR.md). A blocked 0.6 Mac app needs one corrected full installation; it cannot repair its own bundle via content updates.
 
 The game now has a shared brand configuration, a walkable ornamented habitat and holographic control room, a shielded refuge, Mira's redesigned suit, a new scanner, lantern-lit terrain and an untimed exploration mode. It retains the four-minute first-person science mission, separate energy stores, dust/radiation decisions, and five-concept local practice academy. The new scenes are procedural interpretations of supplied designs; final photoreal art and a complete escort/rescue campaign are not delivered.
 

@@ -10,7 +10,7 @@ Packaging and update-discovery repair. Gameplay and 0.6 artwork are unchanged.
 - Derive Mac filenames using Apple-compatible decomposed Unicode from the shared brand configuration, preserving the displayed KŌMAKU name. Native gates rejected the initially composed resource seal.
 - Include a consent-based Mac installer that verifies integrity, installs into the user's Applications folder, preserves the previous app and changes quarantine only for that copied app. No Developer ID/notarization is claimed.
 - Require native macOS signature, universal architecture, headless and graphical startup checks and native Windows startup checks on the exact exported ZIPs before publishing.
-- Bundle the official ANGLE graphics fallback DLLs on Windows, so a missing native OpenGL 3.3 driver does not leave the fallback unavailable.
+- Check Windows graphical startup using the default renderer and an explicit ANGLE fallback run. Native runner evidence confirms rendering when OpenGL 3.3 is unavailable.
 - Check for content updates on every fresh launch; remove the persisted daily suppression that could hide releases after an offline launch. Keep manual checks, signature verification, explicit restart and rollback.
 - Document the initial-installation trust boundary and why a broken Mac bundle needs one corrected full download. Existing saves, bundle identity and signed-content trust root remain unchanged.
 

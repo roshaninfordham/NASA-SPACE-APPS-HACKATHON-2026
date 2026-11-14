@@ -211,10 +211,6 @@ def main() -> int:
                 report[label] = passed
                 if not passed and (not graphical or args.require_graphical):
                     raise ValueError(f"{label} failed to reach the expected game version without engine errors")
-            if system == "Windows":
-                for name in ("libEGL.dll", "libGLESv2.dll"):
-                    if not (extracted / name).is_file():
-                        raise ValueError("Missing Windows graphics fallback library: " + name)
             # macOS restart uses LaunchServices; a raw executable launch alone
             # does not establish that the complete bundle can be opened there.
             label = "launchservices-startup" if system == "Darwin" else "angle-startup"
