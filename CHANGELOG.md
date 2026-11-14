@@ -11,6 +11,12 @@ All published game versions and notable unreleased work are recorded here. The v
 - Linked future commits to the repository owner's public GitHub noreply identity; earlier history is preserved.
 - Confirmed that About metadata updates require additional integration permissions or an owner-side edit.
 
+### Update security foundation (not an enabled updater)
+
+- Added a pinned-key RSA/SHA-256 manifest verifier, exact content hash/size checks, version ordering, and fixed release asset paths.
+- Added owner-run signing setup and a release manifest signer; private keys stay outside Git. No production trust root is configured yet.
+- Added 24 runtime security checks using disposable keys; CI exercises tampering, downgrade, incompatible engine, path, size, and hash rejection.
+
 ### Planned, not shipped
 
 - Signed in-game update discovery, staging, activation, and startup rollback. Alpha.1 and alpha.2 do not include an updater.

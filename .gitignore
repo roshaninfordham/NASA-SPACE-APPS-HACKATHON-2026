@@ -9,3 +9,6 @@ game/.godot/
 releases/
 
 __pycache__/
+# Production update private keys must live outside this repository.
+*private*.pem
+*.key
