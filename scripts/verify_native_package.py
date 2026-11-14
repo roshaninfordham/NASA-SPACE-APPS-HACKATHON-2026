@@ -156,6 +156,7 @@ def main() -> int:
     report = {"system": system, "os": platform.platform(), "machine": platform.machine(),
               "commands": [], "passed": False,
               "scope": "Exact native release executable startup on CI; not Finder approval, physical-device playtesting, or updater acceptance.",
+              "audio": "Dummy driver: hosted runners have no audio device; real audio is not verified.",
               "trust": "Ad-hoc Mac signature is integrity only; no Developer ID/notarization. Windows executable is unsigned."}
     profile = None
     owned_profile = False
@@ -201,7 +202,7 @@ def main() -> int:
                 label = "graphical-startup" if graphical else "headless-startup"
                 engine_log = logs / (label + "-engine.log")
                 command = [str(executable)] + ([] if graphical else ["--headless"])
-                command += ["--log-file", str(engine_log), "--", "--smoke-test"]
+                command += ["--audio-driver", "Dummy", "--log-file", str(engine_log), "--", "--smoke-test"]
                 result = run_command(command, logs, label, report["commands"])
                 output = result["output"]
                 if engine_log.exists():
@@ -220,7 +221,7 @@ def main() -> int:
             engine_log = logs / (label + "-engine.log")
             command = (["open", "-W", "-n", str(app), "--args"] if system == "Darwin" else
                        [str(executable), "--rendering-driver", "opengl3_angle"])
-            command += ["--log-file", str(engine_log), "--", "--smoke-test"]
+            command += ["--audio-driver", "Dummy", "--log-file", str(engine_log), "--", "--smoke-test"]
             result = run_command(command, logs, label, report["commands"])
             output = engine_log.read_text(encoding="utf-8", errors="replace") if engine_log.exists() else ""
             passed = result["exit_code"] == 0 and not result.get("timed_out") and scene_ready(output, manifest["version"])

@@ -1,0 +1,116 @@
+name: Diagnose candidate macOS sealing
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_run_id:
+        description: Build downloads run to diagnose (read only)
+        required: true
+        default: "43647577380"
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - name: Download and diagnose candidate copies
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BUILD_RUN_ID: ${{ inputs.build_run_id }}
+        run: |
+          python3 - <<'PY'
+          import hashlib, json, os, pathlib, plistlib, shutil, signal, stat, subprocess, time, unicodedata, zipfile
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'candidate-probe'
+          root.mkdir()
+          (root / 'logs').mkdir()
+          report = {'checks': [], 'scope': 'Disposable candidate copies only; no publication or system security changes.'}
+          def run(label, args, timeout=90):
+              result = {'label': label, 'command': [str(x) for x in args]}
+              with (root / 'logs' / (label + '.log')).open('w') as log:
+                  p = subprocess.Popen(result['command'], stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
+                  try:
+                      result['exit_code'] = p.wait(timeout=timeout)
+                  except subprocess.TimeoutExpired:
+                      os.killpg(p.pid, signal.SIGKILL)
+                      p.wait()
+                      result.update(exit_code=p.returncode, timed_out=True)
+              result['output'] = (root / 'logs' / (label + '.log')).read_text(errors='replace')
+              report['checks'].append(result)
+              print(label, result['exit_code'], result['output'][-1000:], flush=True)
+              return result['exit_code'] == 0
+          def inspect(label, app):
+              run(label + '-verify', ['codesign', '--verify', '--deep', '--strict', '--verbose=6', app])
+              run(label + '-display', ['codesign', '--display', '--verbose=6', app])
+              with (app / 'Contents/Info.plist').open('rb') as h: info = plistlib.load(h)
+              run(label + '-smoke', [app / 'Contents/MacOS' / info['CFBundleExecutable'], '--headless', '--', '--smoke-test'], 60)
+          try:
+              build = os.environ['BUILD_RUN_ID']
+              assert build.isascii() and build.isdecimal(), 'Build run must be numeric'
+              run('os', ['sw_vers'])
+              assert run('download', ['gh', 'run', 'download', build, '--repo', 'roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026', '--name', 'red-veil-downloads', '--dir', root / 'download'], 240)
+              manifest = json.loads((root / 'download/release-manifest.json').read_text())
+              item = next(a for a in manifest['assets'] if a['name'].endswith('-macOS-universal.zip'))
+              assert pathlib.PurePosixPath(item['name']).name == item['name']
+              archive = root / 'download' / item['name']
+              assert archive.stat().st_size == item['bytes']
+              assert hashlib.sha256(archive.read_bytes()).hexdigest() == item['sha256']
+              report['manifest'] = manifest
+              with zipfile.ZipFile(archive) as z:
+                  names = set()
+                  assert sum(i.file_size for i in z.infolist()) < 300_000_000
+                  for i in z.infolist():
+                      p = pathlib.PurePosixPath(i.filename)
+                      assert not p.is_absolute() and '..' not in p.parts and '\\' not in i.filename
+                      assert i.filename not in names and stat.S_ISREG(i.external_attr >> 16)
+                      names.add(i.filename)
+                  assert z.testzip() is None
+              extracted = root / 'original'
+              assert run('extract', ['ditto', '-x', '-k', archive, extracted])
+              apps = list(extracted.glob('*.app'))
+              assert len(apps) == 1
+              original = apps[0]
+              cr = plistlib.loads((original / 'Contents/_CodeSignature/CodeResources').read_bytes())
+              resource_check = []
+              for path in (original / 'Contents/Resources').rglob('*'):
+                  if path.is_file():
+                      name = str(path.relative_to(original / 'Contents'))
+                      resource_check.append({'path': name, 'codepoints': [hex(ord(c)) for c in name], 'is_nfc': unicodedata.is_normalized('NFC', name), 'is_nfd': unicodedata.is_normalized('NFD', name), 'seal_exact': name in cr['files2'], 'seal_nfc': unicodedata.normalize('NFC', name) in cr['files2'], 'seal_nfd': unicodedata.normalize('NFD', name) in cr['files2'], 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()})
+              report['resources'] = resource_check
+              report['seal_keys'] = list(cr['files2'])
+              inspect('original', original)
+              for variant in ['unicode-resign', 'ascii-resign']:
+                  app = root / variant / ('KOMAKU.app' if variant == 'ascii-resign' else original.name)
+                  app.parent.mkdir()
+                  assert run(variant + '-copy', ['ditto', original, app])
+                  run(variant + '-remove-signature', ['codesign', '--remove-signature', app])
+                  seal = app / 'Contents/_CodeSignature'
+                  if seal.exists(): shutil.rmtree(seal)
+                  if variant == 'ascii-resign':
+                      info_path = app / 'Contents/Info.plist'
+                      info = plistlib.loads(info_path.read_bytes())
+                      old = info['CFBundleExecutable']
+                      (app / 'Contents/MacOS' / old).rename(app / 'Contents/MacOS/KOMAKU')
+                      (app / 'Contents/Resources' / (old + '.pck')).rename(app / 'Contents/Resources/KOMAKU.pck')
+                      info['CFBundleExecutable'] = 'KOMAKU'
+                      info_path.write_bytes(plistlib.dumps(info))
+                  run(variant + '-sign', ['codesign', '--force', '--sign', '-', app])
+                  inspect(variant, app)
+          except Exception as e:
+              report['fatal_error'] = repr(e)
+              raise
+          finally:
+              (root / 'report.json').write_text(json.dumps(report, ensure_ascii=False, indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: macos-candidate-sealing-probe
+          path: |
+            ${{ runner.temp }}/candidate-probe/report.json
+            ${{ runner.temp }}/candidate-probe/logs/
+          if-no-files-found: error
+          retention-days: 14
