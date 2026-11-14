@@ -15,6 +15,7 @@ func run() -> void:
 	var world := World.new()
 	world.art = profile
 	root.add_child(world)
+	world.set_window_presentation(false) # Assert the optional outdoor replacement slot.
 	await process_frame
 	assert(world.get_node_or_null("SolarArrayAnchor/DesignerArray") != null)
 	var mission := Mission.new()

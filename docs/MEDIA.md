@@ -1,14 +1,36 @@
 # <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> media gallery
 
-## 0.6 — specification implementation
+## 0.7 source candidate — indoor mission control
 
-Actual Godot renders of the current visual-development alpha: a live Suit Lab, habitat lessons, expanded mission-control screens and ornamented architecture. These remain stylized procedural interpretations; they do not match the concept illustrations pixel for pixel. [Capture hashes and source provenance](media/komaku-0.6.0-alpha.1-capture.json).
+Actual, unedited Godot captures of the implemented **indoor operator rescue**. The default forward view contains dunes and Mira through the clear window, without the exterior dome, arrays, route props or room consoles in that frame. The operator stays inside and manages panel cleaning, base power and Mira’s return. The full source suite, 65 native input/capture assertions and 36 independent semantic assertions passed; release-archive and physical-device acceptance are separate.
+
+**The latest published installer is still [v0.6.1-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.6.1-alpha.1).** The 0.7 images below show newer source work, not that published download.
+
+![0.7 candidate: default indoor title view and three choices](media/0.7-title.png)
+
+![0.7 candidate: dunes and Mira, separate base and Mira suit readings, and three controls](media/0.7-mission.png)
+
+![0.7 candidate: Tab pauses the mission for cursor controls; Details is open](media/0.7-controls.png)
+
+![0.7 behavior evidence: Mira has completed her route, airlock cycle and indoor entry](media/0.7-rescue-arrival.png)
+
+The arrival image turns toward Mira after she enters. It is **behavior evidence, not the default camera view**. The capture compressed waiting through 39 ordinary controller calls of 0.25 seconds each; it did not assign character coordinates, rescue phases, shelter state or physics equations. The total mission time shown includes earlier interaction checks. It is not a real-time recording or a completed 12-hour mission image.
+
+[Capture hashes, source fingerprints and input methodology](media/0.7-capture.json) identify these 1280×720 Godot 4.6.3 Linux GL/Xvfb/Mesa software renders. The PNGs were copied directly from the viewport without cropping, compositing or added overlays. Earlier outdoor-start images under these candidate filenames were superseded and have now been replaced. These captures do not establish physical Mac/Windows/mobile performance, photoreal fidelity or learning outcomes.
+
+The regenerated [16-page science guide](media/KOMAKU-Science-Guide.pdf) explains the operator mission, optional EVA, planner and teaching assumptions. Source-fingerprint checks guard against stale packaging.
+
+The final landscape-only inventory falls from **109,710 to 21,388 retained triangles**; this is not a whole-game or FPS result. [Landscape scope](DESIGN-PIVOT-0.7.md). Earlier performance captures and their 33.7%/approximately 61% reductions are historical pre-pivot measurements. The former headless stone-placement digest was invalid and does not prove unchanged placements; [the corrected record](PERFORMANCE.md) explains why.
+
+## Historical 0.6 — specification implementation
+
+Actual Godot renders of the historical 0.6 visual-development alpha: a live Suit Lab, habitat lessons, expanded mission-control screens and ornamented architecture. These remain stylized procedural interpretations; they do not match the concept illustrations pixel for pixel. [Capture hashes and source provenance](media/komaku-0.6.0-alpha.1-capture.json).
 
 ![Suit Lab with live character and adjustable experiments](media/komaku-0.6.0-alpha.1-suit-desktop.png)
 
 ![Habitat Field Notes with architecture lesson](media/komaku-0.6.0-alpha.1-habitat-desktop.png)
 
-![Current habitat, airlock approach and lanterns](media/komaku-0.6.0-alpha.1-exterior.png)
+![Historical 0.6 habitat, airlock approach and lanterns](media/komaku-0.6.0-alpha.1-exterior.png)
 
 ![Control room geodesic globe and mission telemetry](media/komaku-0.6.0-alpha.1-interior-close.png)
 

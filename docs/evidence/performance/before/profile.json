@@ -2500,9 +2500,6 @@
     ],
     "visible_triangles": 768766
   },
-  "viewport_size": [
-    960,
-    540
-  ],
+  "viewport_size": [960, 540],
   "world_only": true
 }

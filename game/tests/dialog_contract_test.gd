@@ -34,7 +34,7 @@ func dialog_checks(game, label: String):
         check(physical_height >= 44, label + " action is at least 44 physical pixels")
 func _initialize(): call_deferred("run")
 func run():
-    for viewport_size in [Vector2i(1280,720), Vector2i(390,844), Vector2i(844,390)]:
+    for viewport_size in [Vector2i(1280,720), Vector2i(960,540), Vector2i(390,844), Vector2i(844,390)]:
         root.size = viewport_size
         var game = load("res://main.tscn").instantiate()
         root.add_child(game)
@@ -47,7 +47,7 @@ func run():
         var guide = game.finish_panel
         await activate(guide.find_child("Primary", true, false))
         check(not is_instance_valid(guide), "Guide back keyboard action closes dialog")
-        game.begin()
+        game.begin_eva()
         game.toggle_pause()
         await frames()
         dialog_checks(game, "Pause " + str(viewport_size))
@@ -56,11 +56,11 @@ func run():
         game.touch_controls.show()
         await frames()
         var radio_panel: Control = game.radio.get_parent().get_parent()
-        check(within(radio_panel), "Touch radio stays in viewport " + str(viewport_size))
+        check(not radio_panel.is_visible_in_tree(), "Detailed radio stays in optional tray " + str(viewport_size))
         for control in game.touch_controls.get_children():
             if control is Button:
                 check(within(control), "Touch action remains in viewport: " + control.text)
-                check(not control.get_global_rect().intersects(radio_panel.get_global_rect()), "Touch action does not obscure radio: " + control.text)
+                check(not control.get_global_rect().intersects(game.interface_root._action_row.get_global_rect()), "Physical tools do not obscure primary mission controls: " + control.text)
         game.mission.status = "partial"
         game.finish()
         await frames()

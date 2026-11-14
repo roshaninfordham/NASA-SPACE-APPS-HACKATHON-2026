@@ -123,7 +123,12 @@ func run() -> void:
 			if row.visible and _frustum_candidate(row.node, camera):
 				tri += row.triangles
 				surfaces += row.surfaces
-		var result := {"name": view.name, "frustum_candidate_triangles": tri, "frustum_candidate_surfaces": surfaces}
+		var result := {"name": view.name}
+		# MultiMesh bounds/transform readback is unsupported by the dummy renderer.
+		# Retained mesh arrays and explicit instance counts above remain available.
+		if DisplayServer.get_name() != "headless":
+			result["frustum_candidate_triangles"] = tri
+			result["frustum_candidate_surfaces"] = surfaces
 		if DisplayServer.get_name() != "headless":
 			await RenderingServer.frame_post_draw
 			result["rendered_primitives"] = Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME)

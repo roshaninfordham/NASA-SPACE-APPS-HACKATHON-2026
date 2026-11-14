@@ -71,7 +71,7 @@ class ReleaseToolsTest(unittest.TestCase):
                 build_game.validate_release_manifest(manifest, self.version, self.commit)
 
     def test_native_acceptance_reads_historical_and_renamed_artifact_sets(self):
-        for version in ["0.4.0-alpha.1", "0.5.0-alpha.1"]:
+        for version in ["0.4.0-alpha.1", "0.5.0-alpha.1", "0.7.0-alpha.1"]:
             entries = []
             for name in sorted(build_game.expected_names(version, True)):
                 path = self.output / name
@@ -85,6 +85,15 @@ class ReleaseToolsTest(unittest.TestCase):
             (self.output / "release-manifest.json").write_text(json.dumps(manifest))
             (self.output / "SHA256SUMS.txt").write_text("".join(f"{entry['sha256']}  {entry['name']}\n" for entry in entries))
             self.assertEqual(acceptance.validate_artifacts(self.output, self.commit)["version"], version)
+
+    def test_science_guide_is_required_only_from_its_first_release(self):
+        self.assertFalse(branding.supplemental_asset_names("0.6.1-alpha.1"))
+        self.assertEqual(branding.supplemental_asset_names("0.7.0-alpha.1"), {"KOMAKU-Shield-Protocol-0.7.0-alpha.1-Science-Guide.pdf"})
+        self.version = "0.7.0-alpha.1"
+        manifest = self.unsigned_manifest()
+        manifest["assets"] = [a for a in manifest["assets"] if not a["name"].endswith(".pdf")]
+        with patch.object(build_game, "OUT", self.output), self.assertRaisesRegex(ValueError, "exact declared"):
+            build_game.validate_release_manifest(manifest, self.version, self.commit)
 
     def test_signed_manifest_verifies_and_binds_exact_bytes(self):
         manifest = sign_update.sign_pack(self.version, self.pack, self.private, self.public, self.output, self.commit)

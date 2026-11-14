@@ -12,7 +12,8 @@ GODOT_SUITES = (
     "design_world_test", "dialog_contract_test", "visual_style_test",
     "interior_spec_test", "exterior_spec_test", "suit_lab_test",
     "spec_integration_test", "mission_adviser_test", "mission_planner_test",
-    "planner_integration_test", "render_budget_test", "update_client_test", "update_ui_test",
+    "planner_integration_test", "clean_interface_test", "operator_rescue_test", "play_area_test", "window_presentation_test",
+    "render_budget_test", "update_client_test", "update_ui_test",
 )
 PYTHON_SUITES = ("test_release_tools.py", "test_publish_workflow.py", "test_native_package.py", "test_native_content_baselines.py")
 
@@ -37,6 +38,7 @@ def main():
         checked(["godot", "--headless", "--path", "game", "--editor", "--import"], environment)
         for suite in GODOT_SUITES:
             checked(["godot", "--headless", "--path", "game", "--script", f"res://tests/{suite}.gd"], environment)
+        checked([sys.executable, "scripts/build_science_guide.py", "--check"], environment)
         for script in ("test_updater.py", "test_update_bootstrap.py"):
             checked([sys.executable, "scripts/" + script], environment)
         for suite in PYTHON_SUITES:

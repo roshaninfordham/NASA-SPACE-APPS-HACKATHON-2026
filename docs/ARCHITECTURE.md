@@ -9,7 +9,9 @@ Godot 4.6.3 with typed GDScript and the compatibility renderer. The game is an o
 ```mermaid
 flowchart LR
   Input[Keyboard / mouse / controller / touch] --> Player[Player movement and camera]
-  Player --> Interactions[Proximity and interaction routing]
+  Player --> Interactions[Operator commands / optional EVA proximity]
+  Interactions --> Rescue[Continuous crew return and airlock state]
+  Rescue --> Model
   Interactions --> Model[Fixed-step mission model]
   Sources[Bundled NASA observation ledger] --> Model
   Model --> Snapshot[Detached visual state]
@@ -45,7 +47,11 @@ flowchart LR
 
 The simulation updates in fixed steps of 1/120 hour. Four real minutes represent twelve fictional mission hours. Character movement uses real-time Godot physics and 3.71 m/s² gravity; the mission clock is deliberately compressed. This is a teaching abstraction, not a consistently time-scaled physical reconstruction.
 
-Native inspection is a physical hold-to-interact task. Its illustrative work-duration parameter is shorter than the earlier dashboard's passive inspection. The refuge is entered by walking into its spatial bounds; exposure continues while walking. There is no scripted return-time teleport in the first-person implementation.
+The default presentation puts the operator inside a bounded control room. The single suit and dose state belongs to Mira outside, independent of operator position. A separate crew-return controller handles the authored approach and airlock cycle; only completed arrival/cycling changes the mission shelter flag. These are game travel settings, not a validated airlock or human locomotion simulation.
+
+The optional EVA mission retains physical hold-to-inspect and walking into the refuge bounds. In that mode, suit and dose refer to the first-person explorer. Both modes use the same numerical mission model, but their interaction and tracked-subject rules are explicit. The operator mode leaves the off-view array uninspected at its existing 0.75 efficiency factor.
+
+The art profile selects the window presentation. World categories hide exterior infrastructure and disable its collision bodies while preserving their original state for a return to EVA. The indoor enclosure and operator movement area remain active. Presentation flags never set shielding, repair equipment or change battery values.
 
 ## Local learning boundary
 
@@ -53,7 +59,7 @@ The academy reads authored lesson data and calls a separate local tutor. Indepen
 
 ## Mission-planning boundary
 
-The local adviser copies the current mission into a private model and runs the same fixed-step equations for four fixed cleaner/conservation combinations. It never applies actions, advances the live mission or predicts a walking route. The planner presents energy, optional research, exposure, suit reserve and abort duration separately; explicit application changes only the two chosen switches. AEGIS is a transparent scenario preview, not a trained model or live NASA forecast. [Contract, equations and limits](MISSION-PLANNER.md).
+The local adviser copies the current mission into a private model and runs the same fixed-step equations for four fixed cleaner/conservation combinations. It never applies actions, advances the live mission or predicts a walking route or future crew-return/airlock transition. A projection holds the current shelter state fixed; its label must make that restriction visible during a rescue. The planner presents energy, optional research, exposure, suit reserve and abort duration separately; explicit application changes only the two chosen switches. AEGIS is a transparent scenario preview, not a trained model or live NASA forecast. [Contract, equations and limits](MISSION-PLANNER.md).
 
 The game controller owns pausing, focus, movement and applying user intent. The report UI owns presentation only. Adviser tests exercise numerical comparison and non-mutation; integration tests use real input/menu paths at four viewport sizes.
 

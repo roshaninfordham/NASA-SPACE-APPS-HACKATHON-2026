@@ -121,6 +121,7 @@ func run() -> void:
 		quit(1)
 		return
 	root.add_child(game)
+	game.world.set_window_presentation(false) # This section intentionally validates the optional outdoor EVA routes.
 	game.set_process(false)
 	game.player.set_physics_process(false)
 	await physics_frame
@@ -143,6 +144,7 @@ func run() -> void:
 		if explore and missing.is_empty():
 			explore.pressed.emit()
 			check(game.exploring and game.running and game.player.enabled, "Explore button starts untimed first-person control")
+			check(not game.player.test_move(game.player.global_transform, Vector3(0,0,0.5)), "Indoor Explore starts with a clear first step toward the window")
 			var before_time: float = game.mission.time
 			var before_energy: float = game.mission.energy
 			var before_suit: float = game.mission.suit_energy

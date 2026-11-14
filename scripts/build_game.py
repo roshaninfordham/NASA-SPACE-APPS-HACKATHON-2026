@@ -13,7 +13,7 @@ import tempfile
 import zipfile
 from urllib.parse import quote
 
-from branding import archive_name, archive_stem, brand
+from branding import archive_name, archive_stem, brand, supplemental_asset_names
 from sign_update import REPOSITORY, RUNTIME_CONTRACT, sign_pack, valid_version, validate_key_pair
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -41,7 +41,38 @@ def require_clean_source():
         raise ValueError("Release builds require a clean committed checkout so the source manifest is exact")
 
 
-def documents(archive):
+def documents(archive, version):
+    archive.writestr("START-HERE.txt", f"""{brand()['display_name']} — {version}
+
+PLAY
+Extract this entire ZIP first. No game editor or development tools are required.
+Mac: open the .app. If blocked, read DOWNLOADS.md and use the included
+     Install KŌMAKU.command only after deciding you trust this download.
+Windows: open KOMAKU-Shield-Protocol.exe.
+Linux: run KOMAKU-Shield-Protocol.x86_64.
+Web archive: serve index.html over HTTP(S), as explained in DOWNLOADS.md.
+
+FIRST MISSION
+Start inside mission control. Mira is the astronaut outside the window.
+WASD moves inside; mouse looks. Tab pauses and enables cursor controls.
+1: panel cleaner. 2: save base power. 3: guide Mira home.
+After Mira enters, keep the base powered through the storm.
+Explore has no timer. Learn & more contains the optional Outdoor EVA mission.
+
+UPDATES AND SCIENCE
+Compatible desktop updates appear at a safe menu on a fresh launch:
+Update available → Install → Restart. Engine changes need a new installer.
+Read KOMAKU-Science-Guide.pdf for equations, data and teaching assumptions.
+This is a learning-game alpha, not certified astronaut training.
+
+VERSION AND SUPPORT
+The release manifest records the exact source and file checksums.
+https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v{version}
+Documentation on main may be newer than this packaged snapshot.
+
+made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC
+""")
+    archive.write(ROOT / "docs/media/KOMAKU-Science-Guide.pdf", "KOMAKU-Science-Guide.pdf")
     for file in DOCS:
         archive.write(ROOT / file, Path(file).name)
     for file in (ROOT / "game/licenses").iterdir():
@@ -85,6 +116,7 @@ def describe_asset(path):
 
 def expected_names(version, signed):
     names = {archive_name(version, suffix) for suffix in ["macOS-universal", "Windows-x64", "Linux-x64", "Web"]}
+    names |= supplemental_asset_names(version)
     return names | UPDATE_ASSETS if signed else names
 
 
@@ -147,7 +179,7 @@ def export_game(version, private_key=None):
     mac = OUT / f"{prefix}-macOS-universal.zip"
     shutil.copyfile(OUT / (brand()["package_stem"] + "-macOS-universal.zip"), mac)
     with zipfile.ZipFile(mac, "a", compression=zipfile.ZIP_DEFLATED) as archive:
-        documents(archive)
+        documents(archive, version)
         installer = zipfile.ZipInfo("Install KŌMAKU.command")
         installer.create_system = 3
         installer.external_attr = 0o100755 << 16
@@ -160,8 +192,12 @@ def export_game(version, private_key=None):
             for file in sorted((OUT / folder).rglob("*")):
                 if file.is_file():
                     archive.write(file, str(file.relative_to(OUT / folder)))
-            documents(archive)
+            documents(archive, version)
         assets.append(output)
+    for name in supplemental_asset_names(version):
+        guide = OUT / name
+        shutil.copyfile(ROOT / "docs/media/KOMAKU-Science-Guide.pdf", guide)
+        assets.append(guide)
     commit = source_commit()
     if private_key:
         pack = OUT / "red-veil-content.pck"

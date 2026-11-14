@@ -1,0 +1,61 @@
+{
+  "status": "current_source_candidate",
+  "build": "0.7.0-alpha.1 source candidate",
+  "mode": "Indoor operator rescue; default forward window view contains dunes and Mira.",
+  "scope": "Actual rendered working-tree game; not proof of a published release archive, physical-device performance or child playtesting.",
+  "captured_at_utc": "2026-11-14T23:43:34.656434+00:00",
+  "engine": "Godot 4.6.3 stable official 7d41c59c4",
+  "platform": "Linux X11, private authenticated Xvfb",
+  "renderer": "OpenGL Compatibility; Mesa 25.0.7 llvmpipe LLVM 19.1.7 software rendering",
+  "viewport": [1280, 720],
+  "image_processing": "None. PNG files copied directly from Godot viewport captures; no crops, compositing, color changes or overlays added.",
+  "views": {
+    "0.7-title.png": "Default near-window title camera inside mission control, with dunes, stranded Mira and three primary choices.",
+    "0.7-mission.png": "Default first-person indoor operator view; explicit Mira suit/exposure labels and three controls.",
+    "0.7-controls.png": "The same mission paused in controls mode with optional Details open.",
+    "0.7-rescue-arrival.png": "Mira protected after travel, airlock cycle and indoor entry. Player turns toward her using an injected mouse event; this is behavior evidence, not a new default camera."
+  },
+  "capture_sequence": "Fresh process after the final operator boundary-hint change. Production main scene; keyboard Start; Tab/pointer Details; pause/resume and cleaner checks; Tab/pointer Guide Mira; ordinary controller steps advance the journey; mouse event turns view toward arrived Mira.",
+  "arrival_time_advancement": {
+    "controller_calls": 39,
+    "delta_seconds_per_call": 0.25,
+    "wait_compressed_seconds": 9.75,
+    "mission_hours_before_arrival_capture": 0.71666666666667,
+    "method": "Production game._process calls without wall-clock waits. No character coordinates, rescue phases, mission shelter values or physics equations assigned for the image."
+  },
+  "input_verification": {
+    "viewports": [
+      [1280, 720],
+      [844, 390]
+    ],
+    "passed_assertions": 65,
+    "non_capture_assertions": 58,
+    "capture_assertions": 7,
+    "method": "Actual engine with injected keyboard/pointer events; verifies operator defaults, crew labels, title/actions, pause/resource freeze, capture/focus, Details bounds, cleaner/Guide Mira interactions and completed entry."
+  },
+  "independent_semantic_verification": {
+    "passed_assertions": 36,
+    "method": "Headless actual-game controller review with accelerated ordinary steps and explicit negative-state fixtures. Tests full guide-and-save success, no-action dose abort, crew independence, pause, no instant shield, terminal guards and tour reset. Not a wall-clock playthrough."
+  },
+  "source_sha256": {
+    "game/project.godot": "5544d24aaf6a5aadd0b8a74be8794ae366ebd3d0ab7ed4869d99bdcb9a34cb55",
+    "game/main.tscn": "029ddf7bf09ea93545251b6ca0c81b1a4b55cfc080105a88b06fd36a62ea5fb7",
+    "game/art/default_art.tres": "e740e2c9bde7bfa842f0a23a53bea30175e266143ffe40907ccca36f2e978c65",
+    "game/scripts/game.gd": "7b022d8e079525d4d033db975e48b7590d350a1d2c6add36f938fddffd0fe4bb",
+    "game/scripts/player.gd": "425a9598e9c71bdc9ea57836e51d4218a1b5fb20840e71ac1be26f73d7f547ac",
+    "game/scripts/world.gd": "3e6f9205f62183289d38ec9b47c85d8ac6864381e4d87d3ea4dc3020c192eb4b",
+    "game/scripts/mission.gd": "8f483e340c38d196507022575fa74f510143d0c31d173ad807e7463a58746726",
+    "game/scripts/companion_rescue.gd": "848517bd7a0a510b47fe96fc5e2da5eb5c2cc428dc6fe1ac0d1b4d27f8c5c163",
+    "game/scripts/art_profile.gd": "52f49a5f5df3f560889cd6cf393ca9b797a3450d79fcdb1db50e283732a2a508",
+    "game/art/red_veil/interface.gd": "69597193defa21e7aaccf32124d2d54a9e7280b01f659b8878a947a66bc826f1",
+    "game/art/red_veil/exterior.gd": "cbf93e211d3d7fc484120ad3605b4c8bcd7303d87fd040a8cb21186696ec6f76",
+    "game/art/red_veil/interior.gd": "987a5f4f3463dd6e465686458b2c24aa64202b55b4cc89dbd2b835cde061e99f",
+    "game/art/red_veil/landscape.gd": "b18515d7663e3ed8c469ce2bae248d1dbde8e502eae8b98ed9823f4db0ab2416"
+  },
+  "image_sha256": {
+    "0.7-title.png": "6e3bf4790104b0a8e5f07defbd0029065ecb5d888998fc266685637fdd996a43",
+    "0.7-mission.png": "a9fdaf4ba0e0813c550e9ec063e2dd6001b03fcafbb84795c04f66b08bfd74eb",
+    "0.7-controls.png": "609dd8d58289a6d2eb4c272b7a9c0de36e9f0a7d2cc2120805f441637d6532bf",
+    "0.7-rescue-arrival.png": "1dc6307b52f7eae135b3397f45009c1d22a13a2da4e4b879c449ecac4433aaf2"
+  }
+}

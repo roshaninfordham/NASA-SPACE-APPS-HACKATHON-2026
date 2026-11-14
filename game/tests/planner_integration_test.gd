@@ -25,7 +25,7 @@ func run() -> void:
 		await frames()
 		game.show_planner()
 		check(not is_instance_valid(game.exhibit), "Planner cannot change a mission before launch")
-		game.begin()
+		game.begin_eva()
 		await key(KEY_P)
 		check(is_instance_valid(game.exhibit), "P opens native planner " + str(viewport_size))
 		if not is_instance_valid(game.exhibit):

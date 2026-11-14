@@ -1,4 +1,5 @@
 {
   "sorted_transform_sha256": "418c5d05c3722ae1a54805fc8489ad3f9fcd1aa1a3b7f75383e69db5a8039d3e",
-  "stone_instances": 1500
+  "stone_instances": 1500,
+  "verification_status": "INVALID: captured under Godot headless dummy renderer, which returned identity transforms; this digest does not verify actual stone placement."
 }

@@ -42,7 +42,7 @@ import time
 import zipfile
 from urllib.parse import urlsplit
 
-from branding import archive_name
+from branding import archive_name, supplemental_asset_names
 
 ROOT = Path(__file__).resolve().parent.parent
 REPOSITORY = "roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026"
@@ -97,7 +97,7 @@ def validate_artifacts(folder, expected_commit):
         raise ValueError("Artifacts are not the expected signed source build")
     if release.get("engine") != "Godot " + ENGINE:
         raise ValueError("Unexpected release engine")
-    expected = {archive_name(version, platform) for platform in ["macOS-universal", "Windows-x64", "Linux-x64", "Web"]} | UPDATE_NAMES
+    expected = {archive_name(version, platform) for platform in ["macOS-universal", "Windows-x64", "Linux-x64", "Web"]} | UPDATE_NAMES | supplemental_asset_names(version)
     entries = release.get("assets")
     if not isinstance(entries, list) or len(entries) != len(expected):
         raise ValueError("Unexpected release asset list")

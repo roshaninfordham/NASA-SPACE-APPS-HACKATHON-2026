@@ -1,56 +1,66 @@
 extends Control
+## Presentation only: every mission action and reading belongs to game.gd.
 const Branding = preload("res://scripts/branding.gd")
-const VisualStyle = preload("res://scripts/visual_style.gd")
-## Presentation-only HUD. The game controller owns every action and reading.
-@export var ivory := VisualStyle.color("pearl")
-@export var coral := VisualStyle.color("coral")
-@export var cyan := VisualStyle.color("cyan")
-@export var ruby := VisualStyle.color("wine")
+const NAVY := Color("071a29")
+const CYAN := Color("75e5ed")
+const WHITE := Color("edf8fa")
 var _supplied_theme: Theme
 var _font := SystemFont.new()
-var _semibold := SystemFont.new()
 var _font_nodes: Dictionary = {}
-var _spacing_nodes: Dictionary = {}
-var _built := false
-var _layout_pending := false
+var _buttons: Array[Button] = []
 var _menu: Control
 var _hud: Control
 var _hero: VBoxContainer
 var _menu_scroll: ScrollContainer
 var _menu_card: PanelContainer
-var _menu_content: VBoxContainer
-var _menu_grid: GridContainer
-var _menu_footer: Label
-var _objective_card: PanelContainer
-var _resource_card: PanelContainer
-var _radio_card: PanelContainer
-var _prompt: Label
-var _reticle: Label
-var _buttons: Array[Button] = []
-var _menu_copy: Array[Label] = []
-var _tagline: Label
+var _primary: VBoxContainer
+var _secondary: VBoxContainer
 var _title: Label
+var _tagline: Label
+var _objective_card: VBoxContainer
+var _resource_card: VBoxContainer
+var _radio_card: PanelContainer
+var _action_row: HBoxContainer
+var _hint: Label
+var _reticle: Label
+var _prompt: Label
+var _base_gauge: BatteryGauge
+var _suit_gauge: BatteryGauge
+var _layout_pending := false
+var _built := false
+var _control_mode := false
+var _details_visible := false
+var _operator_mode := true
 
-func configure(profile: Resource = null, supplied_theme: Theme = null) -> void:
-	# Call before adding the scene to the tree. No gameplay values are read here.
+class BatteryGauge extends Control:
+	var value := 0.0
+	var capacity := 1.0
+	var title := "BASE"
+	var scale_factor := 1.0
+	func _draw() -> void:
+		var radius := 30.0 * scale_factor
+		var center := Vector2(size.x / 2.0, 34.0 * scale_factor)
+		var ratio := clampf(value / capacity, 0.0, 1.0)
+		for segment in range(24):
+			var start := -PI * 0.5 + segment * TAU / 24
+			draw_arc(center, radius, start, start + TAU / 24 * 0.68, 6, Color("75e5ed") if float(segment) / 24 < ratio else Color("254455"), 2.0 * scale_factor, true)
+		var font := ThemeDB.fallback_font
+		var reading := "%.1f" % value if capacity > 1 else "%.2f" % value
+		draw_string(font, center + Vector2(-radius, 0), reading, HORIZONTAL_ALIGNMENT_CENTER, radius * 2, roundi(16 * scale_factor), Color("edf8fa"))
+		draw_string(font, center + Vector2(-radius, 16 * scale_factor), "kWh", HORIZONTAL_ALIGNMENT_CENTER, radius * 2, roundi(10 * scale_factor), Color("a7cbd6"))
+		draw_string(font, Vector2(0, 85 * scale_factor), title, HORIZONTAL_ALIGNMENT_CENTER, size.x, roundi(12 * scale_factor), Color("edf8fa"))
+
+func configure(_profile: Resource = null, supplied_theme: Theme = null) -> void:
 	_supplied_theme = supplied_theme
-	if profile != null:
-		if profile.get("hull_color") is Color: ivory = profile.get("hull_color")
-		if profile.get("route_color") is Color: coral = profile.get("route_color")
-		if profile.get("instrument_color") is Color: cyan = profile.get("instrument_color")
-		if profile.get("structure_color") is Color: ruby = profile.get("structure_color")
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_font.font_names = PackedStringArray(["Inter", "Aptos", "Helvetica Neue", "Arial", "Noto Sans"])
-	_font.font_weight = 400
-	_semibold.font_names = _font.font_names
-	_semibold.font_weight = 600
 	theme = _supplied_theme if _supplied_theme else Theme.new()
 	if _supplied_theme == null: theme.default_font = _font
 	var visor := ColorRect.new()
-	visor.color = Color(0.55, 0.3, 0.12, 0.0)
+	visor.color = Color(0.55, 0.3, 0.12, 0)
 	visor.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_named(visor, "Visor", self)
 	visor.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -59,29 +69,25 @@ func _ready() -> void:
 	_hud.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_hud.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_build_hud()
-	for card in [_objective_card, _resource_card, _radio_card]:
-		card.minimum_size_changed.connect(_schedule_layout)
+	for item in [_objective_card, _resource_card]: item.minimum_size_changed.connect(_schedule_layout)
+	_hud.visibility_changed.connect(queue_redraw)
 	_menu = Control.new()
 	_named(_menu, "Menu", self)
 	_menu.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_menu.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_build_menu()
-	_hero.minimum_size_changed.connect(_schedule_layout)
-	_menu.visibility_changed.connect(queue_redraw)
 	_built = true
 	resized.connect(_schedule_layout)
+	get_window().size_changed.connect(_schedule_layout)
 	_apply_layout()
-	_schedule_layout()
-	queue_redraw()
 
 func _draw() -> void:
-	if not _built or not _menu.visible: return
-	var top := Vector2(size.x - 88, 30)
-	for row in range(2):
-		for column in range(3):
-			var center := top + Vector2(column * 18 + row * 9, row * 9)
-			draw_arc(center, 8, PI, TAU, 20, Color(0.85, 0.71, 0.46, 0.45), 1.0, true)
-			draw_arc(center, 5, PI, TAU, 20, Color(0.85, 0.71, 0.46, 0.35), 1.0, true)
+	if not _built or not _hud.visible: return
+	var backing := StyleBoxFlat.new()
+	backing.bg_color = Color(NAVY, 0.86)
+	backing.set_corner_radius_all(6)
+	draw_style_box(backing, _objective_card.get_rect().grow(6))
+	draw_style_box(backing, _resource_card.get_rect().grow(6))
 
 func _named(node: Node, node_name: String, parent: Node) -> void:
 	node.name = node_name
@@ -89,210 +95,227 @@ func _named(node: Node, node_name: String, parent: Node) -> void:
 	node.owner = self
 	node.unique_name_in_owner = true
 
-func _label(parent: Node, value: String, size_px: int, color: Color, bold: bool = false, unique_name: String = "") -> Label:
-	var node := Label.new()
-	node.text = value
-	node.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	node.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	node.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	node.add_theme_color_override("font_color", color)
-	node.add_theme_font_override("font", _semibold if bold else _font)
-	node.add_theme_font_size_override("font_size", size_px)
-	_font_nodes[node] = size_px
-	if unique_name.is_empty(): parent.add_child(node)
-	else: _named(node, unique_name, parent)
-	return node
+func _label(parent: Node, value: String, font_size: int, unique_name := "") -> Label:
+	var label := Label.new()
+	label.text = value
+	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label.add_theme_color_override("font_color", WHITE)
+	label.add_theme_color_override("font_shadow_color", Color(0.01, 0.04, 0.08, 0.95))
+	label.add_theme_constant_override("shadow_offset_y", 1)
+	_font_nodes[label] = font_size
+	if unique_name.is_empty(): parent.add_child(label)
+	else: _named(label, unique_name, parent)
+	return label
 
-func _column(parent: Node, separation: int = 8) -> VBoxContainer:
-	var node := VBoxContainer.new()
-	node.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	node.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	node.add_theme_constant_override("separation", separation)
-	_spacing_nodes[node] = separation
-	parent.add_child(node)
-	return node
+func _column(parent: Node, separation := 8) -> VBoxContainer:
+	var column := VBoxContainer.new()
+	column.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	column.add_theme_constant_override("separation", separation)
+	parent.add_child(column)
+	return column
 
-func _glass(parent: Node, tint: Color, opacity: float, border: Color) -> PanelContainer:
-	var node := PanelContainer.new()
-	node.mouse_filter = Control.MOUSE_FILTER_IGNORE
+func _panel(parent: Node) -> PanelContainer:
+	var panel := PanelContainer.new()
 	var style := StyleBoxFlat.new()
-	style.bg_color = Color(tint, opacity)
-	style.border_color = border
+	style.bg_color = Color(NAVY, 0.94)
+	style.border_color = Color(CYAN, 0.25)
 	style.set_border_width_all(1)
-	style.set_corner_radius_all(16)
-	style.corner_detail = 8
-	for side in ["left", "top", "right", "bottom"]: style.set("content_margin_" + side, 16.0)
-	style.shadow_color = Color(0.02, 0.01, 0.02, 0.16)
-	style.shadow_size = 8
-	node.add_theme_stylebox_override("panel", style)
-	parent.add_child(node)
-	return node
+	style.set_corner_radius_all(8)
+	for edge in ["left", "right", "top", "bottom"]: style.set("content_margin_" + edge, 14)
+	panel.add_theme_stylebox_override("panel", style)
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	parent.add_child(panel)
+	return panel
 
-func _button(parent: Node, node_name: String, value: String, primary: bool = false) -> Button:
-	var node := Button.new()
-	node.text = value
-	node.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	node.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	node.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	node.add_theme_font_override("font", _semibold if primary else _font)
-	node.add_theme_font_size_override("font_size", 16)
-	_font_nodes[node] = 16
-	var style := StyleBoxFlat.new()
-	style.bg_color = coral if primary else Color(ivory, 0.055)
-	style.border_color = Color(coral if primary else ivory, 0.85 if primary else 0.24)
-	style.set_border_width_all(1)
-	style.set_corner_radius_all(10)
-	style.corner_detail = 8
-	style.content_margin_left = 14
-	style.content_margin_right = 14
-	style.content_margin_top = 8
-	style.content_margin_bottom = 8
-	node.add_theme_stylebox_override("normal", style)
-	var hover := style.duplicate() as StyleBoxFlat
-	hover.bg_color = coral.lightened(0.12) if primary else Color(cyan, 0.16)
-	hover.border_color = coral.lightened(0.2) if primary else Color(cyan, 0.7)
-	node.add_theme_stylebox_override("hover", hover)
-	var pressed := style.duplicate() as StyleBoxFlat
-	pressed.bg_color = coral.darkened(0.12) if primary else Color(cyan, 0.24)
-	node.add_theme_stylebox_override("pressed", pressed)
-	var focus := StyleBoxFlat.new()
-	focus.bg_color = Color.TRANSPARENT
-	focus.border_color = cyan
-	focus.set_border_width_all(2)
-	focus.set_corner_radius_all(10)
-	node.add_theme_stylebox_override("focus", focus)
-	for state in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]:
-		node.add_theme_color_override(state, Color("291b22") if primary else ivory)
-	_named(node, node_name, parent)
-	_buttons.append(node)
-	return node
+func _button(parent: Node, node_name: String, value: String, primary := false) -> Button:
+	var button := Button.new()
+	button.text = value
+	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	_font_nodes[button] = 16
+	for state in ["normal", "hover", "pressed", "focus", "disabled"]:
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color(CYAN, 0.94) if primary else Color(NAVY, 0.93)
+		style.border_color = CYAN if state in ["hover", "pressed", "focus"] else Color(CYAN, 0.4)
+		style.set_border_width_all(2 if state == "focus" else 1)
+		style.set_corner_radius_all(6)
+		style.content_margin_left = 8
+		style.content_margin_right = 8
+		button.add_theme_stylebox_override(state, style)
+	for state in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color"]: button.add_theme_color_override(state, NAVY if primary else WHITE)
+	_named(button, node_name, parent)
+	_buttons.append(button)
+	return button
 
 func _build_menu() -> void:
-	_hero = _column(_menu, 6)
-	_label(_hero, "ELYSIUM OUTPOST  /  SOL 018", 13, Color("d9b475"), true)
-	var title := _label(_hero, Branding.title(), 64, ivory, true)
-	_title = title
-	_label(_hero, Branding.subtitle(), 16, cyan, true)
-	title.add_theme_color_override("font_shadow_color", Color(0.12, 0.04, 0.05, 0.28))
-	title.add_theme_constant_override("shadow_offset_y", 2)
-	_tagline = _label(_hero, "A little wonder. A world to protect.", 18, ivory)
+	_hero = _column(_menu, 8)
+	_label(_hero, "ELYSIUM / MARS", 13)
+	_title = _label(_hero, Branding.title(), 64)
+	_label(_hero, Branding.subtitle(), 18)
+	_tagline = _label(_hero, "A world to explore. A crew to protect.", 17)
 	_menu_scroll = ScrollContainer.new()
 	_menu_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	_menu_scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	_menu_scroll.follow_focus = true
 	_menu.add_child(_menu_scroll)
-	_menu_card = _glass(_menu_scroll, Color("241d25"), 0.76, Color(coral, 0.38))
+	_menu_card = _panel(_menu_scroll)
 	_menu_card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_menu_content = _column(_menu_card, 9)
-	_menu_copy.append(_label(_menu_content, "YOUR FIRST MISSION", 12, cyan, true))
-	_menu_copy.append(_label(_menu_content, "Bring the crew home.", 24, ivory, true))
-	_menu_copy.append(_label(_menu_content, "Inspect the array. Protect your suit.\nFind shelter when the warning arrives.", 16, Color(ivory, 0.92)))
-	_button(_menu_content, "Begin", "BEGIN MISSION", true)
-	_button(_menu_content, "Explore", "EXPLORE THE HABITAT")
-	_menu_grid = GridContainer.new()
-	_menu_grid.columns = 2
-	_menu_grid.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_menu_grid.add_theme_constant_override("h_separation", 8)
-	_menu_grid.add_theme_constant_override("v_separation", 8)
-	_menu_content.add_child(_menu_grid)
-	_button(_menu_grid, "SuitLab", "EXPLORER SUIT LAB")
-	_button(_menu_grid, "HabitatNotes", "HABITAT FIELD NOTES")
-	_button(_menu_grid, "Guide", "FIELD GUIDE")
-	_button(_menu_grid, "Academy", "MIRA’S ACADEMY")
-	_button(_menu_grid, "Updates", "UPDATES")
-	_button(_menu_grid, "Sound", "SOUND: ON")
-	_menu_footer = _label(_menu, "AGES 7–12   •   A FOUR-MINUTE MISSION   •   EXPLORE AT YOUR PACE", 11, Color(ivory, 0.85))
+	var content := _column(_menu_card)
+	_primary = _column(content, 10)
+	_label(_primary, "YOUR FIRST MISSION", 13)
+	_label(_primary, "Guide Mira home. Save base power.\nKeep the crew safe through the storm.", 16, "MissionBrief")
+	_button(_primary, "Begin", "Start mission", true)
+	_button(_primary, "Explore", "Explore · no timer")
+	_button(_primary, "More", "Learn & more").pressed.connect(func(): show_more(true))
+	_secondary = _column(content, 8)
+	_button(_secondary, "MoreBack", "← Back").pressed.connect(func(): show_more(false))
+	_button(_secondary, "Academy", "Learn with Mira")
+	_button(_secondary, "EVAMission", "Outdoor EVA mission")
+	_button(_secondary, "Guide", "Field guide")
+	_button(_secondary, "SuitLab", "Explorer suit lab")
+	_button(_secondary, "HabitatNotes", "Habitat field notes")
+	_button(_secondary, "Updates", "Game updates")
+	_button(_secondary, "Sound", "SOUND: ON")
+	_secondary.hide()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if _menu.visible and _secondary.visible and event.is_action_pressed("ui_cancel"):
+		show_more(false)
+		get_viewport().set_input_as_handled()
+
+func show_more(open: bool) -> void:
+	_primary.visible = not open
+	_secondary.visible = open
+	_menu_scroll.scroll_vertical = 0
+	get_node("%MoreBack" if open else "%More").grab_focus.call_deferred()
+	_schedule_layout()
 
 func _build_hud() -> void:
-	_objective_card = _glass(_hud, Color("192429"), 0.63, Color(cyan, 0.26))
-	var mission_column := _column(_objective_card, 5)
-	_label(mission_column, "AEGIS  /  FIELD MISSION", 12, cyan, true)
-	_label(mission_column, "Inspect the solar array", 21, ivory, true, "Objective")
-	_label(mission_column, "SOL 018  •  00:00 / 12:00", 13, Color(ivory, 0.8), false, "Clock")
-	_resource_card = _glass(_hud, Color("192429"), 0.63, Color(cyan, 0.26))
-	var resource_column := _column(_resource_card, 5)
-	_label(resource_column, "YOUR RESERVES", 12, cyan, true)
-	_label(resource_column, "HABITAT  8.0 / 12 kWh\nSUIT          0.90 / 0.90 kWh\nDOSE       0.00 / 4 mSv*", 16, ivory, false, "Metrics")
-	_reticle = _label(_hud, "+", 22, Color(ivory, 0.7))
+	_objective_card = _column(_hud, 5)
+	_label(_objective_card, "YOUR NEXT STEP", 12)
+	_label(_objective_card, "Inspect the solar array", 21, "Objective")
+	_resource_card = _column(_hud, 4)
+	var gauges := HBoxContainer.new()
+	_resource_card.add_child(gauges)
+	_base_gauge = BatteryGauge.new()
+	_base_gauge.title = "BASE"
+	_base_gauge.capacity = 12
+	_suit_gauge = BatteryGauge.new()
+	_suit_gauge.title = "SUIT"
+	_suit_gauge.capacity = 0.9
+	for gauge in [_base_gauge, _suit_gauge]:
+		gauge.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		gauge.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		gauges.add_child(gauge)
+	var exposure := _label(_resource_card, "Exposure 0.00 mSv", 13, "Metrics")
+	exposure.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_button(_resource_card, "Details", "Details").pressed.connect(toggle_details)
+	_reticle = _label(_hud, "·", 24)
 	_reticle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_prompt = _label(_hud, "", 18, ivory, true, "Prompt")
+	_prompt = _label(_hud, "", 17, "Prompt")
 	_prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_prompt.add_theme_color_override("font_shadow_color", Color(0.01, 0.01, 0.01, 0.9))
-	_prompt.add_theme_constant_override("shadow_offset_y", 2)
-	_radio_card = _glass(_hud, Color("192429"), 0.68, Color(cyan, 0.26))
-	var radio_column := _column(_radio_card, 5)
-	_label(radio_column, "MIRA  /  CREW RADIO", 12, cyan, true)
-	_label(radio_column, "Follow the lights to the solar array. I’ll stay on the radio.", 17, ivory, false, "Radio")
+	_radio_card = _panel(_hud)
+	var detail_scroll := ScrollContainer.new()
+	detail_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	detail_scroll.follow_focus = true
+	detail_scroll.focus_mode = Control.FOCUS_ALL
+	detail_scroll.get_v_scroll_bar().focus_mode = Control.FOCUS_ALL
+	_radio_card.add_child(detail_scroll)
+	var details := _column(detail_scroll)
+	_label(details, "MISSION DETAILS", 13)
+	_label(details, "", 14, "Clock")
+	_label(details, "", 15, "Radio")
+	_label(details, "P compares plans · F1 opens the guide\nBattery and dose limits are game assumptions.", 13)
+	_radio_card.hide()
+	_action_row = HBoxContainer.new()
+	_action_row.add_theme_constant_override("separation", 8)
+	_hud.add_child(_action_row)
+	_button(_action_row, "PanelCleaning", "1 · Clean panels")
+	_button(_action_row, "SavePower", "2 · Save power")
+	_button(_action_row, "FindShelter", "3 · Find refuge")
+	_hint = _label(_hud, "WASD move · E inspect · Q visor · Tab controls", 13, "ControlHint")
+	_hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+
+func toggle_details() -> void:
+	_details_visible = not _details_visible
+	_radio_card.visible = _details_visible
+	get_node("%Details").text = "Hide details" if _details_visible else "Details"
+	_schedule_layout()
+
+func set_readings(base: float, suit: float, _dose: float, _time: float, _sheltered: bool, cleaning: bool, conserving: bool) -> void:
+	_base_gauge.value = base
+	_suit_gauge.value = suit
+	_base_gauge.queue_redraw()
+	_suit_gauge.queue_redraw()
+	get_node("%PanelCleaning").text = "1 · Cleaner " + ("ON" if cleaning else "OFF")
+	get_node("%SavePower").text = "2 · Save " + ("ON" if conserving else "OFF")
+
+func set_operator_mode(enabled: bool) -> void:
+	_operator_mode = enabled
+	_suit_gauge.title = "MIRA SUIT" if enabled else "SUIT"
+	get_node("%FindShelter").disabled = false
+	get_node("%FindShelter").text = "3 · Guide Mira" if enabled else "3 · Find refuge"
+	get_node("%MissionBrief").text = "Guide Mira home. Save base power.\nKeep the crew safe through the storm." if enabled else "Inspect the array. Save power.\nReach the refuge when warned."
+	set_control_mode(_control_mode)
+	_suit_gauge.queue_redraw()
+
+func set_rescue_phase(phase: String, tour: bool) -> void:
+	if not _operator_mode: return
+	var labels := {"waiting": "3 · Guide Mira", "walking": "Mira returning", "cycling": "Airlock cycling", "entering": "Mira entering", "protected": "Mira safe", "halted": "Rescue paused"}
+	get_node("%FindShelter").text = labels.get(phase, "3 · Guide Mira")
+	get_node("%FindShelter").disabled = tour or phase != "waiting"
+
+func set_control_mode(enabled: bool) -> void:
+	_control_mode = enabled
+	_hint.text = "PAUSED · Choose a control · Esc returns to walking" if enabled else ("WASD room · mouse look · Tab controls" if _operator_mode else "WASD move · E inspect · Q visor · Tab controls")
+	_reticle.visible = not enabled
 
 func _schedule_layout() -> void:
 	if not _built or _layout_pending: return
 	_layout_pending = true
 	_apply_layout.call_deferred()
 
-func _rect(control: Control, position_value: Vector2, size_value: Vector2) -> void:
-	control.position = position_value
-	control.size = size_value
+func _rect(control: Control, pos: Vector2, extent: Vector2) -> void:
+	control.position = pos
+	control.size = extent
 
 func _apply_layout() -> void:
 	_layout_pending = false
 	if not _built: return
 	queue_redraw()
-	var bounds := size
-	if bounds.x < 1 or bounds.y < 1: return
-	var portrait := bounds.y > bounds.x
-	var physical_size := Vector2(get_window().size)
-	# Headless Godot uses a synthetic 64×64 window until a test sets its
-	# viewport. It is not a physical display or a reason to magnify fonts 20×.
-	if DisplayServer.get_name() == "headless" and physical_size == Vector2(64, 64):
-		physical_size = bounds
-	var compact := not portrait and physical_size.y < 520
+	var physical := Vector2(get_window().size)
+	if DisplayServer.get_name() == "headless" and physical == Vector2(64,64): physical = size
+	var scale_factor := maxf(1, size.x / maxf(1, physical.x))
+	var portrait := physical.y > physical.x
+	var compact := physical.y < 520
+	var margin := 16.0 * scale_factor
+	for node in _font_nodes: node.add_theme_font_size_override("font_size", roundi(float(_font_nodes[node]) * scale_factor))
+	for button in _buttons: button.custom_minimum_size = Vector2(44,48) * scale_factor
+	_title.add_theme_font_size_override("font_size", roundi((42 if compact or portrait else 64) * scale_factor))
 	_tagline.visible = not compact
-	for label in _menu_copy: label.visible = not compact
-	var begin_button := get_node("%Begin") as Button
-	var explore_button := get_node("%Explore") as Button
-	if compact and begin_button.get_parent() != _menu_grid:
-		begin_button.reparent(_menu_grid)
-		explore_button.reparent(_menu_grid)
-		_menu_grid.move_child(begin_button, 0)
-		_menu_grid.move_child(explore_button, 1)
-	elif not compact and begin_button.get_parent() != _menu_content:
-		begin_button.reparent(_menu_content)
-		explore_button.reparent(_menu_content)
-		_menu_content.move_child(begin_button, 3)
-		_menu_content.move_child(explore_button, 4)
-	# Canvas-items stretching can keep a large logical width on a phone. Scaling
-	# by portrait width preserves readable physical sizing without fixed offsets.
-	var ui_scale := maxf(1.0, bounds.x / maxf(1.0, physical_size.x))
-	var margin := 20.0 * ui_scale if portrait else 30.0 * ui_scale
-	for node in _font_nodes:
-		node.add_theme_font_size_override("font_size", maxi(11, roundi(float(_font_nodes[node]) * ui_scale)))
-	for node in _spacing_nodes:
-		node.add_theme_constant_override("separation", roundi(float(_spacing_nodes[node]) * ui_scale))
-	for node in _buttons: node.custom_minimum_size.y = 44.0 * ui_scale
-	_menu_grid.add_theme_constant_override("h_separation", roundi(8.0 * ui_scale))
-	_menu_grid.add_theme_constant_override("v_separation", roundi(8.0 * ui_scale))
-	for card in [_menu_card, _objective_card, _resource_card, _radio_card]:
-		var style: StyleBoxFlat = card.get_theme_stylebox("panel")
-		for side in ["left", "top", "right", "bottom"]: style.set("content_margin_" + side, 15.0 * ui_scale)
-	var hero_width := bounds.x - margin * 2 if portrait else minf(550.0 * ui_scale, bounds.x - margin * 2)
-	_title.add_theme_font_size_override("font_size", roundi((42.0 if compact else 64.0) * ui_scale))
-	var hero_height := maxf((80.0 if compact else 120.0) * ui_scale, _hero.get_combined_minimum_size().y)
-	_rect(_hero, Vector2(margin, margin), Vector2(hero_width, hero_height))
-	var card_width := bounds.x - margin * 2 if portrait else minf(420.0 * ui_scale, bounds.x - margin * 2)
-	var footer_height := 26.0 * ui_scale
-	var available := maxf(100.0, bounds.y - hero_height - margin * 3 - footer_height)
-	var card_height := minf(365.0 * ui_scale, available)
-	_menu_card.custom_minimum_size.x = 0
-	_menu_card.size.x = card_width - 14.0 * ui_scale
-	_rect(_menu_scroll, Vector2(margin, bounds.y - margin - footer_height - card_height), Vector2(card_width, card_height))
-	_rect(_menu_footer, Vector2(margin, bounds.y - margin - footer_height + 8.0 * ui_scale), Vector2(card_width, footer_height))
-	var mission_width := bounds.x - margin * 2 if portrait else minf(400.0 * ui_scale, bounds.x * 0.43)
-	var resource_width := bounds.x - margin * 2 if portrait else minf(290.0 * ui_scale, bounds.x * 0.34)
-	_rect(_objective_card, Vector2(margin, margin), Vector2(mission_width, 106.0 * ui_scale))
-	_rect(_resource_card, Vector2(margin if portrait else bounds.x - margin - resource_width, margin + _objective_card.size.y + 14.0 * ui_scale if portrait else margin), Vector2(resource_width, 116.0 * ui_scale))
-	_rect(_reticle, bounds * 0.5 - Vector2(12, 16) * ui_scale, Vector2(24, 32) * ui_scale)
-	_rect(_prompt, Vector2(margin, bounds.y * 0.61), Vector2(bounds.x - margin * 2, 74.0 * ui_scale))
-	var radio_width := bounds.x - margin * 2 if portrait else minf(650.0 * ui_scale, bounds.x * 0.6)
-	_radio_card.size.x = radio_width
-	var radio_height := maxf(102.0 * ui_scale, _radio_card.get_combined_minimum_size().y)
-	_rect(_radio_card, Vector2(margin, bounds.y - margin - radio_height), Vector2(radio_width, radio_height))
+	var hero_width := size.x - 2 * margin if portrait else size.x * 0.5 - margin
+	_rect(_hero, Vector2(margin, margin), Vector2(hero_width, 130 * scale_factor))
+	var menu_width := size.x - 2 * margin if portrait else minf(360 * scale_factor, size.x * 0.46)
+	var menu_height := minf(286 * scale_factor, size.y - 2 * margin) if not portrait else minf(380 * scale_factor, size.y - 230 * scale_factor)
+	var menu_x := size.x - margin - menu_width if compact else margin
+	_rect(_menu_scroll, Vector2(menu_x, size.y - margin - menu_height), Vector2(menu_width, menu_height))
+	var objective_width := size.x - 2 * margin if portrait else minf(420 * scale_factor, size.x - 260 * scale_factor - 2 * margin)
+	_rect(_objective_card, Vector2(margin, margin), Vector2(objective_width, 70 * scale_factor))
+	var resource_width := 210 * scale_factor
+	for gauge in [_base_gauge, _suit_gauge]:
+		gauge.scale_factor = scale_factor
+		gauge.custom_minimum_size = Vector2(85,92) * scale_factor
+		gauge.queue_redraw()
+	_rect(_resource_card, Vector2(margin if portrait else size.x - margin - resource_width, (100 * scale_factor if portrait else margin)), Vector2(resource_width, 160 * scale_factor))
+	var actions_width := minf(size.x - margin * 2, 640 * scale_factor)
+	_rect(_action_row, Vector2((size.x - actions_width) / 2, size.y - margin - 52 * scale_factor), Vector2(actions_width,52 * scale_factor))
+	_rect(_hint, Vector2(margin, size.y - margin - 80 * scale_factor), Vector2(size.x - 2 * margin, 24 * scale_factor))
+	_rect(_reticle, size * 0.5 - Vector2(10,16) * scale_factor, Vector2(20,32) * scale_factor)
+	_rect(_prompt, Vector2(margin, size.y - margin - 135 * scale_factor), Vector2(size.x - 2 * margin, 48 * scale_factor))
+	var details_width := minf(440 * scale_factor, size.x - 2 * margin)
+	_radio_card.size.x = details_width
+	var details_height := minf(220 * scale_factor, maxf(100 * scale_factor, size.y - 250 * scale_factor))
+	_rect(_radio_card, Vector2(margin, size.y - margin - 145 * scale_factor - details_height), Vector2(details_width,details_height))

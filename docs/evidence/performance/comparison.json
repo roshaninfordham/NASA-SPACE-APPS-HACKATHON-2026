@@ -3,38 +3,19 @@
   "purpose": "Compare geometry work and visual continuity; not an FPS, latency, memory-residency or physical-device benchmark.",
   "engine": "Godot 4.6.3 stable, Compatibility",
   "display": "Private authenticated Xvfb; Mesa 25.0.7 llvmpipe LLVM19.1.7 software OpenGL4.5",
-  "viewport": [
-    960,
-    540
-  ],
+  "viewport": [960, 540],
   "scene": "Actual standalone VeilWorld using default_art.tres, default mission weather; no menu/player/updater/UI. Node animation and dust emission disabled identically. --fixed-fps60 controls simulation stepping, not achieved FPS.",
   "views": [
     {
       "name": "title",
-      "position": [
-        -6,
-        3.4,
-        10
-      ],
-      "look_at": [
-        0,
-        3,
-        -16
-      ],
+      "position": [-6, 3.4, 10],
+      "look_at": [0, 3, -16],
       "fov": 45
     },
     {
       "name": "interior",
-      "position": [
-        0,
-        2.2,
-        -8.2
-      ],
-      "look_at": [
-        0,
-        3.1,
-        -16
-      ],
+      "position": [0, 2.2, -8.2],
+      "look_at": [0, 3.1, -16],
       "fov": 77
     }
   ],
@@ -44,7 +25,9 @@
     "The two cameras are representative samples, not exhaustive visual/device coverage.",
     "Compatibility reports zero in the separate shadow draw-call counter while counting nonzero shadow primitives; use total draw calls, not that zero, for comparisons.",
     "Frustum candidates are conservative CPU estimates; rendered work uses Godot counters, not those estimates.",
-    "No image edits, concept-image compositing, or generated artwork were used for these captures."
+    "No image edits, concept-image compositing, or generated artwork were used for these captures.",
+    "Historical stone-placement digest invalidated after detecting dummy-renderer identity readback; graphical counts and CPU mesh arrays are unaffected.",
+    "Historical headless main-profile frustum-candidate fields must not be used: dummy-renderer MultiMesh bounds were unsupported. Current profiler omits those fields when headless. Retained triangle/array-byte counts remain valid."
   ],
   "profiler_sha256": "83cb52aee4a7e19baaa60eee31edb55623b9e5dfbd1c48b39a2885350be0f469",
   "inputs": {
@@ -143,10 +126,12 @@
       }
     }
   ],
-  "stone_placement_preserved": true,
+  "stone_placement_preserved": null,
   "stone_placement": {
     "sorted_transform_sha256": "418c5d05c3722ae1a54805fc8489ad3f9fcd1aa1a3b7f75383e69db5a8039d3e",
     "stone_instances": 1500
   },
-  "visual_review": "Both actual before/after captures inspected: dome outline, entry, lantern positions, consoles, hologram, chairs and major object shadows remain. Small pebble silhouettes and fine ornamental shadows change intentionally. No claim of concept-image fidelity or pixel-identical output."
+  "visual_review": "Both actual before/after captures inspected: dome outline, entry, lantern positions, consoles, hologram, chairs and major object shadows remain. Small pebble silhouettes and fine ornamental shadows change intentionally. No claim of concept-image fidelity or pixel-identical output.",
+  "status": "Historical pre-0.7 design pivot; current dune layout intentionally differs.",
+  "stone_placement_verification": "INVALID: headless dummy renderer returned identity transforms for all MultiMesh instances; previous digest proves no placement property."
 }

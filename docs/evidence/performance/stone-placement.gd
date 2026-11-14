@@ -1,6 +1,10 @@
 extends SceneTree
 func _initialize(): call_deferred("run")
 func run():
+	if DisplayServer.get_name() == "headless":
+		push_error("MultiMesh transform readback is unsupported by the headless dummy renderer; use a graphical display.")
+		quit(1)
+		return
 	var landscape = load("res://art/red_veil/landscape.gd").new()
 	root.add_child(landscape)
 	await process_frame

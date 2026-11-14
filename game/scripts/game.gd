@@ -3,6 +3,9 @@ const Branding = preload("res://scripts/branding.gd")
 const Player = preload("res://scripts/player.gd")
 const World = preload("res://scripts/world.gd")
 const Mission = preload("res://scripts/mission.gd")
+const CompanionRescue = preload("res://scripts/companion_rescue.gd")
+const OPERATOR_START := Vector3(0, 0.2, -12.6)
+const OPERATOR_FOV := 52.0
 const Learning = preload("res://scripts/learning.gd")
 const Academy = preload("res://scripts/academy.gd")
 const HabitatInspector = preload("res://scripts/habitat_inspector.gd")
@@ -26,6 +29,9 @@ var player: VeilPlayer
 var world: VeilWorld
 var running := false
 var exploring := false
+var operator_mode := true
+var rescue = CompanionRescue.new()
+var _eva_companion_transform := Transform3D.IDENTITY
 var title_camera: Camera3D
 var paused := true
 var ended := false
@@ -33,6 +39,9 @@ var accumulator := 0.0
 var last_radio := ""
 var nearby := ""
 var touch_interact := false
+var control_mode := false
+var shelter_guidance := false
+var interface_root: Control
 var hud: Control
 var menu: Control
 var overlay: ColorRect
@@ -51,24 +60,28 @@ var mission_events: Array[Dictionary] = []
 
 func _ready() -> void:
 	DisplayServer.window_set_title(Branding.display_name())
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	Engine.max_fps = art.maximum_fps
 	setup_inputs()
 	learning = Learning.new()
 	sound_on = not AudioServer.is_bus_mute(0)
 	mission = Mission.new()
+	operator_mode = bool(art.get("start_in_window_presentation"))
 	world = World.new()
 	world.art = art
 	add_child(world)
+	var companion_anchor := world.get_node_or_null("CompanionAnchor") as Node3D
+	if companion_anchor: _eva_companion_transform = companion_anchor.transform
 	player = Player.new()
 	player.art = art
 	player.position = Vector3(0, 0.2, 14)
 	add_child(player)
 	if art.interior_scene:
 		title_camera = Camera3D.new()
-		title_camera.position = Vector3(-6, 3.4, 10)
-		title_camera.fov = 45
+		title_camera.position = OPERATOR_START + Vector3(0, 1.58, 0)
+		title_camera.fov = OPERATOR_FOV
 		add_child(title_camera)
-		title_camera.look_at(Vector3(0, 3, -16))
+		title_camera.look_at(title_camera.position + Vector3(0, 0, 10))
 		title_camera.current = true
 		player.hide()
 	action_audio = AudioStreamPlayer.new()
@@ -76,6 +89,8 @@ func _ready() -> void:
 	action_audio.volume_db = -18
 	add_child(action_audio)
 	create_interface()
+	if is_instance_valid(interface_root) and interface_root.has_method("set_operator_mode"): interface_root.set_operator_mode(operator_mode)
+	_sync_rescue_visuals()
 	world.update_weather(mission)
 	setup_updates()
 	get_tree().auto_accept_quit = true
@@ -96,7 +111,7 @@ func _ready() -> void:
 		update_client.check_for_updates.call_deferred(false)
 
 func setup_inputs() -> void:
-	var keys := {"forward": KEY_W, "back": KEY_S, "left": KEY_A, "right": KEY_D, "interact": KEY_E, "visor": KEY_Q, "jump": KEY_SPACE, "pause": KEY_ESCAPE, "guide": KEY_F1, "plan": KEY_P}
+	var keys := {"forward": KEY_W, "back": KEY_S, "left": KEY_A, "right": KEY_D, "interact": KEY_E, "visor": KEY_Q, "jump": KEY_SPACE, "pause": KEY_ESCAPE, "guide": KEY_F1, "plan": KEY_P, "panel_cleaning": KEY_1, "save_power": KEY_2, "find_shelter": KEY_3, "controls": KEY_TAB}
 	for action in keys:
 		if not InputMap.has_action(action): InputMap.add_action(action)
 		var key := InputEventKey.new()
@@ -107,7 +122,7 @@ func setup_inputs() -> void:
 		axis.axis = mapping[1]
 		axis.axis_value = mapping[2]
 		if not InputMap.action_has_event(mapping[0], axis): InputMap.action_add_event(mapping[0], axis)
-	for mapping in [["jump", JOY_BUTTON_A], ["interact", JOY_BUTTON_X], ["visor", JOY_BUTTON_Y], ["pause", JOY_BUTTON_START]]:
+	for mapping in [["jump", JOY_BUTTON_A], ["interact", JOY_BUTTON_X], ["visor", JOY_BUTTON_Y], ["pause", JOY_BUTTON_START], ["controls", JOY_BUTTON_BACK]]:
 		var button := InputEventJoypadButton.new()
 		button.button_index = mapping[1]
 		if not InputMap.action_has_event(mapping[0], button): InputMap.action_add_event(mapping[0], button)
@@ -210,8 +225,8 @@ func create_interface() -> void:
 	var title := text(menu, Branding.title(), Vector2(65, 150), 72)
 	if art.title_font: title.add_theme_font_override("font", art.title_font)
 	text(menu, Branding.subtitle(), Vector2(72, 246), 20, art.instrument_color)
-	text(menu, "Be the astronaut.\nFind your way through the storm.", Vector2(72, 280), 30)
-	text(menu, "Your crewmate Mira needs you at the solar array.\nExplore the outpost, protect your suit, and keep\nenough energy to bring everyone home.", Vector2(74, 375), 20)
+	text(menu, ("Be mission control.\nGuide Mira home." if operator_mode else "Be the astronaut.\nFind your way through the storm."), Vector2(72, 280), 30)
+	text(menu, ("Mira is stranded outside. Guide her through the\nside airlock, protect her suit reserve, and keep\nenough base energy for the storm." if operator_mode else "Inspect the array, protect your suit, and keep\nenough energy to reach the shielded refuge."), Vector2(74, 375), 20)
 	button(menu, "BEGIN YOUR MISSION", Vector2(72, 490), 330, begin)
 	button(menu, "FIELD GUIDE", Vector2(420, 490), 190, show_guide)
 	button(menu, "SOUND: ON" if sound_on else "SOUND: OFF", Vector2(72, 555), 200, toggle_sound)
@@ -248,15 +263,18 @@ func create_touch_controls(root: Control) -> void:
 		var bounds := touch_controls.size
 		var scale_factor := maxf(1.0, bounds.x / maxf(1.0, get_window().size.x))
 		var inset := Vector2(16, 16) * scale_factor
-		var top := bounds.y - inset.y - 152.0 * scale_factor
+		var clean_hud := root.has_method("set_control_mode")
+		var top := bounds.y - inset.y - (268.0 if clean_hud else 152.0) * scale_factor
 		var positions := [Vector2(52, 0), Vector2(52, 104), Vector2(0, 52), Vector2(104, 52)]
 		for index in range(controls.size()):
 			var control := controls[index]
+			control.visible = not operator_mode or index not in [4,5]
 			control.add_theme_font_size_override("font_size", roundi(16.0 * scale_factor))
 			for state in ["font_focus_color", "font_pressed_color"]: control.add_theme_color_override(state, art.interface_button_text)
 			control.custom_minimum_size = Vector2(48, 48) * scale_factor
 			control.size = Vector2(48 if index < 4 else 98, 48) * scale_factor
 			control.position = Vector2(inset.x, top) + positions[index] * scale_factor if index < 4 else Vector2(bounds.x - inset.x - 98.0 * scale_factor, top + (index - 4) * 52.0 * scale_factor)
+		if clean_hud: return
 		# Reserve a real touch band. Radio stays readable above it in portrait,
 		# or between the left/right controls in landscape, never under buttons.
 		var portrait := bounds.y > bounds.x
@@ -304,29 +322,70 @@ func show_academy() -> void:
 	)
 
 func begin() -> void:
+	_begin_mode(bool(art.get("start_in_window_presentation")))
+
+func begin_eva() -> void:
+	_begin_mode(false)
+
+func explore_habitat() -> void:
+	_begin_mode(true, true)
+
+func _begin_mode(indoor_operator: bool, untimed: bool = false) -> void:
 	if is_instance_valid(update_panel) or is_instance_valid(academy) or is_instance_valid(exhibit): return
 	if ended: get_tree().reload_current_scene(); return
+	if running: return
+	operator_mode = indoor_operator
+	exploring = untimed
+	rescue = CompanionRescue.new()
+	world.set_window_presentation(operator_mode)
+	player.configure_operator_area(operator_mode)
+	player.camera.fov = OPERATOR_FOV if operator_mode else 78.0
+	if operator_mode:
+		player.position = OPERATOR_START
+		player.rotation.y = PI
+		player.head.rotation.x = 0
+	else:
+		var anchor := world.get_node_or_null("CompanionAnchor") as Node3D
+		if anchor: anchor.transform = _eva_companion_transform
+		player.position = Vector3(0, 0.2, 14)
+		player.rotation.y = 0
+		player.head.rotation.x = 0
+	if is_instance_valid(interface_root) and interface_root.has_method("set_operator_mode"):
+		interface_root.set_operator_mode(operator_mode)
 	menu.hide()
 	player.show()
 	player.camera.current = true
 	hud.show()
+	get_viewport().gui_release_focus()
 	running = true
 	paused = false
 	player.enabled = true
 	touch_controls.visible = DisplayServer.is_touchscreen_available()
 	refresh_update_notice()
 	if not DisplayServer.is_touchscreen_available(): Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	say("Follow the lights to the solar array on your right. I’ll stay on the radio.")
-
-func explore_habitat() -> void:
-	if is_instance_valid(update_panel) or is_instance_valid(academy) or is_instance_valid(exhibit): return
-	begin()
-	exploring = true
-	player.position = Vector3(-3, 0.2, -11)
-	player.rotation.y = -0.54
-	player.head.rotation.x = 0.08
-	say("Welcome to mission control. Explore freely; the mission clock is stopped. Press E at the consoles to try the power controls.")
+	if exploring: say("Explore mission control. The clock is stopped. Start a mission from the title screen to guide Mira home.")
+	elif operator_mode: say("Mira is stranded outside. Press 3 or open Tab controls to guide her through the side airlock. Her suit and exposure readings are live.")
+	else: say("Inspect the array: follow its distance cue, then hold E beside it. Save power and reach the refuge when warned.")
+	_sync_rescue_visuals()
 	update_hud()
+
+func _sync_rescue_visuals() -> void:
+	if not operator_mode: return
+	var anchor := world.get_node_or_null("CompanionAnchor") as Node3D
+	if anchor:
+		var displacement: Vector3 = rescue.position - anchor.position
+		anchor.position = rescue.position
+		if rescue.phase == "waiting": anchor.rotation.y = PI
+		elif displacement.length_squared() > 0.000001: anchor.rotation.y = atan2(displacement.x, displacement.z)
+	var interior_anchor := world.get_node_or_null("InteriorAnchor")
+	if interior_anchor:
+		for room in interior_anchor.get_children():
+			if room.has_method("set_airlock_phase"):
+				var phase := "idle"
+				if rescue.phase == "walking": phase = "approach"
+				elif rescue.phase == "cycling": phase = "cycling"
+				elif rescue.phase in ["entering", "protected"]: phase = "complete"
+				room.set_airlock_phase(phase)
 
 func toggle_sound() -> void:
 	sound_on = not sound_on
@@ -341,12 +400,16 @@ func say(message: String) -> void:
 	mission_events.append({"hours": mission.time, "message": message})
 
 func toggle_pause() -> void:
+	if control_mode: leave_control_mode()
 	if not running or ended or is_instance_valid(academy) or is_instance_valid(update_panel) or is_instance_valid(exhibit): return
 	paused = not paused
 	player.enabled = not paused
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if paused else Input.MOUSE_MODE_CAPTURED
+	if paused and exploring:
+		show_modal("ROOM TOUR PAUSED", "Explore at your own pace, or start a fresh rescue mission. Starting resets the practice switches and begins the 12-simulated-hour scenario.", "RESUME ROOM TOUR", resume, "START RESCUE MISSION", start_rescue_from_tour, "RETURN TO TITLE", func(): get_tree().reload_current_scene())
+		return
 	if paused:
-		show_modal("TAKE A BREATH", "Your mission is paused. Nothing uses energy while you think.\n\nWASD / left stick: walk    Mouse / right stick: look\nE / X: use equipment    Q / Y: clean visor\nSpace / A: a small Mars hop", "BACK TO MARS", resume, "EXPLORER SUIT LAB", func():
+		show_modal("TAKE A BREATH", ("Mission and Mira’s journey are paused.\n\nWASD / left stick: move inside the room\nMouse / right stick: look through the window\n1: cleaner · 2: save power · 3: guide Mira\nTab / controller Back: cursor controls" if operator_mode else "Your mission is paused. Nothing uses energy while you think.\n\nWASD / left stick: walk    Mouse / right stick: look\nE / X: use equipment    Q / Y: clean visor\nSpace / A: a small Mars hop"), "BACK TO MARS", resume, "EXPLORER SUIT LAB", func():
 			if is_instance_valid(finish_panel):
 				finish_panel.queue_free()
 				finish_panel = null
@@ -355,7 +418,25 @@ func toggle_pause() -> void:
 		, "COMPARE MISSION PLANS", show_planner)
 	else: resume()
 
+func start_rescue_from_tour() -> void:
+	if not exploring or not running or ended or is_instance_valid(exhibit) or is_instance_valid(academy) or is_instance_valid(update_panel): return
+	if is_instance_valid(finish_panel):
+		finish_panel.queue_free()
+		finish_panel = null
+	mission = Mission.new()
+	accumulator = 0
+	tick = 0
+	mission_events.clear()
+	last_radio = ""
+	running = false
+	exploring = false
+	_begin_mode(true)
+
 func resume() -> void:
+	if not running or ended: return
+	get_viewport().gui_release_focus()
+	control_mode = false
+	if is_instance_valid(interface_root) and interface_root.has_method("set_control_mode"): interface_root.set_control_mode(false)
 	if is_instance_valid(finish_panel): finish_panel.queue_free()
 	paused = false
 	player.enabled = true
@@ -456,17 +537,77 @@ func show_modal(title: String, body: String, action: String, callback: Callable,
 	primary.grab_focus.call_deferred()
 
 func show_guide() -> void:
+	if ended: return
+	if control_mode: leave_control_mode()
 	if is_instance_valid(academy) or is_instance_valid(update_panel) or is_instance_valid(exhibit): return
 	var was_running := running
 	paused = true
 	player.enabled = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	show_modal("YOUR MARS FIELD GUIDE", "ENERGY: Sunlight makes power. The battery stores what is left.\nDUST: Cleaning removes surface dust, never dust in the sky.\nVISOR: Clear sight helps inspection. It uses your suit battery.\nSHELTER: Installed shielding lowers exposure without power.\n\nNASA Curiosity reference: 0.67 mSv/day (2012–2013).\nLoads, storm timing and dose limits are fictional teaching values.\nThis is not certified astronaut training.\n\nSources and asset credits are included with every download.", "BACK TO THE MISSION" if was_running else "BACK", func():
+	show_modal("YOUR MARS FIELD GUIDE", ("OPERATOR MODE: You are indoors. Suit battery and exposure belong to Mira. Guide her through the side airlock; shielding starts after cycling and indoor entry. Planner previews freeze her current protection level, not her route.\n\n" if operator_mode else "OUTDOOR EVA: Suit battery and exposure belong to the astronaut you move.\n\n") + "ENERGY: Sunlight makes power. The battery stores what is left.\nDUST: Cleaning removes surface dust, never dust in the sky.\nVISOR: Cleaning shares the exposed astronaut’s suit battery with life support.\nSHELTER: Installed shielding lowers exposure without power.\n\nNASA Curiosity reference: 0.67 mSv/day (2012–2013).\nLoads, storm timing and dose limits are fictional teaching values.\nThis is not certified astronaut training.\n\nSources and asset credits are included with every download.", "BACK TO THE MISSION" if was_running else "BACK", func():
 		if is_instance_valid(finish_panel): finish_panel.queue_free()
 		if was_running: resume()
 	)
 
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.echo: return
+	if event.is_action_pressed("controls") and not control_mode and running and not paused and not ended:
+		enter_control_mode()
+		get_viewport().set_input_as_handled()
+	elif control_mode and (event.is_action_pressed("ui_cancel") or (event is InputEventJoypadButton and event.is_action_pressed("controls"))):
+		leave_control_mode()
+		get_viewport().set_input_as_handled()
+
+func enter_control_mode() -> void:
+	if not running or ended or control_mode or paused or is_instance_valid(exhibit) or is_instance_valid(academy) or is_instance_valid(update_panel): return
+	control_mode = true
+	paused = true
+	player.enabled = false
+	player.touch_move = Vector2.ZERO
+	touch_interact = false
+	touch_controls.hide()
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	if is_instance_valid(interface_root) and interface_root.has_method("set_control_mode"):
+		interface_root.set_control_mode(true)
+		interface_root.get_node("%PanelCleaning").grab_focus.call_deferred()
+
+func leave_control_mode() -> void:
+	if not control_mode: return
+	control_mode = false
+	if is_instance_valid(interface_root) and interface_root.has_method("set_control_mode"):
+		interface_root.set_control_mode(false)
+		if interface_root._details_visible: interface_root.toggle_details()
+	resume()
+
+func apply_primary_action(action: String) -> void:
+	if not running or ended or mission.status != "running" or (paused and not control_mode) or is_instance_valid(exhibit) or is_instance_valid(academy) or is_instance_valid(update_panel): return
+	match action:
+		"cleaning":
+			mission.cleaning = not mission.cleaning
+			say("Panel cleaning on: it uses base power to remove panel dust, not dust in the sky." if mission.cleaning else "Panel cleaning off. Watch the sky and base battery.")
+		"power":
+			mission.conserving = not mission.conserving
+			say("Saving power. Optional field research slows down; life support still needs energy." if mission.conserving else "Normal field research restored. Watch the base battery.")
+		"shelter":
+			if operator_mode:
+				if exploring:
+					say("This is an untimed room tour. Start a mission to guide Mira.")
+				elif rescue.request_return():
+					say("Mira received your signal. She is walking to the side airlock. Her suit keeps working until the cycle and indoor entry finish.")
+					_sync_rescue_visuals()
+			else:
+				shelter_guidance = true
+				say("Follow the refuge distance cue. You must walk inside to gain shielding.")
+		_: return
+	if control_mode: leave_control_mode()
+	get_viewport().gui_release_focus()
+	update_hud()
+	world.update_weather(mission)
+
 func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("panel_cleaning"): apply_primary_action("cleaning")
+	if event.is_action_pressed("save_power"): apply_primary_action("power")
+	if event.is_action_pressed("find_shelter"): apply_primary_action("shelter")
 	if event.is_action_pressed("pause"): toggle_pause()
 	if event.is_action_pressed("guide"): show_guide()
 	if event.is_action_pressed("plan"): show_planner()
@@ -479,7 +620,7 @@ func interact() -> void:
 	if not running or paused or ended: return
 	if nearby == "power" or nearby == "control":
 		mission.conserving = not mission.conserving
-		say("Essentials stay on. Extra experiments are paused." if mission.conserving else "Experiments are running again. Watch the battery.")
+		say("Extra experiments slow down to save power. Essentials still need power." if mission.conserving else "Experiments are running again. Watch the battery.")
 		play_action()
 	elif nearby == "array" and mission.inspection >= 1.0:
 		mission.cleaning = not mission.cleaning
@@ -493,10 +634,14 @@ func interact() -> void:
 func toggle_visor() -> void:
 	if not running or paused or ended or mission.shelter: return
 	mission.visor_cleaning = not mission.visor_cleaning
-	say("Visor cleaner on. Clear sight helps you inspect. It uses your suit battery." if mission.visor_cleaning else "Visor cleaner off. Keep an eye on your view.")
+	if operator_mode: say("Mira’s visor cleaner on. It shares her suit battery with life support." if mission.visor_cleaning else "Mira’s visor cleaner off.")
+	else: say("Visor cleaner on. Clear sight helps you inspect. It uses your suit battery." if mission.visor_cleaning else "Visor cleaner off. Keep an eye on your view.")
 
 func _process(delta: float) -> void:
 	if not running or paused or ended: return
+	if operator_mode:
+		_process_operator(delta)
+		return
 	tick += delta
 	var pos := player.global_position
 	var was_sheltered := mission.shelter
@@ -529,25 +674,96 @@ func _process(delta: float) -> void:
 		tick = 0
 	if mission.status != "running": finish()
 
+func _process_operator(delta: float) -> void:
+	# The operator's indoor position never determines the crewmate's protection.
+	tick += delta
+	if not exploring: accumulator += minf(delta, 0.25) * Mission.HOURS_PER_SECOND
+	while accumulator >= Mission.STEP_HOURS and mission.status == "running":
+		mission.shelter = rescue.protected()
+		mission.step(Mission.STEP_HOURS, false)
+		accumulator -= Mission.STEP_HOURS
+		if mission.status == "running":
+			var prior_phase: String = rescue.phase
+			rescue.advance(Mission.STEP_HOURS)
+			mission.shelter = rescue.protected()
+			if rescue.phase != prior_phase:
+				if rescue.phase == "cycling": say("Mira reached the side airlock. Both doors are closed while it cycles; her suit is still active.")
+				elif rescue.phase == "entering": say("Airlock cycle complete. Mira is stepping through the inner door.")
+				elif rescue.protected():
+					mission.visor_cleaning = false
+					say("Mira is inside and shielded. Keep enough base battery for the rest of the storm.")
+		else: rescue.halt(mission.status)
+	_sync_rescue_visuals()
+	if tick > 0.1:
+		world.update_weather(mission)
+		update_hud()
+		tick = 0
+	if mission.status != "running": finish()
+
+func _update_operator_hud() -> void:
+	metrics.text = "Mira exposure %.2f mSv" % mission.dose
+	clock.text = "Simulated %02d:%02d / 12 hours · MIRA %s" % [int(mission.time), int(fmod(mission.time * 60, 60)), "SHIELDED" if rescue.protected() else "EXPOSED"]
+	visor.color.a = 0.0
+	if is_instance_valid(interface_root):
+		interface_root.set_readings(mission.energy, mission.suit_energy, mission.dose, mission.time, rescue.protected(), mission.cleaning, mission.conserving)
+		interface_root.set_rescue_phase(rescue.phase, exploring)
+	match rescue.phase:
+		"waiting": objective.text = "Guide Mira to shelter · 3 or Tab"
+		"walking": objective.text = "Mira returning · %d m to airlock" % ceili(rescue.remaining_metres())
+		"cycling": objective.text = "Airlock cycling · %d%%" % int(100 * rescue.cycle_hours / CompanionRescue.AIRLOCK_HOURS)
+		"entering": objective.text = "Mira is entering the room"
+		"protected": objective.text = "Mira is safe · protect base reserve"
+		_: objective.text = "Rescue paused · review the mission"
+	prompt.text = "Your room is safe. Suit and exposure readings belong to Mira."
+	if not rescue.protected() and mission.environment().event:
+		prompt.text = "PARTICLE WARNING · Mira still needs shielding"
+	elif not rescue.protected() and mission.time >= 3.2 and mission.time < mission.event_start:
+		prompt.text = "PARTICLE WARNING SOON · guide Mira home now"
+	elif not rescue.protected() and mission.suit_energy < 0.16:
+		prompt.text = "MIRA’S SUIT BATTERY LOW · guide her home"
+	if exploring:
+		objective.text = "Explore mission control · no timer"
+		prompt.text = "Room tour · start a mission to guide Mira"
+	if player.at_training_boundary: prompt.text = "Control room edge · turn back toward the window"
+
 func update_hud() -> void:
+	if operator_mode:
+		_update_operator_hud()
+		return
+	var use_hint := "USE" if DisplayServer.is_touchscreen_available() else ("X" if not Input.get_connected_joypads().is_empty() else "E")
 	var env := mission.environment()
-	metrics.text = "HABITAT  %.1f / 12 kWh\nSUIT          %.2f / 0.90 kWh\nDOSE       %.2f / 4 mSv*" % [mission.energy, mission.suit_energy, mission.dose]
-	clock.text = "SOL 018  •  %02d:%02d / 12:00  •  %s" % [int(mission.time), int(fmod(mission.time * 60, 60)), "SHELTERED" if mission.shelter else "OUTSIDE"]
+	metrics.text = "Exposure %.2f mSv" % mission.dose if is_instance_valid(interface_root) else "BASE %.1f kWh · SUIT %.2f kWh · DOSE %.2f mSv" % [mission.energy, mission.suit_energy, mission.dose]
+	if is_instance_valid(interface_root) and interface_root.has_method("set_readings"):
+		interface_root.set_readings(mission.energy, mission.suit_energy, mission.dose, mission.time, mission.shelter, mission.cleaning, mission.conserving)
+	clock.text = "Simulated time %02d:%02d / 12 hours · %s" % [int(mission.time), int(fmod(mission.time * 60, 60)), "SHELTERED" if mission.shelter else "OUTSIDE"]
 	visor.color.a = mission.visor_dust * 0.22 if not mission.shelter else 0.0
-	if mission.inspection < 1: objective.text = "Inspect the solar array  %d%%" % int(mission.inspection * 100)
+	var refuge_distance := player.global_position.distance_to(World.SHELTER_POSITION)
+	var array_distance := player.global_position.distance_to(World.ARRAY_POSITION)
+	var danger := mission.time >= 3.2 and mission.time < mission.event_end
+	if mission.shelter: shelter_guidance = false
+	if not mission.shelter and (danger or shelter_guidance or mission.suit_energy < 0.16):
+		objective.text = ("Low suit battery · refuge" if mission.suit_energy < 0.16 else "Reach shielded refuge") + " · %d m" % roundi(refuge_distance)
+	elif mission.shelter and danger: objective.text = "Stay shielded until the warning passes"
+	elif mission.inspection < 1: objective.text = "Inspect array · %d m · %d%%" % [roundi(array_distance), int(mission.inspection * 100)]
 	elif mission.time < 3.2: objective.text = "Visit the power control kiosk"
 	elif env.event or mission.time < 4: objective.text = "Reach the shielded refuge"
 	elif mission.time < 8: objective.text = "Protect the recovery reserve"
 	else: objective.text = "Recover the outpost"
 	prompt.text = ""
-	if nearby == "array": prompt.text = "HOLD E / X  •  Inspect array  %d%%" % int(mission.inspection * 100) if mission.inspection < 1 else "E / X  •  Panel cleaning: " + ("ON" if mission.cleaning else "OFF")
-	if nearby == "power": prompt.text = "E / X  •  Save power: " + ("ON" if mission.conserving else "OFF")
-	if nearby == "remote": prompt.text = "E / X  •  Remote panel cleaning: " + ("ON" if mission.cleaning else "OFF")
-	if nearby == "control": prompt.text = "E / X  •  Mission control — save power: " + ("ON" if mission.conserving else "OFF")
+	if nearby == "array": prompt.text = "HOLD %s · Inspect array %d%%" % [use_hint, int(mission.inspection * 100)] if mission.inspection < 1 else use_hint + " · Panel cleaning: " + ("ON" if mission.cleaning else "OFF")
+	if nearby == "power": prompt.text = use_hint + " · Save power: " + ("ON" if mission.conserving else "OFF")
+	if nearby == "remote": prompt.text = use_hint + " · Remote panel cleaning: " + ("ON" if mission.cleaning else "OFF")
+	if nearby == "control": prompt.text = use_hint + " · Mission control — save power: " + ("ON" if mission.conserving else "OFF")
 	if exploring:
 		objective.text = "Explore the habitat · I for field notes"
 		clock.text = "MISSION CLOCK STOPPED  •  ESC TO PAUSE"
-	if mission.visor_cleaning: prompt.text += "\nVISOR CLEANING  •  Q / Y to stop"
+	if prompt.text.is_empty() and not mission.shelter and not exploring and (danger or shelter_guidance or mission.suit_energy < 0.16 or mission.inspection < 1 or mission.time < 3.2):
+		var target: Vector3 = World.SHELTER_POSITION if danger or shelter_guidance or mission.suit_energy < 0.16 else (World.ARRAY_POSITION if mission.inspection < 1 else World.POWER_POSITION)
+		var local_target := player.to_local(target)
+		var direction := "Ahead" if absf(local_target.x) < absf(local_target.z) * 0.5 and local_target.z < 0 else ("Behind you" if absf(local_target.x) < absf(local_target.z) * 0.5 else ("Turn right" if local_target.x > 0 else "Turn left"))
+		prompt.text = direction + (" · REFUGE" if target == World.SHELTER_POSITION else (" · SOLAR ARRAY" if target == World.ARRAY_POSITION else " · POWER CONTROL"))
+	if mission.visor_cleaning: prompt.text += "\nVISOR CLEANING · Q to stop"
+	if player.get("at_training_boundary") == true: prompt.text = "Training area edge · turn back toward the outpost"
 
 func finish() -> void:
 	ended = true
@@ -561,10 +777,16 @@ func finish() -> void:
 	if mission.status == "power-abort": reason = "The habitat battery ran out. Save power early and clean when sunlight is available."
 	if mission.status == "suit-abort": reason = "Your suit battery ran low. Visor cleaning shares that battery with life support."
 	if mission.status == "partial": reason = "You reached the end, but the outpost needs more energy to recover."
-	var body := "%s\n\nBattery left: %.1f kWh   •   Crew dose: %.2f mSv\nInspection: %d%%   •   Time survived: %.1f hours\n\nWHAT IF EVERYTHING STAYED ON?\nA fixed sheltered, cleaning-on, normal-power strategy\nended after %.1f hours: %s. Same weather, no inspection.\n\nWhat did you change when the sky became dark?" % [reason, mission.energy, mission.dose, int(mission.inspection * 100), mission.time, baseline.time_hours, baseline.status]
+	if operator_mode:
+		if mission.status == "suit-abort": reason = "Mira’s suit battery ran low before indoor entry. Next time, guide her to the side airlock sooner."
+		elif mission.status == "dose-abort": reason = "Mira reached the scenario exposure limit. Guide her inside before the particle event."
+		reason = ("Mira reached shelter. " if rescue.protected() else "Mira did not complete indoor entry. ") + reason
+	var outcome := "Mira return: " + ("entered the room" if rescue.protected() else "entry not completed") if operator_mode else "Inspection: %d%%" % int(mission.inspection * 100)
+	var subject := "Mira exposure" if operator_mode else "Crew dose"
+	var body := "%s\n\nBase battery: %.1f kWh · %s: %.2f mSv\n%s · Time survived: %.1f simulated hours\n\nENERGY-ONLY COMPARISON\nA fixed sheltered, cleaning-on, normal-power strategy\nended after %.1f simulated hours: %s. Same weather, no inspection. This comparison starts sheltered and does not simulate a rescue.\n\nWhat did you change when the sky became dark?" % [reason, mission.energy, subject, mission.dose, outcome, mission.time, baseline.time_hours, baseline.status]
 	show_modal(title, body, "TRY ANOTHER PLAN", func(): get_tree().reload_current_scene(), "PRACTISE WITH MIRA", show_academy)
 	refresh_update_notice()
-	var report := {"version": update_client.current_version if is_instance_valid(update_client) else ProjectSettings.get_setting("application/config/version", "development"), "model": "red-veil-first-person", "result": mission.summary(), "baseline": baseline, "events": mission_events}
+	var report := {"mode": "operator-rescue" if operator_mode else "outdoor-eva", "rescue": rescue.snapshot() if operator_mode else {}, "version": update_client.current_version if is_instance_valid(update_client) else ProjectSettings.get_setting("application/config/version", "development"), "model": "red-veil-first-person", "result": mission.summary(), "baseline": baseline, "events": mission_events}
 	var file := FileAccess.open("user://last-mission.json", FileAccess.WRITE)
 	if file: file.store_string(JSON.stringify(report, "  "))
 
@@ -580,6 +802,7 @@ func play_action() -> void:
 func bind_custom_interface(canvas: CanvasLayer) -> void:
 	# A design-owned HUD can replace the fallback without altering the mission loop.
 	var root := hud_scene.instantiate() as Control
+	interface_root = root
 	assert(root != null, "Custom HUD root must be Control")
 	canvas.add_child(root)
 	hud = root.get_node("%HUD")
@@ -591,6 +814,8 @@ func bind_custom_interface(canvas: CanvasLayer) -> void:
 	clock = root.get_node("%Clock")
 	visor = root.get_node("%Visor")
 	root.get_node("%Begin").pressed.connect(begin)
+	var eva_button := root.get_node_or_null("%EVAMission")
+	if eva_button: eva_button.pressed.connect(begin_eva)
 	var explore_button := root.get_node_or_null("%Explore")
 	if explore_button: explore_button.pressed.connect(explore_habitat)
 	root.get_node("%Guide").pressed.connect(show_guide)
@@ -604,6 +829,15 @@ func bind_custom_interface(canvas: CanvasLayer) -> void:
 	if habitat_button: habitat_button.pressed.connect(show_habitat_inspector)
 	var updates_button := root.get_node_or_null("%Updates")
 	if updates_button: updates_button.pressed.connect(show_updates)
+	for action in [["PanelCleaning", "cleaning"], ["SavePower", "power"], ["FindShelter", "shelter"]]:
+		var action_button := root.get_node_or_null("%" + action[0])
+		if action_button: action_button.pressed.connect(apply_primary_action.bind(action[1]))
+	var details_button := root.get_node_or_null("%Details")
+	if details_button:
+		details_button.pressed.connect(func():
+			if root._details_visible: enter_control_mode()
+			elif control_mode: leave_control_mode()
+		)
 	hud.hide()
 	menu.show()
 	create_touch_controls(root)
@@ -701,7 +935,10 @@ func show_habitat_inspector() -> void:
 	if anchor == null or anchor.get_child_count() == 0: return
 	var habitat := anchor.get_child(0)
 	if not habitat.has_method("get_inspection_points"): return
+	var restore_window := world.is_window_presentation()
+	world.set_window_presentation(false)
 	var inspector := HabitatInspector.new()
+	inspector.closed.connect(func(): world.set_window_presentation(restore_window))
 	inspector.points = habitat.get_inspection_points()
 	inspector.camera = title_camera
 	_open_exhibit(inspector, true)
@@ -746,6 +983,7 @@ func _open_exhibit(view: Control, overview: bool) -> void:
 	refresh_update_notice()
 
 func show_planner() -> void:
+	if control_mode: leave_control_mode()
 	if not running or ended or is_instance_valid(exhibit) or is_instance_valid(academy) or is_instance_valid(update_panel): return
 	var adviser = load("res://scripts/mission_adviser.gd")
 	var planner_script = load("res://scripts/mission_planner.gd")
@@ -755,12 +993,17 @@ func show_planner() -> void:
 		finish_panel = null
 	var planner = planner_script.new()
 	planner.report = adviser.analyze(mission)
+	if operator_mode:
+		planner.report.suit_subject = "Mira"
+		planner.report.safety_note = ("PARTICLE EVENT ACTIVE. " if mission.environment().event else "") + "All suit and dose readings belong to Mira. This comparison freezes her current protection level; it does not predict travel or airlock completion. Guide Mira from the mission controls."
+		planner.report.assumptions = ["Operator mode: the player stays indoors; the exposed subject is Mira.", "Mira's current position/protection is fixed for this forecast. Her actual journey pauses while this screen is open.", "No inspection is performed in this mode; the base array remains at its uninspected efficiency.", "Scenario weather and hardware limits are teaching assumptions, not a live NASA forecast."]
+
 	planner.allow_apply = mission.status == "running"
 	planner.plan_selected.connect(func(conserving: bool, cleaning: bool):
 		if not running or ended or mission.status != "running": return
 		mission.conserving = conserving
 		mission.cleaning = cleaning
-		say("Your plan: %s; panel cleaning %s. Keep watching the sky and your suit battery." % ["save nonessential power" if conserving else "normal lab work", "on" if cleaning else "off"])
+		say("Your plan: %s; panel cleaning %s. Keep watching the sky and the suit battery." % ["save nonessential power" if conserving else "normal lab work", "on" if cleaning else "off"])
 		world.update_weather(mission)
 	)
 	_open_exhibit(planner, false)

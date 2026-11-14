@@ -34,3 +34,11 @@ def archive_name(version, platform):
     if platform not in {"macOS-universal", "Windows-x64", "Linux-x64", "Web"}:
         raise ValueError("Unsupported archive platform")
     return f"{archive_stem(version)}-{version}-{platform}.zip"
+
+
+def supplemental_asset_names(version):
+    """Science guide is part of the immutable release contract from alpha 0.7."""
+    stem = archive_stem(version)
+    match = VERSION.fullmatch(version)
+    major, minor = map(int, match.group(1, 2))
+    return {f"{stem}-{version}-Science-Guide.pdf"} if (major, minor) >= (0, 7) else set()

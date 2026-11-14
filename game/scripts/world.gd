@@ -10,6 +10,14 @@ var panel_material: StandardMaterial3D
 var dust_particles: CPUParticles3D
 var sun: DirectionalLight3D
 var beacons: Array[MeshInstance3D] = []
+var _presentation_categories: Dictionary = {}
+var _presentation_snapshot: Dictionary = {}
+var _presentation_adapters: Array[Node] = []
+var _window_presentation := false
+var _presentation_ready := false
+var _requested_window_presentation: Variant = null
+var _pending_shape_states: Dictionary = {}
+var _shape_change_serial := 0
 
 func material(color: Color, emission: float = 0.0) -> StandardMaterial3D:
 	var result := StandardMaterial3D.new()
@@ -61,6 +69,7 @@ func text3d(value: String, pos: Vector3, size: int = 50, color: Color = Color("c
 	label.modulate = color
 	label.outline_size = 2
 	add_child(label)
+	_register_presentation_node("wayfinding", label)
 	return label
 
 func _ready() -> void:
@@ -76,6 +85,10 @@ func _ready() -> void:
 	if art.landscape_scene:
 		var shader_sky := ShaderMaterial.new()
 		shader_sky.shader = preload("res://art/red_veil/mars_sky.gdshader")
+		# An art-directed dusty Martian sky, not a calibrated atmosphere model.
+		shader_sky.set_shader_parameter("zenith", Color("9b9291"))
+		shader_sky.set_shader_parameter("horizon", Color("d0b593"))
+		shader_sky.set_shader_parameter("sunset", Color("edcea6"))
 		sky_mat = shader_sky
 	else:
 		var procedural_sky := ProceduralSkyMaterial.new()
@@ -89,20 +102,25 @@ func _ready() -> void:
 	sky.sky_material = sky_mat
 	env.sky = sky
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.ambient_light_color = Color("c2bcc9")
-	env.ambient_light_energy = 0.32
+	env.ambient_light_color = Color("ded8cf")
+	env.ambient_light_energy = 0.42
+	# Keep the bright dust-sky background out of diffuse/specular lighting. The
+	# neutral fill + sun provide controlled contrast on pale laboratory surfaces.
+	env.ambient_light_sky_contribution = 0.0
+	env.reflected_light_source = Environment.REFLECTION_SOURCE_DISABLED
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	env.tonemap_exposure = 0.85
 	env.fog_enabled = true
-	env.fog_sky_affect = 0.18
-	env.fog_light_color = Color("ba7778")
-	env.fog_density = 0.003
+	env.fog_sky_affect = 0.32
+	env.fog_light_color = Color("cbb396")
+	env.fog_density = 0.0022
 	var atmosphere := WorldEnvironment.new()
 	atmosphere.environment = env
 	add_child(atmosphere)
 	sun = DirectionalLight3D.new()
-	sun.rotation_degrees = Vector3(-18, -55, 0)
-	sun.light_color = Color("ffd2b9")
-	sun.light_energy = 0.85
+	sun.rotation_degrees = Vector3(-29, -55, 0)
+	sun.light_color = Color("fff0dc")
+	sun.light_energy = 0.28
 	sun.shadow_enabled = art.shadows_enabled
 	add_child(sun)
 	box(Vector3(180, 1, 180), sand, Vector3(0, -0.5, 0), self, true)
@@ -130,6 +148,7 @@ func _ready() -> void:
 			rock.rings = 3
 			shape(rock, dark_sand, pos).rotation.y = rng.randf() * TAU
 	apply_art_slot("landscape", art.landscape_scene, Vector3.ZERO, landscape_start)
+	var route_start := get_child_count()
 	if art.landscape_scene == null:
 		# Walking routes: warm guide lamps and a marked central approach.
 		for i in range(12):
@@ -139,6 +158,7 @@ func _ready() -> void:
 			cylinder(0.08, 2.5, trim, point + Vector3(0, 1.25, 0))
 			var lamp := sphere(0.18, glow, point + Vector3(0, 2.55, 0))
 			beacons.append(lamp)
+	_register_presentation_range("route", route_start)
 	var habitat_start := get_child_count()
 	if art.habitat_scene == null:
 		# Laboratory: cylindrical pressure vessel with ribs, windows and landing feet.
@@ -196,11 +216,13 @@ func _ready() -> void:
 			for grid in range(-2, 3): box(Vector3(2.45, 0.01, 0.02), pale, Vector3(0, 0.13, grid * 0.5), array)
 	text3d("SOLAR ARRAY", ARRAY_POSITION + Vector3(0, 3.8, 1), 48)
 	apply_art_slot("solar_array", art.solar_array_scene, ARRAY_POSITION, solar_array_start)
+	var power_control_start := get_child_count()
 	# Control kiosk can be reached on foot, with a duplicate remote inside refuge.
 	for point in [POWER_POSITION, SHELTER_POSITION + Vector3(0, 0, -2.7)]:
 		box(Vector3(1.2, 1.2, 0.6), trim, point + Vector3(0, 0.6, 0), self, true)
 		box(Vector3(1.05, 0.45, 0.05), glow, point + Vector3(0, 1.02, 0.33))
 	text3d("POWER CONTROL", POWER_POSITION + Vector3(0, 2.1, 0.4), 32)
+	_register_presentation_range("power_control", power_control_start)
 	var companion_start := get_child_count()
 	if art.companion_scene == null:
 		# Companion astronaut Mira. Character visuals are cosmetic, not mission rules.
@@ -218,12 +240,14 @@ func _ready() -> void:
 		box(Vector3(0.5, 0.6, 0.3), gold, Vector3(0, 1.2, -0.3), mira)
 		text3d("MIRA / YOUR CREWMATE", Vector3(-4, 2.6, 7), 28)
 	apply_art_slot("companion", art.companion_scene, Vector3(-4, 0, 7), companion_start)
+	var antenna_start := get_child_count()
 	if art.habitat_scene == null:
 		# Antenna and horizon silhouettes give orientation without a full-screen map.
 		cylinder(0.12, 9, trim, Vector3(-7, 4.5, -20))
 		var dish := sphere(1.4, pale, Vector3(-7, 9, -20))
 		dish.scale.y = 0.22
 		dish.rotation.z = 0.5
+	_register_presentation_range("habitat", antenna_start)
 	dust_particles = CPUParticles3D.new()
 	dust_particles.amount = maxi(1, art.dust_particle_count)
 	dust_particles.lifetime = 5
@@ -244,13 +268,15 @@ func _ready() -> void:
 	dust_particles.mesh = speck
 	dust_particles.emitting = false
 	add_child(dust_particles)
+	_presentation_ready = true
+	set_window_presentation(art.start_in_window_presentation if _requested_window_presentation == null else bool(_requested_window_presentation))
 
 func update_weather(mission: VeilMission) -> void:
 	var weather := mission.environment()
 	for visual in get_tree().get_nodes_in_group("mission_visual_adapters"):
 		visual.apply_mission_visuals(mission.visual_snapshot())
-	env.fog_density = 0.003 + weather.storm * 0.025
-	sun.light_energy = 0.85 - weather.storm * 0.78
+	env.fog_density = 0.0022 + weather.storm * 0.025
+	sun.light_energy = 0.28 - weather.storm * 0.21
 	panel_material.albedo_color = Color("293b53").lerp(Color("b67c59"), mission.dust * 0.7)
 	panel_material.emission_enabled = mission.cleaning
 	panel_material.emission = Color("478c91")
@@ -262,15 +288,105 @@ func apply_art_slot(slot_name: String, replacement: PackedScene, origin: Vector3
 	anchor.name = slot_name.capitalize().replace(" ", "") + "Anchor"
 	anchor.position = origin
 	add_child(anchor)
+	_register_presentation_range(slot_name, start_index)
 	if replacement == null: return
 	# Rendering can change without silently deleting physics or interaction bounds.
 	for i in range(start_index, get_child_count() - 1):
 		hide_visuals(get_child(i))
 	var visual := replacement.instantiate()
 	anchor.add_child(visual)
+	if visual.has_method("get_presentation_categories"):
+		var categories: Dictionary = visual.get_presentation_categories()
+		for category in categories:
+			for node: Node in categories[category]: _register_presentation_node(category, node)
+	if visual.has_method("set_window_presentation"):
+		_presentation_adapters.append(visual)
 	if visual.has_method("apply_mission_visuals"):
 		visual.add_to_group("mission_visual_adapters")
 
 func hide_visuals(node: Node) -> void:
 	if node is GeometryInstance3D: node.hide()
 	for child in node.get_children(): hide_visuals(child)
+
+func _register_presentation_node(category: String, node: Node) -> void:
+	if not _presentation_categories.has(category): _presentation_categories[category] = []
+	if not _presentation_categories[category].has(node): _presentation_categories[category].append(node)
+
+func _register_presentation_range(category: String, start_index: int) -> void:
+	for index in range(start_index, get_child_count()):
+		_register_presentation_node(category, get_child(index))
+
+func get_presentation_category_roots(category: String) -> Array[Node]:
+	var result: Array[Node] = []
+	for node in _presentation_categories.get(category, []):
+		if is_instance_valid(node) and not node.is_queued_for_deletion(): result.append(node)
+	return result
+
+func is_window_presentation() -> bool:
+	return _window_presentation
+
+func set_window_presentation(enabled: bool) -> void:
+	_window_presentation = enabled
+	if not _presentation_ready:
+		_requested_window_presentation = enabled
+		return
+	# Restore the authored state first, including already-hidden fallback meshes.
+	# This also makes live profile edits + repeated true/false calls reversible.
+	for entry: Dictionary in _presentation_snapshot.values():
+		if not is_instance_valid(entry.node): continue
+		var node: Node = entry.node
+		node.process_mode = entry.process_mode
+		if node is Node3D: node.visible = entry.visible
+		if node is CollisionObject3D:
+			node.collision_layer = entry.layer
+			node.collision_mask = entry.mask
+			node.input_ray_pickable = entry.pickable
+		if node is CollisionShape3D or node is CollisionPolygon3D:
+			_schedule_shape_state(node, entry.disabled)
+	_presentation_snapshot.clear()
+	if enabled:
+		for category in art.window_hidden_categories:
+			for node in get_presentation_category_roots(category): _suspend_presentation_tree(node)
+	# An interior-only enclosure can follow this mode without being mixed into
+	# the exterior asset or changing mission equations/companion movement.
+	for adapter in _presentation_adapters:
+		if is_instance_valid(adapter): adapter.set_window_presentation(enabled)
+
+func _suspend_presentation_tree(root_node: Node) -> void:
+	var pending: Array[Node] = [root_node]
+	while not pending.is_empty():
+		var node: Node = pending.pop_back()
+		if node.is_queued_for_deletion(): continue
+		for child in node.get_children(): pending.append(child)
+		var id := node.get_instance_id()
+		if _presentation_snapshot.has(id): continue
+		var entry := {"node": node, "process_mode": node.process_mode}
+		if node is Node3D:
+			entry.visible = node.visible
+			node.hide()
+		if node is CollisionObject3D:
+			entry.layer = node.collision_layer
+			entry.mask = node.collision_mask
+			entry.pickable = node.input_ray_pickable
+			node.collision_layer = 0
+			node.collision_mask = 0
+			node.input_ray_pickable = false
+		if node is CollisionShape3D or node is CollisionPolygon3D:
+			entry.disabled = _pending_shape_states.get(id, {"disabled": node.disabled}).disabled
+			_schedule_shape_state(node, true)
+		_presentation_snapshot[id] = entry
+		node.process_mode = Node.PROCESS_MODE_DISABLED
+
+func _schedule_shape_state(node: Node, disabled: bool) -> void:
+	# Changes requested during input/physics use the idle queue. Keep their logical
+	# state available so repeated toggles before that queue drains remain exact.
+	_shape_change_serial += 1
+	_pending_shape_states[node.get_instance_id()] = {"disabled": disabled, "serial": _shape_change_serial}
+	_apply_shape_state.call_deferred(node, disabled, _shape_change_serial)
+
+func _apply_shape_state(node: Node, disabled: bool, serial: int) -> void:
+	if not is_instance_valid(node): return
+	node.disabled = disabled
+	var id := node.get_instance_id()
+	if _pending_shape_states.has(id) and _pending_shape_states[id].serial == serial:
+		_pending_shape_states.erase(id)

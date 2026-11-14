@@ -28,7 +28,7 @@ func run() -> void:
 	check(game.learning.skills.energy.attempts == 0, "Academy hint use does not claim independent learning evidence")
 	game.academy.close()
 	await process_frame
-	game.begin()
+	game.begin_eva()
 	await process_frame
 	await process_frame
 	check(game.player.enabled, "Mission launch enables first-person controls")

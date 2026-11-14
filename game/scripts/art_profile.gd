@@ -10,6 +10,13 @@ extends Resource
 @export var solar_array_scene: PackedScene
 @export var companion_scene: PackedScene
 @export var scanner_scene: PackedScene
+@export_group("Window presentation — reversible scene categories")
+@export var start_in_window_presentation: bool = false
+## These scene categories are hidden, paused and non-colliding in window mode.
+## Removing a category restores it without changing mission science or art slots.
+@export var window_hidden_categories: PackedStringArray = PackedStringArray([
+	"habitat", "refuge", "solar_array", "power_control", "route", "rocks", "wayfinding"
+])
 @export_group("Shared palette")
 @export var terrain_color := Color("a6523e")
 @export var distant_terrain_color := Color("713d37")

@@ -1,13 +1,14 @@
 extends Node3D
 const VisualStyle = preload("res://scripts/visual_style.gd")
-## Hollow, asymmetric ivory/ruby habitat. Origin: ground center; front: +Z.
+## Calm pearl habitat with navy recesses and cyan entry cues. Front: +Z.
+## Legacy material variable names stay compatible with the procedural detail kit.
 const G = preload("res://art/red_veil/exterior_geometry.gd")
 const O = preload("res://art/red_veil/exterior_ornaments.gd")
 const Details = preload("res://art/red_veil/exterior_details.gd")
 const Branding = preload("res://scripts/branding.gd")
 @export var pearl_color := VisualStyle.color("pearl")
-@export var crimson_color := VisualStyle.color("crimson")
-@export var coral_color := VisualStyle.color("coral")
+@export var crimson_color := VisualStyle.color("teal_panel")
+@export var coral_color := VisualStyle.color("cyan")
 @export var collisions_enabled := true
 var pearl: Material
 var pearl_inner: Material
@@ -21,12 +22,12 @@ const RZ := 7.4
 
 func _ready() -> void:
 	pearl = Details.shell_material(pearl_color, false)
-	pearl_inner = G.material(Color("bcb8b4"), 0.18, 0.48)
-	ruby = Details.shell_material(crimson_color, true)
-	dark = G.material(Color("291a24"), 0.45, 0.36)
-	coral = G.material(coral_color, 0.12, 0.30, 0.8)
-	metal = G.material(Color("645d62"), 0.75, 0.28)
-	glass = G.material(Color(0.25, 0.055, 0.10, 0.07), 0.25, 0.12)
+	pearl_inner = G.material(pearl_color.darkened(0.16), 0.12, 0.52)
+	ruby = G.material(crimson_color, 0.22, 0.42)
+	dark = G.material(crimson_color.darkened(0.24), 0.20, 0.52)
+	coral = G.material(coral_color, 0.08, 0.42, 0.24)
+	metal = G.material(VisualStyle.color("steel"), 0.55, 0.40)
+	glass = G.material(Color(0.08, 0.17, 0.21, 0.035), 0.12, 0.18)
 	build_hollow_shell()
 	build_sweeping_ribbons()
 	build_crown()
@@ -35,6 +36,7 @@ func _ready() -> void:
 	build_detail_seams()
 	build_ornaments()
 	Details.build(self, pearl, ruby, metal, coral, collisions_enabled)
+	_simplify_detail_kit()
 	_build_inspection_anchors()
 	if collisions_enabled: build_outer_collisions()
 	G.batch_static_meshes(self)
@@ -121,7 +123,9 @@ func window_rim(lo: float, hi: float, kind: String, index: int) -> void:
 			points.append(shell(theta, phi, 0.045))
 			inset.append(shell(theta, phi, -0.07))
 		G.tube(self, "SculptedApertureLip_%d_%s" % [index, upper], points, 0.12 if kind == "front" else 0.09, pearl)
-		G.tube(self, "CoralApertureLight_%d_%s" % [index, upper], inset, 0.028, coral, 8)
+		# A lower sill cue guides orientation; the upper arch stays quiet.
+		if not upper:
+			G.tube(self, "CoralApertureLight_%d_%s" % [index, upper], inset, 0.014, coral, 6)
 
 func build_sweeping_ribbons() -> void:
 	# Broad diagonal ribbons are deliberately asymmetric, with no geodesic grid.
@@ -172,7 +176,7 @@ func build_crown() -> void:
 	, pearl_inner)
 	var rim := PackedVector3Array()
 	for index in range(129): rim.append(crown_point(TAU * index / 128, 0.997, 7.11))
-	G.tube(self, "CrownWarmRunningLight", rim, 0.025, coral, 8)
+	G.tube(self, "CrownWarmRunningLight", rim, 0.018, metal, 6)
 
 func build_airlock() -> void:
 	var center := Vector3(-7.15, 1.95, 5.95)
@@ -187,7 +191,7 @@ func build_airlock() -> void:
 		return center + Vector3(1.36 * cos(angle), 1.73 * sin(angle), lerpf(-1.28, 0.70, v))
 	, ruby, true)
 	G.tube(self, "AirlockOuterPearlRim", G.oval_points(center + Vector3(0, 0, 0.67), 1.55, 1.92), 0.16, pearl)
-	G.tube(self, "AirlockCoralSeal", G.oval_points(center + Vector3(0, 0, 0.82), 1.36, 1.73), 0.047, coral)
+	G.tube(self, "AirlockCoralSeal", G.oval_points(center + Vector3(0, 0, 0.82), 1.36, 1.73), 0.022, coral, 8)
 	# Split door leaves are parked visibly to either side, never across the opening.
 	for direction in [-1.0, 1.0]:
 		G.surface(self, "RetractedAirlockLeaf_%s" % direction, 9, 18, func(u: float, v: float) -> Vector3:
@@ -200,12 +204,13 @@ func build_airlock() -> void:
 		var angle := lerpf(0.10, PI - 0.10, u)
 		return center + Vector3(1.88 * cos(angle), 1.97 * sin(angle) + 0.18, lerpf(0.05, 1.02, v) - 0.16 * sin(PI * v))
 	, pearl)
-	G.label(self, "AirlockWayfinding", Branding.title() + "  /  HABITAT 01", Vector3(-7.15, 4.24, 6.17), 66, Color("f4dac7"))
+	var wayfinding := G.label(self, "AirlockWayfinding", Branding.title() + "  /  HABITAT 01", Vector3(-7.15, 4.24, 6.17), 66, Color("f4dac7"))
+	wayfinding.double_sided = false
 	var light := OmniLight3D.new()
 	light.name = "AirlockWarmBounce"
 	light.position = center + Vector3(0, 0, 1.2)
 	light.light_color = coral_color
-	light.light_energy = 1.0
+	light.light_energy = 0.25
 	light.omni_range = 5.5
 	light.shadow_enabled = false
 	add_child(light)
@@ -264,58 +269,28 @@ func build_outer_collisions() -> void:
 		G.collision_box(self, "OuterWallCollider_%d" % index, (a + b) * 0.5 + Vector3(0, 1.9, 0), Vector3(tangent.length() + 0.06, 3.8, 0.34), -atan2(tangent.z, tangent.x))
 
 func build_ornaments() -> void:
-	var gold := G.material(VisualStyle.color("rose_gold"), VisualStyle.number("gold_metallic"), VisualStyle.number("gold_roughness"), 0.18)
-	var peach := G.material(Color("f2c3a7"), 0.42, 0.38)
-	var lantern_glow := G.material(Color("ffd09a"), 0.05, 0.54, 0.65)
-	# Real contour-following raised engraving; one batched mesh per panel.
-	O.wave_patch(self, "GoldSeigaihaFrontBrow", func(u: float, v: float) -> Vector3:
-		var theta := lerpf(-0.50, 0.70, u)
-		var lower := hole_boundary(theta, -0.57, 0.66, "front", true) + 0.024
-		var upper := 0.82 + 0.14 * sin(theta + 0.65) + 0.05 * sin(2.0 * theta) - 0.13
-		return shell(theta, lerpf(lower, maxf(lower + 0.04, upper), v), 0.028)
-	, 3, 15, gold)
-	O.wave_patch(self, "GoldSeigaihaStarboard", func(u: float, v: float) -> Vector3:
-		var theta := lerpf(0.74, 1.04, u)
-		return shell(theta, lerpf(0.10, 0.70, v), 0.03)
-	, 5, 5, gold)
-	# Amber lattice wraps the crown and the upper almond edge without glazing the opening.
-	var lattice: Array = []
-	for index in range(100):
-		var angle := TAU * index / 100
-		lattice.append(PackedVector3Array([crown_point(angle, 1.004, 7.07), crown_point(angle + 0.025, 1.004, 7.25)]))
-	for index in range(54):
-		var theta := lerpf(-0.54, 0.63, index / 53.0)
-		var edge := hole_boundary(theta, -0.57, 0.66, "front", true)
-		lattice.append(PackedVector3Array([shell(theta, edge + 0.008, 0.12), shell(theta + 0.012, edge + 0.048, 0.12)]))
-	O.strokes(self, "AmberCrownAndWindowLattice", lattice, 0.018, gold)
-	for theta in [-0.35, 0.25, 0.85]:
-		var phi := 0.82 + 0.14 * sin(theta + 0.65) + 0.05 * sin(2.0 * theta)
-		var branch := O.blossom_branch(self, "RubyBandBlossom_%s" % theta, shell(theta, phi, 0.07), 0.72, gold, peach)
-		branch.rotation.y = theta
-		branch.rotation.x = -phi * 0.70
-	# The geometric key pattern sits outside the free opening.
-	var key_paths: Array = []
-	var center := Vector3(-7.15, 1.95, 6.65)
-	for index in range(28):
-		var a := TAU * index / 28
-		var step := TAU / 28 * 0.58
-		var points := PackedVector3Array()
-		for offset in [Vector2(0, 0), Vector2(step, 0), Vector2(step, -0.08), Vector2(step * 0.45, -0.08), Vector2(step * 0.45, -0.035)]:
-			points.append(center + Vector3((1.52 + offset.y) * cos(a + offset.x), (1.87 + offset.y) * sin(a + offset.x), 0))
-		key_paths.append(points)
-	O.strokes(self, "GoldAirlockGeometricKey", key_paths, 0.018, gold)
+	# Two small entry lamps and the detail kit's knot emblem retain a crafted
+	# Asian accent. Broad shell filigree is deliberately absent from this direction.
+	var lantern_glow := G.material(VisualStyle.color("amber"), 0.0, 0.65, 0.18)
 	for side in [-1.0, 1.0]:
-		O.square_lantern(self, "AirlockLantern_%s" % side, Vector3(-7.15 + side * 1.92, 2.15, 6.25), 0.85, lantern_glow, gold)
-	# Small eight-petal rosette above the portal, leaving the entire walking path clear.
-	var petals: Array = []
-	for petal in range(8):
-		var points := PackedVector3Array()
-		for step in range(25):
-			var a := TAU * step / 24
-			var b := TAU * petal / 8
-			points.append(Vector3(-7.15, 4.13, 6.05) + Vector3(cos(b) * (0.12 + 0.11 * cos(a)) - sin(b) * 0.045 * sin(a), sin(b) * (0.12 + 0.11 * cos(a)) + cos(b) * 0.045 * sin(a), 0))
-		petals.append(points)
-	O.strokes(self, "AirlockGoldRosette", petals, 0.012, gold)
+		O.square_lantern(self, "AirlockLantern_%s" % side, Vector3(-7.15 + side * 1.92, 2.15, 6.25), 0.50, lantern_glow, ruby)
+
+func _simplify_detail_kit() -> void:
+	# The common kit also owns the slope collider and furniture collision. Remove
+	# only named decorative geometry before batching; keep all structural nodes.
+	for decoration_name in ["FloweringTreeBranches", "InstancedFivePetalBlossoms", "BlossomCeramicVase", "PearlPanelExpansionSeams"]:
+		for decoration in find_children(decoration_name, "", true, false):
+			decoration.get_parent().remove_child(decoration)
+			decoration.free()
+	var seating := G.material(pearl_color.darkened(0.08), 0.04, 0.74)
+	var lounge := get_node_or_null("ObservationLounge")
+	if lounge:
+		var back := lounge.get_node_or_null("CurvedSofaBack") as MeshInstance3D
+		if back:
+			var old_cushion := back.material_override
+			for furniture in lounge.get_children():
+				if furniture is MeshInstance3D and furniture.material_override == old_cushion:
+					furniture.material_override = seating
 
 ## Presentation anchors share the habitat transform; callers never hard-code world positions.
 ## These are science explanations, not claims that this alpha simulates pressure or shielding.

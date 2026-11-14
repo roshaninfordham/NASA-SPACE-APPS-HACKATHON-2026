@@ -1,11 +1,11 @@
 extends Node3D
 const VisualStyle = preload("res://scripts/visual_style.gd")
 ## Cosmetic, deterministic terrain. Mission collision and coordinates stay in world.gd.
-## Central y=0 mission surface is clear; terrain relief begins beyond player bounds.
+## Central y=0 mission routes stay clear; relief is distant background artwork.
 ## No external textures: original procedural meshes and mineral shaders.
 @export var landscape_seed: int = 2053018
-@export_range(0, 2400, 100) var pebble_count: int = 1400
-@export_range(0, 400, 20) var boulder_count: int = 200
+@export_range(0, 2400, 100) var pebble_count: int = 0
+@export_range(0, 400, 4) var boulder_count: int = 12
 @export var walkway_width: float = 3.7
 @export var coral_color: Color = VisualStyle.color("coral")
 const REGOLITH = preload("res://art/red_veil/landscape_regolith.gdshader")
@@ -13,13 +13,23 @@ const STONE = preload("res://art/red_veil/landscape_rock.gdshader")
 const ORNAMENT = preload("res://art/red_veil/exterior_ornaments.gd")
 var _rng := RandomNumberGenerator.new()
 var _path: PackedVector3Array = PackedVector3Array()
+var _presentation_categories: Dictionary = {}
 
 func _ready() -> void:
 	_rng.seed = landscape_seed
 	_build_ground()
 	_build_horizon()
+	var route_start := get_child_count()
 	_build_approach()
+	_presentation_categories["route"] = get_children().slice(route_start)
+	var rocks_start := get_child_count()
 	_scatter_stones()
+	_presentation_categories["rocks"] = get_children().slice(rocks_start)
+
+func get_presentation_categories() -> Dictionary:
+	# The world coordinates reversible visibility, lights and physics together.
+	# Keep authored geometry available for an explicit return to EVA exploration.
+	return _presentation_categories.duplicate()
 
 func _material(color: Color, roughness: float = 0.8, metal: float = 0.0, glow: float = 0.0) -> StandardMaterial3D:
 	var mat := StandardMaterial3D.new()
@@ -45,59 +55,62 @@ func _build_ground() -> void:
 	ground.size = Vector2(600, 600)
 	var mat := ShaderMaterial.new()
 	mat.shader = REGOLITH
+	# Close-value mineral tones keep the surface readable without mottled clutter.
+	mat.set_shader_parameter("dust_color", Color("96785d"))
+	mat.set_shader_parameter("mineral_color", Color("a18468"))
+	mat.set_shader_parameter("grain_scale", 30.0)
+	mat.set_shader_parameter("grain_strength", 0.18)
 	# Existing flat floor remains the authoritative collider beneath this skin.
 	var visual := _mesh(ground, mat, "FineRegolith")
 	visual.position.y = 0.006
 	visual.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
+func _dune_point(layer: int, t: float, angle: float) -> Vector3:
+	# Broad, authored wind-shaped silhouettes. No noise octaves or repeated peaks.
+	# The first belt starts outside every mission landmark and its approach route.
+	var radial := Vector2(cos(angle), sin(angle))
+	var radius: float = [72.0, 139.0, 224.0][layer] + t * [69.0, 84.0, 92.0][layer]
+	var drift := sin(angle * 2.0 + layer * 1.3) * 7.0 + sin(angle * 3.0 - layer) * 3.0
+	radius += drift * sin(PI * t)
+	var envelope := pow(maxf(0.0, sin(PI * t)), 1.65)
+	var crest := 0.79 + sin(angle * 2.0 + layer * 0.8) * 0.14 + sin(angle * 5.0 + 1.2) * 0.07
+	var height: float = [8.5, 22.0, 41.0][layer]
+	# Distant foothills are low-frequency too: a quiet horizon behind the dunes.
+	if layer == 2: crest += sin(angle * 7.0) * 0.10
+	return Vector3(radial.x * radius, height * envelope * crest - 0.04, radial.y * radius)
+
 func _build_horizon() -> void:
-	# Three complete ridge belts avoid billboard edges as the player turns.
-	# Continuous eroded profiles replace repeated cone silhouettes.
+	# Indexed shared vertices: three smooth belts, 11,520 triangles total.
+	# Full circles remain continuous when looking around the first-person world.
+	const SEGMENTS := 160
+	const BANDS := 12
 	for layer in range(3):
-		var radius := 86.0 + layer * 52.0
-		var height := 9.0 + layer * 6.0
-		var noise := FastNoiseLite.new()
-		noise.seed = landscape_seed + layer * 137
-		noise.noise_type = FastNoiseLite.TYPE_SIMPLEX_SMOOTH
-		noise.frequency = 0.036
-		noise.fractal_octaves = 4
-		noise.fractal_gain = 0.56
-		var surface := SurfaceTool.new()
-		surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-		var segments := 384
-		var bands := 18
 		var vertices := PackedVector3Array()
-		for band in range(bands + 1):
-			var t := float(band) / bands
-			for i in range(segments + 1):
-				var angle := TAU * float(i) / segments
-				var radial := Vector2(cos(angle), sin(angle))
-				var ridge_noise := noise.get_noise_2d(radial.x * radius, radial.y * radius)
-				var jagged := sin(angle * 31.0 + layer) * sin(angle * 19.0 - layer) * 0.12
-				var peak := height * (0.67 + ridge_noise * 0.9 + jagged)
-				var envelope := pow(maxf(0.0, sin(t * PI)), 1.5)
-				var r := radius - 15.0 + t * 43.0 + ridge_noise * 4.0 * envelope
-				var y := maxf(0.0, peak * envelope)
-				# Small channels break the radial regularity of the slope.
-				y += noise.get_noise_2d(radial.x * r * 3.3, radial.y * r * 3.3) * 2.4 * envelope
-				vertices.append(Vector3(radial.x * r, y - 0.04, radial.y * r))
-		for band in range(bands):
-			for i in range(segments):
-				var a := band * (segments + 1) + i
-				var b := a + 1
-				var c := a + segments + 1
-				var d := c + 1
-				for index in [a, c, b, b, c, d]:
-					surface.add_vertex(vertices[index])
-		# Share grid vertices before normal generation: smoother ridges and a
-		# smaller retained mesh, with the same sampled silhouette and triangles.
-		surface.index()
-		surface.generate_normals()
-		var mat := ShaderMaterial.new()
-		mat.shader = STONE
-		mat.set_shader_parameter("stone_color", Color("49383b").lerp(Color("71636b"), layer / 2.0))
-		mat.set_shader_parameter("strata_color", Color("75544e").lerp(Color("88777d"), layer / 2.0))
-		var ridge := _mesh(surface.commit(), mat, "ErodedRidge%d" % layer)
+		var normals := PackedVector3Array()
+		var indices := PackedInt32Array()
+		for band in range(BANDS + 1):
+			var t := float(band) / BANDS
+			for index in range(SEGMENTS + 1):
+				var angle := TAU * float(index) / SEGMENTS
+				vertices.append(_dune_point(layer, t, angle))
+				var along := _dune_point(layer, t, angle + 0.001) - _dune_point(layer, t, angle - 0.001)
+				var across := _dune_point(layer, minf(1.0, t + 0.001), angle) - _dune_point(layer, maxf(0.0, t - 0.001), angle)
+				normals.append(along.cross(across).normalized())
+		for band in range(BANDS):
+			for index in range(SEGMENTS):
+				var a := band * (SEGMENTS + 1) + index
+				var c := a + SEGMENTS + 1
+				indices.append_array(PackedInt32Array([a, c, a + 1, a + 1, c, c + 1]))
+		var arrays := []
+		arrays.resize(Mesh.ARRAY_MAX)
+		arrays[Mesh.ARRAY_VERTEX] = vertices
+		arrays[Mesh.ARRAY_NORMAL] = normals
+		arrays[Mesh.ARRAY_INDEX] = indices
+		var mesh := ArrayMesh.new()
+		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
+		var color: Color = [Color("9a8065"), Color("9a826e"), Color("978478")][layer]
+		var mat := _material(color, 0.97)
+		var ridge := _mesh(mesh, mat, "QuietDuneBelt%d" % layer)
 		ridge.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 
 func _approach_point(t: float) -> Vector3:
@@ -215,6 +228,9 @@ func _rock_mesh(variant: int, small: bool = false) -> ArrayMesh:
 
 func _clear_for_rock(p: Vector3, radius: float) -> bool:
 	# Keep mission objects and direct travel corridors clear, plus the full apron.
+	# Keep the forward window view and the working outpost free of scattered rocks.
+	if Vector2(p.x, p.z).length() < 48.0: return false
+	if absf(p.x) < 22.0 and p.z > -28.0: return false
 	if absf(p.x) < 12.5 and p.z < -6.0 and p.z > -25.0: return false
 	for landmark in [Vector3(16, 0, -8), Vector3(-14, 0, -7), Vector3(1, 0, -5), Vector3(-4, 0, 7)]:
 		if p.distance_to(landmark) < 5.0 + radius: return false
@@ -226,8 +242,8 @@ func _clear_for_rock(p: Vector3, radius: float) -> bool:
 func _scatter_stones() -> void:
 	var mat := ShaderMaterial.new()
 	mat.shader = STONE
-	mat.set_shader_parameter("stone_color", Color("62443f"))
-	mat.set_shader_parameter("strata_color", Color("aa7865"))
+	mat.set_shader_parameter("stone_color", Color("a08872"))
+	mat.set_shader_parameter("strata_color", Color("b49b80"))
 	for variant in range(4):
 		var pebble_transforms: Array[Transform3D] = []
 		var boulder_transforms: Array[Transform3D] = []

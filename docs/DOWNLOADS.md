@@ -2,6 +2,10 @@
 
 Downloads are published as **GitHub Release assets**, not GitHub Packages. A repository containing code and export presets does not imply that an installer exists. Use the release notes to distinguish built, launch-tested, unsigned, and unsupported targets.
 
+**Latest published download: [v0.6.1-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.6.1-alpha.1).** Version **0.7.0-alpha.1 is a source candidate**, not a published installer yet. Candidate screenshots and controls can differ from the current download.
+
+The 0.7 packaging produces **ten assets**: four platform ZIPs, one standalone `KOMAKU-Shield-Protocol-0.7.0-alpha.1-Science-Guide.pdf`, signed game content, its update manifest/signature, the release manifest and checksums. Every 0.7 ZIP also includes `START-HERE.txt` with launch/first-mission instructions and the same 16-page guide as `KOMAKU-Science-Guide.pdf`. [Read the source guide now](media/KOMAKU-Science-Guide.pdf); use release notes to identify the eventually accepted artifacts.
+
 From version 0.5 onward, ZIP names begin with `KOMAKU-Shield-Protocol-<version>`. Historical 0.4 and earlier downloads retain `Red-Veil` filenames and the previous app name; those published artifacts are not renamed. The signed content filename and local save/update identities remain unchanged for compatibility. Use the notes attached to the version you download.
 
 ## MacBook with Apple Silicon, including M5
@@ -31,18 +35,38 @@ Touch controls are provided for landscape browser play. No production native And
 
 ## Controls
 
-| Action                   | Keyboard / mouse                    | Controller                 |
-| ------------------------ | ----------------------------------- | -------------------------- |
-| Walk / look              | WASD / mouse                        | Left / right sticks        |
-| Inspect or use equipment | E; hold to inspect                  | X; hold to inspect         |
-| Clean visor              | Q                                   | Y                          |
-| Hop                      | Space                               | A                          |
-| Pause                    | Escape                              | Start                      |
-| Compare mission plans    | P, or Pause → Compare mission plans | Open from Pause            |
-| Field guide              | F1                                  | Open from the title screen |
+The published 0.6.1 build uses these core controls:
 
-From alpha 0.7, **P** opens a paused one-hour comparison of cleaner and power-saving choices during a mission. **Use this plan** applies only the chosen switches. See [planner assumptions](MISSION-PLANNER.md).
+| Action                   | Keyboard / mouse   | Controller               |
+| ------------------------ | ------------------ | ------------------------ |
+| Walk / look              | WASD / mouse       | Left / right sticks      |
+| Inspect or use equipment | E; hold to inspect | X; hold to inspect       |
+| Clean visor              | Q                  | Y                        |
+| Hop                      | Space              | A                        |
+| Pause                    | Escape             | Start                    |
+| Field guide              | F1                 | Open from the title menu |
 
-From alpha 0.6, choose **Explorer Suit Lab** or **Habitat Field Notes** on the title menu. In untimed exploration, **I** opens the habitat lessons. The suit lab also opens from Pause. Back/Escape returns you to the previous activity. These learning interfaces pause mission time and resources.
+Its title menu also offers **Explorer Suit Lab** and **Habitat Field Notes**. In untimed exploration, **I** opens habitat lessons. The suit lab opens from Pause too. Back/Escape returns to the previous activity; these learning interfaces pause mission resources.
+
+## Indoor-operator controls in the 0.7 source candidate
+
+**This flow is implemented and source-tested; it is not in the published 0.6.1 download.** Final archive and native release-gate acceptance remain pending before publication. The candidate title has **Start mission**, **Explore · no timer**, and **Learn & more**. Start and Explore use the indoor room, with only dunes and Mira in the default forward window view. Extra labs, learning tools, the guide, updates and **Outdoor EVA mission** are under **Learn & more**.
+
+| Action                       | Keyboard / mouse                                                 |
+| ---------------------------- | ---------------------------------------------------------------- |
+| Move/look inside the room    | **WASD / mouse**; movement stays within the operator area        |
+| Toggle panel cleaning        | **1**, or the cleaner button                                     |
+| Toggle power saving          | **2**, or the save button                                        |
+| Begin Mira’s return          | **3 / Guide Mira**; Mira follows a continuous side-airlock route |
+| Pause for clickable controls | **Tab**; **Escape** returns to walking                           |
+| Compare mission plans        | **P**, or Pause → **Compare mission plans**                      |
+
+The third action progresses through **Mira returning**, **Airlock cycling**, **Mira entering** and **Mira safe**. Her suit energy and dose remain separate from the operator’s location; shelter applies only after her airlock cycle and final walk to the indoor receiver. Keep base power working through **12 simulated hours** after starting, rather than stopping the mission as soon as Mira returns. The route and airlock countdown are explicit game assumptions, not a physical pressure simulation.
+
+Pause during an untimed tour offers **Resume room tour**, **Start rescue mission** and **Return to title**. Starting the rescue resets the practice switches, clock and Mira’s waiting state.
+
+**Outdoor EVA mission** retains the earlier outdoor mechanics and equipment. There, **E** interacts, **Q** cleans the player’s visor, and **Space** hops. It remains an optional advanced activity.
+
+The optional planner compares four cleaner/power-saving policies over one simulated hour while paused, holding Mira’s present protection state fixed. It does not simulate her journey or the airlock cycle. **Use this plan** applies only the chosen switches. [Planner assumptions](MISSION-PLANNER.md). The candidate’s [16-page science PDF](media/KOMAKU-Science-Guide.pdf) is bundled into each ZIP after its source-fingerprint check.
 
 No account is required. There are no ads, analytics, or remote game APIs. A mission summary is stored locally. Tell us the release version, device, OS, what you did, and what happened when reporting a problem; do not include personal information in public issues.

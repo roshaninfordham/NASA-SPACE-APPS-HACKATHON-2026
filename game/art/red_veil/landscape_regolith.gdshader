@@ -4,6 +4,8 @@ render_mode diffuse_burley, specular_schlick_ggx;
 uniform vec4 dust_color : source_color = vec4(0.32, 0.15, 0.125, 1.0);
 uniform vec4 mineral_color : source_color = vec4(0.49, 0.275, 0.23, 1.0);
 uniform float grain_scale = 48.0;
+// Presentation strength: reduced at the calm outpost, with derivative filtering.
+uniform float grain_strength : hint_range(0.0, 1.0) = 0.18;
 varying vec3 ground_position;
 
 float hash(vec2 p) {
@@ -29,11 +31,11 @@ void fragment() {
 	float ripple = sin(p.x * 4.1 + p.y * 1.8 + noise(p * 0.38) * 8.0) * 0.5 + 0.5;
 	float mineral = clamp(broad * 0.50 + patches * 0.35 + fine * 0.15, 0.0, 1.0);
 	vec3 base = mix(dust_color.rgb, mineral_color.rgb, mineral);
-	base *= 0.84 + grains * 0.21 + ripple * 0.05;
+	base *= 0.97 + ((grains - 0.5) * 0.21 + (ripple - 0.5) * 0.05) * grain_strength;
 	ALBEDO = base;
-	ROUGHNESS = 0.92 + fine * 0.08;
+	ROUGHNESS = 0.97 + (fine - 0.5) * 0.04 * grain_strength;
 	SPECULAR = 0.14;
 	// Minute relief only: the playable surface and collision remain level.
-	NORMAL_MAP = vec3(0.5 + (grains - 0.5) * 0.12, 0.5 + (fine - 0.5) * 0.08, 1.0);
+	NORMAL_MAP = vec3(0.5 + (grains - 0.5) * 0.12 * grain_strength, 0.5 + (fine - 0.5) * 0.08 * grain_strength, 1.0);
 	NORMAL_MAP_DEPTH = 0.38;
 }

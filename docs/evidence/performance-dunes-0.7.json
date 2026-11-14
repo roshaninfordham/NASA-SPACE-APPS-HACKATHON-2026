@@ -1,0 +1,1578 @@
+{
+  "scope": "Landscape subtree only. Historical pre-pivot optimized landscape versus0.7 calm dunes. Counts are retained mesh arrays and explicit instance multiplicity, not renderer timing, GPU readback, process memory, or whole-game budget.",
+  "before": {
+    "retained_triangles": 109710,
+    "mesh_channel_array_bytes_sum": 1999200,
+    "retained_mesh_instances": 80,
+    "meshes": [
+      {
+        "instances": 1,
+        "mesh_array_bytes": 458488,
+        "mesh_triangles": 13824,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ErodedRidge0",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 13824,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 458488,
+        "mesh_triangles": 13824,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ErodedRidge1",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 13824,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 458488,
+        "mesh_triangles": 13824,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ErodedRidge2",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 13824,
+        "visible": true
+      },
+      {
+        "instances": 334,
+        "mesh_array_bytes": 2880,
+        "mesh_triangles": 24,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ScatteredPebbleBatch2",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 8016,
+        "visible": true
+      },
+      {
+        "instances": 333,
+        "mesh_array_bytes": 2880,
+        "mesh_triangles": 24,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ScatteredPebbleBatch1",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 7992,
+        "visible": true
+      },
+      {
+        "instances": 329,
+        "mesh_array_bytes": 2880,
+        "mesh_triangles": 24,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ScatteredPebbleBatch0",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 7896,
+        "visible": true
+      },
+      {
+        "instances": 326,
+        "mesh_array_bytes": 2880,
+        "mesh_triangles": 24,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ScatteredPebbleBatch3",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 7824,
+        "visible": true
+      },
+      {
+        "instances": 47,
+        "mesh_array_bytes": 18480,
+        "mesh_triangles": 154,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ScatteredBoulderBatch3",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 7238,
+        "visible": true
+      },
+      {
+        "instances": 45,
+        "mesh_array_bytes": 18480,
+        "mesh_triangles": 154,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ScatteredBoulderBatch1",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 6930,
+        "visible": true
+      },
+      {
+        "instances": 44,
+        "mesh_array_bytes": 18480,
+        "mesh_triangles": 154,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ScatteredBoulderBatch0",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 6776,
+        "visible": true
+      },
+      {
+        "instances": 42,
+        "mesh_array_bytes": 18480,
+        "mesh_triangles": 154,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ScatteredBoulderBatch2",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 6468,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@62/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@45/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@40/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/WarmRouteLantern/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@36/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@49/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@66/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@32/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@53/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@28/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@24/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@57/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 23040,
+        "mesh_triangles": 192,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/WalkwayInsetRim",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 192,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 23040,
+        "mesh_triangles": 192,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/PolishedApproachPanels",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 192,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 23040,
+        "mesh_triangles": 192,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/CoralEdgeLight",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 192,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 23040,
+        "mesh_triangles": 192,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ApproachFineInlay",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 192,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 23040,
+        "mesh_triangles": 192,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@6",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 192,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 23040,
+        "mesh_triangles": 192,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@7",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 192,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@65",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@61",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@23",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@27",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@31",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@35",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@39",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@44",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/RubyLanternPost",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@48",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@52",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@56",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@24/@MeshInstance3D@25",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@22",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/WarmRouteLantern/@MeshInstance3D@21",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/LanternFoot",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@20",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@19",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@18",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@17",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@16",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@15",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@14",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@13",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@12",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@11",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@10",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@9",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@8",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/PanelExpansionJoint",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@66/@MeshInstance3D@67",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@64",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@62/@MeshInstance3D@63",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@60",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@57/@MeshInstance3D@58",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@55",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@53/@MeshInstance3D@54",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@51",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@49/@MeshInstance3D@50",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@47",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@45/@MeshInstance3D@46",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@43",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@40/@MeshInstance3D@41",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@38",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@36/@MeshInstance3D@37",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@34",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@32/@MeshInstance3D@33",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@30",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@28/@MeshInstance3D@29",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@26",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 216,
+        "mesh_triangles": 2,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/FineRegolith",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 2,
+        "visible": true
+      }
+    ]
+  },
+  "after": {
+    "retained_triangles": 21388,
+    "mesh_channel_array_bytes_sum": 1001616,
+    "retained_mesh_instances": 76,
+    "meshes": [
+      {
+        "instances": 1,
+        "mesh_array_bytes": 129800,
+        "mesh_triangles": 3840,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt0",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 3840,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 129800,
+        "mesh_triangles": 3840,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt1",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 3840,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 129800,
+        "mesh_triangles": 3840,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt2",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 3840,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@66/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@62/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@57/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@53/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@49/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@45/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@40/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@36/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@32/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@28/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@24/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 22400,
+        "mesh_triangles": 480,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/WarmRouteLantern/SquareKumikoJoinery",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 480,
+        "visible": true
+      },
+      {
+        "instances": 2,
+        "mesh_array_bytes": 18480,
+        "mesh_triangles": 154,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ScatteredBoulderBatch2",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 308,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 23040,
+        "mesh_triangles": 192,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@7",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 192,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 23040,
+        "mesh_triangles": 192,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@6",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 192,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 23040,
+        "mesh_triangles": 192,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ApproachFineInlay",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 192,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 23040,
+        "mesh_triangles": 192,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/CoralEdgeLight",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 192,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 23040,
+        "mesh_triangles": 192,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/PolishedApproachPanels",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 192,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 23040,
+        "mesh_triangles": 192,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/WalkwayInsetRim",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 192,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 18480,
+        "mesh_triangles": 154,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ScatteredBoulderBatch3",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 154,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 18480,
+        "mesh_triangles": 154,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ScatteredBoulderBatch1",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 154,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 18480,
+        "mesh_triangles": 154,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/ScatteredBoulderBatch0",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 154,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@39",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@31",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@52",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/RubyLanternPost",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@48",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@27",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@23",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@44",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@56",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@61",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@65",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 6816,
+        "mesh_triangles": 144,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@35",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 144,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@38",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@40/@MeshInstance3D@41",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@43",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@45/@MeshInstance3D@46",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@47",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@49/@MeshInstance3D@50",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@51",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@53/@MeshInstance3D@54",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@55",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@57/@MeshInstance3D@58",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@60",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@62/@MeshInstance3D@63",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/PanelExpansionJoint",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@8",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@9",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@10",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@11",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@12",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@13",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@14",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@15",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@16",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@17",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@18",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@19",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@20",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/LanternFoot",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/WarmRouteLantern/@MeshInstance3D@21",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@22",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@24/@MeshInstance3D@25",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@26",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@28/@MeshInstance3D@29",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@30",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@32/@MeshInstance3D@33",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@34",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@36/@MeshInstance3D@37",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@Node3D@66/@MeshInstance3D@67",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 1296,
+        "mesh_triangles": 12,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/@MeshInstance3D@64",
+        "shadow_caster": true,
+        "surfaces": 1,
+        "triangles": 12,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "mesh_array_bytes": 216,
+        "mesh_triangles": 2,
+        "path": "LandscapeAnchor/RoseRegolithLandscape/FineRegolith",
+        "shadow_caster": false,
+        "surfaces": 1,
+        "triangles": 2,
+        "visible": true
+      }
+    ]
+  },
+  "placement_verification": "render_budget_test uses CPU-authored transforms passed to instancing; headless MultiMesh readback is not used."
+}

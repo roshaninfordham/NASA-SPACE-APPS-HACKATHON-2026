@@ -2,21 +2,23 @@
 
 **Become the astronaut. Protect your crew.**
 
-A first-person Mars survival adventure for ages 7–12. Explore an outpost, inspect its equipment, protect your suit, and make the energy decisions that bring your crew home.
+A first-person Mars learning game for ages 7–12. Work inside mission control, look out across the dunes, and make the energy decisions that help bring your crewmate Mira home.
 
 [![Validation](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml/badge.svg)](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml)
 
-**Status: early playable visual-development alpha.** The 0.6.1 hotfix repairs Mac bundle signing and adds native desktop launch gates and an update check on every fresh launch. Version 0.6 adds a live explorer suit lab, five adjustable science experiments, habitat field notes and more detailed mission control, architecture and suit artwork. Branding and presentation styles are centrally configured. Pixel-perfect likeness, photoreal character work and physical-device performance validation remain unfinished.
+**Status: implemented and tested 0.7 source candidate.** Start inside mission control, looking through a clear window at dunes and stranded Mira. Three controls manage cleaning, base power and her return. The default forward view contains only dunes and Mira; the original outpost and outdoor EVA remain an advanced option. Source tests and native Linux input/capture checks pass. Exact release archives and native release gates still need acceptance before publication.
 
-![Actual KŌMAKU habitat](docs/media/komaku-0.6.0-alpha.1-exterior.png)
+![0.7 candidate: indoor mission control overlooking dunes and Mira](docs/media/0.7-title.png)
 
-[Versioned screenshots and capture provenance](docs/MEDIA.md).
+[Current candidate screenshots and historical media](docs/MEDIA.md) · [16-page science guide](docs/media/KOMAKU-Science-Guide.pdf)
+
+**The latest published download is still [v0.6.1-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.6.1-alpha.1).** The 0.7 features above describe newer source work; they are not included in that older installer.
 
 ## Play on your laptop
 
 Get the game from [GitHub Releases](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases). Release notes identify available downloads, exact source commit, and what was tested. Game installers belong in Releases; an empty GitHub Packages tab does not mean downloads are missing.
 
-The build pipeline creates macOS universal, Windows x64, Linux x64, and Web archives, with licenses and SHA-256 checksums. The Mac universal binary includes arm64 for Apple Silicon, including M5, and x86_64 for Intel. The 0.6.1 Mac app is ad-hoc signed for bundle integrity, without Apple Developer ID or notarization. Windows remains unsigned. This release passed native macOS and Windows CI launch checks; physical-device performance, audio and complete playthroughs remain separate tests. Native Android and iOS installers are not yet provided.
+The build pipeline creates macOS universal, Windows x64, Linux x64, and Web archives, with licenses and SHA-256 checksums. The 0.7 candidate also includes a short `START-HERE.txt` and `KOMAKU-Science-Guide.pdf` in every ZIP and prepares a separate versioned PDF download: four ZIPs, the PDF, and five update/manifest/checksum files make ten release assets once published. The Mac universal binary includes arm64 for Apple Silicon, including M5, and x86_64 for Intel. The 0.6.1 Mac app is ad-hoc signed for bundle integrity, without Apple Developer ID or notarization. Windows remains unsigned. This release passed native macOS and Windows CI launch checks; physical-device performance, audio and complete playthroughs remain separate tests. Native Android and iOS installers are not yet provided.
 
 **Current download: [v0.6.1-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.6.1-alpha.1).** The older 0.6.0 Mac archive has an invalid bundle signature; download this corrected hotfix once if your existing app cannot open.
 
@@ -35,28 +37,35 @@ The **0.6.1 desktop app checks for updates on every fresh launch**, once per pro
 
 Browser offline/update packaging and the GitHub Pages deployment workflow are available in the repository. Public hosting is deferred by owner choice after verification found an inherited custom-domain redirect to another site; use downloadable builds for now. An internal Android build route is documented; no production Android/iOS native download or mobile self-updater is published.
 
-## Your first mission
+## The indoor mission in the 0.7 candidate
 
-Mira, your crewmate, needs you at the solar array. A dust storm will dim the sky. A separate particle event will make the refuge important. You have four minutes, two batteries, and decisions that matter.
+You are the operator inside mission control. Mira is outside, visible through the clear window. Move and look around within the room, manage the base power, and guide her back. The suit battery and dose readings belong to **Mira**; moving your own character indoors does not protect her.
 
-- Walk to the array and hold the interaction to inspect it.
-- Clear the visor when visibility slows your work. It uses **suit** energy.
-- Clean solar panels when sunlight makes it worthwhile. They use **habitat** energy.
-- Conserve nonessential power while preserving life support.
-- Walk into the pre-shielded refuge before the particle event.
-- Finish with enough reserve to recover, then discover what your choices changed.
+- Use **1** or the cleaner button to toggle panel cleaning.
+- Use **2** or the save button to reduce nonessential base power.
+- Use **3 / Guide Mira** to begin her continuous route to the side airlock.
+- Watch the return and airlock-cycle states. Mira gains shelter protection only after the cycle and her final walk inside are complete.
+- Continue managing base power through the full **12 simulated hours**, including after Mira is safe.
 
-Keyboard: **WASD** move, **mouse** look, **E** use/hold to inspect, **Q** visor, **Space** hop, **Escape** pause, **F1** guide. Controller and landscape touch controls are included; further device testing is required.
+**Tab** pauses for clickable controls; **Escape** returns to walking. **WASD** and the mouse move/look within the room. The handheld scanner is hidden in this mode. The scripted route and abstract airlock timing are teaching mechanics, not a validated crew-motion or pressure model. Source tests verify a successful full-duration rescue policy, the failure case when no action is taken, pause behavior and protection only after entry. Native release-archive acceptance and physical-device playtesting remain separate.
+
+The original outdoor mission remains under **Learn & more → Outdoor EVA mission**. That advanced mode restores the outpost equipment, exterior exploration, array inspection, personal visor cleaning and the walk-in refuge. It is also the mission in the published 0.6.1 download. **E** interacts, **Q** cleans the visor and **Space** hops in that mode. Controller and landscape touch controls require further physical-device testing.
 
 ## Learn with Mira
 
-Mira's Field Academy adds five short science lessons, ten questions, hints and explanations, and a local review plan. It is accessible from the title menu and mission debrief. These lessons have been included since alpha 0.3.0-alpha.1. The tutor uses provisional Bayesian estimates, not a trained AI model; [learning design](docs/LEARNING-DESIGN.md) documents the research and limits. The [request tracker](docs/REQUEST-TRACKER.md) distinguishes delivered features from open requirements.
+Mira's Field Academy adds five short science lessons, ten questions, hints and explanations, and a local review plan. It is accessible from the title menu (under **Learn & more** in the 0.7 candidate) and mission debrief. These lessons have been included since alpha 0.3.0-alpha.1. The tutor uses provisional Bayesian estimates, not a trained AI model; [learning design](docs/LEARNING-DESIGN.md) documents the research and limits. The [request tracker](docs/REQUEST-TRACKER.md) distinguishes delivered features from open requirements.
 
-## New design-specification work
+## The 0.7 source candidate
 
-The current source adds **Explorer Suit Lab** (five live views, four cosmetic themes, five adjustable experiments) and **Habitat Field Notes** (four architecture lessons). Access both from the title menu; the suit lab is also in the pause menu, and **I** opens habitat notes during untimed exploration. The activities pause the mission and do not change its physical model.
+Start with **Start mission** for the indoor rescue, **Explore · no timer** for an untimed room visit, or **Learn & more** for optional activities and outdoor EVA. The primary view keeps one priority objective, separate base/Mira battery gauges and three actions visible. The window frames the dunes and Mira; the room uses quieter pearl/navy materials and restrained cyan indicators.
 
-The control room now has four live data panels, nine tabletop screens and a geodesic globe. The habitat and suit add shared pearl/crimson/rose-gold finishes and specific Japanese craft references, with a Chinese knot-inspired airlock emblem. These remain procedural interpretations. Read the [adapted design specifications](docs/design-specs/README.md) and [implementation ledger](docs/SPEC-IMPLEMENTATION.md) for each completed, partial and deferred target. These additions are included in the 0.6 release.
+The optional **AEGIS mission planner** opens with **P** or from Pause. It compares four cleaner/power-saving policies using private copies of the same mission model over one simulated hour, holding Mira’s current protection state fixed. It does not predict her travel or airlock timing. The game stays paused, and **Use this plan** changes only those switches. It is a transparent comparison tool, not trained AI or a live forecast. [Planner assumptions](docs/MISSION-PLANNER.md).
+
+**Explorer Suit Lab**, **Habitat Field Notes**, Mira's academy and the field guide remain available through **Learn & more**. **I** opens habitat notes during untimed exploration. These activities pause the mission without changing its physical model. An untimed room tour can start a fresh rescue from Pause; it resets the clock, switches and Mira’s waiting state. The earlier, denser 0.6 artwork is documented in the [historical gallery](docs/MEDIA.md), while [design specifications](docs/design-specs/README.md) preserve the original references.
+
+The [illustrated science guide](docs/media/KOMAKU-Science-Guide.pdf) has 16 pages of explanations, equations, units, worked examples and source/assumption boundaries. Its build checks detect stale model-source fingerprints.
+
+The new landscape alone uses **21,388 retained triangles**, down from **109,710** in the prior optimized landscape. This is a geometry-workload comparison, not whole-game FPS, RAM or physical-device validation. Earlier 33.7%/approximately 61% figures describe pre-pivot work and do not measure this final candidate. [Scope and evidence](docs/DESIGN-PIVOT-0.7.md).
 
 ## Design direction
 
