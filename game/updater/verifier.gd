@@ -3,6 +3,7 @@ extends RefCounted
 ## This module never executes downloaded code. The bootstrap mounts only verified packs.
 const REPOSITORY := "roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026"
 const ENGINE := "4.6.3"
+const RUNTIME_CONTRACT := "red-veil-desktop-v1"
 const MAX_PACK_BYTES := 128 * 1024 * 1024
 const MAX_MANIFEST_BYTES := 32 * 1024
 const SCHEMA := 1
@@ -11,7 +12,7 @@ static func version_parts(value: String) -> Array:
 	var pattern := RegEx.new()
 	pattern.compile("^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-alpha\\.(0|[1-9][0-9]*))?$")
 	var match_result := pattern.search(value)
-	if match_result == null or value.length() > 64: return []
+	if match_result == null or match_result.get_string(0) != value or value.length() > 64: return []
 	var prerelease := match_result.get_string(4)
 	for index in range(1, 5):
 		if match_result.get_string(index).length() > 9: return []
@@ -30,22 +31,30 @@ static func asset_url(version: String, filename: String) -> String:
 	if filename not in ["update-manifest.json", "update-manifest.sig", "red-veil-content.pck"]: return ""
 	return "https://github.com/%s/releases/download/v%s/%s" % [REPOSITORY, version, filename]
 
-static func validate_manifest(raw: PackedByteArray, signature: PackedByteArray, public_key_path: String, current_version: String = "") -> Dictionary:
+static func validate_manifest(raw: PackedByteArray, signature: PackedByteArray, pinned_key: Variant, current_version: String = "") -> Dictionary:
 	if raw.is_empty() or raw.size() > MAX_MANIFEST_BYTES: return {"ok": false, "error": "manifest_size"}
 	if signature.size() < 256 or signature.size() > 1024: return {"ok": false, "error": "signature_size"}
-	var key := CryptoKey.new()
-	if key.load(public_key_path, true) != OK: return {"ok": false, "error": "signing_not_configured"}
+	var key: CryptoKey
+	if pinned_key is CryptoKey:
+		key = pinned_key
+	elif pinned_key is String and FileAccess.file_exists(pinned_key):
+		key = CryptoKey.new()
+		if key.load(pinned_key, true) != OK: return {"ok": false, "error": "signing_not_configured"}
+	else: return {"ok": false, "error": "signing_not_configured"}
 	var hash := HashingContext.new()
 	hash.start(HashingContext.HASH_SHA256)
 	hash.update(raw)
 	if not Crypto.new().verify(HashingContext.HASH_SHA256, hash.finish(), signature, key):
 		return {"ok": false, "error": "signature_invalid"}
-	var parsed: Variant = JSON.parse_string(raw.get_string_from_utf8())
+	var json := JSON.new()
+	if json.parse(raw.get_string_from_utf8()) != OK: return {"ok": false, "error": "manifest_json"}
+	var parsed: Variant = json.data
 	if not parsed is Dictionary: return {"ok": false, "error": "manifest_json"}
 	var manifest: Dictionary = parsed
 	if manifest.get("schema") != SCHEMA: return {"ok": false, "error": "unsupported_schema"}
 	if manifest.get("repository") != REPOSITORY: return {"ok": false, "error": "wrong_repository"}
 	if manifest.get("engine") != ENGINE: return {"ok": false, "error": "engine_update_required"}
+	if manifest.get("runtime_contract") != RUNTIME_CONTRACT: return {"ok": false, "error": "runtime_update_required"}
 	var version: Variant = manifest.get("version")
 	if not version is String or version_parts(version).is_empty(): return {"ok": false, "error": "version_invalid"}
 	if not current_version.is_empty() and not is_newer(version, current_version): return {"ok": false, "error": "not_newer"}
@@ -61,7 +70,8 @@ static func validate_manifest(raw: PackedByteArray, signature: PackedByteArray, 
 static func matches_hex(value: String, length: int) -> bool:
 	var pattern := RegEx.new()
 	pattern.compile("^[0-9a-f]{%d}$" % length)
-	return pattern.search(value) != null
+	var found := pattern.search(value)
+	return found != null and found.get_string(0) == value
 
 static func validate_pack(path: String, manifest: Dictionary) -> Dictionary:
 	var file := FileAccess.open(path, FileAccess.READ)

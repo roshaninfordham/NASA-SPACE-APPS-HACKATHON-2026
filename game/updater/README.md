@@ -1,21 +1,15 @@
-# Signed content updater — work in progress
+# Signed content updater
 
-Alpha.1 and alpha.2 have no updater. This directory introduces the verification boundary for a future updater-enabled installer. Do not claim automatic updating is shipped until its bootstrap, transport, activation, rollback, UI, and signed release workflow are validated together.
+Published installers through 0.3.0-alpha.1 have no updater. They need one initial manual installation of an updater-enabled build. The implementation on main must pass complete discovery, verified download, activation, restart, and recovery checks before it is described as shipped.
 
-A candidate manifest is verified with the public key pinned in the installer before its fields are trusted. Packs must match an exact size and SHA-256 hash, come from this repository's fixed release path, use the supported engine/schema, and have a newer supported version. Unknown keys, altered bytes, oversized files, downgrades, arbitrary filenames, and incompatible engines are rejected.
+The installer pins a public key. A candidate manifest must authenticate its repository, supported version/schema/engine/runtime contract, fixed pack filename, exact length and SHA-256 digest. The bootstrap captures the trust root before mounting content and verifies a pack again before use. Missing signing configuration must never enable unsigned installation.
 
-Godot's official resource-pack mechanism can replace scenes, scripts, shaders, models, textures, and audio without replacing the engine. Packs must be mounted before the main scene preloads content. Desktop engine or trust-root upgrades still require a full installer. Mobile store distribution has its own update constraints.
+Godot resource packs can replace scenes, scripts, shaders, models, textures and audio. They must be mounted before the main scene preloads content. The supported content contract excludes engine/native-library and startup-registry changes; those need a new installer. New script types use explicit preload paths, because Godot initializes global-class/UID registries before mounting. The required `red-veil-desktop-v1` runtime-contract field identifies the compatible baseline contract; registry/native/startup changes require a deliberate contract bump and full-installer transition. Each pack must still be tested against supported baseline installers. Signed scripts remain trusted executable code, not a security sandbox. Native app signing, notarization and mobile/store distribution are separate boundaries.
 
-## Owner setup
-
-The connected integration cannot read or write repository Actions secrets. Run this on a trusted owner machine from a checkout:
+Owner setup, workflow inputs, exact release assets, publication checks, and limitations are in [the update guide](../../docs/UPDATES.md). The one-time owner command, from an up-to-date checkout on their own trusted laptop, is:
 
 ```sh
-python3 scripts/configure_update_signing.py --install-github-secret
+python3 scripts/configure_update_signing.py --install-github-secret --publish-public-key
 ```
 
-This requires OpenSSL and an authenticated owner `gh` CLI with permission to manage repository secrets. It generates a 3072-bit RSA key outside Git, sets restrictive local permissions, uploads the private key directly to GitHub's encrypted Actions secret, and writes only the public key into `game/updater/public_key.pem`. Review and commit that public file. Keep an encrypted backup of the private key.
-
-Without `gh`, omit `--install-github-secret` and use GitHub's secure repository-secret UI for `RED_VEIL_UPDATE_SIGNING_KEY`. Never paste private key material into chat, documentation, or an issue. Do not run setup repeatedly with new keys; the script refuses to replace an existing trust root silently.
-
-The initial installer remains a trust boundary. Signed content updates do not replace Apple/Windows application signing or make an untrusted installer safe.
+This generates or reuses a private RSA key outside Git, refuses a conflicting local/remote trust root, commits only the public key through GitHub's API, re-verifies it, and then uploads the secret directly to GitHub. No private key should be pasted into chat. No production key has been provisioned by the development agents.

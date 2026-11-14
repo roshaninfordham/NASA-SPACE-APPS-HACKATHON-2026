@@ -25,7 +25,7 @@ def main():
         (folder / "altered.pck").write_bytes(b"X" + pack[1:])
         (folder / "short.pck").write_bytes(pack[:-1])
         # Exercise the real release signing command as well as the runtime verifier.
-        run("python3", str(ROOT / "scripts/sign_update.py"), "--version", "0.2.0-alpha.3", "--pack", str(folder / "pack.pck"), "--private-key", str(key), "--output", str(folder))
+        run("python3", str(ROOT / "scripts/sign_update.py"), "--version", "0.2.0-alpha.3", "--pack", str(folder / "pack.pck"), "--private-key", str(key), "--public-key", str(folder / "public.pem"), "--output", str(folder))
         base = json.loads((folder / "update-manifest.json").read_text())
         assert base["pack_sha256"] == hashlib.sha256(pack).hexdigest()
         cases = []
@@ -45,6 +45,8 @@ def main():
         for name, changes, error in [
             ("wrong-repository", {"repository": "attacker/repo"}, "wrong_repository"),
             ("wrong-engine", {"engine": "4.7.0"}, "engine_update_required"),
+            ("wrong-runtime", {"runtime_contract": "red-veil-desktop-v2"}, "runtime_update_required"),
+            ("newline-version", {"version": "0.4.0\n"}, "version_invalid"),
             ("schema", {"schema": 2}, "unsupported_schema"),
             ("downgrade", {"version": "0.1.0"}, "not_newer"),
             ("same-version", {"version": "0.2.0-alpha.2"}, "not_newer"),
