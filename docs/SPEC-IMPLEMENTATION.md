@@ -2,7 +2,7 @@
 
 **Reviewed November 14, 2026.** This ledger covers the three new [design-team specifications](design-specs/README.md) for **<!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand -->**. It distinguishes checked-in implementation from the documents' broader visual and gameplay targets. A source file or passing structural test does not establish visual identity with a concept image, frame-rate performance, scientific validation or a published release.
 
-The most recent published release remains the version recorded in [team status](TEAM-STATUS.md) and [downloads](DOWNLOADS.md). Changes described below may be newer than that release until its release notes explicitly include them.
+These increments are included in alpha 0.6.0-alpha.1. [Team status](TEAM-STATUS.md), [downloads](DOWNLOADS.md) and release evidence identify the exact source and tested platforms.
 
 ## Decisions that override the reference documents
 
@@ -24,7 +24,7 @@ The most recent published release remains the version recorded in [team status](
 
 ## Implemented foundation and current increments
 
-“Partial” means real functionality exists but the full source target is not complete. These statuses apply to the current source checkout and require the normal integrated checks before release.
+“Partial” means real functionality exists but the full source target is not complete. These statuses apply to the 0.6 release; they do not imply that every source-document target is delivered.
 
 | Source area                            | Status and actual behavior                                                                                                                                                                                                                                                                                                                                                                         | Code / evidence                                                                                                                                      |
 | -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |

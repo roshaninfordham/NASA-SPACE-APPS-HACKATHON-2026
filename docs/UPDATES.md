@@ -2,7 +2,7 @@
 
 ## What players can expect
 
-The current **v0.5.0-alpha.1** desktop installer includes the signed-content updater introduced in 0.4. The actual published 0.4 Linux installer passed the [0.5 compatibility and recovery gate](evidence/update-0.4-to-0.5.json). The older v0.3 installer needs one manual upgrade. [Linux live-download/restart/recovery evidence](evidence/update-0.4.0-alpha.1.json) records the exact release and limits: the baseline was a disposable older-version fixture, not a previously shipped installer; physical Mac/Windows acceptance remains open.
+The current **v0.6.0-alpha.1** desktop installer includes the signed-content updater introduced in 0.4. The actual published 0.4 Linux installer passed the [0.6 compatibility and recovery gate](evidence/update-0.4-to-0.6.json). The older v0.3 installer needs one manual upgrade. [Linux live-download/restart/recovery evidence](evidence/update-0.4.0-alpha.1.json) records the exact release and limits: the baseline was a disposable older-version fixture, not a previously shipped installer; physical Mac/Windows acceptance remains open.
 
 The desktop flow is **Update available → Install → Restart**. Checks use this public GitHub repository without a GitHub login. The game checks a signed manifest and exact pack size/hash before staging new game content. It keeps the previous working content for recovery if startup fails. It never asks a player for administrator credentials or a GitHub token. A missing signing configuration allows a manual-preview release notice, not unsigned automatic installation.
 

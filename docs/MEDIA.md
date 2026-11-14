@@ -1,5 +1,30 @@
 # <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> media gallery
 
+## 0.6 — specification implementation
+
+Actual Godot renders of the current visual-development alpha: a live Suit Lab, habitat lessons, expanded mission-control screens and ornamented architecture. These remain stylized procedural interpretations; they do not match the concept illustrations pixel for pixel. [Capture hashes and source provenance](media/komaku-0.6.0-alpha.1-capture.json).
+
+![Suit Lab with live character and adjustable experiments](media/komaku-0.6.0-alpha.1-suit-desktop.png)
+
+![Habitat Field Notes with architecture lesson](media/komaku-0.6.0-alpha.1-habitat-desktop.png)
+
+![Current habitat, airlock approach and lanterns](media/komaku-0.6.0-alpha.1-exterior.png)
+
+![Control room geodesic globe and mission telemetry](media/komaku-0.6.0-alpha.1-interior-close.png)
+
+[Wide control-room view](media/komaku-0.6.0-alpha.1-interior.png) · [Mira](media/komaku-0.6.0-alpha.1-astronaut.png) · [Title menu](media/komaku-0.6.0-alpha.1-title.png)
+
+| Layout             | Suit Lab                                              | Habitat Field Notes                                      |
+| ------------------ | ----------------------------------------------------- | -------------------------------------------------------- |
+| Portrait, 390×844  | [View](media/komaku-0.6.0-alpha.1-suit-portrait.png)  | [View](media/komaku-0.6.0-alpha.1-habitat-portrait.png)  |
+| Landscape, 844×390 | [View](media/komaku-0.6.0-alpha.1-suit-landscape.png) | [View](media/komaku-0.6.0-alpha.1-habitat-landscape.png) |
+
+The six UI captures use source `0ae2bff760242437e85bd51fb5615c65fe5e7ed5` with a clean checkout. Release source `c0beba698c32741fb17f6c8e9ec44fd6bb875852` adds a title-menu height correction and its regression check; the depicted exhibit code is unchanged. World review cameras show the same 3D artwork from the preceding implementation commit; the manifest records that distinction and the close-view camera. All images come from Godot/Mesa software rendering. They are layout/design evidence, not physical-phone or frame-rate validation. Some callout anchors are obscured by the lesson card; the tabs remain available.
+
+Reproduce the interface captures with `python3 scripts/capture_spec_review.py --output /tmp/komaku-review --xvfb /path/to/Xvfb`. The runner checks rendered lesson-card bounds and records hashes. To capture a fixed world view, use the Godot command in the historical section below.
+
+## Historical 0.5 visual pass
+
 These are actual Godot 4.6.3 renders of the **0.5.0-alpha.1** visual candidate, associated with release source `1b4d1b8e0907f76a055a8aca85e1073c4eff34eb`. They show original procedural interpretations of the design team's reference images. Final photoreal materials, character rigging and pixel-perfect likeness remain unfinished.
 
 ## Walk through the habitat
@@ -16,7 +41,7 @@ The 7.1-second GIF uses ordinary movement/look/visor input and a fixed-timestep 
 
 ![Mira's procedural explorer suit and clear helmet](media/komaku-0.5.0-alpha.1-astronaut.png)
 
-![Current title menu](media/komaku-0.5.0-alpha.1-title.png)
+![Historical 0.5 title menu](media/komaku-0.5.0-alpha.1-title.png)
 
 [First-person HUD](media/komaku-0.5.0-alpha.1-gameplay.png) · [Portrait layout](media/komaku-0.5.0-alpha.1-portrait.png)
 

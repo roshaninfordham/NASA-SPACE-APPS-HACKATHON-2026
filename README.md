@@ -6,9 +6,9 @@ A first-person Mars survival adventure for ages 7–12. Explore an outpost, insp
 
 [![Validation](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml/badge.svg)](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml)
 
-**Status: early playable visual-development alpha.** Version 0.5 adds a walkable ivory/crimson habitat, holographic mission control, gold wave/blossom ornaments, lanterns, a redesigned crewmate, and untimed exploration. The new name is centrally configured. Pixel-perfect likeness, photoreal character work and physical-device performance validation remain unfinished.
+**Status: early playable visual-development alpha.** Version 0.6 adds a live explorer suit lab, five adjustable science experiments, habitat field notes and more detailed mission control, architecture and suit artwork. Branding and presentation styles are centrally configured. Pixel-perfect likeness, photoreal character work and physical-device performance validation remain unfinished.
 
-![Actual KŌMAKU gameplay](docs/media/komaku-0.5.0-alpha.1-gameplay.gif)
+![Actual KŌMAKU habitat](docs/media/komaku-0.6.0-alpha.1-exterior.png)
 
 [Versioned screenshots and capture provenance](docs/MEDIA.md).
 
@@ -18,20 +18,20 @@ Get the game from [GitHub Releases](https://github.com/roshaninfordham/NASA-SPAC
 
 The build pipeline creates macOS universal, Windows x64, Linux x64, and Web archives, with licenses and SHA-256 checksums. The Mac universal binary includes arm64 for Apple Silicon, including M5, and x86_64 for Intel. Early Mac and Windows builds are unsigned; the Mac build is not notarized. Physical Mac/Windows launches and device-specific performance remain to be verified. Native Android and iOS installers are not yet provided.
 
-**Current download: [v0.5.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.5.0-alpha.1).**
+**Current download: [v0.6.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.6.0-alpha.1).**
 
 | Platform                               | Download                                                                                                                                                                           |
 | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MacBook M5 / Apple Silicon / Intel Mac | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.5.0-alpha.1/KOMAKU-Shield-Protocol-0.5.0-alpha.1-macOS-universal.zip) |
-| Windows x64                            | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.5.0-alpha.1/KOMAKU-Shield-Protocol-0.5.0-alpha.1-Windows-x64.zip)             |
-| Linux x64                              | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.5.0-alpha.1/KOMAKU-Shield-Protocol-0.5.0-alpha.1-Linux-x64.zip)                 |
-| WebGL2 browser                         | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.5.0-alpha.1/KOMAKU-Shield-Protocol-0.5.0-alpha.1-Web.zip)                         |
+| MacBook M5 / Apple Silicon / Intel Mac | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.6.0-alpha.1/KOMAKU-Shield-Protocol-0.6.0-alpha.1-macOS-universal.zip) |
+| Windows x64                            | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.6.0-alpha.1/KOMAKU-Shield-Protocol-0.6.0-alpha.1-Windows-x64.zip)             |
+| Linux x64                              | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.6.0-alpha.1/KOMAKU-Shield-Protocol-0.6.0-alpha.1-Linux-x64.zip)                 |
+| WebGL2 browser                         | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.6.0-alpha.1/KOMAKU-Shield-Protocol-0.6.0-alpha.1-Web.zip)                         |
 
 See [download instructions](docs/DOWNLOADS.md). No development tools are required to play the native app.
 
 ## In-game updates
 
-The **v0.5.0-alpha.1 desktop downloads include signed content updates**: notice → download → explicit restart, with verification and recovery. Older releases need one manual upgrade. The Linux acceptance run fetched the actual public GitHub release, installed it, automatically relaunched, and recovered from a tampered pack. The actual previously published 0.4 Linux installer also passed the signed 0.5 mount/startup/recovery gate. Mac/Windows physical acceptance remains open. Engine/runtime changes require a full installer. [Behavior, evidence and limits](docs/UPDATES.md).
+The **v0.6.0-alpha.1 desktop downloads include signed content updates**: notice → download → explicit restart, with verification and recovery. Installers from before 0.4 need one manual upgrade. Earlier Linux acceptance fetched the public 0.4 release and exercised automatic GUI relaunch. Separately, the actual published 0.4 installer passed the signed 0.6 mount/startup/recovery gate. Mac/Windows physical acceptance remains open. Engine/runtime changes require a full installer. [Behavior, evidence and limits](docs/UPDATES.md).
 
 Browser offline/update packaging and the GitHub Pages deployment workflow are available in the repository. Public hosting is deferred by owner choice after verification found an inherited custom-domain redirect to another site; use downloadable builds for now. An internal Android build route is documented; no production Android/iOS native download or mobile self-updater is published.
 
@@ -56,7 +56,7 @@ Mira's Field Academy adds five short science lessons, ten questions, hints and e
 
 The current source adds **Explorer Suit Lab** (five live views, four cosmetic themes, five adjustable experiments) and **Habitat Field Notes** (four architecture lessons). Access both from the title menu; the suit lab is also in the pause menu, and **I** opens habitat notes during untimed exploration. The activities pause the mission and do not change its physical model.
 
-The control room now has four live data panels, nine tabletop screens and a geodesic globe. The habitat and suit add shared pearl/crimson/rose-gold finishes and specific Japanese craft references, with a Chinese knot-inspired airlock emblem. These remain procedural interpretations. Read the [adapted design specifications](docs/design-specs/README.md) and [implementation ledger](docs/SPEC-IMPLEMENTATION.md) for each completed, partial and deferred target. These source additions enter downloadable builds only when included in their release notes.
+The control room now has four live data panels, nine tabletop screens and a geodesic globe. The habitat and suit add shared pearl/crimson/rose-gold finishes and specific Japanese craft references, with a Chinese knot-inspired airlock emblem. These remain procedural interpretations. Read the [adapted design specifications](docs/design-specs/README.md) and [implementation ledger](docs/SPEC-IMPLEMENTATION.md) for each completed, partial and deferred target. These additions are included in the 0.6 release.
 
 ## Design direction
 
@@ -88,7 +88,7 @@ python3 scripts/test_updater.py
 With the official export templates installed:
 
 ```sh
-python3 scripts/build_game.py --version 0.5.0-alpha.1
+python3 scripts/build_game.py --version 0.6.0-alpha.1
 ```
 
 The Linux CI installer verifies the official SHA-512 manifest. The manual **Build downloadable game** workflow creates archives and a source-commit manifest. Publication is explicit and separate from building.

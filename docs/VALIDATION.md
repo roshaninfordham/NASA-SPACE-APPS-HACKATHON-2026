@@ -2,7 +2,15 @@
 
 **Reviewed November 14, 2026.** Evidence is tied to a source/build and a test scope. Passing code checks, publishing an installer, launching it on a physical device, and demonstrating learning benefit are separate outcomes. [Team status](TEAM-STATUS.md) and [the roadmap](ROADMAP.md) record the current release boundary.
 
-## Current 0.5 release
+## Current 0.6 release
+
+Source `c0beba698c32741fb17f6c8e9ec44fd6bb875852` passed validation `43645084085` and signed build `43645098947`. Publication uses the accepted artifact bytes without rebuilding. [Public-file and platform archive checks](evidence/release-0.6.0-alpha.1.json) record final hashes.
+
+The [0.4 → 0.6 compatibility gate](evidence/update-0.4-to-0.6.json) runs the unchanged, independently pinned historical Linux executable against the new signed content. Healthy activation, repeat startup and same-size corruption recovery pass. This is local-artifact/headless evidence; physical Mac/Windows remain unverified.
+
+New checks cover live control-room telemetry, transformed architecture anchors and a physical berm slope, shared visual-token validation, five suit experiments, and actual keyboard/menu flows. Initial lesson-card bounds, focus scrolling, title/menu separation, 44-pixel targets, mission-resource freezing and pause restoration are checked at 1280×720, 960×540, 390×844 and 844×390. Six rendered UI views were inspected separately. [Media provenance](MEDIA.md) distinguishes screenshot sources from release source. Software rendering cannot establish physical-device frame rates.
+
+## Historical 0.5 release
 
 Source `1b4d1b8e0907f76a055a8aca85e1073c4eff34eb` passed validation run `43641676500` and signed build `43641694667`. Publication run `43642409838` published the accepted nine files without rebuilding. The release manifest SHA-256 is `6dcd7330517e41698cf10f707c74e6e8b5c90c74d934ae01cc9b760faacd16bd`.
 
@@ -76,7 +84,7 @@ These results belong to the reference application. They do not certify the Godot
 
 ## Release and product gates still open
 
-- Continued public download/source verification and a real later-version update from a shipped updater-enabled installer. The nine-asset 0.4.0-alpha.1 release is public.
+- Continue public download/source verification and expand physical-platform coverage. Actual shipped-installer transitions to 0.5 and 0.6 passed the documented Linux gate.
 - Complete live network update checks and physical MacBook M5, Windows and broader Linux graphics validation. Automatic Linux relaunch under Xvfb has passed; physical Mac/Windows relaunch has not.
 - Frame pacing, memory, battery and thermal behavior on agreed physical devices; software-rendered cloud Chromium is not Apple Silicon GPU evidence.
 - Apple signing/notarization, Windows signing, native Android packaging/signing, and the applicable mobile distribution rules. No native iOS package is currently provided.

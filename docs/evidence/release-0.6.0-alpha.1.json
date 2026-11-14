@@ -1,0 +1,71 @@
+{
+  "version": "0.6.0-alpha.1",
+  "source_commit": "c0beba698c32741fb17f6c8e9ec44fd6bb875852",
+  "validation_run": 43645084085,
+  "build_run": 43645098947,
+  "publication_run": 43645471841,
+  "public_assets_match_accepted_build": true,
+  "mac_universal_architectures": ["x86_64", "arm64"],
+  "web_export_check": {
+    "source_commit": "c0beba698c32741fb17f6c8e9ec44fd6bb875852",
+    "errors": [],
+    "scope": "Actual accepted Web ZIP title launch at 960×540, Chromium software WebGL; no physical-device performance claim",
+    "title": "KŌMAKU: Shield Protocol",
+    "capture_complete": true
+  },
+  "earlier_candidate_exhibit_browser_check": {
+    "source_commit": "0ae2bff760242437e85bd51fb5615c65fe5e7ed5",
+    "errors": [],
+    "scope": "Actual candidate Web ZIP; Chromium software WebGL; 960×540; hardware performance unverified",
+    "title": "KŌMAKU: Shield Protocol",
+    "capture_complete": true
+  },
+  "exhibit_check_scope": "Earlier candidate has identical Suit Lab and habitat exhibit code; final title-menu sizing correction additionally tested in accepted Web export. Both screenshots reviewed.",
+  "assets": [
+    {
+      "name": "KOMAKU-Shield-Protocol-0.6.0-alpha.1-Linux-x64.zip",
+      "bytes": 27632911,
+      "sha256": "06dcc9cfcb0d9ab5b3542877640226e2c8fa14e569f06a6c0bbb75acb31139a4"
+    },
+    {
+      "name": "KOMAKU-Shield-Protocol-0.6.0-alpha.1-Web.zip",
+      "bytes": 10037176,
+      "sha256": "278daa104ad5825ecd41c80f05041225853192e55d2754bc3ebdb55dbcd92b64"
+    },
+    {
+      "name": "KOMAKU-Shield-Protocol-0.6.0-alpha.1-Windows-x64.zip",
+      "bytes": 36472802,
+      "sha256": "b559fef9e6f7372e95f75cb218e9452734afb7c9e8201aa7e9ef3ea799d70029"
+    },
+    {
+      "name": "KOMAKU-Shield-Protocol-0.6.0-alpha.1-macOS-universal.zip",
+      "bytes": 62416350,
+      "sha256": "4c0caf99c2d39d8c178aa8733508aab56d389bc057ea59fb402e4195f4df77b7"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 730,
+      "sha256": "2d6413436eceee793603a8fa1cffcf23c0c3a6b0a41e2f15df54ad2c0a6dd480"
+    },
+    {
+      "name": "red-veil-content.pck",
+      "bytes": 436544,
+      "sha256": "b4465b8c4ad5911a530f00b5b5bed1fe037adf12d4bcc44551f930df37b3d828"
+    },
+    {
+      "name": "release-manifest.json",
+      "bytes": 2191,
+      "sha256": "9173582180b1fbc3625dd2bda4418500cd4f64778071e837517cc10ea572dc4c"
+    },
+    {
+      "name": "update-manifest.json",
+      "bytes": 354,
+      "sha256": "5d0c6c7520852f6b44ae5d993023b58ebc88cd29f4e8cd49d5a5df39923ad026"
+    },
+    {
+      "name": "update-manifest.sig",
+      "bytes": 384,
+      "sha256": "cc655701031f6073f3babc8a343d50ebf8b58cea9e8784a21fc47479930c0772"
+    }
+  ]
+}

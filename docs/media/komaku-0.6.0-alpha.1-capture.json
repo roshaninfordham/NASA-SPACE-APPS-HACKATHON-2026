@@ -1,0 +1,112 @@
+{
+  "release_version": "0.6.0-alpha.1",
+  "release_source_commit": "c0beba698c32741fb17f6c8e9ec44fd6bb875852",
+  "world_visual_source_commit": "fbcc49646abbf352d44c36bf6b0a1a4c3e2ae53f",
+  "world_source_note": "3D artwork unchanged after fbcc496. UI views captured at 0ae2bff; release adds only title-menu height correction and regression test. Close interior camera captured at 0ae2bff using recorded parameters.",
+  "ui_capture": "Actual Godot assembled game; explicit exhibit opening and fixed viewport size",
+  "ui_source_clean": true,
+  "renderer": "Mesa software OpenGL under private Xvfb; no performance claim",
+  "world_camera_tool": "game/tests/capture_visuals.gd at fbcc496; separate close interior camera recorded below",
+  "limitations": [
+    "Source-project renders, not physical-device or frame-rate proof",
+    "Stylized procedural art, not pixel-identical concept reproduction",
+    "Desktop viewport sizes simulate layout; no physical-phone validation",
+    "Some scene anchors fall behind the habitat card; tabs remain available"
+  ],
+  "records": [
+    {
+      "file": "komaku-0.6.0-alpha.1-exterior.png",
+      "kind": "world review camera",
+      "sha256": "181e60becdbf19c6582b3909b051b6896866c23029083a1670ddc40b87429d46",
+      "bytes": 830335
+    },
+    {
+      "file": "komaku-0.6.0-alpha.1-interior.png",
+      "kind": "world review camera",
+      "sha256": "20d310e91c309547f871606c4336e5bf62179683fde4202edabeeb07c8665812",
+      "bytes": 1102344
+    },
+    {
+      "file": "komaku-0.6.0-alpha.1-title.png",
+      "kind": "world review camera",
+      "sha256": "77a4340dba1dc243ca48eb0173edfe6dc106a661602d810952cca2747bdc2779",
+      "bytes": 847100
+    },
+    {
+      "file": "komaku-0.6.0-alpha.1-astronaut.png",
+      "kind": "world review camera",
+      "sha256": "4e9f734ce251bb6b46faade7a5709ed3edf39b378c9f493a8d23367b6e72075d",
+      "bytes": 970366
+    },
+    {
+      "file": "komaku-0.6.0-alpha.1-interior-close.png",
+      "kind": "world review camera",
+      "position": [0, 2.2, -8.2],
+      "look_at": [0, 3.1, -16],
+      "vertical_fov_degrees": 77,
+      "sha256": "9ac4e2894ad4e5eca2b2c2ae929b768bac44dbf7792ff758a1e2fd8b90240c45",
+      "bytes": 1004228
+    },
+    {
+      "view": "suit",
+      "size": [1280, 720],
+      "file": "komaku-0.6.0-alpha.1-suit-desktop.png",
+      "exit_code": 0,
+      "engine_errors": false,
+      "sha256": "072d37b90685510d167f1d975ceddb24abf9e5041e7507e61456129420799f46",
+      "bytes": 168579,
+      "kind": "assembled UI"
+    },
+    {
+      "view": "suit",
+      "size": [390, 844],
+      "file": "komaku-0.6.0-alpha.1-suit-portrait.png",
+      "exit_code": 0,
+      "engine_errors": false,
+      "sha256": "14a09c5a15b15a93af4355cdabcbf59e68063e62ac9badf12cda67f97ac581b0",
+      "bytes": 124901,
+      "kind": "assembled UI"
+    },
+    {
+      "view": "suit",
+      "size": [844, 390],
+      "file": "komaku-0.6.0-alpha.1-suit-landscape.png",
+      "exit_code": 0,
+      "engine_errors": false,
+      "sha256": "30c1e2e7e4e3451939a3bb6630f223fe07fde18315d4038d398e3ea07b3aae3e",
+      "bytes": 101801,
+      "kind": "assembled UI"
+    },
+    {
+      "view": "habitat",
+      "size": [1280, 720],
+      "file": "komaku-0.6.0-alpha.1-habitat-desktop.png",
+      "exit_code": 0,
+      "engine_errors": false,
+      "sha256": "5a1ad0b9a8f4b2dbf4cd32d6d36a9b850b8acc269ea61805865a1db53ad69508",
+      "bytes": 488381,
+      "kind": "assembled UI"
+    },
+    {
+      "view": "habitat",
+      "size": [390, 844],
+      "file": "komaku-0.6.0-alpha.1-habitat-portrait.png",
+      "exit_code": 0,
+      "engine_errors": false,
+      "sha256": "cc2cb3a1507acc7ee26b663d48ed127b6b7b319a031f6f3d8a96e002effa76d5",
+      "bytes": 182891,
+      "kind": "assembled UI"
+    },
+    {
+      "view": "habitat",
+      "size": [844, 390],
+      "file": "komaku-0.6.0-alpha.1-habitat-landscape.png",
+      "exit_code": 0,
+      "engine_errors": false,
+      "sha256": "5d36513b96d0950bd9d5f5c168d851447f6f1e6d24db481d46050d86b8e8446f",
+      "bytes": 227954,
+      "kind": "assembled UI"
+    }
+  ],
+  "ui_source_commit": "0ae2bff760242437e85bd51fb5615c65fe5e7ed5"
+}

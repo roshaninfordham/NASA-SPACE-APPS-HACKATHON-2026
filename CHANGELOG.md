@@ -4,7 +4,7 @@ All published game versions and notable unreleased work are recorded here. The v
 
 ## [0.6.0-alpha.1] — 2026-11-14
 
-Design-specification implementation candidate. Publication and exact source are recorded in the release manifest and GitHub release notes; the version entry alone is not proof of publication.
+Published from `c0beba698c32741fb17f6c8e9ec44fd6bb875852`, signed build `43645098947`, with nine assets. [The actual 0.4 installer compatibility gate](docs/evidence/update-0.4-to-0.6.json) verifies signed activation, repeat startup and corruption recovery; [release evidence](docs/evidence/release-0.6.0-alpha.1.json) records public-file verification.
 
 - Added Explorer Suit Lab with one live 3D stage, five inspection views, four cosmetic themes, and five adjustable teaching experiments covering dose/time, dust removal, heat balance, supply duration and pressure-fit tradeoffs. Cosmetics do not alter mission physics.
 - Added Habitat Field Notes with four scene-anchored callouts, questions and explanations. Open from the title menu or press **I** during untimed exploration.
