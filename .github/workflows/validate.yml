@@ -40,3 +40,4 @@ jobs:
       - run: godot --headless --path game --script res://tests/update_ui_test.gd
       - run: python scripts/test_update_bootstrap.py
       - run: python -m unittest discover -s tests -p 'test_release_tools.py'
+      - run: python -m unittest discover -s tests -p 'test_publish_workflow.py'

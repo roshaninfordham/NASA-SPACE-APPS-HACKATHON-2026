@@ -1,0 +1,163 @@
+name: Publish accepted game downloads
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Exact version of the accepted build
+        required: true
+        type: string
+        default: 0.4.0-alpha.1
+      revision:
+        description: Exact 40-character lowercase source commit of the accepted build
+        required: true
+        type: string
+      build_run_id:
+        description: Successful Build downloadable game run containing the accepted artifacts
+        required: true
+        type: string
+      build_run_attempt:
+        description: Exact accepted attempt of that build run
+        required: true
+        type: string
+        default: "1"
+      manifest_sha256:
+        description: SHA-256 of the exact release-manifest.json accepted in testing
+        required: true
+        type: string
+concurrency:
+  group: red-veil-release-${{ inputs.version }}
+  cancel-in-progress: false
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      RELEASE_VERSION: ${{ inputs.version }}
+      SOURCE_REVISION: ${{ inputs.revision }}
+      BUILD_RUN_ID: ${{ inputs.build_run_id }}
+      BUILD_RUN_ATTEMPT: ${{ inputs.build_run_attempt }}
+      ACCEPTED_MANIFEST_SHA256: ${{ inputs.manifest_sha256 }}
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify successful source build before download
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          import re
+          import subprocess
+
+          version = os.environ["RELEASE_VERSION"]
+          revision = os.environ["SOURCE_REVISION"]
+          run_id = os.environ["BUILD_RUN_ID"]
+          repository = os.environ["GITHUB_REPOSITORY"]
+          attempt = os.environ["BUILD_RUN_ATTEMPT"]
+          accepted_digest = os.environ["ACCEPTED_MANIFEST_SHA256"]
+          if not re.fullmatch(r"(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})\.(0|[1-9][0-9]{0,8})(?:-alpha\.(0|[1-9][0-9]{0,8}))?", version):
+              raise SystemExit("Unsupported release version")
+          if not re.fullmatch(r"[0-9a-f]{40}", revision):
+              raise SystemExit("An exact lowercase 40-character source commit is required")
+          if not re.fullmatch(r"[1-9][0-9]{0,19}", run_id):
+              raise SystemExit("A numeric build run ID is required")
+          if not re.fullmatch(r"[1-9][0-9]{0,5}", attempt) or not re.fullmatch(r"[0-9a-f]{64}", accepted_digest):
+              raise SystemExit("Exact build attempt and accepted manifest SHA-256 are required")
+          result = subprocess.run(["gh", "api", f"repos/{repository}/actions/runs/{run_id}"], check=True, capture_output=True, text=True)
+          run = json.loads(result.stdout)
+          expected = {
+              "id": int(run_id), "head_sha": revision, "status": "completed",
+              "conclusion": "success", "event": "workflow_dispatch",
+              "path": ".github/workflows/build-downloads.yml", "run_attempt": int(attempt),
+          }
+          if any(run.get(key) != value for key, value in expected.items()):
+              raise SystemExit("Build run is not the successful manual build of the requested exact source")
+          if run.get("repository", {}).get("full_name") != repository or run.get("head_repository", {}).get("full_name") != repository:
+              raise SystemExit("Build run must belong to this repository, including its source repository")
+          record = expected | {"repository": repository, "run_attempt": run.get("run_attempt")}
+          (Path(os.environ["RUNNER_TEMP"]) / "red-veil-accepted-build.json").write_text(json.dumps(record))
+          print(f"Verified build run {run_id} at {revision}; no release has been changed.")
+          PY
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.revision }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: red-veil-downloads
+          path: releases/distribution
+          run-id: ${{ inputs.build_run_id }}
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+      - name: Verify and prepare unchanged accepted files
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python <<'PY'
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import shutil
+          import subprocess
+          import sys
+
+          root = Path.cwd()
+          sys.path.insert(0, str(root / "scripts"))
+          import build_game
+
+          version = os.environ["RELEASE_VERSION"]
+          revision = os.environ["SOURCE_REVISION"]
+          record = json.loads((Path(os.environ["RUNNER_TEMP"]) / "red-veil-accepted-build.json").read_text())
+          result = subprocess.run(["gh", "api", f"repos/{record['repository']}/actions/runs/{record['id']}"], check=True, capture_output=True, text=True)
+          current = json.loads(result.stdout)
+          for key in ["id", "head_sha", "status", "conclusion", "event", "path", "run_attempt"]:
+              if current.get(key) != record.get(key):
+                  raise SystemExit("Source build changed during artifact retrieval; publication stopped")
+          if build_game.source_commit() != revision:
+              raise SystemExit("Checkout does not match the accepted source")
+          distribution = root / "releases/distribution"
+          manifest_path = distribution / "release-manifest.json"
+          if manifest_path.is_symlink() or not manifest_path.is_file():
+              raise SystemExit("Accepted artifact has no regular release manifest")
+          if hashlib.sha256(manifest_path.read_bytes()).hexdigest() != os.environ["ACCEPTED_MANIFEST_SHA256"]:
+              raise SystemExit("Artifact differs from the exact accepted manifest; publication stopped")
+          manifest = json.loads(manifest_path.read_text())
+          build_game.OUT = distribution
+          names = build_game.validate_release_manifest(manifest, version, revision) | build_game.METADATA_ASSETS
+          if {path.name for path in distribution.iterdir()} != names:
+              raise SystemExit("Artifact contains missing or unexpected files")
+          if any((distribution / name).is_symlink() or not (distribution / name).is_file() for name in names):
+              raise SystemExit("Artifact entries must be regular files")
+          canonical_manifest = (json.dumps(manifest, indent=2) + "\n").encode()
+          canonical_checksums = "".join(f"{entry['sha256']}  {entry['name']}\n" for entry in manifest["assets"]).encode()
+          # The existing publisher regenerates these two metadata files. Require
+          # byte-identical canonical input so it cannot change accepted bytes.
+          if manifest_path.read_bytes() != canonical_manifest or (distribution / "SHA256SUMS.txt").read_bytes() != canonical_checksums:
+              raise SystemExit("Accepted metadata differs from the exact build format")
+          for name in sorted(names):
+              source = distribution / name
+              if source.is_symlink() or not source.is_file():
+                  raise SystemExit("Artifact entries must be regular files")
+              shutil.copyfile(source, root / "releases" / name)
+          digest = hashlib.sha256(manifest_path.read_bytes()).hexdigest()
+          with Path(os.environ["GITHUB_STEP_SUMMARY"]).open("a") as summary:
+              summary.write(f"### Accepted publication inputs\n\nBuild: https://github.com/{record['repository']}/actions/runs/{record['id']} (attempt {record['run_attempt']})\n\nSource: `{revision}`\n\nVersion: `{version}`\n\nRelease manifest SHA-256: `{digest}`\n\nNo archives or content packs were rebuilt. The existing exact-source publisher will verify signatures and the matching draft before upload.\n")
+          PY
+      - name: Publish the matching draft without rebuilding
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/build_game.py --version "$RELEASE_VERSION" --publish-prepared
+      - name: Record published release
+        run: |
+          python <<'PY'
+          import os
+          from pathlib import Path
+          with Path(os.environ["GITHUB_STEP_SUMMARY"]).open("a") as summary:
+              summary.write(f"\nPublished release: https://github.com/{os.environ['GITHUB_REPOSITORY']}/releases/tag/v{os.environ['RELEASE_VERSION']}\n")
+          PY

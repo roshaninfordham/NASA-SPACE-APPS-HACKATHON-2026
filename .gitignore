@@ -4,7 +4,6 @@ test-results/
 playwright-report/
 *.log
 .DS_Store
-src-tauri/target/
 game/.godot/
 releases/
 
