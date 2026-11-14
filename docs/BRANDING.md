@@ -15,6 +15,8 @@ python scripts/sync_brand.py --check
 
 Synchronization updates the Godot product name and export metadata, export package paths, npm package name, browser entry title and description, web manifest names and generated icons. It preserves legacy save paths, package script entries, version numbers, application identifiers and updater assets. Runtime UI obtains the current text from the helper; build tools read the canonical package stem.
 
+For macOS, the generator also writes `config/name.macos` using Unicode NFD (decomposed form). The visible **KŌMAKU: Shield Protocol** brand remains identical; only the filename normalization used by the exported bundle changes. This is required for the ad-hoc bundle signature to verify on native macOS. Do not hand-normalize or rename files inside a signed app after export. The platform-specific field is generated from the same canonical display name, not a second independently maintained brand. See the [Mac launch repair](MACOS-LAUNCH-REPAIR.md).
+
 Current documentation uses explicit HTML comment synchronization markers named `brand:display_name` and `/brand`. These are rewritten by the synchronization script without touching unmarked historical evidence. Current documentation must also be reviewed alongside code. The synchronization script does not rewrite historical documentation or guarantee that every illustration, screenshot or third-party listing has changed. Review visible screens and release filenames before shipping.
 
 ## Stable identities and historical evidence

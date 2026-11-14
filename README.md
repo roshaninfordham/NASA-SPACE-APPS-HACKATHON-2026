@@ -6,7 +6,7 @@ A first-person Mars survival adventure for ages 7–12. Explore an outpost, insp
 
 [![Validation](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml/badge.svg)](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml)
 
-**Status: early playable visual-development alpha.** Version 0.6 adds a live explorer suit lab, five adjustable science experiments, habitat field notes and more detailed mission control, architecture and suit artwork. Branding and presentation styles are centrally configured. Pixel-perfect likeness, photoreal character work and physical-device performance validation remain unfinished.
+**Status: early playable visual-development alpha.** The 0.6.1 hotfix repairs Mac bundle signing and adds native desktop launch gates and an update check on every fresh launch. Version 0.6 adds a live explorer suit lab, five adjustable science experiments, habitat field notes and more detailed mission control, architecture and suit artwork. Branding and presentation styles are centrally configured. Pixel-perfect likeness, photoreal character work and physical-device performance validation remain unfinished.
 
 ![Actual KŌMAKU habitat](docs/media/komaku-0.6.0-alpha.1-exterior.png)
 
@@ -16,22 +16,22 @@ A first-person Mars survival adventure for ages 7–12. Explore an outpost, insp
 
 Get the game from [GitHub Releases](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases). Release notes identify available downloads, exact source commit, and what was tested. Game installers belong in Releases; an empty GitHub Packages tab does not mean downloads are missing.
 
-The build pipeline creates macOS universal, Windows x64, Linux x64, and Web archives, with licenses and SHA-256 checksums. The Mac universal binary includes arm64 for Apple Silicon, including M5, and x86_64 for Intel. Early Mac and Windows builds are unsigned; the Mac build is not notarized. Physical Mac/Windows launches and device-specific performance remain to be verified. Native Android and iOS installers are not yet provided.
+The build pipeline creates macOS universal, Windows x64, Linux x64, and Web archives, with licenses and SHA-256 checksums. The Mac universal binary includes arm64 for Apple Silicon, including M5, and x86_64 for Intel. The 0.6.1 Mac app is ad-hoc signed for bundle integrity, without Apple Developer ID or notarization. Windows remains unsigned. This release passed native macOS and Windows CI launch checks; physical-device performance, audio and complete playthroughs remain separate tests. Native Android and iOS installers are not yet provided.
 
-**Current download: [v0.6.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.6.0-alpha.1).**
+**Current download: [v0.6.1-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.6.1-alpha.1).** The older 0.6.0 Mac archive has an invalid bundle signature; download this corrected hotfix once if your existing app cannot open.
 
 | Platform                               | Download                                                                                                                                                                           |
 | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MacBook M5 / Apple Silicon / Intel Mac | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.6.0-alpha.1/KOMAKU-Shield-Protocol-0.6.0-alpha.1-macOS-universal.zip) |
-| Windows x64                            | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.6.0-alpha.1/KOMAKU-Shield-Protocol-0.6.0-alpha.1-Windows-x64.zip)             |
-| Linux x64                              | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.6.0-alpha.1/KOMAKU-Shield-Protocol-0.6.0-alpha.1-Linux-x64.zip)                 |
-| WebGL2 browser                         | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.6.0-alpha.1/KOMAKU-Shield-Protocol-0.6.0-alpha.1-Web.zip)                         |
+| MacBook M5 / Apple Silicon / Intel Mac | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.6.1-alpha.1/KOMAKU-Shield-Protocol-0.6.1-alpha.1-macOS-universal.zip) |
+| Windows x64                            | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.6.1-alpha.1/KOMAKU-Shield-Protocol-0.6.1-alpha.1-Windows-x64.zip)             |
+| Linux x64                              | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.6.1-alpha.1/KOMAKU-Shield-Protocol-0.6.1-alpha.1-Linux-x64.zip)                 |
+| WebGL2 browser                         | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.6.1-alpha.1/KOMAKU-Shield-Protocol-0.6.1-alpha.1-Web.zip)                         |
 
-See [download instructions](docs/DOWNLOADS.md). No development tools are required to play the native app.
+See [download instructions](docs/DOWNLOADS.md). No development tools are required to play the native app. If macOS blocks the trusted download, the ZIP includes a one-time installer helper that asks for consent, verifies the app, preserves an existing copy, and removes quarantine only from the installed copy. It does not establish publisher identity or disable system-wide Gatekeeper. [Mac repair evidence](docs/MACOS-LAUNCH-REPAIR.md).
 
 ## In-game updates
 
-The **v0.6.0-alpha.1 desktop downloads include signed content updates**: notice → download → explicit restart, with verification and recovery. Installers from before 0.4 need one manual upgrade. Earlier Linux acceptance fetched the public 0.4 release and exercised automatic GUI relaunch. Separately, the actual published 0.4 installer passed the signed 0.6 mount/startup/recovery gate. Mac/Windows physical acceptance remains open. Engine/runtime changes require a full installer. [Behavior, evidence and limits](docs/UPDATES.md).
+The **0.6.1 desktop app checks for updates on every fresh launch**, once per process; a manual check is also available. Compatible signed content follows **Update available → Install → Restart**, with verification and recovery. Notices wait for safe menu/debrief points. There are no background notifications while the game is closed. An older Mac app that cannot start needs the corrected installer once; content cannot repair its native bundle. Installers from before 0.4 also need a manual upgrade. Engine/runtime changes require a full installer. [Behavior, evidence and limits](docs/UPDATES.md).
 
 Browser offline/update packaging and the GitHub Pages deployment workflow are available in the repository. Public hosting is deferred by owner choice after verification found an inherited custom-domain redirect to another site; use downloadable builds for now. An internal Android build route is documented; no production Android/iOS native download or mobile self-updater is published.
 
@@ -88,7 +88,7 @@ python3 scripts/test_updater.py
 With the official export templates installed:
 
 ```sh
-python3 scripts/build_game.py --version 0.6.0-alpha.1
+python3 scripts/build_game.py --version 0.6.1-alpha.1
 ```
 
 The Linux CI installer verifies the official SHA-512 manifest. The manual **Build downloadable game** workflow creates archives and a source-commit manifest. Publication is explicit and separate from building.
@@ -114,7 +114,7 @@ Start with the [team progress briefing](docs/TEAM-STATUS.md) and [versioned chan
 
 ## Privacy and scientific limits
 
-No accounts, ads, analytics, or remote gameplay APIs. The upcoming updater checks public GitHub releases at most daily automatically, or when requested; it sends no learner profile or mission record. A mission summary and academy practice profile are stored locally. Academy progress can be reset in the game. Source observations are bundled for offline use; publication summaries are not raw time-series datasets. Hardware loads, shielding factors, mission limits, and the compressed emergency timeline are illustrative. The companion uses transparent rules, not a trained ML model. NASA does not endorse the project.
+No accounts, ads, analytics, or remote gameplay APIs. The 0.6.1 updater checks public GitHub releases on each fresh launch, or when requested; it sends no learner profile or mission record. A mission summary and academy practice profile are stored locally. Academy progress can be reset in the game. Source observations are bundled for offline use; publication summaries are not raw time-series datasets. Hardware loads, shielding factors, mission limits, and the compressed emergency timeline are illustrative. The companion uses transparent rules, not a trained ML model. NASA does not endorse the project.
 
 For feedback, include the release version, device, OS, and steps to reproduce. Do not include personal information in public issues.
 

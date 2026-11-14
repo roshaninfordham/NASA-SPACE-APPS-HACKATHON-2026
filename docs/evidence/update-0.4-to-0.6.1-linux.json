@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "platform": "Linux x64, headless",
+  "baseline_kind": "actual previously published installer; ELF and embedded PCK unchanged",
+  "baseline_version": "0.4.0-alpha.1",
+  "baseline_source_commit": "48901d0bce68e72974b36377c3a060f90403ebe9",
+  "baseline_linux_zip_sha256": "1aa8ccdf01d33e90cf4ae7c3d29abbabeff6e41083852d763a5d18b5a6d5cb30",
+  "baseline_executable_sha256": "a5b8f8f2123e4a36052f95ffa2ea075e0b4263e95d2aa86828687f12f003b3b1",
+  "target_version": "0.6.1-alpha.1",
+  "source_commit": "587d6c9fc7a5cd504b1c1ea68707628572bbbe4e",
+  "pack_sha256": "713cacec3aefdd326c5b6ed44889f682e20e04ddd475d768702d4ff5c7bf756b",
+  "runtime_contract": "red-veil-desktop-v1",
+  "staging": "matching Godot editor executes original embedded store/verifier/key via --main-pack; no modified resources",
+  "checks": [
+    "all release hashes and ZIP integrity",
+    "independently pinned historical Linux installer archive",
+    "both signatures verified against original embedded installer public key",
+    "original embedded store stages exact signed candidate",
+    "actual old installer mounts candidate and acknowledges startup",
+    "actual old installer repeats healthy candidate start",
+    "same-size tampering recovers actual published baseline",
+    "original executable hash remains unchanged"
+  ],
+  "not_verified": [
+    "network transfer and update notification UI",
+    "OS.create_instance automatic restart",
+    "graphics/audio",
+    "Windows/macOS/mobile",
+    "full gameplay correctness or physical power-loss durability"
+  ]
+}

@@ -16,7 +16,7 @@ A player reported “damaged and can’t be opened” on an Apple M5 with macOS 
 
 [Candidate diagnosis 43648155992](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43648155992) showed that both executable-page and resource hashes matched, but the composed-Unicode bundle still failed resource verification. Native re-signing treated its decomposed executable path as an unsigned subcomponent; an otherwise equivalent copy with ASCII internal filenames signed and verified correctly. This isolated filename handling from damaged download bytes.
 
-The replacement uses decomposed Mac filenames and must pass its own strict native verification. Reports record the exact archive and manifest hashes, OS/architecture, headless and graphical startup. They do not certify Finder acceptance, physical M5 frame rates or complete playthroughs.
+The final replacement uses decomposed Mac filenames and passed its own [strict native verification and graphical/LaunchServices startup](evidence/native-launch-0.6.1-macos.json) in build `43648641582`, source `587d6c9fc7a5cd504b1c1ea68707628572bbbe4e`. Reports record the exact archive and manifest hashes, OS/architecture, headless and graphical startup. They do not certify Finder acceptance, physical M5 frame rates or complete playthroughs.
 
 ## What the fix can and cannot do
 

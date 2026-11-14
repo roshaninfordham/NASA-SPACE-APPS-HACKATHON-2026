@@ -1,0 +1,62 @@
+{
+  "system": "Darwin",
+  "os": "macOS-26.7.2-arm64-arm-64bit",
+  "machine": "arm64",
+  "commands": [
+    {
+      "label": "extract",
+      "exit_code": 0,
+      "elapsed_seconds": 0.408
+    },
+    {
+      "label": "signature-verify",
+      "exit_code": 0,
+      "elapsed_seconds": 0.408
+    },
+    {
+      "label": "signature-details",
+      "exit_code": 0,
+      "elapsed_seconds": 0.037
+    },
+    {
+      "label": "architectures",
+      "exit_code": 0,
+      "elapsed_seconds": 1.804
+    },
+    {
+      "label": "gatekeeper-assessment",
+      "exit_code": 3,
+      "elapsed_seconds": 1.37
+    },
+    {
+      "label": "headless-startup",
+      "exit_code": 0,
+      "elapsed_seconds": 2.614
+    },
+    {
+      "label": "graphical-startup",
+      "exit_code": 0,
+      "elapsed_seconds": 35.888
+    },
+    {
+      "label": "launchservices-startup",
+      "exit_code": 0,
+      "elapsed_seconds": 30.98
+    }
+  ],
+  "passed": true,
+  "scope": "Exact native release executable startup on CI; not Finder approval, physical-device playtesting, or updater acceptance.",
+  "audio": "Dummy driver: hosted runners have no audio device; real audio is not verified.",
+  "trust": "Ad-hoc Mac signature is integrity only; no Developer ID/notarization. Windows executable is unsigned.",
+  "version": "0.6.1-alpha.1",
+  "source_commit": "587d6c9fc7a5cd504b1c1ea68707628572bbbe4e",
+  "manifest_sha256": "1f03cb4a0b79b2a86c67e5e4da6209cedd07a2adc2bca2456c1fb66711590175",
+  "archive": "KOMAKU-Shield-Protocol-0.6.1-alpha.1-macOS-universal.zip",
+  "archive_sha256": "ee444fc6fc11ccef7d62a6d4f151ab5b051b3d42bd7a18f17258a69108364c7d",
+  "profile": "Fresh application-specific profile; deleted after check",
+  "gatekeeper": 3,
+  "headless-startup": true,
+  "graphical-startup": true,
+  "launchservices-startup": true,
+  "workflow_run": 43648641582
+}

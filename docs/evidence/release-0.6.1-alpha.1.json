@@ -1,0 +1,75 @@
+{
+  "version": "0.6.1-alpha.1",
+  "source_commit": "587d6c9fc7a5cd504b1c1ea68707628572bbbe4e",
+  "validation_run": 43648641917,
+  "build_run": 43648641582,
+  "native_update_run": 43649012782,
+  "publication_run": 43649215609,
+  "public_assets_match_accepted_build": true,
+  "manifest_sha256": "1f03cb4a0b79b2a86c67e5e4da6209cedd07a2adc2bca2456c1fb66711590175",
+  "mac_signing": "Valid ad-hoc universal bundle; decomposed Unicode filenames; no Developer ID or notarization",
+  "native_launch_evidence": [
+    "native-launch-0.6.1-macos.json",
+    "native-launch-0.6.1-windows.json"
+  ],
+  "content_update_evidence": [
+    "update-0.6-to-0.6.1-macos.json",
+    "update-0.6-to-0.6.1-windows.json",
+    "update-0.4-to-0.6.1-linux.json"
+  ],
+  "limits": [
+    "Hosted Mac26.7.2 arm64 and WindowsServer2025 AMD64; no physical Apple M5 testing",
+    "Silent audio in native CI; real audio not verified",
+    "Native content gates test headless local signed artifacts, not HTTP/UI/automatic relaunch",
+    "App is not Apple-notarized; one-time trusted local installation may be needed",
+    "Unsigned Windows publisher/reputation warnings remain possible",
+    "Engine/native-library updates require full installers; no native mobile release"
+  ],
+  "assets": [
+    {
+      "name": "KOMAKU-Shield-Protocol-0.6.1-alpha.1-Linux-x64.zip",
+      "bytes": 27637870,
+      "sha256": "6291fa57697353ddbecc4f1b3b8ae77bb530b28661e186ee7afc5ebacd2a9bd5"
+    },
+    {
+      "name": "KOMAKU-Shield-Protocol-0.6.1-alpha.1-Web.zip",
+      "bytes": 10038402,
+      "sha256": "5bb6c32308978a748c0b6e08e27764844bba5d0d9490800bd2705439b98c460c"
+    },
+    {
+      "name": "KOMAKU-Shield-Protocol-0.6.1-alpha.1-Windows-x64.zip",
+      "bytes": 36473999,
+      "sha256": "6bb0249dc616528821dc2ec2bad9901b3f643ec2783b22ca2644107ea0872761"
+    },
+    {
+      "name": "KOMAKU-Shield-Protocol-0.6.1-alpha.1-macOS-universal.zip",
+      "bytes": 63304332,
+      "sha256": "ee444fc6fc11ccef7d62a6d4f151ab5b051b3d42bd7a18f17258a69108364c7d"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 730,
+      "sha256": "9ff5340f5d7735f7807c69316dd22fffd796d41449051ed752325ea09104d676"
+    },
+    {
+      "name": "red-veil-content.pck",
+      "bytes": 435680,
+      "sha256": "713cacec3aefdd326c5b6ed44889f682e20e04ddd475d768702d4ff5c7bf756b"
+    },
+    {
+      "name": "release-manifest.json",
+      "bytes": 2212,
+      "sha256": "1f03cb4a0b79b2a86c67e5e4da6209cedd07a2adc2bca2456c1fb66711590175"
+    },
+    {
+      "name": "update-manifest.json",
+      "bytes": 354,
+      "sha256": "4620fe6ee9495da2f6be83362186e9bdcc1f375fb37eb6031ce5476597b11b3e"
+    },
+    {
+      "name": "update-manifest.sig",
+      "bytes": 384,
+      "sha256": "75caa3c3b2e70602ecad8329d731613852a9e616bdbbdfb2eaa3438fe901e491"
+    }
+  ]
+}

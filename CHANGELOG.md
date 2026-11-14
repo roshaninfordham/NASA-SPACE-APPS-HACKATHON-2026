@@ -4,7 +4,7 @@ All published game versions and notable unreleased work are recorded here. The v
 
 ## [0.6.1-alpha.1] — 2026-11-14
 
-Packaging and update-discovery repair. Gameplay and 0.6 artwork are unchanged.
+Packaging and update-discovery repair. Gameplay and 0.6 artwork are unchanged. Built from `587d6c9fc7a5cd504b1c1ea68707628572bbbe4e`, signed build `43648641582`. Native Mac/Windows launch gates and actual historical-installer content activation/recovery passed; [release evidence](docs/evidence/release-0.6.1-alpha.1.json) records exact files and scope.
 
 - Enable Godot's built-in ad-hoc Mac bundle signing, replacing the inherited engine-template signature that failed strict native verification in the public 0.6.0 download.
 - Derive Mac filenames using Apple-compatible decomposed Unicode from the shared brand configuration, preserving the displayed KŌMAKU name. Native gates rejected the initially composed resource seal.
