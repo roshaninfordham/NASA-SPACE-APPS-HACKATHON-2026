@@ -16,6 +16,15 @@ Get the game from [GitHub Releases](https://github.com/roshaninfordham/NASA-SPAC
 
 The build pipeline creates macOS universal, Windows x64, Linux x64, and Web archives, with licenses and SHA-256 checksums. The Mac universal binary includes arm64 for Apple Silicon, including M5, and x86_64 for Intel. Early Mac and Windows builds are unsigned; the Mac build is not notarized. Physical Mac/Windows launches and device-specific performance remain to be verified. Native Android and iOS installers are not yet provided.
 
+**Current download: [v0.2.0-alpha.2](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.2.0-alpha.2).**
+
+| Platform                               | Download                                                                                                                                                             |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| MacBook M5 / Apple Silicon / Intel Mac | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.2.0-alpha.2/Red-Veil-0.2.0-alpha.2-macOS-universal.zip) |
+| Windows x64                            | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.2.0-alpha.2/Red-Veil-0.2.0-alpha.2-Windows-x64.zip)             |
+| Linux x64                              | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.2.0-alpha.2/Red-Veil-0.2.0-alpha.2-Linux-x64.zip)                 |
+| WebGL2 browser                         | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.2.0-alpha.2/Red-Veil-0.2.0-alpha.2-Web.zip)                         |
+
 See [download instructions](docs/DOWNLOADS.md). No development tools are required to play the native app.
 
 ## Your first mission
