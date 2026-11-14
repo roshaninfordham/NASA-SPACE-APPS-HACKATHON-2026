@@ -37,6 +37,7 @@ A `hud_scene` on the main game node replaces the generated fallback interface. U
 - `Objective`, `Metrics`, `Radio`, `Prompt`, `Clock`: Label nodes
 - `Visor`: ColorRect overlay
 - `Begin`, `Guide`, `Sound`: Button nodes
+- Optional `Academy`: Button node opening the practice interface
 
 The orchestrator binds those names to existing state and actions. Keep instructions legible on a 720p landscape viewport. Controller focus, touch targets, safe areas, pause, and readable failure feedback must survive a redesign. Screen-reader support for the native canvas interface is not yet validated; do not infer it from the earlier web dashboard's accessibility checks.
 
@@ -53,3 +54,7 @@ Every contribution must include origin, creator, exact license, attribution requ
 ## Validation for a visual pivot
 
 Run `npm run game:test`, the gameplay integration script, and the art-contract test. Check the new asset in native and browser builds. Walk through every doorway and interaction, test the shelter boundary, and repeat a complete mission. Measure draw calls, frame times, and memory on the target Mac and a representative mobile device before calling a visual change performance-neutral.
+
+### Academy
+
+`academy.gd` is a separate presentation module using the same art profile and optional interface theme. Its scroll layout keeps long explanations reachable. Lesson content lives in `data/lessons.json`; learning estimates and persistence live in `learning.gd`. A visual redesign must preserve hints, explanation, keyboard focus, return to mission, save-error feedback, and confirmed local reset. Do not update knowledge estimates from animation or success effects.

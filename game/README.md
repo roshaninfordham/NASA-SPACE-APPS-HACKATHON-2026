@@ -41,6 +41,10 @@ Native tests cover numerical invariants, a complete successful interaction seque
 
 This is an early playable alpha, not final artwork or validated astronaut training. macOS and Windows exports have not yet been run on those operating systems. Apple signing/notarization, physical-device performance and input testing, scientific expert review, and age-appropriate playtesting remain outstanding. A transparent rules-based companion is used; no machine-learning model is claimed.
 
+## Field Academy
+
+The title menu and mission debrief open five short authored science lessons. `learning.gd` owns local practice estimates/review scheduling and a recoverable profile; `academy.gd` owns presentation; `data/lessons.json` owns the prompts. Hints and same-day repetition do not award independent evidence. The academy includes a confirmed reset. See [learning design](../docs/LEARNING-DESIGN.md) for research, parameters, and limits. This is a provisional tutor and presentation, not measured educational efficacy.
+
 ---
 
 made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC

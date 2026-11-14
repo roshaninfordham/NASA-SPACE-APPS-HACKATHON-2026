@@ -40,6 +40,10 @@ Mira, your crewmate, needs you at the solar array. A dust storm will dim the sky
 
 Keyboard: **WASD** move, **mouse** look, **E** use/hold to inspect, **Q** visor, **Space** hop, **Escape** pause, **F1** guide. Controller and landscape touch controls are included; further device testing is required.
 
+## Learning work on main
+
+Mira's Field Academy adds five short science lessons, ten questions, hints and explanations, and a local review plan. It is accessible from the title menu and mission debrief. The existing alpha.2 download predates this work. The tutor uses provisional Bayesian estimates, not a trained AI model; [learning design](docs/LEARNING-DESIGN.md) documents the research and limits. The [request tracker](docs/REQUEST-TRACKER.md) distinguishes delivered features from open requirements.
+
 ## Design direction
 
 Sci-fi wonder, unusual forms, tactile discovery, and a world young explorers want to revisit. Scientific behavior stays explicit while the art evolves. Normally invisible phenomena may appear through labeled instrument visualizations; spectacular presentation must not imply false physics.
@@ -63,12 +67,14 @@ godot --headless --path game --editor --import
 godot --headless --path game --script res://tests/mission_test.gd
 godot --headless --path game --script res://tests/gameplay_test.gd
 godot --headless --path game --script res://tests/art_contract_test.gd
+godot --headless --path game --script res://tests/learning_test.gd
+python3 scripts/test_updater.py
 ```
 
 With the official export templates installed:
 
 ```sh
-python3 scripts/build_game.py --version 0.2.0-alpha.2
+python3 scripts/build_game.py --version 0.3.0-alpha.1
 ```
 
 The Linux CI installer verifies the official SHA-512 manifest. The manual **Build downloadable game** workflow creates archives and a source-commit manifest. Publication is explicit and separate from building.
@@ -94,7 +100,7 @@ Start with the [team progress briefing](docs/TEAM-STATUS.md) and [versioned chan
 
 ## Privacy and scientific limits
 
-No accounts, ads, analytics, or remote game APIs. A mission summary is stored locally. Source observations are bundled for offline use; publication summaries are not raw time-series datasets. Hardware loads, shielding factors, mission limits, and the compressed emergency timeline are illustrative. The companion uses transparent rules, not a trained ML model. NASA does not endorse the project.
+No accounts, ads, analytics, or remote game APIs. A mission summary and academy practice profile are stored locally. Academy progress can be reset in the game. Source observations are bundled for offline use; publication summaries are not raw time-series datasets. Hardware loads, shielding factors, mission limits, and the compressed emergency timeline are illustrative. The companion uses transparent rules, not a trained ML model. NASA does not endorse the project.
 
 For feedback, include the release version, device, OS, and steps to reproduce. Do not include personal information in public issues.
 

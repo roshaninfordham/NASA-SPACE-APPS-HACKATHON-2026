@@ -11,6 +11,21 @@ func run() -> void:
 	var game = load("res://main.tscn").instantiate()
 	root.add_child(game)
 	await process_frame
+	var bindings := InputMap.action_get_events("interact").size()
+	game.setup_inputs()
+	check(InputMap.action_get_events("interact").size() == bindings, "Reopening a mission does not duplicate input bindings")
+	# Keep automated learner activity out of a real local player's profile.
+	game.learning = load("res://scripts/learning.gd").new("user://academy-ui-test-%d.json" % OS.get_process_id())
+	game.learning.reset()
+	game.show_academy()
+	await process_frame
+	check(is_instance_valid(game.academy), "Academy opens from the title screen")
+	game.academy.start_lesson(0)
+	game.academy.show_hint()
+	game.academy.submit(1)
+	check(game.learning.skills.energy.attempts == 0, "Academy hint use does not claim independent learning evidence")
+	game.academy.close()
+	await process_frame
 	game.begin()
 	check(game.player.enabled, "Mission launch enables first-person controls")
 	check(game.metrics.get_parent().global_position.x > 900, "Power and suit HUD is inside the viewport")
@@ -39,6 +54,15 @@ func run() -> void:
 	for i in range(1100): game._process(0.25)
 	check(game.mission.status == "success", "Playable interactions can complete the mission safely")
 	check(game.ended and game.finish_panel.visible, "Completed mission presents a debrief")
+	game.show_academy()
+	await process_frame
+	game.academy.start_lesson(0)
+	game.academy.submit(1)
+	check(game.learning.skills.energy.attempts == 1, "Debrief leads to an independent practice answer")
+	game.academy.close()
+	await process_frame
+	check(not game.player.enabled, "Closing academy after debrief does not restart a finished mission")
+	game.learning.reset()
 	await create_timer(0.5).timeout
 	game.action_audio.stop()
 	game.player.footsteps.stop()

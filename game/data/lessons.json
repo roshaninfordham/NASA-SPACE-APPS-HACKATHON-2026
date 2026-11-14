@@ -1,0 +1,157 @@
+[
+  {
+    "id": "energy",
+    "title": "Two batteries, two jobs",
+    "mission_tip": "At the power kiosk, pause extra experiments. Outside, check your separate suit battery before cleaning your visor.",
+    "questions": [
+      {
+        "question": "Your habitat has plenty of energy, but your suit battery is low. What should you do?",
+        "options": [
+          "Keep exploring; the habitat battery powers the suit",
+          "Return to the refuge while the suit still has power",
+          "Clean the visor for as long as possible",
+          "Turn off your suit life support"
+        ],
+        "answer": 1,
+        "hint": "Think of two separate lunch boxes. Food in one does not refill the other.",
+        "explanation": "Return to the refuge. The suit and habitat have separate energy stores. In this mission, suit life support and visor cleaning both use the suit battery. Life support stays on automatically."
+      },
+      {
+        "question": "A machine uses 2 kilowatts for half an hour. How much energy does it use?",
+        "options": [
+          "4 kilowatt-hours",
+          "2 kilowatt-hours",
+          "1 kilowatt-hour",
+          "No energy until a full hour passes"
+        ],
+        "answer": 2,
+        "hint": "Energy = power × time. Half an hour is 0.5 hours.",
+        "explanation": "2 kW × 0.5 h = 1 kWh. Power tells us how fast energy is used. Energy is the total used over time. This same relationship drives the game's habitat battery."
+      }
+    ]
+  },
+  {
+    "id": "dust",
+    "title": "Dust on glass, dust in the sky",
+    "mission_tip": "Look at both the sky and the panels. Turning on panel cleaning removes deposited dust, but it also uses habitat energy.",
+    "questions": [
+      {
+        "question": "You clean every grain of dust off the solar panels, but the sky is still dark with dust. What happens?",
+        "options": [
+          "The panels instantly produce full power",
+          "The cleaner removes the whole dust storm",
+          "Radiation disappears",
+          "Less sunlight still reaches the panels"
+        ],
+        "answer": 3,
+        "hint": "Wiping a window does not remove the clouds outside it.",
+        "explanation": "Less sunlight still reaches the panels. Dust deposited on a panel and dust suspended in the atmosphere are different obstacles. Surface cleaning cannot clear the sky."
+      },
+      {
+        "question": "The sky has brightened after the storm. A thick dust layer still covers the panels. Which action can help sunlight reach their surface?",
+        "options": [
+          "Clean the panels, while checking the energy cost",
+          "Clean only your helmet visor",
+          "Switch off the Sun",
+          "Wait for the habitat battery to create sunlight"
+        ],
+        "answer": 0,
+        "hint": "Which surface is collecting the sunlight?",
+        "explanation": "Cleaning the panels can help now that more sunlight is available. The cleaner costs energy, so compare its cost with the extra energy you expect to collect. Visor cleaning changes your view, not the panels."
+      }
+    ]
+  },
+  {
+    "id": "shelter",
+    "title": "A refuge with no power switch",
+    "mission_tip": "Follow the particle warning and walk into the refuge before the event. Its installed shielding lowers modeled exposure without drawing electrical power.",
+    "questions": [
+      {
+        "question": "A particle warning arrives. Which action reduces your modeled radiation exposure?",
+        "options": [
+          "Polish the solar panels",
+          "Walk into the shielded refuge",
+          "Make your visor brighter",
+          "Start more experiments"
+        ],
+        "answer": 1,
+        "hint": "Radiation protection comes from shielding material, not a clearer view.",
+        "explanation": "Enter the shielded refuge. In this model its material lowers exposure without a power switch. Cleaning dust does not remove energetic particles. Real shielding performance depends on material, geometry, and radiation type."
+      },
+      {
+        "question": "The refuge lights go out. Does its installed shielding material vanish?",
+        "options": [
+          "Yes, all shielding needs electricity",
+          "Yes, unless you clean your visor",
+          "No; the passive material remains",
+          "No, so the dose must be exactly zero"
+        ],
+        "answer": 2,
+        "hint": "Think about a thick wall when a lamp is switched off.",
+        "explanation": "The passive material remains. In Red Veil, the refuge lowers the exposure rate but does not make it zero. Real habitats still need power for essential systems; shielding is only one part of safety."
+      }
+    ]
+  },
+  {
+    "id": "reserve",
+    "title": "Save enough for the return",
+    "mission_tip": "Use the power kiosk early to pause nonessential experiments. The habitat's essential load continues, and recovery needs an energy reserve.",
+    "questions": [
+      {
+        "question": "A battery has 3 kWh left. Equipment draws 1 kW, with no incoming power. How long until that energy is used?",
+        "options": [
+          "3 hours in this simplified example",
+          "30 hours",
+          "1 minute",
+          "It lasts forever if the lights are dim"
+        ],
+        "answer": 0,
+        "hint": "Time = stored energy ÷ power. Divide 3 kWh by 1 kW.",
+        "explanation": "3 kWh ÷ 1 kW = 3 hours. This example assumes a constant load and no new energy or losses. Our teaching model uses energy accounting; real batteries have additional limits."
+      },
+      {
+        "question": "The sky is getting darker and incoming solar power is falling. What helps preserve energy for recovery?",
+        "options": [
+          "Start every experiment",
+          "Keep every cleaner on regardless of sunlight",
+          "Turn off essential life support",
+          "Pause extra experiments while keeping essentials running"
+        ],
+        "answer": 3,
+        "hint": "Some jobs can wait. Keeping the crew safe cannot.",
+        "explanation": "Pause extra experiments. The game's conservation switch reduces nonessential demand while essential habitat power continues. Saving early can leave more energy for recovery later."
+      }
+    ]
+  },
+  {
+    "id": "planning",
+    "title": "Think like a mission scientist",
+    "mission_tip": "At the debrief, compare your decisions with the fixed strategy. Try a new plan in the same weather and explain why the result changed.",
+    "questions": [
+      {
+        "question": "You want to find out whether switching off panel cleaning during the darkest period saves energy. What is a fair comparison?",
+        "options": [
+          "Change the storm, battery, and all switches at once",
+          "Compare two similar runs, changing only that cleaning decision",
+          "Compare a real astronaut with your game score",
+          "Choose whichever result looks more exciting"
+        ],
+        "answer": 1,
+        "hint": "Change one thing so you can explain what caused the difference.",
+        "explanation": "Compare similar runs while changing that decision. Keeping other conditions the same helps identify its effect. The debrief's fixed strategy differs in several choices, so it is a comparison, not proof that one action caused every difference."
+      },
+      {
+        "question": "One plan worked in our four-minute Mars mission. What can we conclude?",
+        "options": [
+          "It will work for every real Mars mission",
+          "The fictional safety limit is NASA's operational limit",
+          "It worked under this model's assumptions; test other conditions too",
+          "No more science is needed"
+        ],
+        "answer": 2,
+        "hint": "A model is a useful map, but it does not contain every detail of the real world.",
+        "explanation": "It worked under these assumptions. Red Veil uses a compressed clock and illustrative hardware, weather, and limits. Test other conditions, examine the sources, and ask experts before making real engineering claims."
+      }
+    ]
+  }
+]

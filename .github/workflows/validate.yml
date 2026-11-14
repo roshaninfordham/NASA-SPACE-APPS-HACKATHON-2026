@@ -32,6 +32,7 @@ jobs:
       - run: echo "$HOME/.cache/red-veil/godot/4.6.3/bin" >> "$GITHUB_PATH"
       - run: godot --headless --path game --editor --import
       - run: godot --headless --path game --script res://tests/mission_test.gd
+      - run: godot --headless --path game --script res://tests/learning_test.gd
       - run: godot --headless --path game --script res://tests/gameplay_test.gd
       - run: godot --headless --path game --script res://tests/art_contract_test.gd
       - run: python scripts/test_updater.py

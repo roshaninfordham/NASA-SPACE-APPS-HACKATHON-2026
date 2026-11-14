@@ -14,7 +14,7 @@
     "format:check": "prettier --check .",
     "game:import": "godot --headless --path game --editor --import",
     "game:run": "godot --path game",
-    "game:test": "godot --headless --path game --script res://tests/mission_test.gd && godot --headless --path game --script res://tests/gameplay_test.gd && godot --headless --path game --script res://tests/art_contract_test.gd",
+    "game:test": "godot --headless --path game --script res://tests/mission_test.gd && godot --headless --path game --script res://tests/gameplay_test.gd && godot --headless --path game --script res://tests/art_contract_test.gd && godot --headless --path game --script res://tests/learning_test.gd && python3 scripts/test_updater.py",
     "game:build": "python3 scripts/build_game.py"
   },
   "dependencies": {

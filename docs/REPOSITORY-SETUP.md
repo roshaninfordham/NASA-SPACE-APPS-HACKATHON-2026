@@ -21,3 +21,14 @@ GitHub computes Languages and Contributors from repository history and may updat
 The build script produces local archives without publishing. The manual workflow can upload and publish an explicitly selected existing draft release. It refuses to modify an already published release. Direct workstation uploads were rejected by GitHub's upload endpoint; repository-scoped Actions successfully performs the upload with its built-in token.
 
 Unsigned alpha builds and verified checks must remain clearly distinguished from signed releases, real-device validation, and final art. A new code or packaging revision should get a new release rather than silently replacing a published artifact.
+
+## Managed terminal authentication limitation
+
+On November 14, 2026, the owner completed a personal device login. A corrected `env -u GH_TOKEN -u GITHUB_TOKEN gh repo edit ...` still returned HTTP 403, "Resource not accessible by integration", despite the stored credential being a user OAuth token and the account having admin access. Do not repeatedly ask the owner to sign in. Use the About gear in the owner's browser, or run the following on the owner's own laptop terminal, outside the managed cloud environment:
+
+```sh
+gh auth login --hostname github.com --web
+gh repo edit roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026 --description "Red Veil — a first-person Mars learning adventure for ages 7–12. Explore, protect your crew, and discover space science." --homepage "https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases" --add-topic "godot,mars,educational-game,space-apps,first-person,stem-education,offline-game"
+```
+
+Each command is a single line. Do not paste shell prompts, HTML escapes, or backslashes before options. If the managed terminal cannot open the device-login URL, it can be opened manually in a browser; a later "Authentication complete" means that step succeeded. Plain-text credential storage means the cloud machine has no supported credential keyring; personal credentials should not be shared in chat or committed. The repository build and release workflows continue using their scoped Actions token.

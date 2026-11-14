@@ -8,7 +8,13 @@ We have a downloadable first-person mechanics prototype of Red Veil. A young pla
 
 Alpha.2 changed the bundled engine notices, not the gameplay. Its exact source is recorded in the release manifest.
 
-## What exists today
+## Next build: 0.3.0-alpha.1
+
+The next build adds Mira's Field Academy: five short science lessons and ten authored questions, optional hints, explanations, a local practice profile, and scheduled review suggestions. Mission outcomes recommend relevant support. A hand-parameterized Bayesian estimate guides practice; it is not trained AI or validated mastery. This is still one 3D mission, not five new 3D levels.
+
+Signed-update verification now has 24 checks, but discovery, installation, rollback, and a production trust root are not complete. The updater is not enabled. Read the [learning design](LEARNING-DESIGN.md) and [request tracker](REQUEST-TRACKER.md) for evidence and open work. Once published, the release manifest will identify the exact source.
+
+## What exists in the published alpha.2
 
 | Area              | Current state                                                                                                   |
 | ----------------- | --------------------------------------------------------------------------------------------------------------- |

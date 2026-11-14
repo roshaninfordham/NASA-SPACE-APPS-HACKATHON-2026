@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -10,7 +11,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "releases"
-DOCS = ["CREDITS.md", "docs/DOWNLOADS.md", "docs/SCIENCE.md"]
+DOCS = ["CREDITS.md", "CHANGELOG.md", "docs/DOWNLOADS.md", "docs/SCIENCE.md", "docs/LEARNING-DESIGN.md", "docs/TEAM-STATUS.md"]
 
 
 def run(*args):
@@ -30,15 +31,19 @@ def documents(archive):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--version", default="0.2.0-alpha.1")
+    parser.add_argument("--version", default="0.3.0-alpha.1")
     options = parser.parse_args()
-    if any(c not in "0123456789abcdefghijklmnopqrstuvwxyz.-" for c in options.version):
+    if not re.fullmatch(r"(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(?:-alpha\.(0|[1-9][0-9]*))?", options.version):
         raise SystemExit("Invalid release version")
+    configured = re.search(r'^config/version="([^"]+)"$', (ROOT / "game/project.godot").read_text(), re.MULTILINE)
+    if not configured or configured[1] != options.version:
+        raise SystemExit("Release version must match game/project.godot application/config/version")
     for folder in ["web", "linux", "windows"]:
         (OUT / folder).mkdir(parents=True, exist_ok=True)
     run("godot", "--headless", "--path", "game", "--editor", "--import")
-    for test in ["mission_test", "gameplay_test", "art_contract_test"]:
+    for test in ["mission_test", "learning_test", "gameplay_test", "art_contract_test"]:
         run("godot", "--headless", "--path", "game", "--script", f"res://tests/{test}.gd")
+    run("python3", "scripts/test_updater.py")
     for platform in ["Web", "macOS", "Linux", "Windows"]:
         run("godot", "--headless", "--path", "game", "--export-release", platform)
     linux = OUT / "linux/Red-Veil.x86_64"
@@ -59,7 +64,7 @@ def main():
                     archive.write(file, str(file.relative_to(OUT / folder)))
             documents(archive)
         assets.append(output)
-    manifest = {"version": options.version, "commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(), "engine": "Godot 4.6.3", "status": "early alpha", "signing": "macOS and Windows unsigned; macOS not notarized", "verified": ["headless numerical tests", "headless complete mission interactions", "art replacement contract", "exported Linux headless startup"], "not_verified": ["physical macOS and Windows launch", "M5 performance", "mobile devices", "child playtesting", "expert scientific review"], "assets": []}
+    manifest = {"version": options.version, "commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(), "engine": "Godot 4.6.3", "status": "early alpha", "signing": "macOS and Windows unsigned; macOS not notarized", "verified": ["headless numerical tests", "headless complete mission interactions", "art replacement contract", "local learning and profile recovery", "signed manifest rejection checks", "exported Linux headless startup"], "not_verified": ["physical macOS and Windows launch", "M5 performance", "mobile devices", "child playtesting", "expert scientific review"], "assets": []}
     for asset in assets:
         with asset.open("rb") as source:
             digest = hashlib.file_digest(source, "sha256").hexdigest()

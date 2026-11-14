@@ -2,6 +2,10 @@ extends Node3D
 const Player = preload("res://scripts/player.gd")
 const World = preload("res://scripts/world.gd")
 const Mission = preload("res://scripts/mission.gd")
+const Learning = preload("res://scripts/learning.gd")
+const Academy = preload("res://scripts/academy.gd")
+var learning: VeilLearning
+var academy: VeilAcademy
 @export var art: VeilArtProfile = preload("res://art/default_art.tres")
 @export var interface_theme: Theme
 @export var hud_scene: PackedScene
@@ -34,6 +38,8 @@ var mission_events: Array[Dictionary] = []
 func _ready() -> void:
 	Engine.max_fps = art.maximum_fps
 	setup_inputs()
+	learning = Learning.new()
+	sound_on = not AudioServer.is_bus_mute(0)
 	mission = Mission.new()
 	world = World.new()
 	world.art = art
@@ -60,16 +66,16 @@ func setup_inputs() -> void:
 		if not InputMap.has_action(action): InputMap.add_action(action)
 		var key := InputEventKey.new()
 		key.physical_keycode = keys[action]
-		InputMap.action_add_event(action, key)
+		if not InputMap.action_has_event(action, key): InputMap.action_add_event(action, key)
 	for mapping in [["forward", JOY_AXIS_LEFT_Y, -1.0], ["back", JOY_AXIS_LEFT_Y, 1.0], ["left", JOY_AXIS_LEFT_X, -1.0], ["right", JOY_AXIS_LEFT_X, 1.0]]:
 		var axis := InputEventJoypadMotion.new()
 		axis.axis = mapping[1]
 		axis.axis_value = mapping[2]
-		InputMap.action_add_event(mapping[0], axis)
+		if not InputMap.action_has_event(mapping[0], axis): InputMap.action_add_event(mapping[0], axis)
 	for mapping in [["jump", JOY_BUTTON_A], ["interact", JOY_BUTTON_X], ["visor", JOY_BUTTON_Y], ["pause", JOY_BUTTON_START]]:
 		var button := InputEventJoypadButton.new()
 		button.button_index = mapping[1]
-		InputMap.action_add_event(mapping[0], button)
+		if not InputMap.action_has_event(mapping[0], button): InputMap.action_add_event(mapping[0], button)
 
 func text(parent: Control, value: String, pos: Vector2, size: int = 20, color: Color = Color("eee4ce"), width: float = 500) -> Label:
 	var label := Label.new()
@@ -172,9 +178,10 @@ func create_interface() -> void:
 	text(menu, "Your crewmate Mira needs you at the solar array.\nExplore the outpost, protect your suit, and keep\nenough energy to bring everyone home.", Vector2(74, 375), 20)
 	button(menu, "BEGIN YOUR MISSION", Vector2(72, 490), 330, begin)
 	button(menu, "FIELD GUIDE", Vector2(420, 490), 190, show_guide)
-	button(menu, "SOUND: ON", Vector2(72, 555), 200, toggle_sound)
+	button(menu, "SOUND: ON" if sound_on else "SOUND: OFF", Vector2(72, 555), 200, toggle_sound)
+	button(menu, "MIRA’S FIELD ACADEMY", Vector2(290, 555), 320, show_academy)
 	text(menu, "4 MINUTES  /  AGES 7–12  /  KEYBOARD · CONTROLLER · TOUCH", Vector2(74, 635), 13, Color("d4cab7"))
-	text(menu, "Educational prototype • Fictional mission limits • No accounts or tracking", Vector2(74, 665), 12, Color("c4bdad"))
+	text(menu, "Educational prototype • Fictional limits • Local practice only • No accounts", Vector2(74, 665), 12, Color("c4bdad"))
 	hud.hide()
 	create_touch_controls(root)
 
@@ -197,6 +204,23 @@ func create_touch_controls(root: Control) -> void:
 	var pause_button := button(touch_controls, "Ⅱ", Vector2(-75, 160), 50, toggle_pause)
 	pause_button.set_anchors_preset(Control.PRESET_TOP_RIGHT, true)
 	touch_controls.visible = false
+
+func show_academy() -> void:
+	if is_instance_valid(academy): return
+	var should_resume := running and not ended and not paused
+	paused = true
+	player.enabled = false
+	touch_controls.hide()
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	academy = Academy.new()
+	academy.learning = learning
+	academy.art = art
+	academy.interface_theme = interface_theme
+	if ended: academy.suggested_index = learning.mission_recommendation(mission.status)
+	academy.closed.connect(func():
+		if should_resume: resume()
+	)
+	add_child(academy)
 
 func begin() -> void:
 	if ended: get_tree().reload_current_scene(); return
@@ -222,7 +246,7 @@ func say(message: String) -> void:
 	mission_events.append({"hours": mission.time, "message": message})
 
 func toggle_pause() -> void:
-	if not running or ended: return
+	if not running or ended or is_instance_valid(academy): return
 	paused = not paused
 	player.enabled = not paused
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if paused else Input.MOUSE_MODE_CAPTURED
@@ -234,6 +258,7 @@ func resume() -> void:
 	if is_instance_valid(finish_panel): finish_panel.queue_free()
 	paused = false
 	player.enabled = true
+	touch_controls.visible = DisplayServer.is_touchscreen_available()
 	if not DisplayServer.is_touchscreen_available(): Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func show_modal(title: String, body: String, action: String, callback: Callable) -> void:
@@ -253,6 +278,7 @@ func show_modal(title: String, body: String, action: String, callback: Callable)
 	button(finish_panel, action, Vector2(35, 397), 290, callback)
 
 func show_guide() -> void:
+	if is_instance_valid(academy): return
 	var was_running := running
 	paused = true
 	player.enabled = false
@@ -352,7 +378,8 @@ func finish() -> void:
 	if mission.status == "partial": reason = "You reached the end, but the outpost needs more energy to recover."
 	var body := "%s\n\nBattery left: %.1f kWh   •   Crew dose: %.2f mSv\nInspection: %d%%   •   Time survived: %.1f hours\n\nWHAT IF EVERYTHING STAYED ON?\nA fixed sheltered, cleaning-on, normal-power strategy\nended after %.1f hours: %s. Same weather, no inspection.\n\nWhat did you change when the sky became dark?" % [reason, mission.energy, mission.dose, int(mission.inspection * 100), mission.time, baseline.time_hours, baseline.status]
 	show_modal(title, body, "TRY ANOTHER PLAN", func(): get_tree().reload_current_scene())
-	var report := {"version": "0.2.0-alpha", "model": "red-veil-first-person", "result": mission.summary(), "baseline": baseline, "events": mission_events}
+	button(finish_panel, "PRACTISE WITH MIRA", Vector2(345, 397), 375, show_academy)
+	var report := {"version": ProjectSettings.get_setting("application/config/version", "development"), "model": "red-veil-first-person", "result": mission.summary(), "baseline": baseline, "events": mission_events}
 	var file := FileAccess.open("user://last-mission.json", FileAccess.WRITE)
 	if file: file.store_string(JSON.stringify(report, "  "))
 
@@ -381,6 +408,9 @@ func bind_custom_interface(canvas: CanvasLayer) -> void:
 	root.get_node("%Begin").pressed.connect(begin)
 	root.get_node("%Guide").pressed.connect(show_guide)
 	root.get_node("%Sound").pressed.connect(toggle_sound)
+	root.get_node("%Sound").text = "SOUND: ON" if sound_on else "SOUND: OFF"
+	var academy_button := root.get_node_or_null("%Academy")
+	if academy_button: academy_button.pressed.connect(show_academy)
 	hud.hide()
 	menu.show()
 	create_touch_controls(root)
