@@ -46,7 +46,7 @@ func freeze_check(game, label: String) -> void:
 	check(not game.player.enabled and not game.touch_controls.visible, label + " blocks walking and touch controls")
 func _initialize() -> void: call_deferred("run")
 func run() -> void:
-	for viewport_size in [Vector2i(1280,720), Vector2i(390,844), Vector2i(844,390)]:
+	for viewport_size in [Vector2i(1280,720), Vector2i(960,540), Vector2i(390,844), Vector2i(844,390)]:
 		root.size = viewport_size
 		var game = load("res://main.tscn").instantiate()
 		root.add_child(game)
@@ -54,6 +54,7 @@ func run() -> void:
 		await frames(12)
 		var label := str(viewport_size)
 		var hud_root: Control = game.menu.get_parent()
+		check(hud_root._hero.get_global_rect().end.y <= hud_root._menu_scroll.get_global_rect().position.y + 0.5, "Title wordmark and subtitle clear the menu " + label)
 		var suit_button: Button = hud_root.get_node("%SuitLab")
 		await reachable(suit_button, "Suit entry " + label)
 		await activate(suit_button)

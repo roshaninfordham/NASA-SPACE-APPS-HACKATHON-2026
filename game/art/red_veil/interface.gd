@@ -66,6 +66,7 @@ func _ready() -> void:
 	_menu.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_menu.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_build_menu()
+	_hero.minimum_size_changed.connect(_schedule_layout)
 	_menu.visibility_changed.connect(queue_redraw)
 	_built = true
 	resized.connect(_schedule_layout)
@@ -275,7 +276,7 @@ func _apply_layout() -> void:
 		for side in ["left", "top", "right", "bottom"]: style.set("content_margin_" + side, 15.0 * ui_scale)
 	var hero_width := bounds.x - margin * 2 if portrait else minf(550.0 * ui_scale, bounds.x - margin * 2)
 	_title.add_theme_font_size_override("font_size", roundi((42.0 if compact else 64.0) * ui_scale))
-	var hero_height := (80.0 if compact else 120.0) * ui_scale
+	var hero_height := maxf((80.0 if compact else 120.0) * ui_scale, _hero.get_combined_minimum_size().y)
 	_rect(_hero, Vector2(margin, margin), Vector2(hero_width, hero_height))
 	var card_width := bounds.x - margin * 2 if portrait else minf(420.0 * ui_scale, bounds.x - margin * 2)
 	var footer_height := 26.0 * ui_scale
