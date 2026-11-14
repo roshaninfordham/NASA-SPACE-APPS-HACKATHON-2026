@@ -1,0 +1,28 @@
+name: Game problem
+description: Report a reproducible problem in a Red Veil release
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: "Please do not include names, contact information, or information about children in a public report."
+  - type: input
+    id: release
+    attributes:
+      label: Release version
+      placeholder: 0.2.0-alpha.2
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device and operating system
+      placeholder: MacBook M5, macOS version, mouse or controller
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: What did you do, and what happened?
+      description: Include reproducible steps, expected behavior, and actual behavior.
+    validations:
+      required: true

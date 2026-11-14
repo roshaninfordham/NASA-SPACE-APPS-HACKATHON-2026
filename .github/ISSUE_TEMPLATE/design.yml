@@ -1,0 +1,29 @@
+name: Design iteration
+description: Propose a replaceable art, interface, animation, or sound update
+title: "[Design] "
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Intended player experience
+      description: Describe the feeling or learning moment this change should improve.
+    validations:
+      required: true
+  - type: dropdown
+    id: slot
+    attributes:
+      label: Component
+      options:
+        - Landscape
+        - Habitat or refuge
+        - Solar array
+        - Companion
+        - Scanner or hands
+        - HUD or typography
+        - Audio or animation
+        - Cross-component interaction
+  - type: textarea
+    id: contract
+    attributes:
+      label: Assets, constraints, and validation
+      description: Include asset license/provenance, affected anchors, any collision or gameplay change, and the devices to check.
