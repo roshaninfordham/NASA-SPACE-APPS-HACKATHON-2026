@@ -1,5 +1,5 @@
 {
-  "status": "current_source_candidate",
+  "status": "released_source_capture",
   "build": "0.7.0-alpha.1 source candidate",
   "mode": "Indoor operator rescue; default forward window view contains dunes and Mira.",
   "scope": "Actual rendered working-tree game; not proof of a published release archive, physical-device performance or child playtesting.",
@@ -57,5 +57,11 @@
     "0.7-mission.png": "a9fdaf4ba0e0813c550e9ec063e2dd6001b03fcafbb84795c04f66b08bfd74eb",
     "0.7-controls.png": "609dd8d58289a6d2eb4c272b7a9c0de36e9f0a7d2cc2120805f441637d6532bf",
     "0.7-rescue-arrival.png": "1dc6307b52f7eae135b3397f45009c1d22a13a2da4e4b879c449ecac4433aaf2"
+  },
+  "release_association": {
+    "source_commit": "8968859e8ffdcda7b8c0c216ff0262df633400e6",
+    "tag": "v0.7.0-alpha.1",
+    "manifest_sha256": "1da540b47c4f5606aed074417470ebe9c508ab0e03903d12d10f63dfa3d49abf",
+    "verification": "All recorded runtime source and image hashes match; captures remain source-project renders, not exported-installer captures."
   }
 }

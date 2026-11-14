@@ -2,6 +2,8 @@
 
 AEGIS lets the player compare a few choices before acting. It answers a narrow question: **“What would happen over the next simulated hour if I kept these settings?”** It runs locally using the same equations as the mission. It is deterministic decision support, not a trained AI model, live NASA forecast or proof of a safe real mission.
 
+In the default indoor mission, the suit and dose readings belong to **Mira**. The preview holds her current protection state fixed and does not simulate her return, airlock cycle or indoor entry. Her real journey pauses while the planner is open. In the optional outdoor EVA mission, these readings instead belong to the first-person explorer. This distinction is also shown inside the planner.
+
 ## What a young explorer can try
 
 During a mission, press **P**, or pause and choose **Compare Mission Plans**. Opening the planner pauses the mission. Compare four cards: normal work or power saving, each with panel cleaning on or off. Look at the battery, dust and work estimates. Choose a plan explicitly, or close the planner and keep the current settings. Opening the preview does not change the mission.

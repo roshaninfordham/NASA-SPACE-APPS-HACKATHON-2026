@@ -1,6 +1,6 @@
 # <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> design-team handoff
 
-**Reviewed November 14, 2026 for the 0.7 source candidate.** The latest user direction is an indoor, first-person operator looking through a clear panoramic window at dunes and Mira outside. The earlier ornate 0.6 specifications and the intermediate two-console redesign are historical/alternate presentation inputs. They do not override the new uncluttered forward view. [Team status](TEAM-STATUS.md) records publication evidence; [visual direction](VISUAL-DIRECTION.md) and the [implementation ledger](SPEC-IMPLEMENTATION.md) describe current source behavior and limits.
+**Reviewed November 14, 2026 for published [0.7.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.7.0-alpha.1).** The latest user direction is an indoor, first-person operator looking through a clear panoramic window at dunes and Mira outside. The earlier ornate 0.6 specifications and the intermediate two-console redesign are historical/alternate presentation inputs. They do not override the new uncluttered forward view. Exact source `8968859e8ffdcda7b8c0c216ff0262df633400e6` is recorded in the [release evidence](evidence/release-0.7.0-alpha.1.json); [team status](TEAM-STATUS.md) records platform acceptance; [visual direction](VISUAL-DIRECTION.md) and the [implementation ledger](SPEC-IMPLEMENTATION.md) describe current source behavior and limits.
 
 ## Creative direction and first minute
 
@@ -80,6 +80,8 @@ Every asset needs origin, creator, exact license, attribution requirements and m
 `suit_lab.gd` owns a live 3D stage with selectable views, cosmetic themes and a scrollable experiment card. `suit_experiments.gd` contains isolated teaching models, not validated suit capability tests. `habitat_inspector.gd` explains architecture without creating construction or pressure physics. A temporary overview may reveal the retained exterior while paused; close must restore the active window presentation.
 
 The update client lives under the persistent `Updates` autoload. `updater/panel.gd` is presentation. Keep verification errors, cancellation, explicit restart consent, interrupted-storage repair and installer fallback accessible through the secondary menu. Autoload/global-class/runtime changes need compatibility review and may require a new full installer; see [updates](UPDATES.md).
+
+Signed 0.7 content was verified through the unchanged public Linux 0.4 and Mac/Windows 0.6.0 and 0.6.1 executables, including mounting, healthy repeat startup and tamper recovery. [Native update run 43655279873](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43655279873) records the native headless/local-artifact scope. It does not establish notification UI, real network transfer, automatic relaunch, operating-system download approval or physical-device usability.
 
 ## Verification and media handoff
 

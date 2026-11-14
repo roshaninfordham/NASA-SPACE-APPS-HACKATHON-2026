@@ -34,6 +34,7 @@ flowchart LR
 | Module                                   | Responsibility                                                                     | Must not own                                       |
 | ---------------------------------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------- |
 | `game/scripts/mission.gd`                | Energy, exposure, dust, inspection, terminal rules, baseline                       | Scene geometry, input, sound, network              |
+| `game/scripts/companion_rescue.gd`       | Authored continuous crew route, airlock cycle and indoor-entry state               | Radiation/energy equations, input or geometry      |
 | `game/scripts/player.gd`                 | Movement, gravity, camera, instrument presentation                                 | Resource-budget rules                              |
 | `game/scripts/world.gd`                  | World construction, collisions, weather presentation, art slots                    | Mission outcome logic                              |
 | `game/scripts/game.gd`                   | Interaction routing, mission clock, radio, UI binding                              | Scientific source values                           |
