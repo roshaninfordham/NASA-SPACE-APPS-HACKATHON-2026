@@ -6,7 +6,7 @@ permissions:
   contents: read
 jobs:
   web:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
@@ -19,3 +19,18 @@ jobs:
       - run: npm run check
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
+
+  game:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python scripts/install_godot.py
+      - run: echo "$HOME/.cache/red-veil/godot/4.6.3/bin" >> "$GITHUB_PATH"
+      - run: godot --headless --path game --editor --import
+      - run: godot --headless --path game --script res://tests/mission_test.gd
+      - run: godot --headless --path game --script res://tests/gameplay_test.gd
+      - run: godot --headless --path game --script res://tests/art_contract_test.gd

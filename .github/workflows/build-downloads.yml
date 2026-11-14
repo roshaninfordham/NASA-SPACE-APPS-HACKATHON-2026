@@ -1,0 +1,40 @@
+name: Build downloadable game
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Alpha version (for example 0.2.0-alpha.2)
+        required: true
+        default: 0.2.0-alpha.2
+permissions:
+  contents: read
+jobs:
+  exports:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/red-veil/godot/4.6.3
+          key: godot-4.6.3-verified-exports-v1
+      - run: python scripts/install_godot.py --templates
+      - run: echo "$HOME/.cache/red-veil/godot/4.6.3/bin" >> "$GITHUB_PATH"
+      - run: python scripts/build_game.py --version "$RELEASE_VERSION"
+        env:
+          RELEASE_VERSION: ${{ inputs.version }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: red-veil-downloads
+          path: |
+            releases/Red-Veil-*-macOS-universal.zip
+            releases/Red-Veil-*-Windows-x64.zip
+            releases/Red-Veil-*-Linux-x64.zip
+            releases/Red-Veil-*-Web.zip
+            releases/SHA256SUMS.txt
+            releases/release-manifest.json
+          if-no-files-found: error
+          retention-days: 14
