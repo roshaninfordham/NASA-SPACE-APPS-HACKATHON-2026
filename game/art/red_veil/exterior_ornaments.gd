@@ -3,11 +3,11 @@ extends RefCounted
 ## and warm shielded lanterns. Decorative only; never changes simulation or collision.
 const G = preload("res://art/red_veil/exterior_geometry.gd")
 
-static func strokes(parent: Node3D, title: String, paths: Array, radius: float, mat: Material) -> MeshInstance3D:
+static func strokes(parent: Node3D, title: String, paths: Array, radius: float, mat: Material, casts_shadow: bool = false) -> MeshInstance3D:
 	var vertices := PackedVector3Array()
 	var normals := PackedVector3Array()
 	var indices := PackedInt32Array()
-	const SIDES := 5
+	const SIDES := 4
 	for points: PackedVector3Array in paths:
 		var base := vertices.size()
 		for index in range(points.size()):
@@ -36,6 +36,9 @@ static func strokes(parent: Node3D, title: String, paths: Array, radius: float, 
 	node.name = title
 	node.mesh = mesh
 	node.material_override = mat
+	# These millimetre-scale decorative strokes do not need repeated shadow
+	# map submissions. Callers can explicitly opt in for a structural stroke.
+	node.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON if casts_shadow else GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	parent.add_child(node)
 	return node
 
@@ -48,8 +51,8 @@ static func wave_patch(parent: Node3D, title: String, sample_uv: Callable, rows:
 			for ring in range(3):
 				var points := PackedVector3Array()
 				var radius := 0.48 - ring * 0.13
-				for step in range(21):
-					var angle := PI * step / 20
+				for step in range(13):
+					var angle := PI * step / 12
 					var u := cx + radius * cos(angle) / columns
 					var v := cy + radius * 1.65 * sin(angle) / rows
 					if u >= 0.0 and u <= 1.0 and v <= 1.0:
@@ -65,8 +68,8 @@ static func blossom_branch(parent: Node3D, title: String, origin: Vector3, scale
 	var paths: Array = []
 	var flowers: Array = []
 	var trunk := PackedVector3Array()
-	for index in range(25):
-		var u := index / 24.0
+	for index in range(17):
+		var u := index / 16.0
 		trunk.append(Vector3(lerpf(-1.3, 1.25, u), 0.24 * sin(u * PI) + 0.42 * u - 0.2, 0) * scale)
 	paths.append(trunk)
 	for index in range(6):
@@ -77,8 +80,8 @@ static func blossom_branch(parent: Node3D, title: String, origin: Vector3, scale
 		for petal in range(5):
 			var petal_path := PackedVector3Array()
 			var center_angle := TAU * petal / 5
-			for step in range(17):
-				var angle := TAU * step / 16
+			for step in range(13):
+				var angle := TAU * step / 12
 				var direction := Vector3(cos(center_angle), sin(center_angle), 0)
 				var across := Vector3(-sin(center_angle), cos(center_angle), 0)
 				petal_path.append(tip + scale * (direction * (0.06 + 0.055 * cos(angle)) + across * 0.035 * sin(angle)))

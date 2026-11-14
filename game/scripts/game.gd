@@ -96,7 +96,7 @@ func _ready() -> void:
 		update_client.check_for_updates.call_deferred(false)
 
 func setup_inputs() -> void:
-	var keys := {"forward": KEY_W, "back": KEY_S, "left": KEY_A, "right": KEY_D, "interact": KEY_E, "visor": KEY_Q, "jump": KEY_SPACE, "pause": KEY_ESCAPE, "guide": KEY_F1}
+	var keys := {"forward": KEY_W, "back": KEY_S, "left": KEY_A, "right": KEY_D, "interact": KEY_E, "visor": KEY_Q, "jump": KEY_SPACE, "pause": KEY_ESCAPE, "guide": KEY_F1, "plan": KEY_P}
 	for action in keys:
 		if not InputMap.has_action(action): InputMap.add_action(action)
 		var key := InputEventKey.new()
@@ -352,7 +352,7 @@ func toggle_pause() -> void:
 				finish_panel = null
 			# Opening from pause returns to that paused state on close.
 			show_suit_lab()
-		)
+		, "COMPARE MISSION PLANS", show_planner)
 	else: resume()
 
 func resume() -> void:
@@ -362,7 +362,7 @@ func resume() -> void:
 	touch_controls.visible = DisplayServer.is_touchscreen_available()
 	if not DisplayServer.is_touchscreen_available(): Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
-func show_modal(title: String, body: String, action: String, callback: Callable, secondary_action: String = "", secondary_callback: Callable = Callable()) -> void:
+func show_modal(title: String, body: String, action: String, callback: Callable, secondary_action: String = "", secondary_callback: Callable = Callable(), tertiary_action: String = "", tertiary_callback: Callable = Callable()) -> void:
 	if is_instance_valid(finish_panel): finish_panel.queue_free()
 	touch_controls.hide()
 	finish_panel = ColorRect.new()
@@ -417,6 +417,11 @@ func show_modal(title: String, body: String, action: String, callback: Callable,
 		secondary.name = "Secondary"
 		secondary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		buttons.append(secondary)
+	if not tertiary_action.is_empty() and tertiary_callback.is_valid():
+		var tertiary := button(actions, tertiary_action, Vector2.ZERO, 0, tertiary_callback)
+		tertiary.name = "Tertiary"
+		tertiary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		buttons.append(tertiary)
 	var backdrop := finish_panel
 	var arrange := func():
 		if not is_instance_valid(backdrop): return
@@ -464,6 +469,7 @@ func show_guide() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause"): toggle_pause()
 	if event.is_action_pressed("guide"): show_guide()
+	if event.is_action_pressed("plan"): show_planner()
 	if event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_I and exploring: show_habitat_inspector()
 	if not running or paused or ended: return
 	if event.is_action_pressed("interact"): interact()
@@ -738,3 +744,23 @@ func _open_exhibit(view: Control, overview: bool) -> void:
 	)
 	menu.get_parent().add_child(view)
 	refresh_update_notice()
+
+func show_planner() -> void:
+	if not running or ended or is_instance_valid(exhibit) or is_instance_valid(academy) or is_instance_valid(update_panel): return
+	var adviser = load("res://scripts/mission_adviser.gd")
+	var planner_script = load("res://scripts/mission_planner.gd")
+	if adviser == null or planner_script == null: return
+	if is_instance_valid(finish_panel):
+		finish_panel.queue_free()
+		finish_panel = null
+	var planner = planner_script.new()
+	planner.report = adviser.analyze(mission)
+	planner.allow_apply = mission.status == "running"
+	planner.plan_selected.connect(func(conserving: bool, cleaning: bool):
+		if not running or ended or mission.status != "running": return
+		mission.conserving = conserving
+		mission.cleaning = cleaning
+		say("Your plan: %s; panel cleaning %s. Keep watching the sky and your suit battery." % ["save nonessential power" if conserving else "normal lab work", "on" if cleaning else "off"])
+		world.update_weather(mission)
+	)
+	_open_exhibit(planner, false)

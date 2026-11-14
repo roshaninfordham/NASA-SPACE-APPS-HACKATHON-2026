@@ -8,7 +8,7 @@ The two longer supplied gameplay documents are byte-identical. They establish th
 
 ## Experience
 
-2053, Mars, Sol 18. Two explorers are testing AEGIS. One is inspecting the solar array outside; the other operates the habitat. An approaching dust storm and an independent solar particle event force decisions across three connected scales:
+2053, Mars, Sol 18. The player tests AEGIS with crewmate Mira on the radio. The playable explorer inspects the solar array; Mira is a narrative companion, not an independently simulated habitat operator. An approaching dust storm and an independent solar particle event force decisions across three connected scales:
 
 1. **Habitat:** deposited dust reduces solar generation; atmospheric dust blocks sunlight independently. Cleaning costs habitat power. Conservation pauses nonessential work. Essential life support cannot be switched off.
 2. **Astronaut:** an EVA uses a separate suit battery with automatic life support. Returning takes time. Completing an inspection restores array capacity, so retreating early can sacrifice equipment performance.
@@ -30,4 +30,4 @@ Water recycling, food, pressure, and thermal control are background systems repr
 
 ## Replaceable presentation
 
-Characters, habitat geometry, colors, audio, and interface treatment are provisional. They must not encode the simulation rules. Replace the scene adapter without changing energy or dose calculations. Change scenario parameters without rewriting the renderer. Do not reproduce the reference images or depend on their licensed assets.
+Characters, habitat geometry, colors, audio, and interface treatment are provisional. They must not encode the simulation rules. Replace the scene adapter without changing energy or dose calculations. Change scenario parameters without rewriting the renderer. The owner’s later visual specifications guide the art. Match their design direction with original or appropriately licensed assets, while keeping presentation separate from simulation rules.

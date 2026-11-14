@@ -118,8 +118,8 @@ static func batch_static_meshes(parent: Node3D) -> void:
 		for child in current.get_children(): pending.append(child)
 		if not current is MeshInstance3D or current.mesh == null or current.material_override == null: continue
 		if current.material_override is BaseMaterial3D and current.material_override.transparency != BaseMaterial3D.TRANSPARENCY_DISABLED: continue
-		var key: int = current.material_override.get_instance_id()
-		if not groups.has(key): groups[key] = {"material": current.material_override, "nodes": []}
+		var key := "%s_%s" % [current.material_override.get_instance_id(), current.cast_shadow]
+		if not groups.has(key): groups[key] = {"material": current.material_override, "shadow": current.cast_shadow, "nodes": []}
 		groups[key]["nodes"].append(current)
 	for key in groups:
 		var group: Dictionary = groups[key]
@@ -150,4 +150,5 @@ static func batch_static_meshes(parent: Node3D) -> void:
 		batch.name = "StaticMaterialBatch_%s" % key
 		batch.mesh = mesh
 		batch.material_override = group["material"]
+		batch.cast_shadow = group["shadow"]
 		parent.add_child(batch)

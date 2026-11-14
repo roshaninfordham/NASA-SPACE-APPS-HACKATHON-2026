@@ -89,6 +89,9 @@ func _build_horizon() -> void:
 				var d := c + 1
 				for index in [a, c, b, b, c, d]:
 					surface.add_vertex(vertices[index])
+		# Share grid vertices before normal generation: smoother ridges and a
+		# smaller retained mesh, with the same sampled silhouette and triangles.
+		surface.index()
 		surface.generate_normals()
 		var mat := ShaderMaterial.new()
 		mat.shader = STONE
@@ -180,14 +183,15 @@ func _build_approach() -> void:
 				light.shadow_enabled = false
 				add_child(light)
 
-func _rock_mesh(variant: int) -> ArrayMesh:
+func _rock_mesh(variant: int, small: bool = false) -> ArrayMesh:
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
 	var noise := FastNoiseLite.new()
 	noise.seed = landscape_seed + variant * 43
 	noise.frequency = 2.3
-	var rings := 7
-	var segments := 11
+	# Pebbles are at most17cm; avoid using boulder tessellation for every speck.
+	var rings := 2 if small else 7
+	var segments := 6 if small else 11
 	var vertices := PackedVector3Array()
 	for ring in range(rings + 1):
 		var latitude := PI * float(ring) / rings
@@ -225,7 +229,8 @@ func _scatter_stones() -> void:
 	mat.set_shader_parameter("stone_color", Color("62443f"))
 	mat.set_shader_parameter("strata_color", Color("aa7865"))
 	for variant in range(4):
-		var transforms: Array[Transform3D] = []
+		var pebble_transforms: Array[Transform3D] = []
+		var boulder_transforms: Array[Transform3D] = []
 		var count := (pebble_count + boulder_count) / 4
 		for i in range(count):
 			var large := i < boulder_count / 4
@@ -235,14 +240,23 @@ func _scatter_stones() -> void:
 			pos.y = radius * 0.10
 			var scale_vector := Vector3(radius * _rng.randf_range(0.8, 1.6), radius, radius * _rng.randf_range(0.8, 1.4))
 			var basis := Basis(Vector3.UP, _rng.randf() * TAU).scaled(scale_vector)
-			transforms.append(Transform3D(basis, pos))
-		var multi := MultiMesh.new()
-		multi.transform_format = MultiMesh.TRANSFORM_3D
-		multi.mesh = _rock_mesh(variant)
-		multi.instance_count = transforms.size()
-		for i in range(transforms.size()): multi.set_instance_transform(i, transforms[i])
-		var stones := MultiMeshInstance3D.new()
-		stones.name = "ScatteredStoneBatch%d" % variant
-		stones.multimesh = multi
-		stones.material_override = mat
-		add_child(stones)
+			if large: boulder_transforms.append(Transform3D(basis, pos))
+			else: pebble_transforms.append(Transform3D(basis, pos))
+		# Preserve the RNG sequence/placement while separating costly shadow-casting
+		# boulders from tiny cosmetic pebbles. Both still use GPU instancing.
+		_build_stone_batch(variant, false, boulder_transforms, mat)
+		_build_stone_batch(variant, true, pebble_transforms, mat)
+
+func _build_stone_batch(variant: int, small: bool, transforms: Array[Transform3D], mat: Material) -> void:
+	if transforms.is_empty(): return
+	var multi := MultiMesh.new()
+	multi.transform_format = MultiMesh.TRANSFORM_3D
+	multi.mesh = _rock_mesh(variant, small)
+	multi.instance_count = transforms.size()
+	for i in range(transforms.size()): multi.set_instance_transform(i, transforms[i])
+	var stones := MultiMeshInstance3D.new()
+	stones.name = ("ScatteredPebbleBatch%d" if small else "ScatteredBoulderBatch%d") % variant
+	stones.multimesh = multi
+	stones.material_override = mat
+	stones.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF if small else GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+	add_child(stones)

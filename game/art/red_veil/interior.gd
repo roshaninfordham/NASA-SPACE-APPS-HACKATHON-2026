@@ -563,10 +563,12 @@ func _batch_static_meshes() -> void:
 		var instance := node as MeshInstance3D
 		var material := instance.material_override as StandardMaterial3D
 		if not material or material.transparency != BaseMaterial3D.TRANSPARENCY_DISABLED: continue
-		if not groups.has(material): groups[material] = []
-		groups[material].append(instance)
-	for material in groups:
-		var instances: Array = groups[material]
+		var key := "%s:%s" % [material.get_instance_id(), instance.cast_shadow]
+		if not groups.has(key): groups[key] = {"material": material, "shadow": instance.cast_shadow, "instances": []}
+		groups[key].instances.append(instance)
+	for group in groups.values():
+		var material: Material = group.material
+		var instances: Array = group.instances
 		if instances.size() < 2: continue
 		var surface := SurfaceTool.new()
 		surface.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -582,6 +584,7 @@ func _batch_static_meshes() -> void:
 		var mesh := surface.commit()
 		var combined := _mesh(mesh, material, Vector3.ZERO)
 		combined.name = "BatchedInteriorMaterial"
+		combined.cast_shadow = group.shadow
 
 func _build_blossom_tree(position: Vector3) -> void:
 	var tree := Node3D.new()
