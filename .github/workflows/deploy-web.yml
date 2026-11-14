@@ -1,0 +1,72 @@
+name: Deploy published Red Veil Web release
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: Exact existing published release tag supplied by the publisher
+        required: true
+        type: string
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing published release tag to deploy (not a branch or draft)
+        required: true
+        type: string
+        default: v0.4.0-alpha.1
+concurrency:
+  group: red-veil-github-pages
+  cancel-in-progress: false
+# Reusable callers must grant contents: read, pages: write and id-token: write.
+# A called workflow cannot increase the permissions granted by its caller.
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      RELEASE_TAG: ${{ inputs.tag || github.event.release.tag_name }}
+    steps:
+      # Packaging tools deliberately come from trusted main. The native release
+      # commit and this packaging commit are recorded separately in the site.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify published archive and prepare web updates
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/deploy_web_release.py --tag "$RELEASE_TAG" --output "$RUNNER_TEMP/red-veil-pages"
+      - name: Record deployment inputs
+        run: |
+          python <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          provenance = json.loads((Path(os.environ["RUNNER_TEMP"]) / "red-veil-pages/deployment-provenance.json").read_text())
+          with Path(os.environ["GITHUB_STEP_SUMMARY"]).open("a") as summary:
+              summary.write(f"### Verified website inputs\n\nPublished release: `{provenance['native_release_tag']}`\n\nNative source: `{provenance['native_source_commit']}`\n\nWeb packaging source: `{provenance['packaging_source_commit']}`\n\nOriginal Web ZIP SHA-256: `{provenance['native_web_sha256']}`\n\nThis site adds versioned assets and PWA update handling; it is not the original release ZIP unchanged.\n\nExpected site URL after successful deployment: {provenance['expected_pages_url']}\n")
+          PY
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/red-veil-pages
+  deploy:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # One-time owner prerequisite: Settings > Pages > Source = GitHub Actions.
+      # This workflow does not change repository settings or create a release.
+      - name: Deploy verified site artifact
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -37,7 +37,7 @@ python3 scripts/test_updater.py
 godot --headless --path game -- --smoke-test
 ```
 
-Native tests cover numerical invariants, a complete successful interaction sequence, pause behavior, viewport anchoring, and visual replacement without model mutation. Browser export has been opened in Chromium. macOS universal, Windows x64, Linux x64, and Web export presets are provided. Alpha 0.3.0-alpha.1 packages are published in GitHub Releases, including checksums and a source-commit manifest. Do not infer real-device validation from an export preset or a successful cross-export.
+Native tests cover numerical invariants, a complete successful interaction sequence, pause behavior, viewport anchoring, and visual replacement without model mutation. Browser export has been opened in Chromium. macOS universal, Windows x64, Linux x64, and Web export presets are provided. Alpha 0.4.0-alpha.1 packages are published in GitHub Releases, including checksums and a source-commit manifest. Do not infer real-device validation from an export preset or a successful cross-export.
 
 ## Honesty about readiness
 

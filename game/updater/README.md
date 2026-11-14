@@ -1,6 +1,6 @@
 # Signed content updater
 
-Published installers through 0.3.0-alpha.1 have no updater. They need one initial manual installation of an updater-enabled build. The implementation on main must pass complete discovery, verified download, activation, restart, and recovery checks before it is described as shipped.
+Published v0.4.0-alpha.1 desktop installers include the signed updater. Earlier installers need one manual upgrade. Real GitHub download, verification, activation, automatic Linux GUI restart, and recovery passed with a disposable older-version fixture; see the exact [evidence](../../docs/evidence/update-0.4.0-alpha.1.json). Physical Mac/Windows and previously shipped baseline acceptance remain separate gates.
 
 The installer pins a public key. A candidate manifest must authenticate its repository, supported version/schema/engine/runtime contract, fixed pack filename, exact length and SHA-256 digest. The bootstrap captures the trust root before mounting content and verifies a pack again before use. Missing signing configuration must never enable unsigned installation.
 

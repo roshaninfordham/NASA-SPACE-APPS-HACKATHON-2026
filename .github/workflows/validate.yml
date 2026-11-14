@@ -14,11 +14,16 @@ jobs:
         with:
           node-version: 24
           cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - run: npm ci
       - run: npm run format:check
       - run: npm run check
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
+      - run: npm run test:pwa
+      - run: python -m unittest discover -s tests -p 'test_web_deploy.py'
 
   game:
     runs-on: ubuntu-24.04
