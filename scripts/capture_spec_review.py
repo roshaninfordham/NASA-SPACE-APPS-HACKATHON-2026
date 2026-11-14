@@ -33,6 +33,13 @@ func capture():
         push_error("Requested exhibit did not open")
         quit(1)
         return
+    if mode == "habitat":
+        var bounds := root.get_visible_rect()
+        for control in [game.exhibit._card, game.exhibit._heading, game.exhibit._done]:
+            if not bounds.encloses(control.get_global_rect()):
+                push_error("Rendered habitat UI out of bounds: " + str(control.get_global_rect()))
+                quit(1)
+                return
     await RenderingServer.frame_post_draw
     var error := root.get_texture().get_image().save_png(output)
     print("SPEC_UI_CAPTURE ", mode, " window=", root.size, " viewport=", root.get_visible_rect().size)

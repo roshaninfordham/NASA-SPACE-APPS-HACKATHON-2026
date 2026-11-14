@@ -15,6 +15,7 @@ var _answers: VBoxContainer
 var _tabs: HFlowContainer
 var _done: Button
 var _scale := 1.0
+var _layout_pending := false
 const LESSONS := {
 	"habitat_dome": {"question": "What keeps breathable air around the crew?", "answers": ["A sealed pressure structure", "The glowing red paint"], "correct": 0, "explanation": "A pressure structure and seals hold air. Insulation slows heat flow. The lacquer and patterns are visual design; they do not make oxygen or block all radiation."},
 	"observation_windows": {"question": "During a particle warning, what is the safest plan in this mission?", "answers": ["Stay beside the pretty glass", "Go to the marked shielded refuge"], "correct": 1, "explanation": "Transparent windows need engineered protection. Move to the marked refuge before the event. The viewing opening in this alpha is not a sealed, certified window or a working radiation shutter."},
@@ -63,8 +64,9 @@ func _ready() -> void:
 	_done = _button(column, "BACK TO EXPLORING")
 	_done.name = "Close"
 	_done.pressed.connect(close)
-	resized.connect(_layout)
-	_layout()
+	resized.connect(_schedule_layout)
+	_card.minimum_size_changed.connect(_schedule_layout)
+	_schedule_layout()
 	if not points.is_empty(): select(0)
 	_done.grab_focus.call_deferred()
 
@@ -88,19 +90,25 @@ func _button(parent: Node, value: String) -> Button:
 	parent.add_child(result)
 	return result
 
+func _schedule_layout() -> void:
+	if _layout_pending: return
+	_layout_pending = true
+	_layout.call_deferred()
+
 func _layout() -> void:
+	_layout_pending = false
 	if not is_instance_valid(_card): return
 	_scale = maxf(1.0, size.x / maxf(1.0, get_window().size.x))
-	var margin := 16.0 * _scale
-	var portrait := size.y > size.x
-	_card.size = Vector2(minf(size.x - margin * 2, 440.0 * _scale), size.y - margin * 2)
-	if portrait: _card.size.y = size.y * 0.62
-	_card.position = Vector2(size.x - _card.size.x - margin, size.y - _card.size.y - margin)
 	for control in find_children("*", "Button", true, false):
 		control.custom_minimum_size.y = 48 * _scale
 		control.add_theme_font_size_override("font_size", roundi(16 * _scale))
 	for control in [_body, _question, _feedback]: control.add_theme_font_size_override("font_size", roundi(17 * _scale))
 	_heading.add_theme_font_size_override("font_size", roundi(21 * _scale))
+	var margin := 16.0 * _scale
+	var portrait := size.y > size.x
+	_card.size = Vector2(minf(size.x - margin * 2, 440.0 * _scale), size.y - margin * 2)
+	if portrait: _card.size.y = size.y * 0.62
+	_card.position = Vector2(size.x - _card.size.x - margin, size.y - _card.size.y - margin)
 	queue_redraw()
 
 func select(index: int) -> void:
@@ -118,7 +126,7 @@ func select(index: int) -> void:
 	for answer in range(lesson.get("answers", []).size()):
 		var choice := _button(_answers, lesson.answers[answer])
 		choice.pressed.connect(answer_question.bind(answer))
-	_layout()
+	_schedule_layout()
 
 func answer_question(answer: int) -> void:
 	var lesson: Dictionary = LESSONS.get(points[selected].id, {})

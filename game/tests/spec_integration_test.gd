@@ -81,15 +81,22 @@ func run() -> void:
 		if is_instance_valid(game.exhibit):
 			var notes = game.exhibit
 			check(not root.disable_3d, "Field notes retain live habitat rendering " + label)
+			check(within(notes._card) and within(notes._heading), "Initial field-note card and heading fit " + label)
 			await freeze_check(game, "Field notes " + label)
 			check(notes.points.size() == 4, "Four live habitat anchors available " + label)
 			for index in range(notes.points.size()):
 				await activate(notes._tabs.get_child(index))
 				check(notes.selected == index, "Field note keyboard selection " + str(index) + " " + label)
+				check(within(notes._card) and within(notes._heading), "Selected field-note card and heading fit " + str(index) + " " + label)
 				var answer: Button = notes._answers.get_child(0)
 				await reachable(answer, "Field note answer " + str(index) + " " + label)
 				await activate(answer)
 				check(notes._feedback.text != "Choose an answer to explore the science.", "Field note quiz gives explanation " + str(index) + " " + label)
+			if viewport_size == Vector2i(1280,720):
+				for resized in [Vector2i(390,844), Vector2i(844,390), viewport_size]:
+					root.size = resized
+					await frames(12)
+					check(within(notes._card) and within(notes._heading) and within(notes._done), "Open field notes survive window resize " + str(resized))
 			await reachable(notes._done, "Field note Back " + label)
 			await activate(notes._done)
 			check(not is_instance_valid(game.exhibit) and game.menu.visible, "Field note Back returns title " + label)
