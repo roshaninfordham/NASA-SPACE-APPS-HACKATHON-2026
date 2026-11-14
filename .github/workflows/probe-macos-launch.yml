@@ -1,0 +1,29 @@
+name: Diagnose published macOS 0.6 launch
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare original and ad-hoc-signed public download
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/probe_macos_launch.py --output "$RUNNER_TEMP/komaku-macos-probe"
+      - name: Upload native launch evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-public-0.6-launch-probe
+          path: |
+            ${{ runner.temp }}/komaku-macos-probe/report.json
+            ${{ runner.temp }}/komaku-macos-probe/summary.md
+            ${{ runner.temp }}/komaku-macos-probe/logs/
+          if-no-files-found: error
+          retention-days: 30
