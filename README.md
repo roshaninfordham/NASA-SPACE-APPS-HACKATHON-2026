@@ -1,5 +1,7 @@
 # Red Veil
 
+**Primary game: [first-person Godot implementation](game/README.md).** The web dashboard below remains a simulation/reference prototype. Native download packaging is in progress.
+
 A Mars survival game for curious explorers ages 7–12. Coordinate a habitat, a spacesuit, and a dusty visor through two independent hazards. Protect the crew, preserve power, and discover why timing matters.
 
 **Status:** playable web prototype in active development. Not certified astronaut training. Native packages and device-specific performance certification are not yet complete.

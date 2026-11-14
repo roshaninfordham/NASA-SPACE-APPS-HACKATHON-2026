@@ -1,8 +1,16 @@
 /** Scenario inputs are illustrative unless explicitly marked NASA measured. */
+import observations from "../data/nasa-observations.json" with { type: "json" };
+const radiation = observations.observations.find(
+  (record) => record.id === "curiosity-rad-2012-2013-mean",
+);
+const opacity = observations.observations.find(
+  (record) => record.id === "opportunity-2018-reported-opacity",
+);
 export const SCIENCE = Object.freeze({
-  backgroundDosePerDay: 0.67, // mSv/day, Curiosity RAD; historical observation, not a forecast
-  reference:
-    "https://www.nasa.gov/news-release/nasa-rover-results-include-first-age-measurement-on-mars-and-help-for-human-exploration/",
+  backgroundDosePerDay: radiation.value,
+  reference: radiation.sourceUrl,
+  stormPeakTau: opacity.value,
+  stormReference: opacity.sourceUrl,
 });
 export const SCENARIOS = Object.freeze([
   {
@@ -32,13 +40,13 @@ export const SCENARIOS = Object.freeze([
   {
     id: "red-front",
     name: "Red front",
-    subtitle: "Heavy dust. Narrow margins.",
+    subtitle: "A sky as dusty as Opportunity’s in 2018.",
     duration: 12,
-    peakTau: 3.8,
+    peakTau: SCIENCE.stormPeakTau - 0.25,
     eventStart: 3,
     eventEnd: 6.5,
     eventDose: 1.9,
-    initialEnergy: 7,
+    initialEnergy: 10.5,
     deposition: 0.055,
   },
 ]);
@@ -48,7 +56,7 @@ export const SYSTEM = Object.freeze({
   visorCleaningKW: 0.04,
   visorCleaningRate: 0.6,
   returnHours: 0.15,
-  inspectionHours: 1.5,
+  inspectionHours: 2.5,
   capacity: 12,
   essentialKW: 0.55,
   normalKW: 0.75,

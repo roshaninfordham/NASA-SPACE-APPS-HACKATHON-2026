@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "retrievedOn": "2026-11-14",
+  "method": "Manual transcription of numerical summaries in NASA publications. These records are not raw instrument time series.",
+  "observations": [
+    {
+      "id": "curiosity-rad-2012-2013-mean",
+      "quantity": "surface_dose_equivalent_rate",
+      "value": 0.67,
+      "unit": "mSv/day",
+      "site": "Gale Crater",
+      "interval": "August 2012–June 2013",
+      "qualifier": "Reported average; no major solar storms affected Mars during this interval.",
+      "sourceTitle": "NASA Rover Results Include First Age Measurement on Mars and Help for Human Exploration",
+      "sourceUrl": "https://www.nasa.gov/news-release/nasa-rover-results-include-first-age-measurement-on-mars-and-help-for-human-exploration/"
+    },
+    {
+      "id": "opportunity-2018-reported-opacity",
+      "quantity": "atmospheric_optical_depth",
+      "value": 11,
+      "unit": "dimensionless",
+      "site": "Opportunity rover location",
+      "interval": "June 2018",
+      "qualifier": "Reported as near 11; severe dust subsequently prevented accurate measurements. This is an approximate published observation, not a precise maximum.",
+      "sourceTitle": "Martian Dust Storm Grows Global: Curiosity Captures Photos of Thickening Haze",
+      "sourceUrl": "https://www.nasa.gov/missions/martian-dust-storm-grows-global-curiosity-captures-photos-of-thickening-haze/"
+    }
+  ]
+}

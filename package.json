@@ -11,12 +11,16 @@
     "test:e2e": "playwright test",
     "check": "npm test && npm run build",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "game:import": "godot --headless --path game --editor --import",
+    "game:run": "godot --path game",
+    "game:test": "godot --headless --path game --script res://tests/mission_test.gd"
   },
   "dependencies": {
     "three": "0.181.2"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
     "@playwright/test": "1.56.1",
     "prettier": "3.6.2",
     "vite": "7.2.2"

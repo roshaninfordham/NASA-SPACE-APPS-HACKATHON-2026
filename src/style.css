@@ -1305,3 +1305,17 @@ details a {
     font-size: 9px;
   }
 }
+
+.graphics-notice {
+  position: absolute;
+  bottom: 45px;
+  left: 12%;
+  right: 12%;
+  padding: 12px;
+  border: 1px solid var(--orange);
+  border-radius: 8px;
+  background: #18232bee;
+  color: var(--orange);
+  font-size: 12px;
+  text-align: center;
+}

@@ -16,6 +16,21 @@ export function createScene(container) {
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   container.append(renderer.domElement);
+  let contextLost = false;
+  const notice = document.createElement("div");
+  notice.className = "graphics-notice";
+  notice.setAttribute("role", "status");
+  notice.textContent = "3D view paused. Your mission controls still work.";
+  renderer.domElement.addEventListener("webglcontextlost", (event) => {
+    event.preventDefault();
+    contextLost = true;
+    container.append(notice);
+  });
+  renderer.domElement.addEventListener("webglcontextrestored", () => {
+    contextLost = false;
+    lastFrameKey = "";
+    notice.remove();
+  });
   renderer.domElement.setAttribute(
     "aria-label",
     "Three-dimensional Mars outpost with a shelter, laboratory, and solar panels",
@@ -221,6 +236,7 @@ export function createScene(container) {
   return {
     resize,
     update(state, t, reducedMotion) {
+      if (contextLost) return;
       const frameKey = [
         state.time,
         state.shelter,

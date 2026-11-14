@@ -66,3 +66,26 @@ test("complete a guided mission in low graphics mode and export its evidence", a
   await page.locator("#again").click();
   await expect(page.locator("#clock")).toHaveText("00:00");
 });
+test("graphics context loss preserves controls and restores the scene", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "I’m ready to explore" }).click();
+  await expect(page.locator("#scene canvas")).toBeVisible();
+  await page.locator("#scene canvas").evaluate((canvas) => {
+    window.testGraphicsExtension = canvas
+      .getContext("webgl2")
+      .getExtension("WEBGL_lose_context");
+    if (!window.testGraphicsExtension)
+      throw new Error("Context loss extension unavailable");
+    window.testGraphicsExtension.loseContext();
+  });
+  await expect(page.locator(".graphics-notice")).toBeVisible();
+  await page.locator("#conserve").click();
+  await expect(page.locator("#conserve")).toHaveAttribute(
+    "aria-pressed",
+    "true",
+  );
+  await page.evaluate(() => window.testGraphicsExtension.restoreContext());
+  await expect(page.locator(".graphics-notice")).toHaveCount(0);
+});

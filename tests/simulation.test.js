@@ -105,3 +105,27 @@ test("suit depletion safely aborts the mission and cannot draw from the habitat 
   assert.equal(step(s).status, "suit-abort");
   assert.ok(step(s).energy > 0);
 });
+test("visor care changes whether inspection finishes before an early shelter return", () => {
+  const execute = (clean) => {
+    let s = createState();
+    while (s.time < 3.25) {
+      s = { ...s, visorCleaning: clean && s.visorDust > 0.02 };
+      s = step(s);
+    }
+    return s;
+  };
+  assert.equal(execute(true).inspection, 1);
+  assert.ok(execute(false).inspection < 1);
+  assert.ok(execute(true).suitEnergy < execute(false).suitEnergy);
+});
+test("Red front peak opacity comes from the published Opportunity observation", () => {
+  const red = scenarioByIdForTest();
+  assert.ok(Math.abs(environment(6, red).tau - 11) < 1e-10);
+  assert.ok(
+    environment(6, red).transmission <
+      environment(6, SCENARIOS[0]).transmission,
+  );
+  function scenarioByIdForTest() {
+    return SCENARIOS.find((s) => s.id === "red-front");
+  }
+});

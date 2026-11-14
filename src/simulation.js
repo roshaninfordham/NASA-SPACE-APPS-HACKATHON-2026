@@ -29,7 +29,7 @@ export function createState(id = "first-light") {
     dust: 0.28,
     research: 0,
     suitEnergy: SYSTEM.suitCapacity,
-    visorDust: 0.15,
+    visorDust: 0.25,
     visorCleaning: false,
     eva: true,
     returning: 0,
@@ -42,7 +42,6 @@ export function createState(id = "first-light") {
     consumed: 0,
     cleaningEnergy: 0,
     peakStormCleaning: 0,
-    history: [],
   };
 }
 export function telemetry(state) {
