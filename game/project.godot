@@ -2,11 +2,14 @@ config_version=5
 
 [application]
 config/name="Red Veil"
-config/version="0.3.0-alpha.1"
+config/version="0.4.0-alpha.1"
 config/description="A first-person Mars survival adventure for young explorers."
 run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+Updates="*res://updater/bootstrap.gd"
 
 [display]
 window/size/viewport_width=1280

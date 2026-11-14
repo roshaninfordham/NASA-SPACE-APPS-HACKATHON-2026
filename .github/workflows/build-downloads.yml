@@ -3,17 +3,24 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: Alpha version (for example 0.3.0-alpha.1)
+        description: Alpha version (for example 0.4.0-alpha.1)
         required: true
-        default: 0.3.0-alpha.1
+        default: 0.4.0-alpha.1
       revision:
-        description: Exact source commit or branch to build
+        description: Exact source commit or branch to resolve at checkout
         required: true
         default: main
-      publish:
-        description: Upload to an existing draft release and publish it
+      signed_updates:
+        description: Include a verified desktop content update (requires the pinned public key and signing secret)
         type: boolean
         default: false
+      publish:
+        description: Upload to the matching existing draft release and publish it
+        type: boolean
+        default: false
+concurrency:
+  group: red-veil-release-${{ inputs.version }}
+  cancel-in-progress: false
 permissions:
   contents: write
 jobs:
@@ -33,35 +40,24 @@ jobs:
           key: godot-4.6.3-verified-exports-v1
       - run: python scripts/install_godot.py --templates
       - run: echo "$HOME/.cache/red-veil/godot/4.6.3/bin" >> "$GITHUB_PATH"
-      - run: python scripts/build_game.py --version "$RELEASE_VERSION"
+      - name: Build and optionally sign exact-source packages
         env:
           RELEASE_VERSION: ${{ inputs.version }}
+          SIGNED_UPDATES: ${{ inputs.signed_updates }}
+          RED_VEIL_UPDATE_SIGNING_KEY: ${{ inputs.signed_updates && secrets.RED_VEIL_UPDATE_SIGNING_KEY || '' }}
+        run: |
+          arguments=(--version "$RELEASE_VERSION")
+          if [ "$SIGNED_UPDATES" = "true" ]; then arguments+=(--signed-updates); fi
+          python scripts/build_game.py "${arguments[@]}"
       - uses: actions/upload-artifact@v4
         with:
           name: red-veil-downloads
-          path: |
-            releases/Red-Veil-*-macOS-universal.zip
-            releases/Red-Veil-*-Windows-x64.zip
-            releases/Red-Veil-*-Linux-x64.zip
-            releases/Red-Veil-*-Web.zip
-            releases/SHA256SUMS.txt
-            releases/release-manifest.json
+          path: releases/distribution/*
           if-no-files-found: error
           retention-days: 14
-
       - name: Publish verified draft assets
         if: inputs.publish
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_VERSION: ${{ inputs.version }}
-          GH_REPO: ${{ github.repository }}
-        run: |
-          test "$(gh release view "v$RELEASE_VERSION" --json isDraft --jq .isDraft)" = true
-          gh release upload "v$RELEASE_VERSION" \
-            "releases/Red-Veil-$RELEASE_VERSION-macOS-universal.zip" \
-            "releases/Red-Veil-$RELEASE_VERSION-Windows-x64.zip" \
-            "releases/Red-Veil-$RELEASE_VERSION-Linux-x64.zip" \
-            "releases/Red-Veil-$RELEASE_VERSION-Web.zip" \
-            releases/SHA256SUMS.txt releases/release-manifest.json --clobber
-          test "$(gh release view "v$RELEASE_VERSION" --json assets --jq '.assets | length')" = 6
-          gh release edit "v$RELEASE_VERSION" --draft=false --prerelease
+        run: python scripts/build_game.py --version "$RELEASE_VERSION" --publish-prepared

@@ -36,3 +36,7 @@ jobs:
       - run: godot --headless --path game --script res://tests/gameplay_test.gd
       - run: godot --headless --path game --script res://tests/art_contract_test.gd
       - run: python scripts/test_updater.py
+      - run: godot --headless --path game --script res://tests/update_client_test.gd
+      - run: godot --headless --path game --script res://tests/update_ui_test.gd
+      - run: python scripts/test_update_bootstrap.py
+      - run: python -m unittest discover -s tests -p 'test_release_tools.py'

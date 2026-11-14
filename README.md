@@ -27,6 +27,10 @@ The build pipeline creates macOS universal, Windows x64, Linux x64, and Web arch
 
 See [download instructions](docs/DOWNLOADS.md). No development tools are required to play the native app.
 
+## Updates in development
+
+The published 0.3.0-alpha.1 download still needs manual updates. The next candidate on main adds a small in-game release notice and a verified desktop install/restart/recovery flow connected to GitHub Actions. Production signing setup and a baseline-installer-to-update acceptance run are required before enabling signed installs. Engine/runtime changes take a full-installer path; native mobile updating is not yet available. [Setup, behavior and limits](docs/UPDATES.md).
+
 ## Your first mission
 
 Mira, your crewmate, needs you at the solar array. A dust storm will dim the sky. A separate particle event will make the refuge important. You have four minutes, two batteries, and decisions that matter.
@@ -74,7 +78,7 @@ python3 scripts/test_updater.py
 With the official export templates installed:
 
 ```sh
-python3 scripts/build_game.py --version 0.3.0-alpha.1
+python3 scripts/build_game.py --version 0.4.0-alpha.1
 ```
 
 The Linux CI installer verifies the official SHA-512 manifest. The manual **Build downloadable game** workflow creates archives and a source-commit manifest. Publication is explicit and separate from building.
@@ -100,7 +104,7 @@ Start with the [team progress briefing](docs/TEAM-STATUS.md) and [versioned chan
 
 ## Privacy and scientific limits
 
-No accounts, ads, analytics, or remote game APIs. A mission summary and academy practice profile are stored locally. Academy progress can be reset in the game. Source observations are bundled for offline use; publication summaries are not raw time-series datasets. Hardware loads, shielding factors, mission limits, and the compressed emergency timeline are illustrative. The companion uses transparent rules, not a trained ML model. NASA does not endorse the project.
+No accounts, ads, analytics, or remote gameplay APIs. The upcoming updater checks public GitHub releases at most daily automatically, or when requested; it sends no learner profile or mission record. A mission summary and academy practice profile are stored locally. Academy progress can be reset in the game. Source observations are bundled for offline use; publication summaries are not raw time-series datasets. Hardware loads, shielding factors, mission limits, and the compressed emergency timeline are illustrative. The companion uses transparent rules, not a trained ML model. NASA does not endorse the project.
 
 For feedback, include the release version, device, OS, and steps to reproduce. Do not include personal information in public issues.
 

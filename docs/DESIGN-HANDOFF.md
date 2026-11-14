@@ -38,6 +38,7 @@ A `hud_scene` on the main game node replaces the generated fallback interface. U
 - `Visor`: ColorRect overlay
 - `Begin`, `Guide`, `Sound`: Button nodes
 - Optional `Academy`: Button node opening the practice interface
+- Optional `Updates`: Button node opening the update interface between missions
 
 The orchestrator binds those names to existing state and actions. Keep instructions legible on a 720p landscape viewport. Controller focus, touch targets, safe areas, pause, and readable failure feedback must survive a redesign. Screen-reader support for the native canvas interface is not yet validated; do not infer it from the earlier web dashboard's accessibility checks.
 
@@ -58,3 +59,7 @@ Run `npm run game:test`, the gameplay integration script, and the art-contract t
 ### Academy
 
 `academy.gd` is a separate presentation module using the same art profile and optional interface theme. Its scroll layout keeps long explanations reachable. Lesson content lives in `data/lessons.json`; learning estimates and persistence live in `learning.gd`. A visual redesign must preserve hints, explanation, keyboard focus, return to mission, save-error feedback, and confirmed local reset. Do not update knowledge estimates from animation or success effects.
+
+### Update interface
+
+The update client lives under the persistent `Updates` autoload so a mission reload cannot lose an in-progress download or restart prompt. `updater/panel.gd` is presentation; it accepts the shared art profile/theme. The title/debrief notification is deferred during active play. Keep verification errors, cancellation, restart consent, manual-installer fallback, and explicit interrupted-storage repair accessible when redesigning. Changes to autoloads, global script registries, or runtime layout need compatibility review and may require a new full installer. See [updates](UPDATES.md).

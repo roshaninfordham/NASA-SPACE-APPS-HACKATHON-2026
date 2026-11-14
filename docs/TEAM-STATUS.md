@@ -12,7 +12,7 @@ Alpha 0.3.0-alpha.1 adds local science practice and review guidance to the missi
 
 This build adds Mira's Field Academy: five short science lessons and ten authored questions, optional hints, explanations, a local practice profile, and scheduled review suggestions. Mission outcomes recommend relevant support. A hand-parameterized Bayesian estimate guides practice; it is not trained AI or validated mastery. This is still one 3D mission, not five new 3D levels.
 
-Signed-update verification now has 24 checks, but discovery, installation, rollback, and a production trust root are not complete. The updater is not enabled. Read the [learning design](LEARNING-DESIGN.md) and [request tracker](REQUEST-TRACKER.md) for evidence and open work. GitHub validation and the release workflow passed. Four public archives and their hashes were verified, along with downloaded Linux startup.
+The latest published alpha has only the update-verification foundation. Newer work on main adds discovery, staged installation, explicit restart and startup recovery, plus additional isolated tests. A production trust root and acceptance build remain required before signed updating is enabled. Read the [learning design](LEARNING-DESIGN.md) and [request tracker](REQUEST-TRACKER.md) for evidence and open work. GitHub validation and the release workflow passed. Four public archives and their hashes were verified, along with downloaded Linux startup.
 
 ## Core mission inherited from alpha.2
 

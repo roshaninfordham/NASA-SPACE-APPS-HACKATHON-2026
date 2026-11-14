@@ -4,7 +4,11 @@ All published game versions and notable unreleased work are recorded here. The v
 
 ## Unreleased
 
-- Signed in-game update discovery, staging, activation, and startup rollback remain in development. No published alpha includes an updater.
+- Implemented the next updater candidate on main: title/debrief notification, bounded GitHub discovery, verified desktop download, staged activation, explicit restart, and startup recovery. No published alpha includes this flow yet.
+- Added pinned runtime compatibility, repeated per-boot verification, update-state persistence across mission reloads, download cancellation/retry, and manual-installer fallbacks.
+- Added secure owner key provisioning, opt-in signed release assets, exact-source/tag/asset publication checks, and automatic temporary-secret cleanup.
+- Added isolated client/UI, real-PCK boot/recovery, concurrency, tamper, and release-tool checks. Production signing and baseline-to-pack acceptance remain release gates; Mac/Windows physical restart and mobile updates are not validated.
+- Documented parallel task ownership and independent security review; commits represent actual reviewed work.
 - Further missions, final art/audio, mobile input/accessibility, physical-device profiling, and learner evaluation remain open.
 
 ## [0.3.0-alpha.1] — 2026-11-14

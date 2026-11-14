@@ -4,6 +4,15 @@ const World = preload("res://scripts/world.gd")
 const Mission = preload("res://scripts/mission.gd")
 const Learning = preload("res://scripts/learning.gd")
 const Academy = preload("res://scripts/academy.gd")
+const UpdateClient = preload("res://updater/client.gd")
+const UpdatePanel = preload("res://updater/panel.gd")
+var update_client
+var update_panel
+var update_notice: PanelContainer
+var update_notice_label: Label
+var dismissed_update_version := ""
+var update_recovery_notice := ""
+var recovery_notice_dismissed := false
 var learning: VeilLearning
 var academy: VeilAcademy
 @export var art: VeilArtProfile = preload("res://art/default_art.tres")
@@ -53,12 +62,23 @@ func _ready() -> void:
 	action_audio.volume_db = -18
 	add_child(action_audio)
 	create_interface()
+	setup_updates()
 	get_tree().auto_accept_quit = true
+	await get_tree().process_frame
+	await get_tree().process_frame
+	var bootstrap := get_node_or_null("/root/Updates")
+	if bootstrap:
+		bootstrap.mark_healthy()
+		update_recovery_notice = bootstrap.startup_notice
+		refresh_update_notice()
 	if "--smoke-test" in OS.get_cmdline_user_args():
 		begin()
 		await get_tree().process_frame
-		print("RED_VEIL_SCENE_READY nodes=", get_tree().get_node_count(), " HUD=", hud.size, " meters=", metrics.get_parent().global_position)
+		print("RED_VEIL_SCENE_READY version=", update_client.current_version if is_instance_valid(update_client) else "unknown", " nodes=", get_tree().get_node_count(), " HUD=", hud.size, " meters=", metrics.get_parent().global_position)
 		get_tree().quit()
+		return
+	if DisplayServer.get_name() != "headless" and is_instance_valid(update_client):
+		update_client.check_for_updates.call_deferred(false)
 
 func setup_inputs() -> void:
 	var keys := {"forward": KEY_W, "back": KEY_S, "left": KEY_A, "right": KEY_D, "interact": KEY_E, "visor": KEY_Q, "jump": KEY_SPACE, "pause": KEY_ESCAPE, "guide": KEY_F1}
@@ -180,6 +200,7 @@ func create_interface() -> void:
 	button(menu, "FIELD GUIDE", Vector2(420, 490), 190, show_guide)
 	button(menu, "SOUND: ON" if sound_on else "SOUND: OFF", Vector2(72, 555), 200, toggle_sound)
 	button(menu, "MIRA’S FIELD ACADEMY", Vector2(290, 555), 320, show_academy)
+	button(menu, "UPDATES", Vector2(630, 555), 190, show_updates)
 	text(menu, "4 MINUTES  /  AGES 7–12  /  KEYBOARD · CONTROLLER · TOUCH", Vector2(74, 635), 13, Color("d4cab7"))
 	text(menu, "Educational prototype • Fictional limits • Local practice only • No accounts", Vector2(74, 665), 12, Color("c4bdad"))
 	hud.hide()
@@ -206,7 +227,7 @@ func create_touch_controls(root: Control) -> void:
 	touch_controls.visible = false
 
 func show_academy() -> void:
-	if is_instance_valid(academy): return
+	if is_instance_valid(academy) or is_instance_valid(update_panel): return
 	var should_resume := running and not ended and not paused
 	paused = true
 	player.enabled = false
@@ -221,8 +242,14 @@ func show_academy() -> void:
 		if should_resume: resume()
 	)
 	add_child(academy)
+	refresh_update_notice()
+	academy.closed.connect(func():
+		academy = null
+		refresh_update_notice()
+	)
 
 func begin() -> void:
+	if is_instance_valid(update_panel) or is_instance_valid(academy): return
 	if ended: get_tree().reload_current_scene(); return
 	menu.hide()
 	hud.show()
@@ -230,6 +257,7 @@ func begin() -> void:
 	paused = false
 	player.enabled = true
 	touch_controls.visible = DisplayServer.is_touchscreen_available()
+	refresh_update_notice()
 	if not DisplayServer.is_touchscreen_available(): Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	say("Follow the lights to the solar array on your right. I’ll stay on the radio.")
 
@@ -246,7 +274,7 @@ func say(message: String) -> void:
 	mission_events.append({"hours": mission.time, "message": message})
 
 func toggle_pause() -> void:
-	if not running or ended or is_instance_valid(academy): return
+	if not running or ended or is_instance_valid(academy) or is_instance_valid(update_panel): return
 	paused = not paused
 	player.enabled = not paused
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if paused else Input.MOUSE_MODE_CAPTURED
@@ -278,7 +306,7 @@ func show_modal(title: String, body: String, action: String, callback: Callable)
 	button(finish_panel, action, Vector2(35, 397), 290, callback)
 
 func show_guide() -> void:
-	if is_instance_valid(academy): return
+	if is_instance_valid(academy) or is_instance_valid(update_panel): return
 	var was_running := running
 	paused = true
 	player.enabled = false
@@ -379,7 +407,8 @@ func finish() -> void:
 	var body := "%s\n\nBattery left: %.1f kWh   •   Crew dose: %.2f mSv\nInspection: %d%%   •   Time survived: %.1f hours\n\nWHAT IF EVERYTHING STAYED ON?\nA fixed sheltered, cleaning-on, normal-power strategy\nended after %.1f hours: %s. Same weather, no inspection.\n\nWhat did you change when the sky became dark?" % [reason, mission.energy, mission.dose, int(mission.inspection * 100), mission.time, baseline.time_hours, baseline.status]
 	show_modal(title, body, "TRY ANOTHER PLAN", func(): get_tree().reload_current_scene())
 	button(finish_panel, "PRACTISE WITH MIRA", Vector2(345, 397), 375, show_academy)
-	var report := {"version": ProjectSettings.get_setting("application/config/version", "development"), "model": "red-veil-first-person", "result": mission.summary(), "baseline": baseline, "events": mission_events}
+	refresh_update_notice()
+	var report := {"version": update_client.current_version if is_instance_valid(update_client) else ProjectSettings.get_setting("application/config/version", "development"), "model": "red-veil-first-person", "result": mission.summary(), "baseline": baseline, "events": mission_events}
 	var file := FileAccess.open("user://last-mission.json", FileAccess.WRITE)
 	if file: file.store_string(JSON.stringify(report, "  "))
 
@@ -411,6 +440,85 @@ func bind_custom_interface(canvas: CanvasLayer) -> void:
 	root.get_node("%Sound").text = "SOUND: ON" if sound_on else "SOUND: OFF"
 	var academy_button := root.get_node_or_null("%Academy")
 	if academy_button: academy_button.pressed.connect(show_academy)
+	var updates_button := root.get_node_or_null("%Updates")
+	if updates_button: updates_button.pressed.connect(show_updates)
 	hud.hide()
 	menu.show()
 	create_touch_controls(root)
+
+func setup_updates() -> void:
+	var bootstrap := get_node_or_null("/root/Updates")
+	if bootstrap == null: return
+	update_recovery_notice = bootstrap.startup_notice
+	update_client = bootstrap.get_node_or_null("Client")
+	if update_client == null:
+		update_client = UpdateClient.new()
+		update_client.name = "Client"
+		update_client.configure(bootstrap.store, bootstrap.running_version, bootstrap.store.root_dir.path_join("incoming"))
+		bootstrap.add_child(update_client)
+	update_client.changed.connect(refresh_update_notice)
+	update_notice = PanelContainer.new()
+	update_notice.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	update_notice.position = Vector2(-420, 24)
+	update_notice.custom_minimum_size = Vector2(396, 140)
+	var style := StyleBoxFlat.new()
+	style.bg_color = art.structure_color.darkened(0.4)
+	style.border_color = art.interface_accent
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(10)
+	for side in ["left", "top", "right", "bottom"]: style.set("content_margin_" + side, 14)
+	update_notice.add_theme_stylebox_override("panel", style)
+	menu.get_parent().add_child(update_notice)
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 10)
+	update_notice.add_child(column)
+	update_notice_label = Label.new()
+	update_notice_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	update_notice_label.add_theme_font_size_override("font_size", 18)
+	update_notice_label.add_theme_color_override("font_color", art.interface_text)
+	if art.interface_font: update_notice_label.add_theme_font_override("font", art.interface_font)
+	column.add_child(update_notice_label)
+	var row := HBoxContainer.new()
+	column.add_child(row)
+	var review := Button.new()
+	review.text = "VIEW UPDATE"
+	review.custom_minimum_size = Vector2(180, 44)
+	review.pressed.connect(show_updates)
+	row.add_child(review)
+	var later := Button.new()
+	later.text = "LATER"
+	later.custom_minimum_size = Vector2(160, 44)
+	later.pressed.connect(func():
+		dismissed_update_version = update_client.available_version
+		recovery_notice_dismissed = true
+		refresh_update_notice()
+	)
+	row.add_child(later)
+	refresh_update_notice()
+
+func refresh_update_notice() -> void:
+	if not is_instance_valid(update_notice) or not is_instance_valid(update_client): return
+	var available: String = update_client.available_version
+	update_notice_label.text = "RED VEIL %s IS AVAILABLE" % available
+	if update_client.ready_to_restart: update_notice_label.text = "YOUR UPDATE IS READY TO RESTART"
+	var show_recovery := not update_recovery_notice.is_empty() and not recovery_notice_dismissed
+	if show_recovery: update_notice_label.text = update_recovery_notice
+	var show_available := not available.is_empty() and available != dismissed_update_version
+	update_notice.visible = (show_available or show_recovery) and (not running or ended) and not is_instance_valid(academy) and not is_instance_valid(update_panel)
+
+func show_updates() -> void:
+	# Installation is offered between missions, never over an active mission.
+	if running and not ended: return
+	if not is_instance_valid(update_client) or is_instance_valid(update_panel) or is_instance_valid(academy): return
+	player.enabled = false
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	update_panel = UpdatePanel.new()
+	update_panel.client = update_client
+	update_panel.art = art
+	update_panel.interface_theme = interface_theme
+	update_panel.closed.connect(func():
+		update_panel = null
+		refresh_update_notice()
+	)
+	add_child(update_panel)
+	refresh_update_notice()
