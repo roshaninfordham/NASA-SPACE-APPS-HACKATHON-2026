@@ -77,6 +77,8 @@ The earlier web dashboard remains a reference model in `src/`. For that prototyp
 
 ## Evidence and documentation
 
+Start with the [team progress briefing](docs/TEAM-STATUS.md) and [versioned changelog](CHANGELOG.md).
+
 | Topic                                        | Document                                   |
 | -------------------------------------------- | ------------------------------------------ |
 | Product scope and original brief             | [Core brief](docs/CORE-BRIEF.md)           |
@@ -95,3 +97,7 @@ The earlier web dashboard remains a reference model in `src/`. For that prototyp
 No accounts, ads, analytics, or remote game APIs. A mission summary is stored locally. Source observations are bundled for offline use; publication summaries are not raw time-series datasets. Hardware loads, shielding factors, mission limits, and the compressed emergency timeline are illustrative. The companion uses transparent rules, not a trained ML model. NASA does not endorse the project.
 
 For feedback, include the release version, device, OS, and steps to reproduce. Do not include personal information in public issues.
+
+---
+
+made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC

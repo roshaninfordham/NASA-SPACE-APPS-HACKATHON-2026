@@ -40,3 +40,7 @@ Native tests cover numerical invariants, a complete successful interaction seque
 ## Honesty about readiness
 
 This is an early playable alpha, not final artwork or validated astronaut training. macOS and Windows exports have not yet been run on those operating systems. Apple signing/notarization, physical-device performance and input testing, scientific expert review, and age-appropriate playtesting remain outstanding. A transparent rules-based companion is used; no machine-learning model is claimed.
+
+---
+
+made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC
