@@ -1,5 +1,9 @@
 import { chromium } from "@playwright/test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+const brand = JSON.parse(
+  readFileSync(new URL("../game/data/brand.json", import.meta.url), "utf8"),
+);
 const browser = await chromium.launch({
   executablePath: process.env.CHROMIUM_PATH || "/usr/bin/chromium",
   args: [
@@ -31,7 +35,7 @@ try {
   });
   await context.setOffline(true);
   await page.reload();
-  assert.match(await page.title(), /Red Veil/);
+  assert.equal(await page.title(), brand.display_name);
   await page.getByRole("button", { name: "I’m ready to explore" }).click();
   await page.locator("#start").click();
   await page.locator("#visorCleaning").click();

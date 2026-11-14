@@ -99,6 +99,8 @@ def expected_files(root: Path = ROOT) -> dict[Path, str]:
     ]:
         exports = setting(exports, section, key, value)
     result[root / "game/export_presets.cfg"] = exports
+    android = setting(read("game/export_presets.android.cfg"), "preset.0.options", "package/name", brand["display_name"] + " Internal Test")
+    result[root / "game/export_presets.android.cfg"] = android
     package = json.loads(read("package.json"))
     package["name"] = brand["package_slug"]
     result[root / "package.json"] = json.dumps(package, ensure_ascii=False, indent=2) + "\n"

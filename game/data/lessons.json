@@ -88,7 +88,7 @@
         ],
         "answer": 2,
         "hint": "Think about a thick wall when a lamp is switched off.",
-        "explanation": "The passive material remains. In Red Veil, the refuge lowers the exposure rate but does not make it zero. Real habitats still need power for essential systems; shielding is only one part of safety."
+        "explanation": "The passive material remains. In this game, the refuge lowers the exposure rate but does not make it zero. Real habitats still need power for essential systems; shielding is only one part of safety."
       }
     ]
   },
@@ -150,7 +150,7 @@
         ],
         "answer": 2,
         "hint": "A model is a useful map, but it does not contain every detail of the real world.",
-        "explanation": "It worked under these assumptions. Red Veil uses a compressed clock and illustrative hardware, weather, and limits. Test other conditions, examine the sources, and ask experts before making real engineering claims."
+        "explanation": "It worked under these assumptions. The game uses a compressed clock and illustrative hardware, weather, and limits. Test other conditions, examine the sources, and ask experts before making real engineering claims."
       }
     ]
   }

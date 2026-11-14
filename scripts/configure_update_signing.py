@@ -43,7 +43,7 @@ def check_remote_key(candidate, existing):
 def publish_public_key(content):
     # Initial create only. Existing roots were checked before any secret write.
     # A racing create gets HTTP 409/422 rather than overwriting another root.
-    payload = {"message": "Configure public trust root for signed Red Veil updates", "branch": "main", "content": base64.b64encode(content).decode()}
+    payload = {"message": "Configure public trust root for signed game updates", "branch": "main", "content": base64.b64encode(content).decode()}
     result = subprocess.run(["gh", "api", "--method", "PUT", f"repos/{REPOSITORY}/contents/{PUBLIC_PATH}", "--input", "-"], input=json.dumps(payload), text=True, capture_output=True)
     if result.returncode:
         raise ValueError("The public-key commit was not created. The local public key is safe to commit manually; do not publish an updater until it matches the configured secret.")

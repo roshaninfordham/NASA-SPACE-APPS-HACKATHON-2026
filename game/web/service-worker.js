@@ -264,7 +264,7 @@ self.addEventListener("fetch", (event) => {
         return (
           response ||
           new Response(
-            "This saved game is incomplete. Reconnect and reload Red Veil.",
+            "This saved game is incomplete. Reconnect and reload the game.",
             { status: 503, headers: { "content-type": "text/plain" } },
           )
         );

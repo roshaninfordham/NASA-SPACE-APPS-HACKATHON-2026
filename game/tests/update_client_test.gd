@@ -47,7 +47,7 @@ class FakeClient extends "res://updater/client.gd":
 	func _desktop_supported() -> bool: return desktop
 	func restart_game() -> bool:
 		restart_calls += 1
-		message = "Close and reopen Red Veil to finish the update."
+		message = "Close and reopen the game to finish the update."
 		return false
 	func _fetch(url: String, limit: int, download_path: String = "") -> Dictionary:
 		requests.append({"url": url, "limit": limit, "path": download_path})

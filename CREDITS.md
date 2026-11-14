@@ -1,4 +1,4 @@
-# Red Veil credits and asset provenance
+# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> credits and asset provenance
 
 ## Runtime
 
@@ -22,4 +22,4 @@ NASA public publications supply the numerical observations identified in `data/n
 
 ## Project visuals
 
-Current outpost geometry, interface arrangement, icon, and scanner are provisional procedural project work. They do not reproduce reference-document images. Future third-party art must add its creator, license, source revision, and modification record here before distribution.
+The 0.5 habitat, control room, refuge, landscape, scanner, Mira, interface and wave/blossom/lattice/lantern ornaments are original procedural project work guided by the design team’s supplied concept references. These are 3D interpretations, not pixel-identical copies. The reference images themselves are not bundled as game textures. Shared geometry and ornament builders keep this art replaceable; no new third-party art dependency was introduced. Future third-party art must add its creator, license, source revision, and modification record here before distribution.
