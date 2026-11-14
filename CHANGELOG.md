@@ -7,6 +7,7 @@ All published game versions and notable unreleased work are recorded here. The v
 Packaging and update-discovery repair. Gameplay and 0.6 artwork are unchanged.
 
 - Enable Godot's built-in ad-hoc Mac bundle signing, replacing the inherited engine-template signature that failed strict native verification in the public 0.6.0 download.
+- Derive Mac filenames using Apple-compatible decomposed Unicode from the shared brand configuration, preserving the displayed KŌMAKU name. Native gates rejected the initially composed resource seal.
 - Include a consent-based Mac installer that verifies integrity, installs into the user's Applications folder, preserves the previous app and changes quarantine only for that copied app. No Developer ID/notarization is claimed.
 - Require native macOS signature, universal architecture, headless and graphical startup checks and native Windows startup checks on the exact exported ZIPs before publishing.
 - Bundle the official ANGLE graphics fallback DLLs on Windows, so a missing native OpenGL 3.3 driver does not leave the fallback unavailable.

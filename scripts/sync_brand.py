@@ -15,6 +15,7 @@ import json
 from pathlib import Path
 import re
 import sys
+import unicodedata
 
 ROOT = Path(__file__).resolve().parents[1]
 FIELDS = {"display_name", "title", "subtitle", "package_stem", "package_slug", "legacy_product_name"}
@@ -80,6 +81,9 @@ def expected_files(root: Path = ROOT) -> dict[Path, str]:
     project = read("game/project.godot")
     for key, value in {
         "config/name": brand["display_name"],
+        # Apple's bundle verifier resolves decomposed Unicode paths. Keep the
+        # visible brand unchanged while sealing Mac filenames in that form.
+        "config/name.macos": unicodedata.normalize("NFD", brand["display_name"]),
         "config/description": description,
         "config/use_custom_user_dir": True,
         # Godot core/os/os.cpp get_user_data_dir joins these to platform data roots.

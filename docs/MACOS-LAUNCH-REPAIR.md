@@ -6,7 +6,7 @@ A player reported “damaged and can’t be opened” on an Apple M5 with macOS 
 
 1. **Why could the player not open the app?** macOS rejected the downloaded bundle. The exact user-machine failure has not been remotely reproduced, but the public ZIP independently fails Apple's strict bundle-signature verification.
 2. **Why is the signature invalid?** `codesign --verify --deep --strict` reports “code has no resources but signature indicates they must be present.” The executable retains the Godot template's signing identifier, while the exported app has no matching sealed-resource signature.
-3. **Why did export leave that state?** The macOS export preset explicitly disabled signing (`codesign/codesign=0`). The fix enables Godot 4.6.3's built-in ad-hoc signing (`1`), which seals the exported bundle. This is local integrity signing, not Developer ID authentication.
+3. **Why did export leave that state?** The macOS export preset explicitly disabled signing (`codesign/codesign=0`). The fix enables Godot 4.6.3's built-in ad-hoc signing (`1`). Native checks also caught a second defect in the first candidate: Unicode bundle/executable/resource names must use the decomposed form expected by Apple's verifier. The shared brand generator now derives `config/name.macos` in that form; the displayed name is unchanged. This is local integrity signing, not Developer ID authentication.
 4. **Why did release validation miss it?** Builds cross-exported on Linux. ZIP checksums/CRCs and Linux startup proved transfer integrity and Linux execution, not Mac bundle validity. The actual public 0.6 executable even starts headlessly on native macOS when invoked directly, illustrating why direct execution alone is insufficient.
 5. **Why was that enough to publish?** The pipeline had no native Mac/Windows gate. Native archive verification and startup are now required before either publication route. Failed jobs prevent a successful accepted build.
 
@@ -14,7 +14,9 @@ A player reported “damaged and can’t be opened” on an Apple M5 with macOS 
 
 [Diagnostic run 43647118906](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43647118906) downloaded the immutable public 0.6 ZIP, matched SHA-256 `4c0caf99c2d39d8c178aa8733508aab56d389bc057ea59fb402e4195f4df77b7`, and tested it on an arm64 Mac runner (virtual M2 Pro, macOS 26.7.2). Strict signature verification failed; direct headless startup reached the game. A manual re-sign experiment crashed and is not prescribed as a repair. [Sanitized result](evidence/macos-0.6-launch-diagnosis.json).
 
-The replacement is exported with the proper signature and must pass its own strict native verification. Reports record the exact archive and manifest hashes, OS/architecture, headless and graphical startup. They do not certify Finder acceptance, physical M5 frame rates or complete playthroughs.
+[Candidate diagnosis 43648155992](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43648155992) showed that both executable-page and resource hashes matched, but the composed-Unicode bundle still failed resource verification. Native re-signing treated its decomposed executable path as an unsigned subcomponent; an otherwise equivalent copy with ASCII internal filenames signed and verified correctly. This isolated filename handling from damaged download bytes.
+
+The replacement uses decomposed Mac filenames and must pass its own strict native verification. Reports record the exact archive and manifest hashes, OS/architecture, headless and graphical startup. They do not certify Finder acceptance, physical M5 frame rates or complete playthroughs.
 
 ## What the fix can and cannot do
 
