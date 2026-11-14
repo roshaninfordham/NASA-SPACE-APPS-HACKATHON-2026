@@ -1,6 +1,8 @@
 # <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> — team progress
 
-**Latest release: [0.6.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.6.0-alpha.1), November 14, 2026.** Source `c0beba698c32741fb17f6c8e9ec44fd6bb875852`; build `43645098947`, attempt 1. Four platform ZIPs plus signed content, its manifest/signature, release manifest and checksums make nine assets.
+**Current package version: 0.6.1-alpha.1, November 14, 2026.** This is a packaging/update repair for the 0.6 gameplay release. The [release list](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases) and each archive's manifest identify the published source and downloads. Four platform ZIPs plus signed content, its manifest/signature, release manifest and checksums make nine assets.
+
+The repair enables Mac ad-hoc bundle signing and includes an explicit-consent installer, adds native Mac/Windows launch gates, bundles Windows ANGLE fallback libraries, and checks for updates at every fresh startup. [Root cause and limits](MACOS-LAUNCH-REPAIR.md). A blocked 0.6 Mac app needs one corrected full installation; it cannot repair its own bundle via content updates.
 
 The game now has a shared brand configuration, a walkable ornamented habitat and holographic control room, a shielded refuge, Mira's redesigned suit, a new scanner, lantern-lit terrain and an untimed exploration mode. It retains the four-minute first-person science mission, separate energy stores, dust/radiation decisions, and five-concept local practice academy. The new scenes are procedural interpretations of supplied designs; final photoreal art and a complete escort/rescue campaign are not delivered.
 
@@ -10,7 +12,7 @@ The 0.6 release adds live Suit Lab views and five educational experiments, four 
 
 ## What the team can demonstrate
 
-- Download and run the Mac universal, Windows x64 or Linux x64 build. Native Mac/Windows packages remain unsigned; Mac is not notarized or physically tested here.
+- Download and run the Mac universal, Windows x64 or Linux x64 build. Mac is ad-hoc signed but not notarized; Windows has no publisher certificate. Follow the one-time OS trust instructions. Native CI startup is a release gate; physical-device playtesting remains open.
 - Choose **Explore the habitat** to inspect the room without consuming mission time, batteries or dose. Choose the timed mission separately to test the survival decisions.
 - Use actual consoles, inspect the solar array, conserve power, manage visor/panel cleaning and walk into the passive refuge. The numerical rules were preserved through the visual pivot.
 - Open **Explorer Suit Lab** to rotate/inspect Mira and compare five teaching experiments; choose **Habitat Field Notes** for four architecture lessons. Both preserve paused mission resources.
@@ -19,7 +21,7 @@ The 0.6 release adds live Suit Lab views and five educational experiments, four 
 
 ## Verified delivery and update behavior
 
-GitHub validation and the four-target build passed. Runtime checks cover numerical invariants, a successful mission, capsule-based walking routes, untimed exploration, keyboard-operated dialogs, and desktop/portrait/landscape bounds. Browser fixtures cover offline updates and overlapping worker activation; physical phones are not validated by those fixtures.
+The build requires numerical/gameplay suites, Linux startup and native Mac/Windows launch gates. Final release evidence records which exact artifacts passed. Runtime checks cover numerical invariants, a successful mission, capsule-based walking routes, untimed exploration, keyboard-operated dialogs, and desktop/portrait/landscape bounds. Browser fixtures cover offline updates and overlapping worker activation; physical phones are not validated by those fixtures.
 
 The **actual published 0.4 Linux executable** verified and mounted the new signed 0.6 pack, acknowledged healthy startup, repeated startup and recovered its original version after same-size pack tampering. Its executable hash stayed unchanged. [Exact evidence](evidence/update-0.4-to-0.6.json). This gate used local verified artifact bytes and headless launches. Separately, the earlier [0.4 synthetic-fixture acceptance](evidence/update-0.4.0-alpha.1.json) passed real GitHub transfers and automatic GUI relaunch under Xvfb. These are distinct scopes; neither proves physical Mac/Windows updating.
 

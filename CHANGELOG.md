@@ -9,6 +9,7 @@ Packaging and update-discovery repair. Gameplay and 0.6 artwork are unchanged.
 - Enable Godot's built-in ad-hoc Mac bundle signing, replacing the inherited engine-template signature that failed strict native verification in the public 0.6.0 download.
 - Include a consent-based Mac installer that verifies integrity, installs into the user's Applications folder, preserves the previous app and changes quarantine only for that copied app. No Developer ID/notarization is claimed.
 - Require native macOS signature, universal architecture, headless and graphical startup checks and native Windows startup checks on the exact exported ZIPs before publishing.
+- Bundle the official ANGLE graphics fallback DLLs on Windows, so a missing native OpenGL 3.3 driver does not leave the fallback unavailable.
 - Check for content updates on every fresh launch; remove the persisted daily suppression that could hide releases after an offline launch. Keep manual checks, signature verification, explicit restart and rollback.
 - Document the initial-installation trust boundary and why a broken Mac bundle needs one corrected full download. Existing saves, bundle identity and signed-content trust root remain unchanged.
 

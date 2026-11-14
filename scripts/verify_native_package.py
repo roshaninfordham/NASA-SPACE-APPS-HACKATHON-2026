@@ -210,6 +210,23 @@ def main() -> int:
                 report[label] = passed
                 if not passed and (not graphical or args.require_graphical):
                     raise ValueError(f"{label} failed to reach the expected game version without engine errors")
+            if system == "Windows":
+                for name in ("libEGL.dll", "libGLESv2.dll"):
+                    if not (extracted / name).is_file():
+                        raise ValueError("Missing Windows graphics fallback library: " + name)
+            # macOS restart uses LaunchServices; a raw executable launch alone
+            # does not establish that the complete bundle can be opened there.
+            label = "launchservices-startup" if system == "Darwin" else "angle-startup"
+            engine_log = logs / (label + "-engine.log")
+            command = (["open", "-W", "-n", str(app), "--args"] if system == "Darwin" else
+                       [str(executable), "--rendering-driver", "opengl3_angle"])
+            command += ["--log-file", str(engine_log), "--", "--smoke-test"]
+            result = run_command(command, logs, label, report["commands"])
+            output = engine_log.read_text(encoding="utf-8", errors="replace") if engine_log.exists() else ""
+            passed = result["exit_code"] == 0 and not result.get("timed_out") and scene_ready(output, manifest["version"])
+            report[label] = passed
+            if not passed:
+                raise ValueError(label + " did not reach the game without engine errors")
             report["passed"] = True
     except Exception as error:
         report["error"] = str(error)

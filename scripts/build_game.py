@@ -18,7 +18,7 @@ from sign_update import REPOSITORY, RUNTIME_CONTRACT, sign_pack, valid_version, 
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "releases"
-DOCS = ["CREDITS.md", "CHANGELOG.md", "docs/DOWNLOADS.md", "docs/SCIENCE.md", "docs/LEARNING-DESIGN.md", "docs/TEAM-STATUS.md", "docs/UPDATES.md", "docs/SPEC-IMPLEMENTATION.md"]
+DOCS = ["CREDITS.md", "CHANGELOG.md", "docs/DOWNLOADS.md", "docs/MACOS-LAUNCH-REPAIR.md", "docs/SCIENCE.md", "docs/LEARNING-DESIGN.md", "docs/TEAM-STATUS.md", "docs/UPDATES.md", "docs/SPEC-IMPLEMENTATION.md"]
 UPDATE_ASSETS = {"red-veil-content.pck", "update-manifest.json", "update-manifest.sig"}
 METADATA_ASSETS = {"release-manifest.json", "SHA256SUMS.txt"}
 
