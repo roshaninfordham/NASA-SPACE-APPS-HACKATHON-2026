@@ -51,6 +51,7 @@ class PublishWorkflowTest(unittest.TestCase):
         }
         self.guard = workflow_python("Verify successful source build before download")
         self.prepare = workflow_python("Verify and prepare unchanged accepted files")
+        self.publish = workflow_python("Publish the matching draft without rebuilding")
 
     def execute(self, code, run=None, environment=None):
         result = subprocess.CompletedProcess(["gh", "api"], 0, stdout=json.dumps(self.run if run is None else run))
@@ -156,9 +157,46 @@ class PublishWorkflowTest(unittest.TestCase):
             self.execute(self.prepare)
         self.assertFalse((self.folder / "releases/release-manifest.json").exists())
 
+    def test_draft_compatibility_bridge_changes_only_the_expected_tag_endpoint(self):
+        url = f"https://api.github.com/repos/{self.repository}/releases/12345"
+        result = subprocess.CompletedProcess([], 0, stdout=url)
+        old_endpoint = f"repos/{self.repository}/releases/tags/v{self.version}"
+        other_endpoint = f"repos/{self.repository}/git/ref/tags/v{self.version}"
+        different_release = f"repos/{self.repository}/releases/tags/v0.1.0"
+
+        def existing_publisher(version):
+            self.assertEqual(version, self.version)
+            build_game.gh_api(old_endpoint)
+            build_game.gh_api(other_endpoint, allow_missing=True)
+            build_game.gh_api(different_release)
+
+        original_path = list(sys.path)
+        try:
+            with patch.dict(os.environ, self.environment), patch.object(subprocess, "run", return_value=result) as command, patch.object(build_game, "gh_api", return_value={}) as github, patch.object(build_game, "publish_prepared", side_effect=existing_publisher) as publisher:
+                exec(self.publish, {"__name__": "__main__"})
+                self.assertIs(build_game.gh_api, github)
+            publisher.assert_called_once_with(self.version)
+            self.assertEqual(command.call_args.args[0][:4], ["gh", "release", "view", "v" + self.version])
+            self.assertEqual([call.args[0] for call in github.call_args_list], [f"repos/{self.repository}/releases/12345", other_endpoint, different_release])
+            self.assertEqual([call.kwargs["allow_missing"] for call in github.call_args_list], [False, True, False])
+        finally:
+            sys.path[:] = original_path
+
+    def test_draft_compatibility_lookup_failure_never_calls_the_publisher(self):
+        results = [subprocess.CompletedProcess([], 1, stdout="", stderr="not found"), subprocess.CompletedProcess([], 0, stdout="https://example.com/releases/12345"), subprocess.CompletedProcess([], 0, stdout="https://api.github.com/repos/other/repo/releases/12345")]
+        original_path = list(sys.path)
+        try:
+            for result in results:
+                with self.subTest(result=result), patch.dict(os.environ, self.environment), patch.object(subprocess, "run", return_value=result), patch.object(build_game, "gh_api") as github, patch.object(build_game, "publish_prepared") as publisher, self.assertRaises(SystemExit):
+                    exec(self.publish, {"__name__": "__main__"})
+                github.assert_not_called()
+                publisher.assert_not_called()
+        finally:
+            sys.path[:] = original_path
+
     def test_workflow_has_no_build_or_private_signing_key_step(self):
         workflow = WORKFLOW.read_text()
-        self.assertIn('run: python scripts/build_game.py --version "$RELEASE_VERSION" --publish-prepared', workflow)
+        self.assertIn("build_game.publish_prepared(version)", workflow)
         self.assertIn("actions: read", workflow)
         self.assertIn("contents: write", workflow)
         self.assertNotIn("RED_VEIL_UPDATE_SIGNING_KEY", workflow)

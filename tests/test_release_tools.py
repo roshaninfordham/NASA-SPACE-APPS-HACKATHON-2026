@@ -187,6 +187,32 @@ class ReleaseToolsTest(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "version/source"):
                 build_game.validate_release_manifest(self.unsigned_manifest(), self.version, "b" * 40)
 
+    def test_draft_lookup_uses_validated_numeric_release_api_id(self):
+        release = {"id": 12345, "draft": True, "tag_name": "v" + self.version}
+        result = subprocess.CompletedProcess([], 0, stdout=f"https://api.github.com/repos/{build_game.REPOSITORY}/releases/12345\n")
+        with patch.object(subprocess, "run", return_value=result) as command, patch.object(build_game, "gh_api", return_value=release) as github:
+            self.assertEqual(build_game.read_release(self.version), release)
+        self.assertEqual(command.call_args.args[0][:4], ["gh", "release", "view", "v" + self.version])
+        github.assert_called_once_with(f"repos/{build_game.REPOSITORY}/releases/12345")
+
+    def test_draft_lookup_rejects_arbitrary_api_urls_before_querying_them(self):
+        urls = ["https://example.com/releases/12345", "https://api.github.com/repos/other/repo/releases/12345", f"https://api.github.com/repos/{build_game.REPOSITORY}/releases/tags/v{self.version}", f"https://api.github.com/repos/{build_game.REPOSITORY}/releases/12345?redirect=1"]
+        for url in urls:
+            with self.subTest(url=url), patch.object(subprocess, "run", return_value=subprocess.CompletedProcess([], 0, stdout=url)), patch.object(build_game, "gh_api") as github, self.assertRaisesRegex(ValueError, "unexpected API URL"):
+                build_game.read_release(self.version)
+            github.assert_not_called()
+
+    def test_failed_draft_lookup_does_not_try_an_api_mutation(self):
+        with patch.object(subprocess, "run", return_value=subprocess.CompletedProcess([], 1, stdout="", stderr="not found")) as command, patch.object(build_game, "gh_api") as github, self.assertRaisesRegex(ValueError, "no publication attempted"):
+            build_game.read_release(self.version)
+        self.assertEqual(command.call_args.args[0][:3], ["gh", "release", "view"])
+        github.assert_not_called()
+
+    def test_draft_lookup_checks_api_response_identity(self):
+        result = subprocess.CompletedProcess([], 0, stdout=f"https://api.github.com/repos/{build_game.REPOSITORY}/releases/12345")
+        with patch.object(subprocess, "run", return_value=result), patch.object(build_game, "gh_api", return_value={"id": 99999}), self.assertRaisesRegex(ValueError, "numeric ID"):
+            build_game.read_release(self.version)
+
     def test_published_release_and_wrong_tag_cannot_be_modified(self):
         with patch.object(build_game, "gh_api") as github:
             for release in [{"draft": False, "tag_name": "v" + self.version}, {"draft": True, "tag_name": "v0.1.0"}]:

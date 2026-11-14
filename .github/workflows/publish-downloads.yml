@@ -152,7 +152,45 @@ jobs:
       - name: Publish the matching draft without rebuilding
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python scripts/build_game.py --version "$RELEASE_VERSION" --publish-prepared
+        run: |
+          python <<'PY'
+          import os
+          from pathlib import Path
+          import re
+          import subprocess
+          import sys
+
+          root = Path.cwd()
+          sys.path.insert(0, str(root / "scripts"))
+          import build_game
+
+          version = os.environ["RELEASE_VERSION"]
+          repository = "roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026"
+          if build_game.REPOSITORY != repository or os.environ["GITHUB_REPOSITORY"] != repository:
+              raise SystemExit("Publication is restricted to the fixed Red Veil repository")
+          result = subprocess.run(["gh", "release", "view", "v" + version, "--repo", repository, "--json", "apiUrl", "--jq", ".apiUrl"], cwd=root, capture_output=True, text=True)
+          if result.returncode:
+              raise SystemExit("Could not resolve the existing draft; no publication attempted")
+          match = re.fullmatch(r"https://api\.github\.com/repos/" + re.escape(repository) + r"/releases/([1-9][0-9]{0,19})", result.stdout.strip())
+          if match is None:
+              raise SystemExit("Draft lookup returned an unexpected API URL")
+          draft_endpoint = f"repos/{repository}/releases/{match[1]}"
+          old_tag_endpoint = f"repos/{repository}/releases/tags/v{version}"
+          original_gh_api = build_game.gh_api
+
+          def draft_aware_api(endpoint, allow_missing=False):
+              # Compatibility for the accepted old source: the REST tag lookup
+              # excludes drafts. Change only that lookup, never code/artifacts
+              # on disk or the publisher's draft/source/tag/signature guards.
+              selected = draft_endpoint if endpoint == old_tag_endpoint else endpoint
+              return original_gh_api(selected, allow_missing=allow_missing)
+
+          build_game.gh_api = draft_aware_api
+          try:
+              build_game.publish_prepared(version)
+          finally:
+              build_game.gh_api = original_gh_api
+          PY
       - name: Record published release
         run: |
           python <<'PY'

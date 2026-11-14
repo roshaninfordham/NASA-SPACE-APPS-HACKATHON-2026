@@ -193,6 +193,23 @@ def gh_api(endpoint, allow_missing=False):
     return json.loads(result.stdout)
 
 
+def read_release(version):
+    """Resolve drafts through gh, then read only the fixed repository's numeric API ID."""
+    if not valid_version(version):
+        raise ValueError("Invalid release version")
+    result = subprocess.run(["gh", "release", "view", "v" + version, "--repo", REPOSITORY, "--json", "apiUrl", "--jq", ".apiUrl"], cwd=ROOT, capture_output=True, text=True)
+    if result.returncode:
+        raise ValueError("GitHub could not resolve the existing release; no publication attempted")
+    match = re.fullmatch(r"https://api\.github\.com/repos/" + re.escape(REPOSITORY) + r"/releases/([1-9][0-9]{0,19})", result.stdout.strip())
+    if match is None:
+        raise ValueError("Release lookup returned an unexpected API URL")
+    release_id = int(match[1])
+    release = gh_api(f"repos/{REPOSITORY}/releases/{release_id}")
+    if not isinstance(release, dict) or type(release.get("id")) is not int or release["id"] != release_id:
+        raise ValueError("Release API response does not match the resolved numeric ID")
+    return release
+
+
 def validate_release_binding(release, version, commit):
     if release.get("draft") is not True or release.get("tag_name") != "v" + version:
         raise ValueError("Publication requires the matching existing draft; published assets are immutable")
@@ -213,7 +230,7 @@ def publish_prepared(version):
     require_clean_source()
     manifest = json.loads((OUT / "release-manifest.json").read_text())
     expected = validate_release_manifest(manifest, version, source_commit()) | METADATA_ASSETS
-    release = gh_api(f"repos/{REPOSITORY}/releases/tags/v{version}")
+    release = read_release(version)
     validate_release_binding(release, version, manifest["commit"])
     existing = {asset["name"] for asset in release.get("assets", [])}
     if not existing.issubset(expected):
@@ -230,7 +247,7 @@ def publish_prepared(version):
         if update != expected_update:
             raise ValueError("Signed content manifest does not match the prepared release")
     subprocess.run(["gh", "release", "upload", "v" + version, *[str(OUT / name) for name in sorted(expected)], "--clobber", "--repo", REPOSITORY], cwd=ROOT, check=True)
-    uploaded = gh_api(f"repos/{REPOSITORY}/releases/tags/v{version}")
+    uploaded = gh_api(f"repos/{REPOSITORY}/releases/{release['id']}")
     validate_release_binding(uploaded, version, manifest["commit"])
     if {asset["name"] for asset in uploaded.get("assets", [])} != expected:
         raise ValueError("Uploaded asset set is incomplete or unexpected")
