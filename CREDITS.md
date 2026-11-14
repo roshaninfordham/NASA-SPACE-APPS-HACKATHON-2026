@@ -2,7 +2,7 @@
 
 ## Runtime
 
-Godot Engine 4.6.3, MIT license. Official export templates are verified against the publisher's SHA-512 manifest. Engine and third-party notices are bundled in `game/licenses/Godot-MIT.txt` and `Godot-THIRDPARTY.txt`.
+Godot Engine 4.6.3, MIT license. Official export templates are verified against the publisher's SHA-512 manifest. Notices are pinned to the engine’s `4.6.3-stable` source tag. Engine and third-party notices are bundled in `game/licenses/Godot-MIT.txt` and `Godot-THIRDPARTY.txt`.
 
 ## Kenney starter kit
 
