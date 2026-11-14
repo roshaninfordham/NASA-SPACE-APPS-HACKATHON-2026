@@ -1,6 +1,8 @@
 # Browser and home-screen delivery
 
-Red Veil can have a hosted browser edition alongside the downloadable desktop game. On supported browsers, the hosted edition can be installed to the home screen without an App Store submission. This is a Progressive Web App (PWA), not a native iOS package. Browser capabilities, available memory, operating-system storage policy, and physical-device playtesting still determine whether it is a good experience on a particular phone or tablet.
+**Hosting is deferred by owner choice.** Deployment run `43638541666` succeeded, but public verification found that the account-wide Pages custom domain redirects the repository URL to another website. It is not a verified public game link. Automatic deployments require repository variable `RED_VEIL_WEB_DEPLOY_ENABLED=true`; leave it unset until a separate game address has been configured and tested. Native downloads and signed desktop updates remain available. The prepared export passed real Chromium launch and offline reload locally; 14 desktop/mobile-layout browser-update tests pass.
+
+<!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> can have a hosted browser edition alongside the downloadable desktop game. On supported browsers, the hosted edition can be installed to the home screen without an App Store submission. This is a Progressive Web App (PWA), not a native iOS package. Browser capabilities, available memory, operating-system storage policy, and physical-device playtesting still determine whether it is a good experience on a particular phone or tablet.
 
 The browser update system is separate from the desktop signed-content updater. Its trust boundary is the HTTPS website origin and the code that origin publishes. SHA-256 checks prevent partial or mismatched builds from becoming ready; they are not an independent signature against a compromised hosting account. There are no accounts, analytics, remote learner profiles, browser push notifications, or background phone alerts.
 
@@ -10,7 +12,7 @@ The browser update system is separate from the desktop signed-content updater. I
 2. Use the browser's Install option where available. On iPhone/iPad Safari, use **Share → Add to Home Screen**. The interface includes installation help; a browser may decide not to offer an installation prompt.
 3. A small **Update ready** notice appears when the next complete build has finished caching and its hashes match. It does not restart or pause the current mission.
 4. **Later — keep playing** leaves the current session running. **Update and restart** explicitly ends that session and reloads the updated game. Finish a mission before using it.
-5. If another Red Veil tab or app window is open, the update asks the player to close it first and click again. It does not navigate or restart other windows.
+5. If another <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> tab or app window is open, the update asks the player to close it first and click again. It does not navigate or restart other windows.
 
 The browser checks the worker when the game is opened. **Check for updates** requests a fresh check while the game remains open. Browsers may also perform their own service-worker checks; this is not a guaranteed real-time notification service. An installed but closed PWA does not receive background alerts from this implementation.
 
@@ -40,7 +42,7 @@ Preparing an unchanged processed directory again verifies its assets and worker 
 
 The installing worker streams each same-origin asset into a bounded buffer, checks its length and SHA-256 digest, and writes it to a new build cache. It marks the build complete only after every listed asset is present. A failed fetch, oversized/truncated response, wrong hash, or cache write error rejects installation and removes that candidate cache. The active worker and its complete cache are not replaced by that failed attempt.
 
-A waiting worker is activated only after the player requests the update and the worker confirms that only the requesting Red Veil window is open. The browser may naturally activate a waiting worker after every old game window is closed; no mission is running in that case. The application never calls `client.navigate()` and reloads only the window that requested the update.
+A waiting worker is activated only after the player requests the update and the worker confirms that only the requesting <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> window is open. The browser may naturally activate a waiting worker after every old game window is closed; no mission is running in that case. The application never calls `client.navigate()` and reloads only the window that requested the update.
 
 Versioned asset paths keep old and new engine/PCK combinations separate, including a window opened during the narrow activation race. The current build and previous activated build are retained. Cleanup only targets positively identified, previously activated obsolete builds; partial, prepared-but-unactivated, and unrecognized caches are retained. Per-build Web Locks prevent cleanup from deleting a cache while another worker is preparing it, including when an older build is being offered again. Browsers without Web Locks keep the extra caches instead of pruning unsafely. Multiple windows also cause cleanup to retain additional caches. Caches belonging to the older default Godot worker are not indiscriminately deleted during migration.
 

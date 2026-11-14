@@ -13,6 +13,7 @@ import tempfile
 import zipfile
 from urllib.parse import quote
 
+from branding import archive_name, archive_stem, brand
 from sign_update import REPOSITORY, RUNTIME_CONTRACT, sign_pack, valid_version, validate_key_pair
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -83,7 +84,7 @@ def describe_asset(path):
 
 
 def expected_names(version, signed):
-    names = {f"Red-Veil-{version}-{suffix}.zip" for suffix in ["macOS-universal", "Windows-x64", "Linux-x64", "Web"]}
+    names = {archive_name(version, suffix) for suffix in ["macOS-universal", "Windows-x64", "Linux-x64", "Web"]}
     return names | UPDATE_ASSETS if signed else names
 
 
@@ -137,21 +138,21 @@ def export_game(version, private_key=None):
     run("godot", "--headless", "--path", "game", "--editor", "--import")
     with tempfile.TemporaryDirectory(prefix="red-veil-build-tests-") as isolated:
         test_env = os.environ | {"XDG_DATA_HOME": isolated}
-        for test in ["mission_test", "learning_test", "gameplay_test", "art_contract_test", "update_client_test", "update_ui_test"]:
+        for test in ["mission_test", "learning_test", "gameplay_test", "art_contract_test", "design_world_test", "dialog_contract_test", "update_client_test", "update_ui_test"]:
             run("godot", "--headless", "--path", "game", "--script", f"res://tests/{test}.gd", env=test_env)
         run("python3", "scripts/test_updater.py", env=test_env)
         run("python3", "scripts/test_update_bootstrap.py", env=test_env)
         run("python3", "-m", "unittest", "discover", "-s", "tests", "-p", "test_release_tools.py", env=test_env)
     for platform in ["Web", "macOS", "Linux", "Windows"]:
         run("godot", "--headless", "--path", "game", "--export-release", platform)
-    linux = OUT / "linux/Red-Veil.x86_64"
+    linux = OUT / "linux" / (brand()["package_stem"] + ".x86_64")
     linux.chmod(0o755)
     with tempfile.TemporaryDirectory(prefix="red-veil-export-smoke-") as isolated:
         run(str(linux), "--headless", "--", "--smoke-test", env=os.environ | {"XDG_DATA_HOME": isolated})
     assets = []
-    prefix = f"Red-Veil-{version}"
+    prefix = f"{archive_stem(version)}-{version}"
     mac = OUT / f"{prefix}-macOS-universal.zip"
-    shutil.copyfile(OUT / "Red-Veil-macOS-universal.zip", mac)
+    shutil.copyfile(OUT / (brand()["package_stem"] + "-macOS-universal.zip"), mac)
     with zipfile.ZipFile(mac, "a", compression=zipfile.ZIP_DEFLATED) as archive:
         documents(archive)
     assets.append(mac)
@@ -171,6 +172,7 @@ def export_game(version, private_key=None):
         assets.extend(OUT / name for name in sorted(UPDATE_ASSETS))
     require_clean_source()
     manifest = {
+        "display_name": brand()["display_name"], "package_stem": archive_stem(version),
         "version": version, "commit": commit, "engine": "Godot 4.6.3", "status": "early alpha",
         "signing": "macOS and Windows unsigned; macOS not notarized",
         "signed_content_updates": private_key is not None,
@@ -260,13 +262,18 @@ def publish_prepared(version):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--version", default="0.4.0-alpha.1")
+    parser.add_argument("--version", help="Defaults to the version committed in game/project.godot")
     parser.add_argument("--signed-updates", action="store_true", help="Export/sign a same-engine desktop content pack; requires the pinned key and signing secret")
     parser.add_argument("--private-key", type=Path, help="Local signing key outside the checkout; otherwise use the Actions secret")
     parser.add_argument("--publish-prepared", action="store_true", help="Upload exact prepared files to the matching draft and publish it")
     args = parser.parse_args()
     secret = os.environ.pop("RED_VEIL_UPDATE_SIGNING_KEY", "")
     try:
+        if args.version is None:
+            configured = re.search(r'^config/version="([^"]+)"$', (ROOT / "game/project.godot").read_text(), re.MULTILINE)
+            if configured is None:
+                raise ValueError("Game application version is missing")
+            args.version = configured[1]
         if not valid_version(args.version):
             raise ValueError("Invalid release version")
         if args.publish_prepared:

@@ -1,5 +1,6 @@
 class_name VeilUpdatePanel
 extends CanvasLayer
+const Branding = preload("res://scripts/branding.gd")
 ## Presentation only. Main game owns safe entry/exit and the update notification.
 signal closed
 var client: VeilUpdateClient
@@ -36,7 +37,7 @@ func _ready() -> void:
 	content.add_theme_constant_override("separation", 18)
 	scroll.add_child(content)
 	_label("YOUR NEXT ADVENTURE", 34)
-	_label("You’re playing Red Veil " + client.current_version, 20)
+	_label("You’re playing " + Branding.title() + " " + client.current_version, 20)
 	description = _label("", 24)
 	progress_bar = ProgressBar.new()
 	progress_bar.max_value = 1.0
@@ -95,7 +96,7 @@ func refresh() -> void:
 func confirm_restart() -> void:
 	if not client.ready_to_restart: return
 	_confirming_restart = true
-	description.text = "Restart Red Veil now? Your local academy progress stays saved. The current game will close and reopen."
+	description.text = "Restart the game now? Your local academy progress stays saved. The current game will close and reopen."
 	check_button.hide()
 	install_button.hide()
 	cancel_button.hide()
@@ -118,7 +119,7 @@ func _restart_confirmed() -> void:
 func confirm_repair() -> void:
 	if not client.repair_available or client.busy: return
 	_confirming_repair = true
-	description.text = "First close every other Red Veil window. Then repair the interrupted update here. This does not erase your academy progress or replace your current game."
+	description.text = "First close every other game window. Then repair the interrupted update here. This does not erase your academy progress or replace your current game."
 	check_button.hide()
 	install_button.hide()
 	cancel_button.hide()

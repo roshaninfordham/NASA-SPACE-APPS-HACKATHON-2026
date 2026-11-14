@@ -3,9 +3,8 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: Alpha version (for example 0.4.0-alpha.1)
+        description: Exact version in the selected source project.godot
         required: true
-        default: 0.4.0-alpha.1
       revision:
         description: Exact source commit or branch to resolve at checkout
         required: true
@@ -63,10 +62,10 @@ jobs:
         run: python scripts/build_game.py --version "$RELEASE_VERSION" --publish-prepared
 
   # GITHUB_TOKEN-created releases do not trigger the release event workflow.
-  # Call web delivery explicitly only after native publication succeeds.
+  # Hosting is deferred by the owner; opt in only after its public URL is verified.
   deploy_web:
     needs: exports
-    if: inputs.publish
+    if: inputs.publish && vars.RED_VEIL_WEB_DEPLOY_ENABLED == 'true'
     permissions:
       contents: read
       pages: write

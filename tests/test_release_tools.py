@@ -16,6 +16,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import build_game
 import configure_update_signing
 import sign_update
+import branding
+import verify_native_update_acceptance as acceptance
+import zipfile
 
 
 class ReleaseToolsTest(unittest.TestCase):
@@ -49,6 +52,39 @@ class ReleaseToolsTest(unittest.TestCase):
             file.write_bytes(name.encode())
             entries.append(build_game.describe_asset(file))
         return {"version": self.version, "commit": self.commit, "signed_content_updates": False, "assets": entries}
+
+    def test_brand_archive_boundary_and_manifest_cannot_override_names(self):
+        for version in ["0.1.0", "0.4.0-alpha.1", "0.4.99"]:
+            self.assertEqual(branding.archive_name(version, "Web"), f"Red-Veil-{version}-Web.zip")
+        for version in ["0.5.0-alpha.1", "0.5.0", "1.0.0"]:
+            self.assertEqual(branding.archive_name(version, "Web"), f"KOMAKU-Shield-Protocol-{version}-Web.zip")
+        for version in ["../0.4.0", "0.04.0", "0.4.0-beta.1"]:
+            with self.assertRaises(ValueError):
+                branding.archive_name(version, "Web")
+        self.version = "0.5.0-alpha.1"
+        manifest = self.unsigned_manifest()
+        with patch.object(build_game, "OUT", self.output):
+            build_game.stage_distribution(manifest)
+            manifest["package_stem"] = "Red-Veil"
+            manifest["assets"][0]["name"] = manifest["assets"][0]["name"].replace("KOMAKU-Shield-Protocol", "Red-Veil")
+            with self.assertRaisesRegex(ValueError, "exact declared"):
+                build_game.validate_release_manifest(manifest, self.version, self.commit)
+
+    def test_native_acceptance_reads_historical_and_renamed_artifact_sets(self):
+        for version in ["0.4.0-alpha.1", "0.5.0-alpha.1"]:
+            entries = []
+            for name in sorted(build_game.expected_names(version, True)):
+                path = self.output / name
+                if name.endswith(".zip"):
+                    with zipfile.ZipFile(path, "w") as archive:
+                        archive.writestr("fixture.txt", version)
+                else:
+                    path.write_bytes(b"independent signature verification follows artifact validation")
+                entries.append(build_game.describe_asset(path))
+            manifest = {"version": version, "commit": self.commit, "engine": "Godot 4.6.3", "signed_content_updates": True, "assets": entries}
+            (self.output / "release-manifest.json").write_text(json.dumps(manifest))
+            (self.output / "SHA256SUMS.txt").write_text("".join(f"{entry['sha256']}  {entry['name']}\n" for entry in entries))
+            self.assertEqual(acceptance.validate_artifacts(self.output, self.commit)["version"], version)
 
     def test_signed_manifest_verifies_and_binds_exact_bytes(self):
         manifest = sign_update.sign_pack(self.version, self.pack, self.private, self.public, self.output, self.commit)

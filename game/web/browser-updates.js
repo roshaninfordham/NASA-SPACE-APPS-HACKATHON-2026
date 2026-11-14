@@ -4,6 +4,7 @@
   const script = document.currentScript;
   const build = script.dataset.build;
   const version = script.dataset.version;
+  const brand = script.dataset.brand || "The game";
   const root = new URL(script.dataset.root, document.baseURI);
   const workerURL = new URL(script.dataset.worker, root);
   if (root.origin !== location.origin || workerURL.origin !== location.origin)
@@ -99,7 +100,7 @@
       if (info.ok && info.complete && info.build_id !== build) {
         preparedWorker = waiting;
         preparedVersion = info.version;
-        status.textContent = `Red Veil ${preparedVersion} is ready. The complete game has been saved and checked.`;
+        status.textContent = `${brand} ${preparedVersion} is ready. The complete game has been saved and checked.`;
         toggle.textContent = "Update ready";
         applyButton.hidden = false;
         if (!deferred) open();
@@ -116,7 +117,7 @@
         if (info.build_id !== build) {
           preparedWorker = active;
           preparedVersion = info.version;
-          status.textContent = `Red Veil ${preparedVersion} is ready. Restart this game when you’re ready.`;
+          status.textContent = `${brand} ${preparedVersion} is ready. Restart this game when you’re ready.`;
           toggle.textContent = "Update ready";
           applyButton.hidden = false;
           if (!deferred) open();
@@ -188,7 +189,7 @@
         applyButton.disabled = false;
         status.textContent =
           result.error === "other_windows"
-            ? "Close the other Red Veil tabs or app windows, then select Update and restart again. Those games will not be restarted for you."
+            ? `Close the other ${brand} tabs or app windows, then select Update and restart again. Those games will not be restarted for you.`
             : "The complete update is no longer saved. Reconnect and check again. Your current game has not changed.";
         return;
       }

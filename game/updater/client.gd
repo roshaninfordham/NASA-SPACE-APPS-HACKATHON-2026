@@ -14,7 +14,7 @@ var store: Object
 var current_version := ""
 var available_version := ""
 var status := "idle"
-var message := "Check for a new Red Veil adventure."
+var message := "Check for a new adventure."
 var progress := 0.0
 var busy := false
 var ready_to_restart := false
@@ -40,7 +40,7 @@ func configure(update_store: Object, version: String, directory: String = "user:
 		message = "This build shows update notices, but installing updates inside the game is not available here. You can view current download options."
 	elif not _configured():
 		message = "This preview uses manual downloads. You can still check for a newer release."
-	if repair_available: message = "An update may have been interrupted. Close other Red Veil windows before using the repair option below."
+	if repair_available: message = "An update may have been interrupted. Close other game windows before using the repair option below."
 	changed.emit()
 
 func _configured() -> bool:
@@ -166,7 +166,7 @@ func check_for_updates(force: bool = false) -> void:
 	_manifest = verified.manifest
 	busy = false
 	status = "available"
-	message = "Red Veil %s is ready to download. You choose when to install and restart." % available_version
+	message = "Version %s is ready to download. You choose when to install and restart." % available_version
 	repair_available = _needs_repair()
 	changed.emit()
 
@@ -175,7 +175,7 @@ func _manual_release(reason: String) -> void:
 	status = "manual"
 	manual_update_required = true
 	repair_available = _needs_repair()
-	message = "Red Veil %s is available. %s" % [available_version, reason]
+	message = "Version %s is available. %s" % [available_version, reason]
 	changed.emit()
 
 func _fail(reason: String, may_repair: bool = false) -> void:
@@ -188,16 +188,16 @@ func _fail(reason: String, may_repair: bool = false) -> void:
 func _storage_failure(result: Dictionary, reason: String) -> void:
 	var may_repair: bool = result.get("error") == "storage_busy" and store.has_method("repair_incomplete_lock")
 	if may_repair:
-		reason = "Another Red Veil window may be using the update files. Close other game windows before trying to repair an interrupted update."
+		reason = "Another game window may be using the update files. Close other game windows before trying to repair an interrupted update."
 	elif result.get("error") == "update_starting":
-		reason = "An update is still starting in another Red Veil window. Let it finish, or close the other window and reopen this game."
+		reason = "An update is still starting in another game window. Let it finish, or close the other window and reopen this game."
 	_fail(reason, may_repair)
 
 func repair_interrupted_update() -> void:
 	if busy or ready_to_restart or not repair_available or not store.has_method("repair_incomplete_lock"): return
 	var result: Dictionary = store.repair_incomplete_lock()
 	if not result.ok:
-		_fail("The update files are still in use or could not be repaired. Close other Red Veil windows and try again.", true)
+		_fail("The update files are still in use or could not be repaired. Close other game windows and try again.", true)
 		return
 	repair_available = false
 	status = "available" if not _manifest.is_empty() else "idle"
@@ -263,12 +263,12 @@ func cancel_download() -> void:
 func restart_game() -> bool:
 	if not ready_to_restart or busy: return false
 	if OS.has_feature("editor") or OS.has_feature("web") or not _desktop_supported():
-		message = "Close and reopen Red Veil to finish the update."
+		message = "Close and reopen the game to finish the update."
 		changed.emit()
 		return false
 	var process_id := OS.create_instance([])
 	if process_id < 0:
-		message = "The game could not reopen automatically. Close and reopen Red Veil to finish the update."
+		message = "The game could not reopen automatically. Close and reopen the game to finish the update."
 		changed.emit()
 		return false
 	get_tree().quit()

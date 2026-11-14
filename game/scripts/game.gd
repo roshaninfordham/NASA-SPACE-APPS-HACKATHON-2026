@@ -1,4 +1,5 @@
 extends Node3D
+const Branding = preload("res://scripts/branding.gd")
 const Player = preload("res://scripts/player.gd")
 const World = preload("res://scripts/world.gd")
 const Mission = preload("res://scripts/mission.gd")
@@ -22,6 +23,8 @@ var mission: VeilMission
 var player: VeilPlayer
 var world: VeilWorld
 var running := false
+var exploring := false
+var title_camera: Camera3D
 var paused := true
 var ended := false
 var accumulator := 0.0
@@ -45,6 +48,7 @@ var tick := 0.0
 var mission_events: Array[Dictionary] = []
 
 func _ready() -> void:
+	DisplayServer.window_set_title(Branding.display_name())
 	Engine.max_fps = art.maximum_fps
 	setup_inputs()
 	learning = Learning.new()
@@ -57,11 +61,20 @@ func _ready() -> void:
 	player.art = art
 	player.position = Vector3(0, 0.2, 14)
 	add_child(player)
+	if art.interior_scene:
+		title_camera = Camera3D.new()
+		title_camera.position = Vector3(15, 5, 5)
+		title_camera.fov = 49
+		add_child(title_camera)
+		title_camera.look_at(Vector3(0, 3, -16))
+		title_camera.current = true
+		player.hide()
 	action_audio = AudioStreamPlayer.new()
 	action_audio.stream = load("res://assets/audio/coin.ogg")
 	action_audio.volume_db = -18
 	add_child(action_audio)
 	create_interface()
+	world.update_weather(mission)
 	setup_updates()
 	get_tree().auto_accept_quit = true
 	await get_tree().process_frame
@@ -166,7 +179,7 @@ func create_interface() -> void:
 	hud.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	root.add_child(hud)
 	panel(hud, Vector2(24, 24), Vector2(440, 122), Color(0.04, 0.09, 0.12, 0.70))
-	text(hud, "RED VEIL    /    ELYSIUM OUTPOST", Vector2(42, 36), 15, Color("e3bd83"))
+	text(hud, Branding.title() + "    /    ELYSIUM OUTPOST", Vector2(42, 36), 15, Color("e3bd83"))
 	objective = text(hud, "Walk to the solar array", Vector2(42, 66), 23)
 	clock = text(hud, "SOL 018  •  00:00 / 12:00", Vector2(42, 109), 14, Color("bdcfcc"))
 	var meters := panel(hud, Vector2(-340, 24), Vector2(316, 124), Color(0.04, 0.09, 0.12, 0.70))
@@ -192,8 +205,9 @@ func create_interface() -> void:
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	menu.add_child(overlay)
 	text(menu, "YOUR FIRST MISSION ON MARS", Vector2(72, 110), 17, Color("e5bd82"))
-	var title := text(menu, "RED VEIL", Vector2(65, 150), 104)
-	title.add_theme_font_override("font", art.title_font if art.title_font else load("res://assets/fonts/lilita_one_regular.ttf"))
+	var title := text(menu, Branding.title(), Vector2(65, 150), 72)
+	if art.title_font: title.add_theme_font_override("font", art.title_font)
+	text(menu, Branding.subtitle(), Vector2(72, 246), 20, art.instrument_color)
 	text(menu, "Be the astronaut.\nFind your way through the storm.", Vector2(72, 280), 30)
 	text(menu, "Your crewmate Mira needs you at the solar array.\nExplore the outpost, protect your suit, and keep\nenough energy to bring everyone home.", Vector2(74, 375), 20)
 	button(menu, "BEGIN YOUR MISSION", Vector2(72, 490), 330, begin)
@@ -208,22 +222,61 @@ func create_interface() -> void:
 
 func create_touch_controls(root: Control) -> void:
 	touch_controls = Control.new()
+	touch_controls.name = "TouchControls"
 	touch_controls.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	touch_controls.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	root.add_child(touch_controls)
-	for spec in [["↑", Vector2(85, -260), Vector2(0, -1)], ["↓", Vector2(85, -145), Vector2(0, 1)], ["←", Vector2(24, -202), Vector2(-1, 0)], ["→", Vector2(146, -202), Vector2(1, 0)]]:
-		var b := button(touch_controls, spec[0], spec[1], 56, func(): pass)
-		b.set_anchors_preset(Control.PRESET_BOTTOM_LEFT, true)
-		b.button_down.connect(func(): player.touch_move = spec[2])
+	var controls: Array[Button] = []
+	for spec in [["↑", Vector2(0, -1)], ["↓", Vector2(0, 1)], ["←", Vector2(-1, 0)], ["→", Vector2(1, 0)]]:
+		var b := button(touch_controls, spec[0], Vector2.ZERO, 48, func(): pass)
+		b.button_down.connect(func(): player.touch_move = spec[1])
 		b.button_up.connect(func(): player.touch_move = Vector2.ZERO)
-	var use_button := button(touch_controls, "USE", Vector2(-110, -210), 90, func(): interact())
-	use_button.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT, true)
+		controls.append(b)
+	var use_button := button(touch_controls, "USE", Vector2.ZERO, 98, func(): interact())
 	use_button.button_down.connect(func(): touch_interact = true)
 	use_button.button_up.connect(func(): touch_interact = false)
-	var clean_button := button(touch_controls, "VISOR", Vector2(-110, -145), 90, toggle_visor)
-	clean_button.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT, true)
-	var pause_button := button(touch_controls, "Ⅱ", Vector2(-75, 160), 50, toggle_pause)
-	pause_button.set_anchors_preset(Control.PRESET_TOP_RIGHT, true)
+	controls.append(use_button)
+	controls.append(button(touch_controls, "VISOR", Vector2.ZERO, 98, toggle_visor))
+	controls.append(button(touch_controls, "PAUSE", Vector2.ZERO, 98, toggle_pause))
+	var radio_panel := radio.get_parent() as Control
+	if radio_panel is BoxContainer: radio_panel = radio_panel.get_parent() as Control
+	var initial_radio_rect := radio_panel.get_rect()
+	var arrange := func():
+		if not is_instance_valid(touch_controls) or not touch_controls.visible: return
+		var bounds := touch_controls.size
+		var scale_factor := maxf(1.0, bounds.x / maxf(1.0, get_window().size.x))
+		var inset := Vector2(16, 16) * scale_factor
+		var top := bounds.y - inset.y - 152.0 * scale_factor
+		var positions := [Vector2(52, 0), Vector2(52, 104), Vector2(0, 52), Vector2(104, 52)]
+		for index in range(controls.size()):
+			var control := controls[index]
+			control.add_theme_font_size_override("font_size", roundi(16.0 * scale_factor))
+			for state in ["font_focus_color", "font_pressed_color"]: control.add_theme_color_override(state, art.interface_button_text)
+			control.custom_minimum_size = Vector2(48, 48) * scale_factor
+			control.size = Vector2(48 if index < 4 else 98, 48) * scale_factor
+			control.position = Vector2(inset.x, top) + positions[index] * scale_factor if index < 4 else Vector2(bounds.x - inset.x - 98.0 * scale_factor, top + (index - 4) * 52.0 * scale_factor)
+		# Reserve a real touch band. Radio stays readable above it in portrait,
+		# or between the left/right controls in landscape, never under buttons.
+		var portrait := bounds.y > bounds.x
+		var radio_x := inset.x if portrait else 184.0 * scale_factor
+		var radio_width := bounds.x - inset.x * 2 if portrait else bounds.x - 314.0 * scale_factor
+		radio_panel.size.x = maxf(100.0 * scale_factor, radio_width)
+		var radio_height := maxf(86.0 * scale_factor, radio_panel.get_combined_minimum_size().y)
+		radio_panel.size.y = radio_height
+		radio_panel.position = Vector2(radio_x, top - 12.0 * scale_factor - radio_height if portrait else bounds.y - inset.y - radio_height)
+	touch_controls.resized.connect(func(): arrange.call_deferred())
+	radio_panel.minimum_size_changed.connect(func(): arrange.call_deferred())
+	touch_controls.visibility_changed.connect(func():
+		if touch_controls.visible:
+			arrange.call_deferred()
+		else:
+			player.touch_move = Vector2.ZERO
+			touch_interact = false
+			if root.has_method("_schedule_layout"): root.call("_schedule_layout")
+			else:
+				radio_panel.position = initial_radio_rect.position
+				radio_panel.size = initial_radio_rect.size
+	)
 	touch_controls.visible = false
 
 func show_academy() -> void:
@@ -252,6 +305,8 @@ func begin() -> void:
 	if is_instance_valid(update_panel) or is_instance_valid(academy): return
 	if ended: get_tree().reload_current_scene(); return
 	menu.hide()
+	player.show()
+	player.camera.current = true
 	hud.show()
 	running = true
 	paused = false
@@ -261,10 +316,20 @@ func begin() -> void:
 	if not DisplayServer.is_touchscreen_available(): Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	say("Follow the lights to the solar array on your right. I’ll stay on the radio.")
 
+func explore_habitat() -> void:
+	if is_instance_valid(update_panel) or is_instance_valid(academy): return
+	begin()
+	exploring = true
+	player.position = Vector3(-3, 0.2, -11)
+	player.rotation.y = -0.54
+	player.head.rotation.x = 0.08
+	say("Welcome to mission control. Explore freely; the mission clock is stopped. Press E at the consoles to try the power controls.")
+	update_hud()
+
 func toggle_sound() -> void:
 	sound_on = not sound_on
 	AudioServer.set_bus_mute(0, not sound_on)
-	for child in menu.get_children():
+	for child in menu.find_children("*", "Button", true, false):
 		if child is Button and child.text.begins_with("SOUND:"): child.text = "SOUND: ON" if sound_on else "SOUND: OFF"
 
 func say(message: String) -> void:
@@ -289,21 +354,93 @@ func resume() -> void:
 	touch_controls.visible = DisplayServer.is_touchscreen_available()
 	if not DisplayServer.is_touchscreen_available(): Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
-func show_modal(title: String, body: String, action: String, callback: Callable) -> void:
+func show_modal(title: String, body: String, action: String, callback: Callable, secondary_action: String = "", secondary_callback: Callable = Callable()) -> void:
 	if is_instance_valid(finish_panel): finish_panel.queue_free()
-	finish_panel = Panel.new()
-	finish_panel.size = Vector2(760, 490)
-	finish_panel.position = Vector2(-380, -245)
-	finish_panel.set_anchors_preset(Control.PRESET_CENTER, true)
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color("162630")
-	style.set_corner_radius_all(14)
-	finish_panel.add_theme_stylebox_override("panel", style)
+	touch_controls.hide()
+	finish_panel = ColorRect.new()
+	finish_panel.name = "MissionDialog"
+	finish_panel.color = Color(0.025, 0.02, 0.035, 0.72)
+	finish_panel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	finish_panel.mouse_filter = Control.MOUSE_FILTER_STOP
 	menu.get_parent().add_child(finish_panel)
-	text(finish_panel, title, Vector2(35, 30), 38, Color("e6bb7f"), 690)
-	var description := text(finish_panel, body, Vector2(35, 95), 20, Color("e5e4d7"), 690)
+	var dialog := PanelContainer.new()
+	dialog.name = "DialogShell"
+	var style := StyleBoxFlat.new()
+	style.bg_color = art.structure_color.darkened(0.45)
+	style.border_color = Color(art.instrument_color, 0.55)
+	style.set_border_width_all(1)
+	style.set_corner_radius_all(16)
+	dialog.add_theme_stylebox_override("panel", style)
+	finish_panel.add_child(dialog)
+	var column := VBoxContainer.new()
+	dialog.add_child(column)
+	var heading := Label.new()
+	heading.name = "Heading"
+	heading.text = title
+	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	heading.add_theme_color_override("font_color", art.interface_text)
+	if art.interface_font: heading.add_theme_font_override("font", art.interface_font)
+	column.add_child(heading)
+	var scroll := ScrollContainer.new()
+	scroll.name = "BodyScroll"
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
+	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	scroll.follow_focus = true
+	scroll.get_v_scroll_bar().focus_mode = Control.FOCUS_ALL
+	column.add_child(scroll)
+	var description := Label.new()
+	description.name = "Description"
+	description.text = body
 	description.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	button(finish_panel, action, Vector2(35, 397), 290, callback)
+	description.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	description.add_theme_color_override("font_color", art.interface_text)
+	if art.interface_font: description.add_theme_font_override("font", art.interface_font)
+	scroll.add_child(description)
+	var actions := VBoxContainer.new()
+	actions.name = "Actions"
+	column.add_child(actions)
+	var primary := button(actions, action, Vector2.ZERO, 0, callback)
+	primary.name = "Primary"
+	primary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var buttons: Array[Button] = [primary]
+	if not secondary_action.is_empty() and secondary_callback.is_valid():
+		var secondary := button(actions, secondary_action, Vector2.ZERO, 0, secondary_callback)
+		secondary.name = "Secondary"
+		secondary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		buttons.append(secondary)
+	var backdrop := finish_panel
+	var arrange := func():
+		if not is_instance_valid(backdrop): return
+		var bounds := backdrop.size
+		var scale_factor := maxf(1.0, bounds.x / maxf(1.0, get_window().size.x))
+		var compact := get_window().size.y < 520
+		var margin := 16.0 * scale_factor
+		var dialog_size := Vector2(minf(780.0 * scale_factor, bounds.x - margin * 2), minf(600.0 * scale_factor, bounds.y - margin * 2))
+		for side in ["left", "top", "right", "bottom"]: style.set("content_margin_" + side, 20.0 * scale_factor)
+		style.set_corner_radius_all(roundi(16.0 * scale_factor))
+		column.add_theme_constant_override("separation", roundi(12.0 * scale_factor))
+		actions.add_theme_constant_override("separation", roundi(8.0 * scale_factor))
+		heading.add_theme_font_size_override("font_size", roundi((24.0 if compact else 30.0) * scale_factor))
+		description.add_theme_font_size_override("font_size", roundi(18.0 * scale_factor))
+		scroll.custom_minimum_size.y = 50.0 * scale_factor
+		for control in buttons:
+			control.add_theme_font_size_override("font_size", roundi(17.0 * scale_factor))
+			for state in ["font_focus_color", "font_pressed_color"]: control.add_theme_color_override(state, art.interface_button_text)
+			control.custom_minimum_size.y = 48.0 * scale_factor
+		dialog.size = dialog_size
+		dialog.position = (bounds - dialog.size) * 0.5
+		var focus_order: Array[Control] = []
+		if scroll.get_v_scroll_bar().visible: focus_order.append(scroll.get_v_scroll_bar())
+		for control in buttons: focus_order.append(control)
+		for index in range(focus_order.size()):
+			var control := focus_order[index]
+			control.focus_next = control.get_path_to(focus_order[(index + 1) % focus_order.size()])
+			control.focus_previous = control.get_path_to(focus_order[(index - 1 + focus_order.size()) % focus_order.size()])
+	backdrop.resized.connect(func(): arrange.call_deferred())
+	dialog.minimum_size_changed.connect(func(): arrange.call_deferred())
+	arrange.call_deferred()
+	primary.grab_focus.call_deferred()
 
 func show_guide() -> void:
 	if is_instance_valid(academy) or is_instance_valid(update_panel): return
@@ -325,7 +462,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func interact() -> void:
 	if not running or paused or ended: return
-	if nearby == "power":
+	if nearby == "power" or nearby == "control":
 		mission.conserving = not mission.conserving
 		say("Essentials stay on. Extra experiments are paused." if mission.conserving else "Experiments are running again. Watch the battery.")
 		play_action()
@@ -355,10 +492,11 @@ func _process(delta: float) -> void:
 	nearby = ""
 	if pos.distance_to(World.ARRAY_POSITION + Vector3(0, 0, 2.3)) < 4.5: nearby = "array"
 	if pos.distance_to(World.POWER_POSITION) < 3.2: nearby = "power"
+	if art.interior_scene and pos.distance_to(Vector3(0, 0, -12)) < 5.5: nearby = "control"
 	if mission.shelter and pos.distance_to(World.SHELTER_POSITION + Vector3(0, 0, -2.7)) < 3: nearby = "remote"
 	var inspecting := nearby == "array" and mission.inspection < 1.0 and (Input.is_action_pressed("interact") or touch_interact)
 	var old_inspection := mission.inspection
-	accumulator += minf(delta, 0.25) * Mission.HOURS_PER_SECOND
+	if not exploring: accumulator += minf(delta, 0.25) * Mission.HOURS_PER_SECOND
 	while accumulator >= Mission.STEP_HOURS and mission.status == "running":
 		mission.step(Mission.STEP_HOURS, inspecting)
 		accumulator -= Mission.STEP_HOURS
@@ -390,6 +528,10 @@ func update_hud() -> void:
 	if nearby == "array": prompt.text = "HOLD E / X  •  Inspect array  %d%%" % int(mission.inspection * 100) if mission.inspection < 1 else "E / X  •  Panel cleaning: " + ("ON" if mission.cleaning else "OFF")
 	if nearby == "power": prompt.text = "E / X  •  Save power: " + ("ON" if mission.conserving else "OFF")
 	if nearby == "remote": prompt.text = "E / X  •  Remote panel cleaning: " + ("ON" if mission.cleaning else "OFF")
+	if nearby == "control": prompt.text = "E / X  •  Mission control — save power: " + ("ON" if mission.conserving else "OFF")
+	if exploring:
+		objective.text = "Explore the habitat · free roam"
+		clock.text = "MISSION CLOCK STOPPED  •  ESC TO PAUSE"
 	if mission.visor_cleaning: prompt.text += "\nVISOR CLEANING  •  Q / Y to stop"
 
 func finish() -> void:
@@ -405,8 +547,7 @@ func finish() -> void:
 	if mission.status == "suit-abort": reason = "Your suit battery ran low. Visor cleaning shares that battery with life support."
 	if mission.status == "partial": reason = "You reached the end, but the outpost needs more energy to recover."
 	var body := "%s\n\nBattery left: %.1f kWh   •   Crew dose: %.2f mSv\nInspection: %d%%   •   Time survived: %.1f hours\n\nWHAT IF EVERYTHING STAYED ON?\nA fixed sheltered, cleaning-on, normal-power strategy\nended after %.1f hours: %s. Same weather, no inspection.\n\nWhat did you change when the sky became dark?" % [reason, mission.energy, mission.dose, int(mission.inspection * 100), mission.time, baseline.time_hours, baseline.status]
-	show_modal(title, body, "TRY ANOTHER PLAN", func(): get_tree().reload_current_scene())
-	button(finish_panel, "PRACTISE WITH MIRA", Vector2(345, 397), 375, show_academy)
+	show_modal(title, body, "TRY ANOTHER PLAN", func(): get_tree().reload_current_scene(), "PRACTISE WITH MIRA", show_academy)
 	refresh_update_notice()
 	var report := {"version": update_client.current_version if is_instance_valid(update_client) else ProjectSettings.get_setting("application/config/version", "development"), "model": "red-veil-first-person", "result": mission.summary(), "baseline": baseline, "events": mission_events}
 	var file := FileAccess.open("user://last-mission.json", FileAccess.WRITE)
@@ -435,6 +576,8 @@ func bind_custom_interface(canvas: CanvasLayer) -> void:
 	clock = root.get_node("%Clock")
 	visor = root.get_node("%Visor")
 	root.get_node("%Begin").pressed.connect(begin)
+	var explore_button := root.get_node_or_null("%Explore")
+	if explore_button: explore_button.pressed.connect(explore_habitat)
 	root.get_node("%Guide").pressed.connect(show_guide)
 	root.get_node("%Sound").pressed.connect(toggle_sound)
 	root.get_node("%Sound").text = "SOUND: ON" if sound_on else "SOUND: OFF"
@@ -499,7 +642,7 @@ func setup_updates() -> void:
 func refresh_update_notice() -> void:
 	if not is_instance_valid(update_notice) or not is_instance_valid(update_client): return
 	var available: String = update_client.available_version
-	update_notice_label.text = "RED VEIL %s IS AVAILABLE" % available
+	update_notice_label.text = "%s %s IS AVAILABLE" % [Branding.display_name(), available]
 	if update_client.ready_to_restart: update_notice_label.text = "YOUR UPDATE IS READY TO RESTART"
 	var show_recovery := not update_recovery_notice.is_empty() and not recovery_notice_dismissed
 	if show_recovery: update_notice_label.text = update_recovery_notice
@@ -509,6 +652,9 @@ func refresh_update_notice() -> void:
 func show_updates() -> void:
 	# Installation is offered between missions, never over an active mission.
 	if running and not ended: return
+	if OS.has_feature("web") and JavaScriptBridge.eval("Boolean(window.RedVeilWebUpdates)"):
+		JavaScriptBridge.eval("window.RedVeilWebUpdates.open()")
+		return
 	if not is_instance_valid(update_client) or is_instance_valid(update_panel) or is_instance_valid(academy): return
 	player.enabled = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

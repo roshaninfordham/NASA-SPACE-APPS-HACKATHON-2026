@@ -1,4 +1,4 @@
-# Red Veil
+# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand -->
 
 **Become the astronaut. Find a way through the veil.**
 
@@ -6,7 +6,7 @@ A first-person Mars survival adventure for ages 7–12. Explore an outpost, insp
 
 [![Validation](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml/badge.svg)](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml)
 
-**Status: early playable alpha.** The public download below contains the mechanics-era visuals. A new design-team direction—flowing ivory/crimson architecture and holographic mission control—is being implemented on main. It is not yet a released or production-certified game.
+**Status: early playable alpha.** The public download below contains the mechanics-era visuals. The 0.5 candidate on main adds a walkable ivory/crimson habitat, holographic mission control, gold wave/blossom ornaments, lanterns, a redesigned crewmate, and untimed exploration. The new name is centrally configured. It is not yet a released or production-certified game.
 
 ![Actual v0.4 gameplay before the visual pivot](docs/media/red-veil-0.4.0-alpha.1-gameplay.gif)
 
@@ -33,7 +33,7 @@ See [download instructions](docs/DOWNLOADS.md). No development tools are require
 
 The **v0.4.0-alpha.1 desktop downloads include signed content updates**: notice → download → explicit restart, with verification and recovery. Older releases need one manual upgrade. The Linux acceptance run fetched the actual public GitHub release, installed it, automatically relaunched, and recovered from a tampered pack. Mac/Windows physical acceptance and upgrades from previously shipped baselines remain separate gates. Engine/runtime changes require a full installer. [Behavior, evidence and limits](docs/UPDATES.md).
 
-Browser offline/update packaging and the GitHub Pages deployment workflow are now available in the repository. An internal Android build route is documented; no production Android/iOS native download or mobile self-updater is published.
+Browser offline/update packaging and the GitHub Pages deployment workflow are available in the repository. Public hosting is deferred by owner choice after verification found an inherited custom-domain redirect to another site; use downloadable builds for now. An internal Android build route is documented; no production Android/iOS native download or mobile self-updater is published.
 
 ## Your first mission
 
@@ -50,7 +50,7 @@ Keyboard: **WASD** move, **mouse** look, **E** use/hold to inspect, **Q** visor,
 
 ## Learn with Mira
 
-Mira's Field Academy adds five short science lessons, ten questions, hints and explanations, and a local review plan. It is accessible from the title menu and mission debrief. These lessons are included in alpha 0.4.0-alpha.1. The tutor uses provisional Bayesian estimates, not a trained AI model; [learning design](docs/LEARNING-DESIGN.md) documents the research and limits. The [request tracker](docs/REQUEST-TRACKER.md) distinguishes delivered features from open requirements.
+Mira's Field Academy adds five short science lessons, ten questions, hints and explanations, and a local review plan. It is accessible from the title menu and mission debrief. These lessons have been included since alpha 0.3.0-alpha.1. The tutor uses provisional Bayesian estimates, not a trained AI model; [learning design](docs/LEARNING-DESIGN.md) documents the research and limits. The [request tracker](docs/REQUEST-TRACKER.md) distinguishes delivered features from open requirements.
 
 ## Design direction
 
@@ -58,7 +58,7 @@ Sci-fi wonder, unusual forms, tactile discovery, and a world young explorers wan
 
 The game provides replaceable scene slots, palette/font profiles, a custom HUD contract, and detached visual-state snapshots. Your design team can replace the habitat, refuge, array, companion, scanner, landscape, and HUD without rewriting the mission equations. Changed collision shapes or shelter volumes still require gameplay validation.
 
-Read the [design-team handoff](docs/DESIGN-HANDOFF.md).
+Read the [visual direction](docs/VISUAL-DIRECTION.md), [design-team handoff](docs/DESIGN-HANDOFF.md), and [shared branding guide](docs/BRANDING.md).
 
 ## Build and develop
 

@@ -21,7 +21,7 @@ The accepted pack hash is `e9cf215745acabeb7644ea64f9cc372997432b7a14de4c2c4da5a
 python3 scripts/verify_native_update_acceptance.py --artifacts /path/to/exact/downloaded/assets --expected-commit 48901d0bce68e72974b36377c3a060f90403ebe9 --keep-workspace /path/to/new/acceptance-directory
 ```
 
-**Scope:** Linux x64, headless plus X11 on authenticated Xvfb; a synthetic older fixture, not a previously shipped installer; fixed GitHub URLs mapped to local exact artifact bytes. Actual automatic relaunch passed in the GUI acceptance run using Mesa llvmpipe software rendering. The driver reported unsupported V-Sync switching. Live HTTP pack download, physical Mac/Windows, upgrade from an earlier public installer, physical GPU/visual quality and audio-device behavior remain unverified. A separate live Godot metadata request received HTTP 200 through the managed environment's proxy; metadata connectivity is not evidence of a complete live update.
+**Scope:** Linux x64, headless plus X11 on authenticated Xvfb; a synthetic older fixture, not a previously shipped installer. The final acceptance run used production HTTPRequest against public GitHub URLs with fixture-only proxy/verified-CA configuration. All four HTTP transfers succeeded and exact artifacts matched. Automatic relaunch, healthy repeat boot and tamper recovery passed under Mesa software rendering. Physical Mac/Windows, an earlier public installer transition, physical GPU performance and audio-device behavior remain separate gates.
 
 ## Runtime and release suites
 

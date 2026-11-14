@@ -4,6 +4,8 @@ extends Resource
 @export_group("Scene replacements — local origin at documented anchor")
 @export var landscape_scene: PackedScene
 @export var habitat_scene: PackedScene
+@export var interior_scene: PackedScene
+@export var habitat_origin := Vector3(0, 2.4, -16)
 @export var refuge_scene: PackedScene
 @export var solar_array_scene: PackedScene
 @export var companion_scene: PackedScene

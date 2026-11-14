@@ -86,6 +86,26 @@ class WebDeployTest(unittest.TestCase):
         self.assertEqual((output / "index.pck").read_bytes(), b"original game bytes")
         self.assertEqual(self.archive.read_bytes(), self.archive_bytes)
 
+    def test_new_brand_release_and_historical_asset_names_are_version_bound(self):
+        self.assertEqual(deploy.web_archive_entry(self.manifest, self.version, self.native_commit), self.entry)
+        version = "0.5.0-alpha.1"
+        name = f"KOMAKU-Shield-Protocol-{version}-Web.zip"
+        entry = self.entry | {"name": name}
+        manifest = self.manifest | {"version": version, "assets": [entry]}
+        self.assertEqual(deploy.web_archive_entry(manifest, version, self.native_commit), entry)
+        url = deploy.fixed_asset_url("v" + version, name)
+        release = self.release | {"tag_name": "v" + version, "assets": [
+            {"name": "release-manifest.json", "size": 100, "browser_download_url": deploy.fixed_asset_url("v" + version, "release-manifest.json")},
+            {"name": name, "size": entry["bytes"], "browser_download_url": url},
+        ]}
+        self.assertEqual(set(deploy.validate_release(release, "v" + version)), {name, "release-manifest.json"})
+        with self.assertRaisesRegex(ValueError, "Unexpected release asset"):
+            deploy.fixed_asset_url("v" + version, f"Red-Veil-{version}-Web.zip")
+        manifest["package_stem"] = "Red-Veil"
+        manifest["assets"] = [entry | {"name": f"Red-Veil-{version}-Web.zip"}]
+        with self.assertRaisesRegex(ValueError, "matching Web archive"):
+            deploy.web_archive_entry(manifest, version, self.native_commit)
+
     def test_draft_or_unpublished_release_is_rejected(self):
         for changes in [{"draft": True}, {"published_at": None}, {"tag_name": "v0.1.0"}]:
             with self.subTest(changes=changes), self.assertRaisesRegex(ValueError, "published release"):

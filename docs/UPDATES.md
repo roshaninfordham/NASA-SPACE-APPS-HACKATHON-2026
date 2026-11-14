@@ -1,4 +1,4 @@
-# Updating Red Veil
+# Updating <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand -->
 
 ## What players can expect
 

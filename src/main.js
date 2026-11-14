@@ -1,3 +1,4 @@
+import brand from "../game/data/brand.json";
 import "./style.css";
 import {
   createState,
@@ -11,6 +12,7 @@ import {
 import { SYSTEM } from "./scenarios.js";
 import { createScene } from "./scene.js";
 import { missionMarkup } from "./view.js";
+document.title = brand.display_name;
 const $ = (s) => document.querySelector(s);
 let state = createState(),
   started = false,
@@ -221,7 +223,7 @@ $("#export").onclick = () => {
   const url = URL.createObjectURL(blob),
     a = document.createElement("a");
   a.href = url;
-  a.download = `red-veil-${state.scenarioId}.json`;
+  a.download = `${brand.package_slug}-${state.scenarioId}.json`;
   a.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 };

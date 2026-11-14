@@ -9,6 +9,8 @@ import re
 import shutil
 from urllib.parse import quote, unquote
 
+from branding import brand
+
 ROOT = Path(__file__).resolve().parent.parent
 TEMPLATES = ROOT / "game/web"
 MAX_FILE_BYTES = 256 * 1024 * 1024
@@ -23,6 +25,7 @@ def digest(data):
 
 
 def prepare(directory, version, commit):
+    identity = brand()
     folder = directory.resolve()
     if not VERSION.fullmatch(version) or len(version) > 64:
         raise ValueError("Invalid release version")
@@ -77,21 +80,22 @@ def prepare(directory, version, commit):
                 raise ValueError(f"Asset is larger than the supported offline budget: {relative}")
             assets[relative.as_posix()] = data
     templates = {name: (TEMPLATES / name).read_bytes() for name in ["service-worker.js", "browser-updates.js", "browser-updates.css"]}
-    seed = json.dumps({"version": version, "commit": commit, "assets": {name: digest(data) for name, data in assets.items()}, "templates": {name: digest(data) for name, data in templates.items()}}, sort_keys=True).encode()
+    seed = json.dumps({"brand": identity, "version": version, "commit": commit, "assets": {name: digest(data) for name, data in assets.items()}, "templates": {name: digest(data) for name, data in templates.items()}}, sort_keys=True).encode()
     build_id = digest(seed)[:24]
     prefix = f"{BUILD_FOLDER}/{build_id}/"
     config["serviceWorker"] = ""  # Do not allow Godot's built-in updater to claim/reload clients.
     config["ensureCrossOriginIsolationHeaders"] = False
     source = source[:match.start(1)] + json.dumps(config, separators=(",", ":")) + source[match.end(1):]
+    source = re.sub(r"<title>.*?</title>", lambda _: "<title>" + html.escape(identity["display_name"]) + "</title>", source, count=1, flags=re.IGNORECASE | re.DOTALL)
     source = re.sub(r'<link\b[^>]*\brel=["\']manifest["\'][^>]*>', "", source, flags=re.IGNORECASE)
     head = f'''<!-- RED_VEIL_WEB_BUILD {build_id} -->
 <base href="./{prefix}">
 <meta name="theme-color" content="#142a35">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Red Veil">
+<meta name="apple-mobile-web-app-title" content="{html.escape(identity["title"], quote=True)}">
 <link rel="manifest" href="../../{executable}.manifest.json">
 <link rel="stylesheet" href="browser-updates.css">
-<script defer src="browser-updates.js" data-build="{build_id}" data-version="{html.escape(version, quote=True)}" data-root="../../" data-worker="{html.escape(worker, quote=True)}"></script>
+<script defer src="browser-updates.js" data-brand="{html.escape(identity["display_name"], quote=True)}" data-build="{build_id}" data-version="{html.escape(version, quote=True)}" data-root="../../" data-worker="{html.escape(worker, quote=True)}"></script>
 '''
     source = source.replace("<head>", "<head>\n" + head, 1)
     assets["index.html"] = source.encode()
@@ -104,7 +108,7 @@ def prepare(directory, version, commit):
             icons.append({"src": prefix + name, "sizes": f"{size}x{size}", "type": "image/png", "purpose": "any"})
     if not icons:
         raise ValueError("Godot PWA icons are missing; enable PWA export before packaging")
-    manifest = {"id": "./", "name": "Red Veil", "short_name": "Red Veil", "description": "A first-person Mars learning adventure for young explorers.", "start_url": "./", "scope": "./", "display": "standalone", "orientation": "landscape", "background_color": "#0d1b29", "theme_color": "#142a35", "icons": icons}
+    manifest = {"id": "./", "name": identity["display_name"], "short_name": identity["title"], "description": "A first-person Mars learning adventure for young explorers.", "start_url": "./", "scope": "./", "display": "standalone", "orientation": "landscape", "background_color": "#0d1b29", "theme_color": "#142a35", "icons": icons}
     output = {prefix + name: data for name, data in assets.items()}
     output["index.html"] = source.encode()
     output[f"{executable}.manifest.json"] = (json.dumps(manifest, indent=2) + "\n").encode()
@@ -114,7 +118,7 @@ def prepare(directory, version, commit):
     total = sum(asset["bytes"] for asset in inventory)
     if total > MAX_TOTAL_BYTES:
         raise ValueError("The whole export exceeds the supported offline cache budget")
-    release = {"schema": 1, "version": version, "commit": commit, "build_id": build_id, "worker": worker, "total_bytes": total, "assets": inventory}
+    release = {"schema": 1, "display_name": identity["display_name"], "version": version, "commit": commit, "build_id": build_id, "worker": worker, "total_bytes": total, "assets": inventory}
     worker_source = templates["service-worker.js"].decode().replace("/* RED_VEIL_RELEASE */ null", json.dumps(release, separators=(",", ":")))
     if "/* RED_VEIL_RELEASE */" in worker_source:
         raise ValueError("Worker inventory substitution failed")

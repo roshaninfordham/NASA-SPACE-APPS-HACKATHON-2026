@@ -5,7 +5,7 @@ test("launch, operate, pause, and choose a scenario without errors", async ({
   const errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");
-  await expect(page).toHaveTitle(/Red Veil/);
+  await expect(page).toHaveTitle("KŌMAKU: Shield Protocol");
   await page.getByRole("button", { name: "I’m ready to explore" }).click();
   await expect(page.locator("body")).toHaveJSProperty(
     "scrollWidth",
@@ -61,7 +61,7 @@ test("complete a guided mission in low graphics mode and export its evidence", a
   const download = page.waitForEvent("download");
   await page.locator("#export").click();
   expect((await download).suggestedFilename()).toBe(
-    "red-veil-first-light.json",
+    "komaku-shield-protocol-first-light.json",
   );
   await page.locator("#again").click();
   await expect(page.locator("#clock")).toHaveText("00:00");

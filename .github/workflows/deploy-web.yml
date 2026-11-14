@@ -1,4 +1,4 @@
-name: Deploy published Red Veil Web release
+name: Deploy published KŌMAKU Web release
 on:
   workflow_call:
     inputs:
@@ -14,7 +14,6 @@ on:
         description: Existing published release tag to deploy (not a branch or draft)
         required: true
         type: string
-        default: v0.4.0-alpha.1
 concurrency:
   group: red-veil-github-pages
   cancel-in-progress: false
@@ -24,6 +23,7 @@ permissions:
   contents: read
 jobs:
   prepare:
+    if: github.event_name == 'workflow_dispatch' || vars.RED_VEIL_WEB_DEPLOY_ENABLED == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:

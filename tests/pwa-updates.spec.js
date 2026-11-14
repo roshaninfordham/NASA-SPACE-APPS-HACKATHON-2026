@@ -70,8 +70,8 @@ async function fixture(version, commit) {
 async function startFixture() {
   temporary = await mkdtemp(join(tmpdir(), "red-veil-pwa-"));
   builds.first = await fixture("0.4.0-alpha.1", "a".repeat(40));
-  builds.second = await fixture("0.4.0-alpha.2", "b".repeat(40));
-  builds.third = await fixture("0.4.0-alpha.3", "c".repeat(40));
+  builds.second = await fixture("0.5.0-alpha.1", "b".repeat(40));
+  builds.third = await fixture("0.5.0-alpha.2", "c".repeat(40));
   active = builds.first;
   server = createServer(async (request, response) => {
     try {
@@ -151,7 +151,7 @@ async function updateReady(page) {
     page.getByRole("button", { name: "Update and restart", exact: true }),
   ).toBeVisible();
   await expect(page.locator("#red-veil-web-update-status")).toContainText(
-    "0.4.0-alpha.2",
+    "0.5.0-alpha.1",
   );
 }
 
@@ -195,6 +195,9 @@ test.describe("Godot browser updates", () => {
       };
     });
     expect(state.scope).toBe(origin + prefix);
+    expect(state.manifest.name).toBe("KŌMAKU: Shield Protocol");
+    expect(state.manifest.short_name).toBe("KŌMAKU");
+    await expect(page).toHaveTitle("KŌMAKU: Shield Protocol");
     expect(state.manifest.id).toBe("./");
     expect(state.manifest.scope).toBe("./");
     expect(state.manifest.start_url).toBe("./");
@@ -242,12 +245,12 @@ test.describe("Godot browser updates", () => {
     await page
       .getByRole("button", { name: "Update and restart", exact: true })
       .click();
-    await expect(page.locator("#game-version")).toHaveText("0.4.0-alpha.2");
+    await expect(page.locator("#game-version")).toHaveText("0.5.0-alpha.1");
     expect(await page.evaluate(() => window.gameSession)).not.toBe(session);
     await context.setOffline(true);
     await page.reload();
     await expect(page.locator("#game-assets")).toContainText(
-      "ENGINE 0.4.0-alpha.2",
+      "ENGINE 0.5.0-alpha.1",
     );
   });
 
@@ -300,7 +303,7 @@ test.describe("Godot browser updates", () => {
       .getByRole("button", { name: "Update and restart", exact: true })
       .click();
     await expect(page.locator("#red-veil-web-update-status")).toContainText(
-      "Close the other Red Veil tabs",
+      "Close the other KŌMAKU: Shield Protocol tabs",
     );
     await expect(other.locator("#game-version")).toHaveText("0.4.0-alpha.1");
     expect(await other.evaluate(() => window.gameSession)).toBe(otherSession);
@@ -308,7 +311,7 @@ test.describe("Godot browser updates", () => {
     await page
       .getByRole("button", { name: "Update and restart", exact: true })
       .click();
-    await expect(page.locator("#game-version")).toHaveText("0.4.0-alpha.2");
+    await expect(page.locator("#game-version")).toHaveText("0.5.0-alpha.1");
   });
 
   test("activating a ready build preserves a newer build still being prepared", async ({
@@ -358,7 +361,7 @@ test.describe("Godot browser updates", () => {
     await page
       .getByRole("button", { name: "Update and restart", exact: true })
       .click();
-    await expect(page.locator("#game-version")).toHaveText("0.4.0-alpha.2");
+    await expect(page.locator("#game-version")).toHaveText("0.5.0-alpha.1");
     const cacheDuring = await page.evaluate(() => caches.keys());
     expect(
       cacheDuring.some((name) => name.endsWith(builds.third.metadata.build_id)),
@@ -373,16 +376,16 @@ test.describe("Godot browser updates", () => {
       page.getByRole("button", { name: "Update and restart", exact: true }),
     ).toBeVisible();
     await expect(page.locator("#red-veil-web-update-status")).toContainText(
-      "0.4.0-alpha.3",
+      "0.5.0-alpha.2",
     );
     await page
       .getByRole("button", { name: "Update and restart", exact: true })
       .click();
-    await expect(page.locator("#game-version")).toHaveText("0.4.0-alpha.3");
+    await expect(page.locator("#game-version")).toHaveText("0.5.0-alpha.2");
     await context.setOffline(true);
     await page.reload();
     await expect(page.locator("#game-assets")).toContainText(
-      "ENGINE 0.4.0-alpha.3",
+      "ENGINE 0.5.0-alpha.2",
     );
   });
 

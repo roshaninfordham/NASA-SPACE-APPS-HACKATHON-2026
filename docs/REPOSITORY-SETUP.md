@@ -10,7 +10,7 @@ The connected integration can push code and manage release metadata, but GitHub 
 
 The owner used the About gear on November 14, 2026. A subsequent API read verified the description, release-page website, and 16 topics. The intended core values were:
 
-- **Description:** Red Veil — a first-person Mars survival learning game for ages 7–12. Explore, protect your crew, and learn the science of energy, dust, and radiation.
+- **Description:** <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> — a first-person Mars survival learning game for ages 7–12. Explore, protect your crew, and learn the science of energy, dust, and radiation.
 - **Website:** https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases
 - **Topics:** godot, mars, educational-game, space-apps, first-person, stem-education, offline-game
 
@@ -28,7 +28,9 @@ On November 14, 2026, the owner completed a personal device login. A corrected `
 
 ```sh
 gh auth login --hostname github.com --web
-gh repo edit roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026 --description "Red Veil — a first-person Mars learning adventure for ages 7–12. Explore, protect your crew, and discover space science." --homepage "https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases" --add-topic "godot,mars,educational-game,space-apps,first-person,stem-education,offline-game"
+gh repo edit roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026 --description "$(python3 -c 'import json; print(json.load(open("game/data/brand.json"))["display_name"] + " — a first-person Mars learning adventure for ages 7–12.")')" --homepage "https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases"
 ```
 
 Each command is a single line. Do not paste shell prompts, HTML escapes, or backslashes before options. If the managed terminal cannot open the device-login URL, it can be opened manually in a browser; a later "Authentication complete" means that step succeeded. Plain-text credential storage means the cloud machine has no supported credential keyring; personal credentials should not be shared in chat or committed. The repository build and release workflows continue using their scoped Actions token.
+
+The 0.5 rename attempt could not change the About description through the integration (HTTP 403). The owner can paste the current display name and description into the repository gear. Public hosting is deferred; the website field should continue to point to Releases.

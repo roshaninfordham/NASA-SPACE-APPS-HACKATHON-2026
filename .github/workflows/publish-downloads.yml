@@ -6,7 +6,6 @@ on:
         description: Exact version of the accepted build
         required: true
         type: string
-        default: 0.4.0-alpha.1
       revision:
         description: Exact 40-character lowercase source commit of the accepted build
         required: true
@@ -201,9 +200,10 @@ jobs:
           PY
 
   # GITHUB_TOKEN-created releases do not trigger the release event workflow.
-  # Call web delivery explicitly only after native publication succeeds.
+  # Hosting is deferred by the owner; opt in only after its public URL is verified.
   deploy_web:
     needs: publish
+    if: vars.RED_VEIL_WEB_DEPLOY_ENABLED == 'true'
     permissions:
       contents: read
       pages: write

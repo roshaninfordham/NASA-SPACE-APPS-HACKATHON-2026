@@ -1,6 +1,30 @@
-[gd_resource type="Resource" script_class="VeilArtProfile" load_steps=2 format=3]
+[gd_resource type="Resource" script_class="VeilArtProfile" load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/art_profile.gd" id="1"]
+[ext_resource type="PackedScene" path="res://art/red_veil/exterior.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://art/red_veil/interior.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://art/red_veil/landscape.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://art/red_veil/scanner.tscn" id="5"]
+
+[ext_resource type="PackedScene" path="res://art/red_veil/refuge.tscn" id="6"]
+
+[ext_resource type="PackedScene" path="res://art/red_veil/astronaut.tscn" id="7"]
 
 [resource]
 script = ExtResource("1")
+habitat_scene = ExtResource("2")
+interior_scene = ExtResource("3")
+landscape_scene = ExtResource("4")
+scanner_scene = ExtResource("5")
+habitat_origin = Vector3(0, 0, -16)
+terrain_color = Color(0.51, 0.23, 0.20, 1)
+distant_terrain_color = Color(0.42, 0.24, 0.27, 1)
+hull_color = Color(0.93, 0.87, 0.84, 1)
+structure_color = Color(0.23, 0.055, 0.10, 1)
+instrument_color = Color(0.43, 0.89, 0.94, 1)
+route_color = Color(1, 0.39, 0.34, 1)
+interface_text = Color(0.97, 0.92, 0.91, 1)
+interface_accent = Color(1, 0.48, 0.44, 1)
+interface_button_text = Color(0.16, 0.06, 0.10, 1)
+refuge_scene = ExtResource("6")
+companion_scene = ExtResource("7")

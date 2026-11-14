@@ -1,4 +1,4 @@
-# Red Veil design-team handoff
+# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> design-team handoff
 
 **Reviewed November 14, 2026.** [Team status](TEAM-STATUS.md) records the exact released build. [The roadmap](ROADMAP.md) separates presentation, media, platform and validation work.
 
@@ -79,3 +79,11 @@ Use actual gameplay to show scale, navigation, equipment interaction, readabilit
 Prioritize a coherent first-person arrival, readable short instructions for ages 7–12, meaningful equipment feedback, and a clear distinction between dust, sunlight, stored energy and invisible radiation shown through instruments. Review sound with volume/mute control, captions or equivalent visual cues, and an explicit asset license. The current mission and academy are functional prototypes; new artwork does not establish expert scientific approval or learner comprehension.
 
 Deliver changes through the existing art/theme/scene contracts first. If a design needs a new interaction, collision boundary, global class, autoload or runtime layout, agree that behavior with engineering and update its acceptance checks. A signed content pack must remain compatible with the baseline installer; otherwise use a planned full-installer transition.
+
+## 0.5 visual candidate
+
+The active profile now binds explicit scene paths under `game/art/red_veil/` (a stable internal resource namespace), including the new `interior_scene` slot. `habitat_origin` is configurable; this design sets it to `(0, 0, -16)` rather than the old cylinder's `(0, 2.4, -16)`. Custom habitat/refuge scenes supply their own deliberately tested collisions; the old blockout colliders are not retained underneath them. Other legacy replacement slots continue to preserve their existing mission collision contract.
+
+Shared `exterior_geometry.gd` and `exterior_ornaments.gd` build reusable surfaces, wave inlays, blossom strokes and lantern cages. Static geometry is batched by material; transparent and animated surfaces retain separate behavior. The reference images are design targets, not certified physical specifications. The character is a procedural stylized model with idle motion, not a production animation rig.
+
+The **Explore the habitat** action enters an untimed first-person review mode. It leaves mission time, energy and exposure unchanged while allowing the control-room power switch to be explored. The timed mission remains a separate action. Capture views and native collision tests document each iteration before release.

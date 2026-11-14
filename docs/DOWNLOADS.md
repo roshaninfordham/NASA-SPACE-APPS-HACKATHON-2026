@@ -1,10 +1,12 @@
-# Download and play Red Veil
+# Download and play KŌMAKU: Shield Protocol
 
 Downloads are published as **GitHub Release assets**, not GitHub Packages. A repository containing code and export presets does not imply that an installer exists. Use the release notes to distinguish built, launch-tested, unsigned, and unsupported targets.
 
+From version 0.5 onward, ZIP names begin with `KOMAKU-Shield-Protocol-<version>`. Historical 0.4 and earlier downloads retain `Red-Veil` filenames and the previous app name; those published artifacts are not renamed. The signed content filename and local save/update identities remain unchanged for compatibility. Use the notes attached to the version you download.
+
 ## MacBook with Apple Silicon, including M5
 
-Download the macOS universal ZIP from the release, extract it, and open `Red Veil.app`. The universal binary contains both arm64 and x86_64 slices. No Node, Rust, Godot editor, or terminal is needed to play the app.
+Download the macOS universal ZIP from the release, extract it, and open `KŌMAKU- Shield Protocol.app`. The universal binary contains both arm64 and x86_64 slices. No Node, Rust, Godot editor, or terminal is needed to play the app.
 
 Early alpha builds are unsigned and not notarized. macOS may block opening them. Verify that the download comes from this repository and compare the published SHA-256 checksum. If you choose to trust this alpha, use Apple's documented **Privacy & Security → Open Anyway** workflow. Do not disable Gatekeeper globally. Signing and notarization require the project's Apple developer identity and are not completed by this build.
 
@@ -12,9 +14,9 @@ The alpha has been cross-exported on Linux, not launched on a physical Mac. M5 p
 
 ## Windows and Linux
 
-Windows x64: extract the ZIP and run `Red-Veil.exe`. The early build is unsigned and may trigger a reputation warning. Windows runtime testing is still required.
+Windows x64: extract the ZIP and run `KOMAKU-Shield-Protocol.exe`. The early build is unsigned and may trigger a reputation warning. Windows runtime testing is still required.
 
-Linux x64: extract the ZIP and run `Red-Veil.x86_64`. A headless launch of the exported binary is verified in the build environment. Desktop-driver and distribution coverage are not established by that check.
+Linux x64: extract the ZIP and run `KOMAKU-Shield-Protocol.x86_64`. A headless launch of the exported binary is verified in the build environment. Desktop-driver and distribution coverage are not established by that check.
 
 ## Browser and mobile
 

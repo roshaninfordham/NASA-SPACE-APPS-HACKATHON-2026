@@ -1,4 +1,4 @@
-# Red Veil system architecture
+# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> system architecture
 
 **Reviewed November 14, 2026.** This describes the primary game and current update implementation. [Team status](TEAM-STATUS.md) identifies the published 0.4.0-alpha.1 release and scoped acceptance evidence; [roadmap](ROADMAP.md) tracks browser/mobile work that is not yet a verified deployment.
 

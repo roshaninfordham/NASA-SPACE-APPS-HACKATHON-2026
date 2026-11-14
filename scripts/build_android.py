@@ -14,6 +14,7 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parent.parent
 ENGINE = "4.6.3"
+BRAND = json.loads((ROOT / "game/data/brand.json").read_text())
 PRODUCTION_ID = "io.github.roshaninfordham.redveil"
 INTERNAL_ID = PRODUCTION_ID + ".internal"
 
@@ -39,7 +40,7 @@ def configure_preset(template, version, code, release):
     if not 1 <= code <= 2100000000:
         raise ValueError("Android version code must be 1..2100000000 and increase for every upgrade")
     package = PRODUCTION_ID if release else INTERNAL_ID
-    name = "Red Veil" if release else "Red Veil Internal Test"
+    name = BRAND["display_name"] if release else BRAND["display_name"] + " Internal Test"
     values = {"version/code": str(code), "version/name": config_string(version if release else version + "-internal"), "package/unique_name": config_string(package), "package/name": config_string(name)}
     for field, value in values.items():
         template, count = re.subn(r"^" + re.escape(field) + r"=.*$", lambda _: field + "=" + value, template, flags=re.MULTILINE)
@@ -136,10 +137,10 @@ def main():
                 env.update({"GODOT_ANDROID_KEYSTORE_RELEASE_PATH": str(keystore), "GODOT_ANDROID_KEYSTORE_RELEASE_USER": args.alias, "GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD": password})
             else:
                 keystore = work / "internal-test.keystore"
-                run([java / "bin/keytool", "-genkeypair", "-keystore", keystore, "-storepass", "android", "-keypass", "android", "-alias", "androiddebugkey", "-keyalg", "RSA", "-keysize", "3072", "-validity", "30", "-dname", "CN=Red Veil Internal Test,O=Team Roshan Xingbo,C=US"], env=env)
+                run([java / "bin/keytool", "-genkeypair", "-keystore", keystore, "-storepass", "android", "-keypass", "android", "-alias", "androiddebugkey", "-keyalg", "RSA", "-keysize", "3072", "-validity", "30", "-dname", "CN=KOMAKU Internal Test,O=Team Roshan Xingbo,C=US"], env=env)
                 env.update({"GODOT_ANDROID_KEYSTORE_DEBUG_PATH": str(keystore), "GODOT_ANDROID_KEYSTORE_DEBUG_USER": "androiddebugkey", "GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD": "android"})
             run(["godot", "--headless", "--path", project, "--editor", "--import"], env=env, redact=[password])
-            apk = output / (f"Red-Veil-{version}-Android-arm64.apk" if args.release else f"Red-Veil-{version}-INTERNAL-Android-arm64.apk")
+            apk = output / (f"{BRAND['package_stem']}-{version}-Android-arm64.apk" if args.release else f"{BRAND['package_stem']}-{version}-INTERNAL-Android-arm64.apk")
             run(["godot", "--headless", "--path", project, "--export-release" if args.release else "--export-debug", "Android", apk], env=env, redact=[password])
             fingerprint = signed_identity(sdk / "build-tools/35.0.1/apksigner", apk, env)
             if args.release:

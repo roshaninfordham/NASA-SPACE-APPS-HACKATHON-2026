@@ -8,6 +8,8 @@ func check(condition: bool, message: String) -> void:
 func _initialize() -> void:
 	call_deferred("run")
 func run() -> void:
+	# A real desktop viewport, rather than the headless driver’s 64×64 placeholder.
+	root.size = Vector2i(1280, 720)
 	var game = load("res://main.tscn").instantiate()
 	root.add_child(game)
 	await process_frame
@@ -27,8 +29,10 @@ func run() -> void:
 	game.academy.close()
 	await process_frame
 	game.begin()
+	await process_frame
+	await process_frame
 	check(game.player.enabled, "Mission launch enables first-person controls")
-	check(game.metrics.get_parent().global_position.x > 900, "Power and suit HUD is inside the viewport")
+	check(Rect2(Vector2.ZERO, root.get_visible_rect().size).encloses(game.metrics.get_global_rect()), "Power and suit HUD is inside the viewport")
 	game.player.global_position = Vector3(16, 0.3, -5.7)
 	game._process(0.1)
 	check(game.nearby == "array", "Approaching equipment enables its interaction")

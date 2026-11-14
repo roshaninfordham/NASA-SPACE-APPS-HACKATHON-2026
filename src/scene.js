@@ -1,3 +1,4 @@
+import brand from "../game/data/brand.json";
 import * as THREE from "three";
 /** Replaceable presentation adapter. Simulation never imports this module. */
 export function createScene(container) {
@@ -9,8 +10,7 @@ export function createScene(container) {
       powerPreference: "low-power",
     });
   } catch {
-    container.innerHTML =
-      '<div class="scene-fallback"><span>◒</span><p>Red Veil outpost</p><small>Low graphics mode · All mission controls remain available</small></div>';
+    container.innerHTML = `<div class="scene-fallback"><span>◒</span><p>${brand.title} outpost</p><small>Low graphics mode · All mission controls remain available</small></div>`;
     return { update() {}, resize() {}, dispose() {} };
   }
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));

@@ -4,7 +4,10 @@ All published game versions and notable unreleased work are recorded here. The v
 
 ## Unreleased
 
-- Implementing the design team's ivory/crimson organic habitat and holographic mission-control direction as modular, walkable 3D scenes.
+- Renamed current presentation to **KŌMAKU: Shield Protocol**, driven by one brand configuration and shared runtime/build accessors. Legacy save, signing, package identity and updater protocols remain stable.
+- Added modular ivory/crimson habitat and refuge scenes, a walkable holographic control room, lanterns, gold wave/blossom inlays, lattice supports, terrain and a pearlescent crewmate/scanner. These are original procedural interpretations, not pixel-identical or photoreal reference reproductions.
+- Added untimed habitat exploration and responsive menus, touch controls, scrollable dialogs and keyboard focus handling.
+- Added collision-based route checks, real Explore-button checks, and static geometry batching. The mission equations and local learning model are unchanged.
 - Added integrity-checked browser offline/update packaging, a Pages delivery workflow, and multi-window update controls.
 - Added a reproducible internal Android build route; production signing, device testing and native mobile updating remain open.
 - Added authentic versioned screenshots/GIFs and a ten-outcome roadmap with explicit evidence and limitations.

@@ -1,10 +1,10 @@
-# Red Veil — team progress briefing
+# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> — team progress briefing
 
 **Reviewed November 14, 2026. Latest published release: [0.4.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.4.0-alpha.1), with nine public assets.** Exact source: `48901d0bce68e72974b36377c3a060f90403ebe9`; signed build `43634324156`, attempt 1.
 
 ## Explain it in thirty seconds
 
-Red Veil is a downloadable first-person Mars learning-game prototype for ages 7–12. The player explores an outpost, handles equipment, manages separate habitat and suit energy, and reaches a shielded refuge. Mira provides guidance, and five short practice lessons explain the science. The published release adds GitHub-connected update notices and verified desktop content installation with startup recovery. Its real signed content passed Linux acceptance, including automatic process relaunch under Xvfb. The design team can replace the current provisional presentation through documented scene and interface contracts. Final visuals, more missions, device testing and educational validation remain open.
+<!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> is a downloadable first-person Mars learning-game prototype for ages 7–12. The player explores an outpost, handles equipment, manages separate habitat and suit energy, and reaches a shielded refuge. Mira provides guidance, and five short practice lessons explain the science. The published release adds GitHub-connected update notices and verified desktop content installation with startup recovery. Its real signed content passed Linux acceptance, including automatic process relaunch under Xvfb. The design team can replace the current provisional presentation through documented scene and interface contracts. Final visuals, more missions, device testing and educational validation remain open.
 
 ## What players can install today
 
@@ -20,7 +20,7 @@ The owner completed signing setup: public key commit `2d2aa7c` is in Git, and th
 
 The [native acceptance harness](../scripts/verify_native_update_acceptance.py) checked the exact artifacts and actual signature, installed their production PCK through an exported Linux fixture, reached the production game, acknowledged startup, persisted across another launch, and confirmed that same-size pack tampering restored the bundled baseline. A GUI acceptance pass also exercised the real automatic `OS.create_instance` restart under authenticated Xvfb/Mesa; the new production process remained alive with a healthy activation journal. The content hash was `e9cf215745acabeb7644ea64f9cc372997432b7a14de4c2c4da5ad82632af157`.
 
-The checks used **Linux headless plus authenticated Xvfb, local artifact transport, and a disposable older-version fixture**. Automatic Linux relaunch passed, but live HTTP pack transfer, physical Mac/Windows, an update from a previously shipped installer, physical GPU/visual quality and audio-device behavior remain unverified. [Acceptance evidence](evidence/update-0.4.0-alpha.1.json) records that scope. Live Godot GitHub metadata access returned HTTP 200 in a separate proxy-assisted check; that is narrower evidence than a live end-to-end installation.
+The checks used **Linux headless plus authenticated Xvfb, real public GitHub HTTP transfers, and a disposable older-version fixture**. Metadata, manifest, signature and PCK each returned HTTP 200; exact downloaded bytes matched independently verified artifacts. Automatic GUI relaunch, repeated healthy startup and tamper recovery passed. Physical Mac/Windows, upgrades from a previously shipped installer, physical GPU performance and audio-device behavior remain separate gates. [Acceptance evidence](evidence/update-0.4.0-alpha.1.json) records the exact scope.
 
 The accepted bytes were published without rebuilding, with nine public assets and the exact source retained in the release notes. [Update behavior and limits](UPDATES.md) describes the contract and recovery boundaries.
 
@@ -52,7 +52,7 @@ About now has the owner-provided description, website and topics. GitHub lists t
 
 ## Immediate team responsibilities
 
-1. Engineering: keep public release/source verification current, complete remaining live/device update checks, and integrate browser/mobile delivery with its own evidence. GitHub Pages Actions is enabled; browser deployment still awaits its packaging tests and a successful public deploy.
+1. Engineering: keep public release/source verification current, complete remaining live/device update checks, and integrate browser/mobile delivery with its own evidence. Pages deployment succeeded and local Web/offline checks passed, but the inherited custom domain redirects to another site. The owner chose downloadable builds for now; automatic hosting is paused.
 2. Design: supply licensed assets through the [replacement contracts](DESIGN-HANDOFF.md), and review authentic software captures without treating provisional art as final.
 3. Science and education: review the assumptions and run the proposed supervised [playtest protocol](PLAYTEST.md). No child-study results or professional-training claim exist yet.
 4. Device testers: report the exact version, OS, hardware, controls and reproducible steps. A successful cross-export does not replace a physical launch.
@@ -61,3 +61,7 @@ About now has the owner-provided description, website and topics. GitHub lists t
 ---
 
 made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC
+
+## 0.5 candidate on main
+
+The next candidate introduces the centrally configured KŌMAKU: Shield Protocol identity, modular ornamented habitat/control-room/refuge, stylized Mira, terrain and scanner, untimed exploration, and responsive dialogs/touch layout. Gold waves, blossom inlays, latticework and lanterns follow the latest supplied design direction. Actual collision-route and runtime UI checks pass. This is a procedural 3D interpretation; pixel identity, photoreal materials, production character animation, physical-device performance and a complete rescue storyline are not claimed.

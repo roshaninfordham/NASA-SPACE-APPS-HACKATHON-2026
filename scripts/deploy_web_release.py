@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prepare a Pages artifact from an existing published Red Veil Web release."""
+"""Prepare a Pages artifact from an existing published game Web release."""
 import argparse
 from datetime import datetime, timezone
 import hashlib
@@ -15,6 +15,8 @@ import tempfile
 import urllib.parse
 import urllib.request
 import zipfile
+
+from branding import archive_name, brand
 
 ROOT = Path(__file__).resolve().parent.parent
 REPOSITORY = "roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026"
@@ -49,7 +51,7 @@ class ReleaseRedirects(urllib.request.HTTPRedirectHandler):
 
 def download(url, path, maximum):
     validate_download_url(url)
-    headers = {"User-Agent": "Red-Veil-release-site"}
+    headers = {"User-Agent": brand()["package_stem"] + "-release-site"}
     # Actions' scoped read token avoids shared-runner anonymous API limits. It
     # never goes to a release-asset host or into the generated website.
     if urllib.parse.urlsplit(url).hostname == "api.github.com" and os.environ.get("GH_TOKEN"):
@@ -89,7 +91,7 @@ def version_from_tag(tag):
 
 def fixed_asset_url(tag, filename):
     version = version_from_tag(tag)
-    allowed = {"release-manifest.json", f"Red-Veil-{version}-Web.zip"}
+    allowed = {"release-manifest.json", archive_name(version, "Web")}
     if filename not in allowed:
         raise ValueError("Unexpected release asset name")
     return f"https://github.com/{REPOSITORY}/releases/download/{tag}/{filename}"
@@ -99,7 +101,7 @@ def validate_release(release, tag):
     if release.get("draft") is not False or release.get("tag_name") != tag or not release.get("published_at"):
         raise ValueError("Only an existing published release can be deployed")
     version = version_from_tag(tag)
-    expected = {"release-manifest.json", f"Red-Veil-{version}-Web.zip"}
+    expected = {"release-manifest.json", archive_name(version, "Web")}
     assets = release.get("assets")
     if not isinstance(assets, list):
         raise ValueError("Published release has no asset list")
@@ -125,7 +127,7 @@ def web_archive_entry(manifest, version, tagged_commit):
         raise ValueError("Release manifest version/source does not match its published tag")
     if manifest.get("engine") != "Godot 4.6.3":
         raise ValueError("This web packaging adapter supports the Godot 4.6.3 export format")
-    filename = f"Red-Veil-{version}-Web.zip"
+    filename = archive_name(version, "Web")
     assets = manifest.get("assets")
     if not isinstance(assets, list):
         raise ValueError("Release manifest has no asset list")

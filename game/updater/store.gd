@@ -115,7 +115,7 @@ func _prepare_locked() -> Dictionary:
 	if journal.status == "trial":
 		if journal.pid > 0 and _process_alive(int(journal.pid)):
 			# A second instance must not declare a still-starting first instance crashed.
-			return _fallback_result(journal.previous, "Another Red Veil window is starting the update. This window uses the previous version.")
+			return _fallback_result(journal.previous, "Another game window is starting the update. This window uses the previous version.")
 		return _rollback_locked(journal, "The previous update did not finish starting. Your earlier version was restored.")
 	var candidate := _verified_slot(journal.active)
 	if not candidate.ok: return _rollback_locked(journal, "The saved update could not be verified. Your earlier version was restored.")

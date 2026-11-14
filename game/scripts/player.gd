@@ -1,7 +1,7 @@
 class_name VeilPlayer
 extends CharacterBody3D
 ## Camera-relative movement pattern informed by Kenney's MIT starter kit.
-## First-person controls and Mars gravity are Red Veil-specific.
+## First-person controls and Mars gravity are game-specific.
 const GRAVITY := 3.71
 const SPEED := 5.0
 @export var art: VeilArtProfile = preload("res://art/default_art.tres")

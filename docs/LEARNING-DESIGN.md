@@ -1,6 +1,6 @@
 # Learning through exploration
 
-Red Veil serves ages 7–12. The child is the first-person astronaut; Mira is a companion. The aim is curiosity, useful feedback, and the desire to try another plan. The current academy is a small, offline prototype alongside one 3D mission, not a complete curriculum or a proven intelligent tutor.
+<!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> serves ages 7–12. The child is the first-person astronaut; Mira is a companion. The aim is curiosity, useful feedback, and the desire to try another plan. The current academy is a small, offline prototype alongside one 3D mission, not a complete curriculum or a proven intelligent tutor.
 
 ## Implemented on main
 
@@ -37,7 +37,7 @@ New concepts are recommended first. Once each has an independent attempt, the ea
 
 ## Research informing the design
 
-| Source                                                                                                                                                                                                | Relevant idea                                                | What Red Veil actually uses                                                                                |
+| Source                                                                                                                                                                                                | Relevant idea                                                | What <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> actually uses                       |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
 | Corbett & Anderson, _Knowledge tracing: Modeling the acquisition of procedural knowledge_, User Modeling and User-Adapted Interaction 4, 253–278 (1994), [DOI](https://doi.org/10.1007/BF01099821)    | Bayesian estimates updated from student responses            | A small, uncalibrated implementation of the response/transition equations; no copied package code          |
 | Settles & Meeder, _A Trainable Spaced Repetition Model for Language Learning_, ACL 2016, [paper](https://aclanthology.org/P16-1174/)                                                                  | Duolingo research on predicting recall for spaced review     | Motivation for later recall and a future comparison baseline; half-life regression is not implemented      |

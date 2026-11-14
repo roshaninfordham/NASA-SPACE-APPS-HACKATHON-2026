@@ -1,4 +1,4 @@
-# Red Veil — first-person game
+# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> — first-person game
 
 This is the primary game implementation, built with Godot 4.6.3. The JavaScript application at the repository root remains a simulation/reference prototype; it is not the chosen final game presentation.
 
