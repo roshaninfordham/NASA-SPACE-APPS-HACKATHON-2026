@@ -10,10 +10,7 @@
   "previous_game_and_review_files_unchanged": 70,
   "browser_suite": {
     "passed": 22,
-    "profiles": [
-      "Chromium1440x960desktop",
-      "Chromium390x844touch emulation"
-    ],
+    "profiles": ["Chromium1440x960desktop", "Chromium390x844touch emulation"],
     "limits": "No physical iOS/Android device claim"
   },
   "files": [

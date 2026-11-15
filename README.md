@@ -2,34 +2,37 @@
 
 **Clear the dust. Discover the science.**
 
+**Submission video ready:** [download the 29.5-second, 1080p MP4](docs/media/submission-demo/KOMAKU-30-second-demo.mp4) · [credits and capture provenance](docs/media/submission-demo/README.md). The 24 fps edit combines actual engine footage, burned-in captions and an AI-generated Indian English male voice. It is a prototype demonstration, not footage of a child playing or a new release announcement.
+
 A short Mars learning game for ages 7–12, built with Godot. From mission control, choose Ren's solar-panel cleaning pace and watch how dust, sunlight and stored energy connect. Three main readings keep play clear; an optional eight-concept Science library and an explanation of your own result make the ideas available when you need them.
 
 [![Validation](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml/badge.svg)](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml)
 
 **Published [0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1) — November 15, 2026, 13:53:05 UTC.** Built from `26f19540baf330b00b0ac4a1b470d0e1439f7382`. This release simplifies the interface and corrects the installation handoff while preserving the 90-second mission and its equations. [Release notes](docs/releases/0.10.0-alpha.1.md). [Public-file verification](docs/evidence/release-0.10.0-alpha.1.json) matched all ten downloads to the accepted build; all four ZIPs contain the current instructions and exact three reviewed PDFs.
 
-![0.10 source preview: a focused cleaning view, optional science and clear result](docs/media/journey-0.10/contact-sheet.png)
-
 [0.10 gameplay screenshots](docs/media/journey-0.10/README.md) · [Science relationships](docs/media/journey-0.10/science-desktop.png) · [Submission draft](docs/SUBMISSION-DRAFT.md). These are native Linux source captures with recorded fixtures and source provenance, not physical-device or published-installer acceptance.
 
-**Team feedback:** [Open the screen-review gallery](https://roshaninfordham.github.io/NASA-SPACE-APPS-HACKATHON-2026/review/) to draw boxes, arrows and pins, attach notes, and share an annotated screen or submit a GitHub issue. [Review guide](docs/SCREEN-REVIEW.md). This is a review gallery, not the playable browser edition.
+**Earlier C1 screen feedback:** [Open the screen-review gallery](https://roshaninfordham.github.io/NASA-SPACE-APPS-HACKATHON-2026/review/) to draw boxes, arrows and pins, attach notes, and share an annotated screen or submit a GitHub issue. [Review guide](docs/SCREEN-REVIEW.md). This is a review gallery, not the playable browser edition.
 
-## The 0.11 candidate
+## New visual and learning work — unreleased
 
-**0.11.0-alpha.1 candidate — publication held; visual acceptance pending.** The next interface restores the outpost-window presentation and eight visible science bubbles, with **View → Science window / Focused window**, direct Home navigation, and captioned radio feedback. It retains the 0.10 short wording, typography, 90-second mission and equations. [Candidate design contract](docs/design-specs/JOURNEY-0.11.md). Downloads and published acceptance below still refer to 0.10 until the new build passes its own release checks.
+The current source revises Ren’s visible face and brushing animation, adds layered Mars terrain and lighting, refines the dust and beveled panel, and brings the window glass, frame and control rail into one visual treatment. The opening gains a gradient treatment and the result gains illustration. These are implemented visual changes awaiting integrated acceptance, not a claim of final artistic quality.
 
-- **Science window** restores the visible outpost frame and eight concept bubbles whose readings follow the running mission. Opening an explanation pauses play. These are simulated readings; only the separate NASA viewer retrieves a solar image.
-- **Focused window** offers a quieter view of the same mission through **View**. View changes do not change the rules or restart the round; the selected view is saved locally.
-- **Menu → Home** returns to the main choices. Home offers direct **View & accessibility** and **Sound, motion & pace** settings. Short player/Ren radio captions acknowledge Start and pace changes without microphone input or generated conversation.
-- Local profile schema 2 adds the view preference while migrating recognized schema 1 progress and settings. The existing save identity and update trust remain unchanged.
+Short, once-only radio coaching now responds to the actual run: trying the pace control, clearing dust, rising game fatigue, and the approaching deadline. **Home / Menu → Your training** opens a local journal of recent missions, explored ideas, and the existing pace/fatigue practice question. Profile schema 3 retains up to 30 detailed runs plus cumulative counters. Older profiles can provide only a lower bound from their retained history; opening a science card is not evidence of mastery.
 
-**Candidate source checks passed:** the complete shared source suite, 170 captured states across five viewports, 39 native Linux navigation assertions, and a 41-screen review gallery checked by 22 browser tests. Candidate source: `20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0`. [Native evidence](docs/evidence/journey-native-0.11.json) · [0.11 gallery and capture provenance](docs/media/journey-0.11/README.md) · [Actual cleaning MP4](docs/media/journey-0.11/cleaning-live.mp4) · [Clip provenance and scope](docs/media/journey-0.11/CLEANING-CLIP.md).
+**The new source is not released.** The shared native game suite passed after visual/coaching/journal integration, including 401 training-journal and 377 progress assertions; a supplemental actual-main training flow passed 53 assertions. The final targeted navigation-label recheck also passed all 53 assertions. Published downloads remain 0.10. The earlier C1 candidate’s build, update gates and 41-screen gallery do not validate these newer changes. [Visual/learning update and limits](docs/VISUAL-LEARNING-UPDATE.md).
 
-[Build 43729552243](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43729552243) completed exports and the Mac startup check. All [fourteen native update jobs](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43730091761) and the [Linux 0.4 update gate](docs/evidence/update-0.4-to-0.11-linux.json) passed. **Publication is held:** visual acceptance is still pending, and the Windows package report contains a cleanup error despite three passed startup probes and an unreliable overall success flag. A corrected verification harness must recheck that package. [Current evidence and limits](docs/VALIDATION.md).
+An optional [NASA context cache for Cloudflare Workers](services/nasa-context-worker/README.md) has 17 isolated tests, a successful Wrangler dry run and an actual NASA access probe. It is **not deployed or connected to the game**. No NASA API key is required; deployment needs a Cloudflare account and permission. The current game’s direct NASA viewer and offline mission remain separate.
 
-The [41-screen public review gallery](https://roshaninfordham.github.io/NASA-SPACE-APPS-HACKATHON-2026/review/0.11.0-alpha.1/) is live and passed 22 browser tests; it is a feedback site, not a game release. [Deployment evidence](docs/evidence/screen-review-0.11.0-alpha.1.json). Source screenshots and tests do not establish visual approval, physical-device performance or a published installer.
+## Earlier 0.11 C1 candidate — historical evidence
+
+Source `20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0` restored the eight-bubble Science window, Focused window, scripted command replies and schema 2 view preference. Its [170-state capture record](docs/media/journey-0.11/README.md), [39 native Linux navigation assertions](docs/evidence/journey-native-0.11.json), exported Mac startup and historical content-update gates belong to that source. Its [41-screen public review gallery](https://roshaninfordham.github.io/NASA-SPACE-APPS-HACKATHON-2026/review/0.11.0-alpha.1/) passed 22 browser tests; those screens show the earlier candidate, not the new visual/journal work.
+
+The original C1 Windows package report recorded three passed startup probes followed by a cleanup error and an unreliable overall success flag. [Detailed historical gate status](docs/VALIDATION.md). Neither that candidate nor the newer source is a published 0.11 release. Visual approval remains separate from automated checks.
 
 ## The published 0.10 experience
+
+![0.10 source preview: a focused cleaning view, optional science and clear result](docs/media/journey-0.10/contact-sheet.png)
 
 1. **Start with a short story:** exterior habitat → Ren → the interior control room. Large titles and brief captions sit over unlettered illustrations, with optional sound and reduced motion. The first mission shows **Opening the window…** while preparing the scene; **Back to Home** cancels loading.
 2. **Choose a starting pace:** preflight has no running clock. Set the pace and press **START MISSION**. There is no reading-completion gate.
@@ -56,7 +59,7 @@ The [0.10 capture record](docs/media/journey-0.10/capture-provenance.json) docum
 
 ## Download and open this version
 
-**Latest published download: 0.10.0-alpha.1.** The 0.11 candidate is held for visual review and a Windows package-gate recheck; it is not a published release. [Official version page](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1) lists publication status and available files. Download the matching platform ZIP below, then extract the whole archive.
+**Latest published download: 0.10.0-alpha.1.** New visual/learning source is unreleased and under validation; earlier C1 acceptance does not cover it. [Official version page](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1) lists publication status and available files. Download the matching platform ZIP below, then extract the whole archive.
 
 | Platform                  | 0.10.0 archive                                                                                                                                                                          | Open after extracting the whole ZIP                  |
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |

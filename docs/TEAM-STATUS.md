@@ -1,10 +1,22 @@
 # <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — team progress
 
+**Video delivered:** [29.5-second 1080p MP4](media/submission-demo/KOMAKU-30-second-demo.mp4), with [captions, AI-voice credits and capture provenance](media/submission-demo/README.md). It uses actual prototype engine footage, edited into a 24 fps presentation; it is not a child playtest or a new release announcement. The public GitHub bytes were verified and the complete video passed FFmpeg decoding.
+
 **Published [0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1) — November 15, 2026, 13:53:05 UTC.** Built from `26f19540baf330b00b0ac4a1b470d0e1439f7382`. This release simplifies the interface and corrects the installation handoff while preserving the 90-second mission and its equations. [Release notes](releases/0.10.0-alpha.1.md).
 
-## Candidate 0.11: the next interface
+## Current visual and learning source — not released
 
-**0.11.0-alpha.1 candidate — publication held; visual acceptance pending.** The next interface restores the outpost-window presentation and eight visible science bubbles, with **View → Science window / Focused window**, direct Home navigation, and captioned radio feedback. It retains the 0.10 short wording, typography, 90-second mission and equations. [Candidate design contract](design-specs/JOURNEY-0.11.md). Downloads and published acceptance below still refer to 0.10 until the new build passes its own release checks.
+Ren’s face and brush are more visible; terrain, lighting/reflections, the dust and beveled panel, and the glass/frame/rail have been revised together. Story and result presentation also have new treatments. Visual acceptance remains a review task, not something proved by implementation.
+
+The new local coaching responds once per relevant event during the run. **Your training**, available from Home and Menu, adds recent outcomes, explored ideas and the existing pace/fatigue practice result. Schema 3 keeps up to 30 detailed recent runs and cumulative counters. Migrated profiles identify incomplete older history; neither card visits nor these game records establish mastery or real astronaut readiness.
+
+The shared native game suite passed after integration, including 401 training-journal and 377 progress assertions; the supplemental actual-main training flow passed 53 assertions. The final targeted navigation-label recheck also passed all 53 assertions. The earlier C1 build, update matrix and 41-screen gallery below do **not** cover these newer visuals, coaching or journal. Published downloads remain 0.10. [Current change details](VISUAL-LEARNING-UPDATE.md).
+
+The optional [Cloudflare NASA context cache](../services/nasa-context-worker/README.md) has 17 isolated tests, a Wrangler dry run and a NASA probe. It is not deployed or connected to the client; account permission would be required to deploy it. The existing direct NASA image view and offline lesson still operate independently.
+
+## Earlier 0.11 C1 candidate — historical acceptance scope
+
+**Historical C1 candidate; not published.** This earlier interface restored the outpost-window presentation and eight visible science bubbles, with **View → Science window / Focused window**, direct Home navigation, and captioned radio feedback. It retains the 0.10 short wording, typography, 90-second mission and equations. [Candidate design contract](design-specs/JOURNEY-0.11.md). Downloads and published acceptance below still refer to 0.10 until the new build passes its own release checks.
 
 The player remains inside the outpost, looking through the window at Ren and the panel. **Science window** restores eight visible bubbles with model-linked readings; **Focused window** keeps the view quieter. **View** changes presentation only. Existing short card wording and fonts remain. Opening a concept pauses the mission; detailed equations and sources stay available on request.
 

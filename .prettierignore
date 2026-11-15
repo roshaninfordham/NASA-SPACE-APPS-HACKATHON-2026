@@ -8,3 +8,8 @@ game/.godot
 
 # Preserve uploaded design references byte-for-byte.
 docs/design-specs/source/**
+
+# Original runner/capture evidence retains its producer's exact bytes.
+docs/evidence/native-launch-0.11-windows.json
+docs/media/submission-demo/komaku-demo-narration-boundaries.json
+docs/media/submission-demo/sources/gameplay-provenance.json

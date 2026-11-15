@@ -2,7 +2,19 @@
 
 All published game versions and notable unreleased work are recorded here. The version and source commit in each release manifest identify the exact downloadable build. Documentation on `main` can be newer than an installer.
 
-## [0.11.0-alpha.1] — Unreleased candidate
+## Unreleased — visual and learning update
+
+The [finished 29.5-second submission video](docs/media/submission-demo/KOMAKU-30-second-demo.mp4) is available with [credits and provenance](docs/media/submission-demo/README.md): actual engine footage, 1080p/24 fps presentation, burned-in captions and an AI-generated Indian English male narration. The edited preview is not a new game publication or a recording of a child playtest.
+
+- Refine Ren’s face visibility and brushing, layered Martian terrain/light/reflections, continuous panel dust and beveled panel geometry, and the window glass/frame/control rail. Add story gradient treatment and result illustration.
+- Add once-only contextual radio coaching based on the current run, with player command captions taking priority. These are local deterministic rules, not a neural-network tutor or physiological assessment.
+- Add **Your training** to Home and Menu. Show recent missions, explored concepts, the existing pace/fatigue question’s first unassisted answers, and a suggested next activity. Exploring a card is not mastery, and the journal does not measure an entire curriculum.
+- Move local profiles to schema 3: up to 30 detailed recent runs plus cumulative counters. Migrated older histories retain their available records and explicitly identify incomplete totals; unseen older runs are not reconstructed.
+- Add a standalone optional NASA context cache for Cloudflare Workers. Its 17 tests, Wrangler dry run and NASA access probe are separate service evidence. It is neither deployed nor wired into the client; deployment requires account access, not a NASA API key.
+
+**The shared native game suite passed after integration**, including 401 training-journal and 377 progress assertions; the supplemental actual-main training flow passed 53 assertions. Final targeted navigation-label checking is in progress. Updated visual review, new package/update evidence and publication acceptance remain required. The following C1 candidate records remain historical; their passes do not transfer to these changed files. Published downloads remain 0.10. [Update details](docs/VISUAL-LEARNING-UPDATE.md).
+
+## [0.11.0-alpha.1] — Earlier C1 candidate record
 
 Restore the outpost-window presentation and eight visible, updating science bubbles while preserving the published 0.10 wording, fonts, short explanations and mission rules. This entry describes candidate work, not a published package or completed release acceptance. [Design contract](docs/design-specs/JOURNEY-0.11.md).
 

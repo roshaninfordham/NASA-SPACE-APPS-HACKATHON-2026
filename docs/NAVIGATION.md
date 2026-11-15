@@ -2,6 +2,8 @@
 
 The journey controller separates two actions: changing the operating system's window mode, and going back within the game. Escape must never become a quit shortcut or a way to lose an attempt without confirmation.
 
+**Current-source additions are unreleased:** **Your training** opens from Home or Menu, alongside once-only contextual radio coaching. The shared native suite and a supplemental 53-assertion actual-main training flow passed after integration. The final targeted navigation-label recheck is in progress. Earlier navigation evidence below retains its original scope. [Visual/learning update](VISUAL-LEARNING-UPDATE.md).
+
 ## Player behavior
 
 - **Preflight:** select a cleaning pace without advancing time, fatigue, work, energy or dose. **Enter / START MISSION** begins the run only from preflight. The science constellation is optional.
@@ -11,9 +13,10 @@ The journey controller separates two actions: changing the operating system's wi
 - **Escape in a window:** close the top concept/dialog or open the mission pause menu. Each press handles only one layer. A confirmation dialog's Escape means “keep playing.”
 - **F11 / Fullscreen button:** toggle fullscreen explicitly. The app starts in a normal window; entering fullscreen is never a prerequisite to play.
 - **View:** choose **Science window** (eight live bubbles) or **Focused window**. Both retain the outpost framing and the same mission. View also links to sound/motion/round-length settings and fullscreen. Layout changes preserve every model quantity.
-- **Menu:** pauses and provides Resume, View & accessibility, Science, Sound/motion/pace, Restart, Home and Quit. Restart or leaving a started attempt requires confirmation; leaving untouched preflight for Home does not discard a running mission.
+- **Menu:** pauses and provides Resume, View & accessibility, Science, Your training, Sound/motion/pace, Restart, Home and Quit. Restart or leaving a started attempt requires confirmation; leaving untouched preflight for Home does not discard a running mission.
 - **Settings and Back:** Home offers View and sound settings directly. Settings opened from View returns to View; View returns to the paused menu. Only an explicit Resume continues the mission. Each layout preference is saved locally when storage is available.
-- **Radio captions:** pace commands produce a short player line and Ren's reply without microphone input. Captions work with sound disabled; motion and caption timing respect pause and reduced motion.
+- **Radio captions and coaching:** pace commands produce a short player line and Ren’s reply without microphone input. Once-only local coaching responds to controls, clearing dust, rising fictional tiredness and the deadline. Player commands have priority; reading/paused states do not consume unseen coaching. Captions remain useful with sound disabled.
+- **Your training:** Home and Menu open the local journal. Opening it during a mission pauses the model. **Back to menu** returns to the paused menu; **Back to Home** returns to Home. Starting a mission from the Home journal enters preflight; the journal’s mission action resumes an existing run when called from its paused menu. **Explore science** opens the relevant science view. Opening the journal alone does not write progress or count a practice answer.
 - **Exit:** is an explicit desktop action. Browser players close the browser tab; the game must not claim it can close an ordinary tab. A native window-close request during an attempt follows the same confirmation path as Exit.
 - **Focus loss:** pauses the mission and releases captured input. Returning to the app does not resume the countdown or capture the pointer automatically.
 
@@ -50,7 +53,7 @@ Before updating mission time, call `poll_external_exit()`. If it returns true, p
 
 This policy module supplies window behavior; the main controller owns the journey's exact pause, confirmation and back-stack behavior. Source tests of the policy alone do not prove that every player-facing menu has been wired correctly.
 
-## Verification scope
+## Verification scope — earlier evidence and new work
 
 **Final pace-workflow integration evidence is pending until refreshed.** The display policy and guard checks below have their own stable scope. Earlier full-controller evidence is bound to its recorded source hashes and must not be relabeled as proof of the new preflight/automatic-entry flow.
 
@@ -67,7 +70,7 @@ The guard suite adds 12 real input-traversal assertions: consumed and yielded Es
 
 Actual OS fullscreen behavior, browser gesture restrictions and complete menu navigation need the separate native/browser integration checks. A headless mock is not evidence of Mac green-button behavior or a physical keyboard test.
 
-The same suite has an opt-in real-window check:
+The existing suite has an opt-in real-window check:
 
 ```sh
 godot --path game --script res://tests/navigation_policy_test.gd -- --native-window-check
