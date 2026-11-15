@@ -1,0 +1,91 @@
+{
+  "version": "0.7.1-alpha.1",
+  "source_commit": "c86ad73da7810176e437e33e192a8d8475ae72a8",
+  "public_assets_match_accepted_build": true,
+  "manifest_sha256": "fa36a81713a0a5d8e1961f108a5379052c99f4336e8eef8c2264f1d93851799d",
+  "assets": [
+    {
+      "name": "KOMAKU-Shield-Protocol-0.7.1-alpha.1-Linux-x64.zip",
+      "bytes": 27935620,
+      "sha256": "795bf729fc9030ebf7edeb10b7f042f7518f3ca52c69cb8fa16cead89dfeb4d3"
+    },
+    {
+      "name": "KOMAKU-Shield-Protocol-0.7.1-alpha.1-Science-Guide.pdf",
+      "bytes": 314875,
+      "sha256": "58592c32b3ef1ef4c21d463fe74a998a718ac6822f4a05251f4a0098c03c81f4"
+    },
+    {
+      "name": "KOMAKU-Shield-Protocol-0.7.1-alpha.1-Web.zip",
+      "bytes": 10339238,
+      "sha256": "c536e10ec9a083b8aa0eaf4aaa94aac29559cee8546aaca2ff1a6d863d633732"
+    },
+    {
+      "name": "KOMAKU-Shield-Protocol-0.7.1-alpha.1-Windows-x64.zip",
+      "bytes": 36774848,
+      "sha256": "0bcb0dcbd3ff95655b4c9666a0d15d065398b1ffa841943e09a04445268bb949"
+    },
+    {
+      "name": "KOMAKU-Shield-Protocol-0.7.1-alpha.1-macOS-universal.zip",
+      "bytes": 63605164,
+      "sha256": "d87e1770bb8e74fa2cb81a9e4e07142aec9dceb55bdcedd61abac4517dffb2e9"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 851,
+      "sha256": "e3dbacefb4909bb079bac62b88237e465a36cef30ccee63e707220d4d83a46fe"
+    },
+    {
+      "name": "red-veil-content.pck",
+      "bytes": 470288,
+      "sha256": "26ce75a8e1c90e8b689a89b178924b7a7e13e7dfc2daa0946ee872e9b576e726"
+    },
+    {
+      "name": "release-manifest.json",
+      "bytes": 2403,
+      "sha256": "fa36a81713a0a5d8e1961f108a5379052c99f4336e8eef8c2264f1d93851799d"
+    },
+    {
+      "name": "update-manifest.json",
+      "bytes": 354,
+      "sha256": "b9bfcce5b38777dfafc6f73ac86dd7504e69bb7175b09c48787a3e5d895673e9"
+    },
+    {
+      "name": "update-manifest.sig",
+      "bytes": 384,
+      "sha256": "0e34d356b333f6473737611004c0a539a68abbf9f86516397902fcc450ce9f4a"
+    }
+  ],
+  "validation_run": 43657982759,
+  "build_run": 43657993286,
+  "native_update_run": 43658356504,
+  "publication_run": 43658558570,
+  "science_guide_sha256": "58592c32b3ef1ef4c21d463fe74a998a718ac6822f4a05251f4a0098c03c81f4",
+  "science_guide_pages": 16,
+  "zip_checks": "Every public ZIP passes CRC, includes versioned START-HERE.txt and exactly the reviewed PDF bytes",
+  "mac_signing": "Valid ad-hoc universal bundle, preserved NFD filenames; no Developer ID/notarization",
+  "native_launch_evidence": [
+    "native-launch-0.7.1-macos.json",
+    "native-launch-0.7.1-windows.json"
+  ],
+  "content_update_evidence": [
+    "update-0.4-to-0.7.1-linux.json",
+    "update-0.6.0-to-0.7.1-macos.json",
+    "update-0.6.0-to-0.7.1-windows.json",
+    "update-0.6.1-to-0.7.1-macos.json",
+    "update-0.6.1-to-0.7.1-windows.json",
+    "update-0.7.0-to-0.7.1-macos.json",
+    "update-0.7.0-to-0.7.1-windows.json"
+  ],
+  "startup_measurement": "window-startup/candidate/report.json",
+  "startup_measurement_source": "Frozen runtime fingerprints match this release; source-run Linux llvmpipe experiment, not exported physical-device FPS",
+  "limits": [
+    "Hosted Mac 26.7.2 arm64 and Windows Server 2025 AMD64; no physical Apple M5 testing",
+    "Dummy audio in native CI; actual audio hardware not verified",
+    "Native content tests use headless local signed artifacts, not HTTP/notification UI/OS.create_instance relaunch",
+    "Mac remains unnotarized; trusted one-time installation may be needed",
+    "Windows remains unsigned; publisher/reputation warnings remain possible",
+    "Engine changes need installers; no production native mobile downloads",
+    "Startup memory savings end after optional geometry is loaded and cached",
+    "Child usability, learning benefit and expert scientific validation remain unverified"
+  ]
+}

@@ -1,6 +1,8 @@
-# Window startup performance — 0.7.1 candidate
+# Window startup performance — 0.7.1
 
-The candidate defers optional outdoor assets until they are requested. In this Linux software-renderer measurement, the default window starts with **12.0% less process RSS and 48.3% less synchronous scene-construction time**. Opening the full world incurs the deferred construction cost, and its resources remain cached afterward. This is a startup improvement, not a reduction in the fully loaded game's memory requirement.
+Published [0.7.1-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.7.1-alpha.1) defers optional outdoor assets until they are requested. In this Linux software-renderer measurement, the default window starts with **12.0% less process RSS and 48.3% less synchronous scene-construction time**. Opening the full world incurs the deferred construction cost, and its resources remain cached afterward. This is a startup improvement, not a reduction in the fully loaded game's memory requirement.
+
+The measured candidate's runtime fingerprints exactly match published source `c86ad73da7810176e437e33e192a8d8475ae72a8`. The raw records retain their original candidate labels. [Release verification](evidence/release-0.7.1-alpha.1.json) links the separately tested and published packages; source-run measurements do not become exported-device benchmarks through that association.
 
 The baseline measurement checkout is post-release documentation commit `b3c7d2c1081fcee7fc0dd845596ac4f0617f0bcd`. Its `game` tree is identical to the actual published 0.7 source, `8968859e8ffdcda7b8c0c216ff0262df633400e6`: the scoped Git diff is empty and both game-tree IDs are `ca07a16fc69af9a95bb8f7acfb1e8d70a9cd6c3b`. See [baseline provenance](evidence/window-startup/baseline/provenance.json). The candidate is the frozen 0.7.1 source recorded by the evidence fingerprints. Both use the same Godot executable, measurement scripts, viewport and driver files.
 

@@ -1,0 +1,74 @@
+{
+  "system": "Windows",
+  "os": "Windows-2025Server-10.0.26100-SP0",
+  "machine": "AMD64",
+  "commands": [
+    {
+      "label": "headless-startup",
+      "command": [
+        "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\komaku-native-wcyrkva0\\extracted\\KOMAKU-Shield-Protocol.exe",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--log-file",
+        "D:\\a\\NASA-SPACE-APPS-HACKATHON-2026\\NASA-SPACE-APPS-HACKATHON-2026\\native-launch-logs\\headless-startup-engine.log",
+        "--",
+        "--smoke-test"
+      ],
+      "timeout_seconds": 90,
+      "exit_code": 0,
+      "elapsed_seconds": 1.172,
+      "log": "D:\\a\\NASA-SPACE-APPS-HACKATHON-2026\\NASA-SPACE-APPS-HACKATHON-2026\\native-launch-logs\\headless-startup.log",
+      "output": "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org\n\nRED_VEIL_SCENE_READY version=0.7.1-alpha.1 nodes=235 HUD=(1280.0, 1280.0) meters=(1054.0, 16.0)\n"
+    },
+    {
+      "label": "graphical-startup",
+      "command": [
+        "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\komaku-native-wcyrkva0\\extracted\\KOMAKU-Shield-Protocol.exe",
+        "--audio-driver",
+        "Dummy",
+        "--log-file",
+        "D:\\a\\NASA-SPACE-APPS-HACKATHON-2026\\NASA-SPACE-APPS-HACKATHON-2026\\native-launch-logs\\graphical-startup-engine.log",
+        "--",
+        "--smoke-test"
+      ],
+      "timeout_seconds": 90,
+      "exit_code": 0,
+      "elapsed_seconds": 6.391,
+      "log": "D:\\a\\NASA-SPACE-APPS-HACKATHON-2026\\NASA-SPACE-APPS-HACKATHON-2026\\native-launch-logs\\graphical-startup.log",
+      "output": "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org\nWARNING: Your video card drivers seem not to support the required OpenGL 3.3 version, switching to ANGLE.\n   at: DisplayServerWindows (platform/windows/display_server_windows.cpp:7421)\nOpenGL API OpenGL ES 3.0 (ANGLE 2.1.1 git hash: aaebda1c5a40) - Compatibility - Using Device: Google Inc. (Microsoft) - ANGLE (Microsoft, Microsoft Basic Render Driver (0x0000008C) Direct3D11 vs_5_0 ps_5_0, D3D11-10.0.26100.33648)\n\nRED_VEIL_SCENE_READY version=0.7.1-alpha.1 nodes=235 HUD=(1280.0, 896.0) meters=(998.5992, 19.92218)\n"
+    },
+    {
+      "label": "angle-startup",
+      "command": [
+        "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\komaku-native-wcyrkva0\\extracted\\KOMAKU-Shield-Protocol.exe",
+        "--rendering-driver",
+        "opengl3_angle",
+        "--audio-driver",
+        "Dummy",
+        "--log-file",
+        "D:\\a\\NASA-SPACE-APPS-HACKATHON-2026\\NASA-SPACE-APPS-HACKATHON-2026\\native-launch-logs\\angle-startup-engine.log",
+        "--",
+        "--smoke-test"
+      ],
+      "timeout_seconds": 90,
+      "exit_code": 0,
+      "elapsed_seconds": 1.0,
+      "log": "D:\\a\\NASA-SPACE-APPS-HACKATHON-2026\\NASA-SPACE-APPS-HACKATHON-2026\\native-launch-logs\\angle-startup.log",
+      "output": "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org\nOpenGL API OpenGL ES 3.0 (ANGLE 2.1.1 git hash: aaebda1c5a40) - Compatibility - Using Device: Google Inc. (Microsoft) - ANGLE (Microsoft, Microsoft Basic Render Driver (0x0000008C) Direct3D11 vs_5_0 ps_5_0, D3D11-10.0.26100.33648)\n\nRED_VEIL_SCENE_READY version=0.7.1-alpha.1 nodes=235 HUD=(1280.0, 896.0) meters=(998.5992, 19.92218)\n"
+    }
+  ],
+  "passed": true,
+  "scope": "Exact native release executable startup on CI; not Finder approval, physical-device playtesting, or updater acceptance.",
+  "audio": "Dummy driver: hosted runners have no audio device; real audio is not verified.",
+  "trust": "Ad-hoc Mac signature is integrity only; no Developer ID/notarization. Windows executable is unsigned.",
+  "version": "0.7.1-alpha.1",
+  "source_commit": "c86ad73da7810176e437e33e192a8d8475ae72a8",
+  "manifest_sha256": "fa36a81713a0a5d8e1961f108a5379052c99f4336e8eef8c2264f1d93851799d",
+  "archive": "KOMAKU-Shield-Protocol-0.7.1-alpha.1-Windows-x64.zip",
+  "archive_sha256": "0bcb0dcbd3ff95655b4c9666a0d15d065398b1ffa841943e09a04445268bb949",
+  "profile": "Fresh application-specific profile; deleted after check",
+  "headless-startup": true,
+  "graphical-startup": true,
+  "angle-startup": true
+}

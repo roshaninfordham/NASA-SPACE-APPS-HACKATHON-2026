@@ -1,6 +1,16 @@
 # <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> media gallery
 
-## 0.7 release — indoor mission control
+## 0.7.1 — the same window view with deferred loading
+
+Published [0.7.1-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.7.1-alpha.1) retains the indoor composition and rescue sequence. The capture below comes from the frozen runtime whose fingerprints match release source `c86ad73da7810176e437e33e192a8d8475ae72a8`.
+
+![0.7.1: the indoor operator sees only dunes and stranded Mira ahead](evidence/window-startup/candidate/visual/window_initial.png)
+
+This is an unedited 1280×720 source-project viewport captured with Godot 4.6.3, Xvfb and Mesa llvmpipe, with ambient time frozen for comparison. It is not an image of a downloaded installer or a physical-device performance test. [Capture hashes and numerical comparison](evidence/window-startup/candidate/comparison.json) record 52 changed pixels versus the earlier mission view; the framing is preserved, not asserted pixel-identical. [Returned title after Field Notes](evidence/window-startup/candidate/visual/field_notes_return.png) verifies restoration of the window camera. [Measurement method](WINDOW-STARTUP-PERFORMANCE.md) and [package verification](evidence/release-0.7.1-alpha.1.json) have separate scopes.
+
+The 0.7 screenshots below remain historical input/rescue evidence. The 0.7.1 patch defers optional geometry and repairs the architecture lesson's camera restoration; it does not introduce a new visual direction. The current [science guide](media/KOMAKU-Science-Guide.pdf) has refreshed source provenance with unchanged scientific explanations.
+
+## Historical 0.7 release — indoor mission control
 
 Actual, unedited Godot captures of the implemented **indoor operator rescue**. The default forward view contains dunes and Mira through the clear window, without the exterior dome, arrays, route props or room consoles in that frame. The operator stays inside and manages panel cleaning, base power and Mira’s return. The full source suite, 65 native input/capture assertions and 36 independent semantic assertions passed; the released Mac/Windows archives also passed hosted native launch gates. Physical-device acceptance remains separate.
 

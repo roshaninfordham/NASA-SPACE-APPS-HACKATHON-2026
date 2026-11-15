@@ -2,23 +2,25 @@
 
 Downloads are published as **GitHub Release assets**, not GitHub Packages. A repository containing code and export presets does not imply that an installer exists. Use the release notes to distinguish built, launch-tested, unsigned, and unsupported targets.
 
-**Latest published download: [v0.7.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.7.0-alpha.1).** Source `8968859e8ffdcda7b8c0c216ff0262df633400e6` passed validation, signed builds and hosted native Mac/Windows launch gates. [Release evidence](evidence/release-0.7.0-alpha.1.json).
+**Latest published download: [v0.7.1-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.7.1-alpha.1).** Source `c86ad73da7810176e437e33e192a8d8475ae72a8` passed validation, signed builds and hosted native Mac/Windows launch gates. [Release evidence](evidence/release-0.7.1-alpha.1.json).
 
 | Platform or document      | Download                                                                                                                                                                           |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Mac Apple Silicon / Intel | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.0-alpha.1/KOMAKU-Shield-Protocol-0.7.0-alpha.1-macOS-universal.zip) |
-| Windows x64               | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.0-alpha.1/KOMAKU-Shield-Protocol-0.7.0-alpha.1-Windows-x64.zip)             |
-| Linux x64                 | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.0-alpha.1/KOMAKU-Shield-Protocol-0.7.0-alpha.1-Linux-x64.zip)                 |
-| WebGL2 browser            | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.0-alpha.1/KOMAKU-Shield-Protocol-0.7.0-alpha.1-Web.zip)                         |
-| Science guide             | [16-page PDF](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.0-alpha.1/KOMAKU-Shield-Protocol-0.7.0-alpha.1-Science-Guide.pdf)           |
+| Mac Apple Silicon / Intel | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.1-alpha.1/KOMAKU-Shield-Protocol-0.7.1-alpha.1-macOS-universal.zip) |
+| Windows x64               | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.1-alpha.1/KOMAKU-Shield-Protocol-0.7.1-alpha.1-Windows-x64.zip)             |
+| Linux x64                 | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.1-alpha.1/KOMAKU-Shield-Protocol-0.7.1-alpha.1-Linux-x64.zip)                 |
+| WebGL2 browser            | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.1-alpha.1/KOMAKU-Shield-Protocol-0.7.1-alpha.1-Web.zip)                         |
+| Science guide             | [16-page PDF](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.1-alpha.1/KOMAKU-Shield-Protocol-0.7.1-alpha.1-Science-Guide.pdf)           |
 
 The release has **ten assets**: four platform ZIPs, the standalone PDF, signed game content, its update manifest/signature, the release manifest and checksums. Every ZIP includes `START-HERE.txt` with launch/first-mission instructions and the same guide as `KOMAKU-Science-Guide.pdf`. Extract the whole archive, then read `START-HERE.txt`.
 
 From version 0.5 onward, ZIP names begin with `KOMAKU-Shield-Protocol-<version>`. Historical 0.4 and earlier downloads retain `Red-Veil` filenames and the previous app name; those published artifacts are not renamed. The signed content filename and local save/update identities remain unchanged for compatibility. Use the notes attached to the version you download.
 
+Version **0.7.1** preserves the indoor mission and visual framing while deferring optional scenery until requested. The first outdoor/Field Notes visit builds that content and keeps it cached afterward; see [startup measurements and tradeoffs](WINDOW-STARTUP-PERFORMANCE.md). Existing compatible desktop apps can install the signed content through **Update available → Install → Restart**; actual public 0.7.0 Mac/Windows binaries passed this content-activation gate alongside older baselines. [Updater scope](UPDATES.md).
+
 ## MacBook with Apple Silicon, including M5
 
-Version **0.7.0-alpha.1** retains the Mac bundle-signing repair introduced in **0.6.1-alpha.1** for the invalid 0.6.0 signature. If your existing app says “damaged,” download the corrected macOS universal ZIP; an app that cannot launch cannot install its own content update. Saves stay in the existing user-data location.
+Version **0.7.1-alpha.1** retains the Mac bundle-signing repair introduced in **0.6.1-alpha.1** for the invalid 0.6.0 signature. If your existing app says “damaged,” download the corrected macOS universal ZIP; an app that cannot launch cannot install its own content update. Saves stay in the existing user-data location.
 
 1. Download the macOS universal ZIP from the official release and extract it. It includes Apple Silicon (arm64, including M5) and Intel (x86_64).
 2. Open `KŌMAKU- Shield Protocol.app`. This alpha is locally **ad-hoc signed**, but has **no Apple Developer ID or notarization**. A valid integrity signature does not grant Apple's downloaded-app approval.

@@ -6,13 +6,21 @@ A first-person Mars learning game for ages 7–12. Work inside mission control, 
 
 [![Validation](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml/badge.svg)](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml)
 
-**Status: published playable alpha — 0.7.0-alpha.1.** Start inside mission control, looking through a clear window at dunes and stranded Mira. Three controls manage cleaning, base power and her return. The default forward view contains only dunes and Mira; the original outpost and outdoor EVA remain an advanced option. Source tests and native Linux input/capture checks pass. The published archives passed native hosted Mac/Windows launch gates; physical-device performance and learner testing remain open.
+**Status: published playable alpha — 0.7.1-alpha.1.** Start inside mission control, looking through a clear window at dunes and stranded Mira. Three controls manage cleaning, base power and her return. The default forward view contains only dunes and Mira; the original outpost and outdoor EVA remain an advanced option. Source tests and native Linux input/capture checks pass. The published archives passed native hosted Mac/Windows launch gates; physical-device performance and learner testing remain open.
 
 ![0.7: indoor mission control overlooking dunes and Mira](docs/media/0.7-title.png)
 
-[Current screenshots and historical media](docs/MEDIA.md) · [Download the 16-page science guide](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.0-alpha.1/KOMAKU-Shield-Protocol-0.7.0-alpha.1-Science-Guide.pdf)
+[0.7 screenshots and historical media](docs/MEDIA.md) · [Download the 16-page science guide](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.1-alpha.1/KOMAKU-Shield-Protocol-0.7.1-alpha.1-Science-Guide.pdf)
 
-**Latest release: [v0.7.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.7.0-alpha.1).** Published from `8968859e8ffdcda7b8c0c216ff0262df633400e6` with ten assets. [Release evidence](docs/evidence/release-0.7.0-alpha.1.json).
+**Latest release: [v0.7.1-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.7.1-alpha.1).** Published from `c86ad73da7810176e437e33e192a8d8475ae72a8` with ten assets. [Release evidence](docs/evidence/release-0.7.1-alpha.1.json).
+
+The gallery above was captured from the released 0.7 source; it is retained as historical media, not a new 0.7.1 artifact capture. The patch keeps that visual framing. [Current source comparison capture](docs/evidence/window-startup/candidate/visual/window_initial.png) and [measurement provenance](docs/WINDOW-STARTUP-PERFORMANCE.md) record the 0.7.1 source view.
+
+## Faster window startup in 0.7.1
+
+The patch defers hidden exterior equipment and legacy interior construction until outdoor EVA or Habitat Field Notes needs them. The default dunes/Mira view and rescue rules stay unchanged. On three fresh Linux llvmpipe processes per version after warmup, median initial RSS falls from **348.43 to 306.64 MiB (12.0%)** and synchronous scene construction from **843 to 436 ms (48.3%)**. The first optional full-world visit incurs the deferred construction cost (394 ms median), and its assets stay cached: both versions then retain about 429 MiB. These are scoped hosted startup measurements, not physical-device FPS or memory guarantees. [Method and raw evidence](docs/WINDOW-STARTUP-PERFORMANCE.md).
+
+Habitat Field Notes builds its optional scene on demand and restores the exact previous camera and window presentation when closed. The public 0.7.0 Mac/Windows installers now join the historical 0.6.0/0.6.1 and Linux 0.4 update acceptance baselines. [Release checks](docs/VALIDATION.md).
 
 ## Play on your laptop
 
@@ -22,15 +30,15 @@ The release provides macOS universal, Windows x64, Linux x64 and Web archives, w
 
 The Mac universal binary includes arm64 for Apple Silicon, including M5, and x86_64 for Intel. It is ad-hoc signed for bundle integrity, without Apple Developer ID or notarization. Windows remains unsigned. Hosted native Mac/Windows launch checks passed; physical-device performance, audio and complete playthroughs remain separate tests. Native Android and iOS installers are not yet provided.
 
-**Current download: [v0.7.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.7.0-alpha.1).** If an old 0.6.0 Mac app cannot open, install this full corrected download once; 0.7 retains the bundle-signing repair introduced in 0.6.1.
+**Current download: [v0.7.1-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.7.1-alpha.1).** If an old 0.6.0 Mac app cannot open, install this full corrected download once; 0.7 retains the bundle-signing repair introduced in 0.6.1.
 
 | Platform or document                   | Download                                                                                                                                                                           |
 | -------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MacBook M5 / Apple Silicon / Intel Mac | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.0-alpha.1/KOMAKU-Shield-Protocol-0.7.0-alpha.1-macOS-universal.zip) |
-| Windows x64                            | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.0-alpha.1/KOMAKU-Shield-Protocol-0.7.0-alpha.1-Windows-x64.zip)             |
-| Linux x64                              | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.0-alpha.1/KOMAKU-Shield-Protocol-0.7.0-alpha.1-Linux-x64.zip)                 |
-| WebGL2 browser                         | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.0-alpha.1/KOMAKU-Shield-Protocol-0.7.0-alpha.1-Web.zip)                         |
-| 16-page science guide                  | [Standalone PDF](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.0-alpha.1/KOMAKU-Shield-Protocol-0.7.0-alpha.1-Science-Guide.pdf)        |
+| MacBook M5 / Apple Silicon / Intel Mac | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.1-alpha.1/KOMAKU-Shield-Protocol-0.7.1-alpha.1-macOS-universal.zip) |
+| Windows x64                            | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.1-alpha.1/KOMAKU-Shield-Protocol-0.7.1-alpha.1-Windows-x64.zip)             |
+| Linux x64                              | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.1-alpha.1/KOMAKU-Shield-Protocol-0.7.1-alpha.1-Linux-x64.zip)                 |
+| WebGL2 browser                         | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.1-alpha.1/KOMAKU-Shield-Protocol-0.7.1-alpha.1-Web.zip)                         |
+| 16-page science guide                  | [Standalone PDF](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.1-alpha.1/KOMAKU-Shield-Protocol-0.7.1-alpha.1-Science-Guide.pdf)        |
 
 See [download instructions](docs/DOWNLOADS.md). No development tools are required to play the native app. If macOS blocks the trusted download, the ZIP includes a one-time installer helper that asks for consent, verifies the app, preserves an existing copy, and removes quarantine only from the installed copy. It does not establish publisher identity or disable system-wide Gatekeeper. [Mac repair evidence](docs/MACOS-LAUNCH-REPAIR.md).
 
@@ -68,7 +76,7 @@ The optional **AEGIS mission planner** opens with **P** or from Pause. It compar
 
 The [illustrated science guide](docs/media/KOMAKU-Science-Guide.pdf) has 16 pages of explanations, equations, units, worked examples and source/assumption boundaries. Its build checks detect stale model-source fingerprints.
 
-The new landscape alone uses **21,388 retained triangles**, down from **109,710** in the prior optimized landscape. This is a geometry-workload comparison, not whole-game FPS, RAM or physical-device validation. Earlier 33.7%/approximately 61% figures describe pre-pivot work and do not measure the final 0.7 release. [Scope and evidence](docs/DESIGN-PIVOT-0.7.md).
+The historical, fully constructed 0.7 landscape uses **21,388 retained triangles**, down from **109,710** in the prior optimized landscape. This is a geometry-workload comparison, not whole-game FPS, RAM or physical-device validation. Earlier 33.7%/approximately 61% figures describe pre-pivot work and do not measure the final 0.7 release. [Scope and evidence](docs/DESIGN-PIVOT-0.7.md).
 
 ## Design direction
 
@@ -101,7 +109,7 @@ With the official export templates installed:
 
 ```sh
 python3 scripts/test_game.py  # Full suite on Linux; native package gates run separately
-python3 scripts/build_game.py --version 0.7.0-alpha.1
+python3 scripts/build_game.py --version 0.7.1-alpha.1
 ```
 
 The Linux CI installer verifies the official SHA-512 manifest. The manual **Build downloadable game** workflow creates archives and a source-commit manifest. Publication is explicit and separate from building.
