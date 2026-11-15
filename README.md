@@ -16,6 +16,10 @@ A short Mars learning game for ages 7–12, built with Godot. From mission contr
 
 **Earlier C1 screen feedback:** [Open the screen-review gallery](https://roshaninfordham.github.io/NASA-SPACE-APPS-HACKATHON-2026/review/) to draw boxes, arrows and pins, attach notes, and share an annotated screen or submit a GitHub issue. [Review guide](docs/SCREEN-REVIEW.md). This is a review gallery, not the playable browser edition.
 
+## Cloudflare + Gemini companion demo
+
+The [Mission Science Lab](services/mission-lab/README.md) combines a real NASA image, three science lessons and an optional Gemini explanation button. The Worker is uploaded, but its public URL needs Cloudflare account onboarding; Gemini generation is blocked by this project's free-tier eligibility. Local browser checks and 25 service tests pass. This is a companion demo, not a new game release or a claim of a live AI service.
+
 ## New visual and learning work — unreleased
 
 The current source revises Ren’s visible face and brushing animation, adds layered Mars terrain and lighting, refines the dust and beveled panel, and brings the window glass, frame and control rail into one visual treatment. The opening gains a gradient treatment and the result gains illustration. These are implemented visual changes awaiting integrated acceptance, not a claim of final artistic quality.

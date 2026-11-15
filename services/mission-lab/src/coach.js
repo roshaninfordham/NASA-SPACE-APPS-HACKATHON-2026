@@ -1,0 +1,46 @@
+export const MODEL = 'gemini-2.5-flash-lite';
+export const TOPICS = {
+  dust: {title:'Why clean the panel?', facts:'Settled dust reduces sunlight reaching solar cells. Cleaning can improve solar output. Pathfinder measured a decline in short-circuit current; do not treat that as a universal power-loss coefficient.', source:'https://ntrs.nasa.gov/citations/20020031145'},
+  energy: {title:'Power or stored energy?', facts:'Power is a rate (kW). Energy is an amount (kWh). Battery energy changes by solar generation minus habitat consumption integrated over time, bounded by capacity. No equipment sizes or measured values are supplied.', source:'https://ntrs.nasa.gov/citations/20230007029'},
+  radiation: {title:'Why does time matter?', facts:'Absorbed dose (gray) accumulates from dose rate over time. Curiosity RAD provides historical measurements, not a current Mars forecast. Gray and sievert are different quantities. The game has authored storm timing; completed rounds share exposure time and dose. SDO images show the Sun, not Mars radiation. Do not predict injury or a safe dose.', source:'https://ntrs.nasa.gov/citations/20180007641'}
+};
+export function json(body,status=200){return new Response(JSON.stringify(body),{status,headers:{'Content-Type':'application/json','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}})}
+export function createCoach({fetcher=fetch,cache,now=Date.now}={}) {
+ const pending=new Map();
+ return async function coach(request,env){
+  const u=new URL(request.url),topic=u.searchParams.get('topic');
+  if(request.method!=='POST')return json({error:'Use POST'},405);
+  if(request.headers.get('Origin')!==u.origin)return json({error:'Same-origin requests only'},403);
+  if(!Object.hasOwn(TOPICS,topic)||[...u.searchParams.keys()].some(k=>k!=='topic'))return json({error:'Choose dust, energy or radiation'},400);
+  // No free-text prompts, learner identifiers or request bodies are forwarded.
+  if(request.body)return json({error:'Request bodies are not accepted'},400);
+  if(!env.GEMINI_API_KEY)return json({error:'Gemini is not connected yet. The source explanation remains available.',code:'not_configured'},503);
+  if(!env.COACH_LIMITER)return json({error:'Request protection is not configured.',code:'not_configured'},503);
+  const limit=await env.COACH_LIMITER.limit({key:request.headers.get('CF-Connecting-IP')||'unknown'});
+  if(!limit.success)return json({error:'Please wait a minute before asking again.',code:'rate_limited'},429);
+  const key=new Request(u.origin+'/__coach/v1/'+topic);
+  const cached=await cache?.match(key);
+  if(cached){const data=await cached.json();if(now()-Date.parse(data.generated_at)<86400000)return json({...data,delivery:'cached'});}
+  if(pending.has(topic)){const out=await pending.get(topic);return json({...out,delivery:'shared'},out.error?503:200);}
+  const work=(async()=>{
+   const t=TOPICS[topic];
+   let response;
+   try{response=await fetcher('https://generativelanguage.googleapis.com/v1beta/models/'+MODEL+':generateContent',{
+    method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':env.GEMINI_API_KEY},signal:AbortSignal.timeout(15000),
+    body:JSON.stringify({systemInstruction:{parts:[{text:'You explain space science to ages 7–12. Use only the supplied facts. Write 2 short sentences and one question the child can investigate. No invented numbers, medical advice, scores or claims about learning gains. Return JSON with explanation and question strings.'}]},contents:[{role:'user',parts:[{text:t.facts}]}],generationConfig:{temperature:0.2,maxOutputTokens:240,responseMimeType:'application/json',responseSchema:{type:'OBJECT',properties:{explanation:{type:'STRING'},question:{type:'STRING'}},required:['explanation','question']}}})});}
+   catch{return {error:'Gemini could not respond in time. Try the source explanation.',code:'upstream_unavailable'};}
+   if(!response.ok)return {error:response.status===429?'Gemini quota is temporarily exhausted. Use the source explanation.':'Gemini access is unavailable for this project. Use the source explanation.',code:'upstream_'+response.status};
+   try{
+    const result=await response.json();const candidate=result.candidates?.[0];
+    if(candidate?.finishReason!=='STOP')throw Error('incomplete');
+    const data=JSON.parse(candidate.content.parts.filter(p=>!p.thought).map(p=>p.text||'').join(''));
+    if(typeof data.explanation!=='string'||typeof data.question!=='string'||data.explanation.length>900||data.question.length>300||!data.explanation.trim()||!data.question.trim())throw Error('schema');
+    const out={explanation:data.explanation,question:data.question,source:t.source,model:MODEL,generated_at:new Date(now()).toISOString(),delivery:'generated',label:'AI-generated explanation — check against the linked NASA source.'};
+    await cache?.put(key,new Response(JSON.stringify(out),{headers:{'Cache-Control':'public, max-age=86400'}})).catch(()=>{});
+    return out;
+   }catch{return {error:'The AI response was incomplete. Use the source explanation.',code:'invalid_response'};}
+  })();
+  pending.set(topic,work);
+  try {const out=await work;return json(out,out.error?503:200);}finally{pending.delete(topic);}
+ };
+}
