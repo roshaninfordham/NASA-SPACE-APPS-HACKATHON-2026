@@ -4,11 +4,13 @@ Review the major screens of <!-- brand:display_name -->KŌMAKU: Dust & Radiation
 
 **Gallery:** https://roshaninfordham.github.io/NASA-SPACE-APPS-HACKATHON-2026/review/
 
-**Versioned review:** https://roshaninfordham.github.io/NASA-SPACE-APPS-HACKATHON-2026/review/0.10.0-alpha.1/
+**Versioned review:** https://roshaninfordham.github.io/NASA-SPACE-APPS-HACKATHON-2026/review/0.11.0-alpha.1/
 
-Published and verified on 15 November 2026. [Deployment](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43727500866) and [validation](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43727500954) passed. [Verification record](evidence/screen-review-0.10.0-alpha.1.json): 22 browser checks, 33 screenshots, all 71 public files checked and 33 existing website files preserved unchanged. Public desktop and touch-layout checks confirmed drawing, sharing and exports without submitting test feedback.
+The 0.11 gallery contains the restored window, live bubbles, View menu and Focused window from game source `20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0`. Gallery publication is separate from game-package publication.
 
-These are 33 actual captured screens, not a playable browser build. The gallery covers the opening, mission controls, learning views, navigation, all three result categories and smaller layouts. Game source, image dimensions and SHA-256 fingerprints are recorded in its screen manifest. Review website changes do not change the published desktop game.
+The earlier [0.10 gallery](https://roshaninfordham.github.io/NASA-SPACE-APPS-HACKATHON-2026/review/0.10.0-alpha.1/) remains available for existing annotated links. Its [verification record](evidence/screen-review-0.10.0-alpha.1.json) includes 22 browser checks, 33 screenshots and all 71 public files checked. Public desktop and touch-layout checks confirmed drawing, sharing and exports without submitting test feedback.
+
+These are 41 actual captured screens, not a playable browser build. The gallery covers the opening, mission controls, learning views, navigation, all three result categories and smaller layouts. Game source, image dimensions and SHA-256 fingerprints are recorded in its screen manifest. Review website changes do not change the published desktop game.
 
 ## Give feedback
 

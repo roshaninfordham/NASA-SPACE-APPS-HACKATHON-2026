@@ -1,21 +1,21 @@
 {
   "schema": 1,
-  "version": "0.10.0-alpha.1",
-  "sourceCommit": "26f19540baf330b00b0ac4a1b470d0e1439f7382",
-  "gameSourceCommit": "26f19540baf330b00b0ac4a1b470d0e1439f7382",
+  "version": "0.11.0-alpha.1",
+  "sourceCommit": "20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0",
+  "gameSourceCommit": "20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0",
   "repository": "roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026",
-  "description": "Actual native game screenshots for visual feedback. Deterministic fixture captures, not a recording of real-time play or proof of phone hardware support.",
+  "description": "Actual native 0.11 game screenshots for visual feedback: the Science window, eight live bubbles, Focused window and explicit navigation. Deterministic fixtures, not a real-time play recording or proof of physical-phone support.",
   "screens": [
     {
       "id": "story-mars",
       "title": "01 · Welcome to Mars",
       "group": "Story",
       "file": "screens/story-mars.png",
-      "sourcePath": "docs/media/journey-0.10/story-desktop.png",
+      "sourcePath": "docs/media/journey-0.11/story-desktop.png",
       "width": 1280,
       "height": 720,
       "sha256": "34b19741981d07d4979ffe62f6e19dc7d64a19b4aed184e03053625721eb8cb9",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/26f19540baf330b00b0ac4a1b470d0e1439f7382/docs/media/journey-0.10/story-desktop.png",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/story-desktop.png",
       "description": "Opening story: the fictional year 2059 and Mars setting. Review the title, background contrast and first impression."
     },
     {
@@ -23,11 +23,11 @@
       "title": "02 · Meet Ren",
       "group": "Story",
       "file": "screens/story-ren.png",
-      "sourcePath": "docs/media/journey-0.10/story-crew-desktop.png",
+      "sourcePath": "docs/media/journey-0.11/story-crew-desktop.png",
       "width": 1280,
       "height": 720,
       "sha256": "38b5725ea434ed500807ef954a857745a3502930e3f8dfcc794e65b35a8a7698",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/26f19540baf330b00b0ac4a1b470d0e1439f7382/docs/media/journey-0.10/story-crew-desktop.png",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/story-crew-desktop.png",
       "description": "The second story beat introduces the teammate outside. Review how quickly the picture and short text explain the situation."
     },
     {
@@ -35,11 +35,11 @@
       "title": "03 · Your control room",
       "group": "Story",
       "file": "screens/story-control-room.png",
-      "sourcePath": "docs/media/journey-0.10/story-control-desktop.png",
+      "sourcePath": "docs/media/journey-0.11/story-control-desktop.png",
       "width": 1280,
       "height": 720,
       "sha256": "3f19ff900a4c9383ae50de1f34e87a749bbabbd56c5846b5c16ef9cb5d3955de",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/26f19540baf330b00b0ac4a1b470d0e1439f7382/docs/media/journey-0.10/story-control-desktop.png",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/story-control-desktop.png",
       "description": "The final story beat introduces the player’s role before entering the control room."
     },
     {
@@ -47,11 +47,11 @@
       "title": "Opening the window",
       "group": "Play",
       "file": "screens/scene-loading.png",
-      "sourcePath": "docs/media/journey-0.10/loading-desktop.png",
+      "sourcePath": "docs/media/journey-0.11/loading-desktop.png",
       "width": 1280,
       "height": 720,
       "sha256": "0d5f3d349c86089f9b1001d7c4bf4d33bd4b58065b19dd7a37e97f3a41c3f5c9",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/26f19540baf330b00b0ac4a1b470d0e1439f7382/docs/media/journey-0.10/loading-desktop.png",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/loading-desktop.png",
       "description": "Actual temporary loading state before the scene is built. Back to Home can cancel; mission time has not started."
     },
     {
@@ -59,35 +59,59 @@
       "title": "Ready to begin",
       "group": "Play",
       "file": "screens/mission-ready.png",
-      "sourcePath": "docs/media/journey-0.10/preflight-desktop.png",
+      "sourcePath": "docs/media/journey-0.11/preflight-desktop.png",
       "width": 1280,
       "height": 720,
-      "sha256": "460b8fe2a9fcf499282867c02fa4af19c82049013fc05b588905c0f07dbf8f2a",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/26f19540baf330b00b0ac4a1b470d0e1439f7382/docs/media/journey-0.10/preflight-desktop.png",
-      "description": "Unstarted control room. The child can choose a cleaning pace and press Start without completing science cards."
+      "sha256": "f3df1a08084ec97051c16401ff675cf5bbf4b029eec01e96d04ffa597ca6d35b",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/preflight-desktop.png",
+      "description": "Unstarted Science window with the outpost frame, all eight live concept bubbles and three primary readings. The child can choose a cleaning pace and press Start without completing science cards."
     },
     {
       "id": "mission-cleaning",
       "title": "Cleaning in progress",
       "group": "Play",
       "file": "screens/mission-cleaning.png",
-      "sourcePath": "docs/media/journey-0.10/mission-desktop.png",
+      "sourcePath": "docs/media/journey-0.11/mission-desktop.png",
       "width": 1280,
       "height": 720,
-      "sha256": "8b08e77e84f99e1d06aa5fa86babe8fc276a9beae106ceea0a81d2ee14b6e759",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/26f19540baf330b00b0ac4a1b470d0e1439f7382/docs/media/journey-0.10/mission-desktop.png",
-      "description": "Actual mixed-pace fixture:47.5 % of the panel cleaned,16 % modeled fatigue and 48 active-play seconds remaining. Review the three readings and single pace control."
+      "sha256": "e727efa84c13e09514555a8339feea099b6a9a16e71436be1778ada609558a50",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/mission-desktop.png",
+      "description": "Actual mixed-pace fixture: 47.5% of the panel cleaned, 16% authored game fatigue and 48 active-play seconds remaining. Eight live science bubbles surround the outpost window; the pace control and Ren’s captions remain below."
+    },
+    {
+      "id": "view-menu",
+      "title": "Choose your window",
+      "group": "Navigation",
+      "file": "screens/view-menu.png",
+      "width": 1280,
+      "height": 720,
+      "description": "The actual View menu pauses the mission. Science window is selected; the player can choose Focused window, resume, return to the menu, or open sound and motion settings.",
+      "sourcePath": "docs/media/journey-0.11/view-menu-desktop.png",
+      "sha256": "13aafdca57097bc4ad7bc1a71400a64a1d473fbe8dc64f7cd0d17a301e6ab5bf",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/view-menu-desktop.png"
+    },
+    {
+      "id": "focused-window",
+      "title": "Focused window",
+      "group": "Play",
+      "file": "screens/focused-window.png",
+      "width": 1280,
+      "height": 720,
+      "description": "The same 47.5%-cleaned mission in Focused window mode. The panel and astronaut use a larger area; science remains available through the Science button. Changing views does not advance time or alter the model.",
+      "sourcePath": "docs/media/journey-0.11/focused-window-desktop.png",
+      "sha256": "932a40e86cd83fa0495ccdf168ec8f8339f776d3c4c78edf2e627f7a5501060f",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/focused-window-desktop.png"
     },
     {
       "id": "storm-soon",
       "title": "The countdown is nearly over",
       "group": "Play",
       "file": "screens/storm-soon.png",
-      "sourcePath": "docs/media/journey-0.10-review/storm-soon.png",
+      "sourcePath": "docs/media/journey-0.11-review/storm-soon.png",
       "width": 1280,
       "height": 720,
-      "sha256": "834b20e8441504ac37c803e0653e2087d5f86259622edd30f9ebe3606f8de55a",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/storm-soon.png",
+      "sha256": "ae3d46590575ea90592b6fabd9be90f2c292a743ca57406784a7054d44de4b86",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/storm-soon.png",
       "description": "Actual mission with 0.3 active-play seconds remaining before automatic shelter entry. The storm is an authored game scenario."
     },
     {
@@ -95,11 +119,11 @@
       "title": "Explore science",
       "group": "Science",
       "file": "screens/optional-science.png",
-      "sourcePath": "docs/media/journey-0.10/preparation-desktop.png",
+      "sourcePath": "docs/media/journey-0.11/preparation-desktop.png",
       "width": 1280,
       "height": 720,
-      "sha256": "b0dd6db2bf4ce761ec6a083d3d178dd30c39623c00c225cec2558b02dd5d4d05",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/26f19540baf330b00b0ac4a1b470d0e1439f7382/docs/media/journey-0.10/preparation-desktop.png",
+      "sha256": "b02e673eac31c6fa55d3463ac9149238685e5f528f753c737f6fdc1217447dbd",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/preparation-desktop.png",
       "description": "Optional eight-idea library with Radiation and Dust explored. Reading is not required to enter the mission."
     },
     {
@@ -107,11 +131,11 @@
       "title": "Microgray: the first explanation",
       "group": "Science",
       "file": "screens/microgray-card.png",
-      "sourcePath": "docs/media/journey-0.10/concept-desktop.png",
+      "sourcePath": "docs/media/journey-0.11/concept-desktop.png",
       "width": 1280,
       "height": 720,
-      "sha256": "ac8891601c7248c4d2d645e51636b956a29f71812f12904c8a75275e93d76e57",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/26f19540baf330b00b0ac4a1b470d0e1439f7382/docs/media/journey-0.10/concept-desktop.png",
+      "sha256": "2245ae8312805fe5e570167167041ad3df197ff74cdd55d830a7b4895b5e7dfe",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/concept-desktop.png",
       "description": "Concise concept view: a short definition, diagram and analogy. More explanation and source information expand separately."
     },
     {
@@ -119,11 +143,11 @@
       "title": "Power and stored energy",
       "group": "Science",
       "file": "screens/power-card.png",
-      "sourcePath": "docs/media/journey-0.10-review/power-card.png",
+      "sourcePath": "docs/media/journey-0.11-review/power-card.png",
       "width": 1280,
       "height": 720,
-      "sha256": "fe00752fde3a190fb33a58b99d84a8e4c7ab229a374bcdf6d0da7359d3a81ca8",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/power-card.png",
+      "sha256": "b2d48630b0da7c580c56b9a8d0323b7bbca7237b0bd6c0f3796259495ff8dc4c",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/power-card.png",
       "description": "The power concept explains the relationship between the production rate and accumulated energy."
     },
     {
@@ -131,11 +155,11 @@
       "title": "Science during play",
       "group": "Science",
       "file": "screens/discovery-library.png",
-      "sourcePath": "docs/media/journey-0.10/discovery-desktop.png",
+      "sourcePath": "docs/media/journey-0.11/discovery-desktop.png",
       "width": 1280,
       "height": 720,
-      "sha256": "ff8f54bc0237859c67f8fb835826030d943bc444ea844ffa47753a2c666d2ca6",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/26f19540baf330b00b0ac4a1b470d0e1439f7382/docs/media/journey-0.10/discovery-desktop.png",
+      "sha256": "b25c226dfe0b742a4b820c22f53939aa9fde035a56465de88e1c466a738a6e4b",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/discovery-desktop.png",
       "description": "Opening Science pauses the active mission and exposes all eight discoveries. The displayed values come from the current run."
     },
     {
@@ -143,11 +167,11 @@
       "title": "A discovery opened during play",
       "group": "Science",
       "file": "screens/mission-microgray.png",
-      "sourcePath": "docs/media/journey-0.10-review/mission-microgray.png",
+      "sourcePath": "docs/media/journey-0.11-review/mission-microgray.png",
       "width": 1280,
       "height": 720,
-      "sha256": "08ac064973e7fb8be3396cdfee197976474240cd800bdbe3cfd457c02f8a98ba",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/mission-microgray.png",
+      "sha256": "3caad9947da56e583df64c173dd7014ee2404e8fd9e9f358a5a590e0e9ccae7f",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/mission-microgray.png",
       "description": "Microgray opened from the paused discovery library. Back to Science names the actual return destination."
     },
     {
@@ -155,11 +179,11 @@
       "title": "NASA Sun image",
       "group": "Science",
       "file": "screens/nasa-context.png",
-      "sourcePath": "docs/media/journey-0.10/nasa-context-desktop.png",
+      "sourcePath": "docs/media/journey-0.11/nasa-context-desktop.png",
       "width": 1280,
       "height": 720,
       "sha256": "d88e115b7df0a385aa73ecf5574d8549390830241179a667e07d7ad37edb3a73",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/26f19540baf330b00b0ac4a1b470d0e1439f7382/docs/media/journey-0.10/nasa-context-desktop.png",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/nasa-context-desktop.png",
       "description": "Offline fixture showing the explicitly labeled bundled NASA/SDO example image. This screenshot is not evidence of a fresh observation or a Mars forecast."
     },
     {
@@ -167,11 +191,11 @@
       "title": "NASA connection details",
       "group": "Science",
       "file": "screens/nasa-details.png",
-      "sourcePath": "docs/media/journey-0.10-review/nasa-details.png",
+      "sourcePath": "docs/media/journey-0.11-review/nasa-details.png",
       "width": 1280,
       "height": 720,
-      "sha256": "6b94485a080df65fb6405fb8b64d0148c3bc6b83f9893951f48a1923657cc2b2",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/nasa-details.png",
+      "sha256": "812dc220380e62d7cab44b8b7a232b2a2f0acafc4edc297a1161b3ba5023f320",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/nasa-details.png",
       "description": "The same offline NASA viewer with connection details expanded. Review source timestamps, image attribution and clarity of status."
     },
     {
@@ -179,47 +203,83 @@
       "title": "Take a break",
       "group": "Navigation",
       "file": "screens/pause.png",
-      "sourcePath": "docs/media/journey-0.10-review/pause.png",
+      "sourcePath": "docs/media/journey-0.11-review/pause.png",
       "width": 1280,
       "height": 720,
-      "sha256": "43806ff9864b3dba158dca8138509034e4cd2186bc77ff682a396398c42d1524",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/pause.png",
-      "description": "Actual paused mission with the essential destinations. Pausing and reading do not consume mission time."
+      "sha256": "695444b3dae57e9ca5b939a6d38fb69458a8662d9a59575f8b07017421b78b53",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/pause.png",
+      "description": "The actual paused mission menu provides explicit Resume, Science, View and accessibility, settings and leave/restart destinations. Pausing and reading do not consume mission time."
     },
     {
       "id": "settings",
       "title": "Sound, motion and play time",
       "group": "Navigation",
       "file": "screens/settings.png",
-      "sourcePath": "docs/media/journey-0.10-review/settings.png",
+      "sourcePath": "docs/media/journey-0.11-review/settings.png",
       "width": 1280,
       "height": 720,
-      "sha256": "3c813df548a49f5a35be893493b4404e0da27b35f83d9158b29ebcd2c73fdc6f",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/settings.png",
-      "description": "Settings opened from Pause. Controls change sound, reduced motion and real play duration while preserving the model equations."
+      "sha256": "95317b709c0b013480f374571408fbdd9c39743acdbc57af9d3a86b8a8192ce0",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/settings.png",
+      "description": "Settings opened from the paused mission menu. Sound, reduced motion and round length are separate choices; changing the real play duration preserves the simulated equations. Back returns to the originating menu."
+    },
+    {
+      "id": "view-settings",
+      "title": "Settings opened from View",
+      "group": "Navigation",
+      "file": "screens/view-settings.png",
+      "width": 1280,
+      "height": 720,
+      "description": "Sound, motion and round-length settings opened from View while the mission is paused. Back returns to View; it does not silently resume play.",
+      "sourcePath": "docs/media/journey-0.11-review/view-settings.png",
+      "sha256": "c57b780fefabb2bf52aa1624c10501dc75cac321560a991d7e91dd9f2c6ba06c",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/view-settings.png"
+    },
+    {
+      "id": "settings-view-return",
+      "title": "Settings → View",
+      "group": "Navigation",
+      "file": "screens/settings-view-return.png",
+      "width": 1280,
+      "height": 720,
+      "description": "After pressing Back in settings opened from View, the actual View menu returns with Focused window still selected. The mission remains paused.",
+      "sourcePath": "docs/media/journey-0.11/settings-view-return-desktop.png",
+      "sha256": "23b3b0ab53f74537c332bda6a6c3c6d8e78bff703229af2045774391d39c4a4f",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/settings-view-return-desktop.png"
+    },
+    {
+      "id": "settings-pause-return",
+      "title": "Settings → mission menu",
+      "group": "Navigation",
+      "file": "screens/settings-pause-return.png",
+      "width": 1280,
+      "height": 720,
+      "description": "After pressing Back in settings opened from the mission menu, that menu returns. The child can explicitly Resume mission or choose another destination.",
+      "sourcePath": "docs/media/journey-0.11/settings-pause-return-desktop.png",
+      "sha256": "7f229a215fffa75149407ae88245ba9700547bfd12e666a2817ecec0200471a8",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/settings-pause-return-desktop.png"
     },
     {
       "id": "mission-win",
       "title": "Mission result",
       "group": "Results",
       "file": "screens/mission-win.png",
-      "sourcePath": "docs/media/journey-0.10/debrief-desktop.png",
+      "sourcePath": "docs/media/journey-0.11/debrief-desktop.png",
       "width": 1280,
       "height": 720,
-      "sha256": "b4456d5968b72807f6928405f6ab04003683cb6b1bcba481edd4f92fc1202960",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/26f19540baf330b00b0ac4a1b470d0e1439f7382/docs/media/journey-0.10/debrief-desktop.png",
-      "description": "Actual completed mixed-pace run:89.5% cleaned and Ren inside. Results appear immediately; scientific metrics are not fabricated."
+      "sha256": "25b721a9dbecc008c00069c1160ec6429b54c76c1b5a47c60435817d5e7ec8a4",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/debrief-desktop.png",
+      "description": "Actual completed mixed-pace run: 89.5% cleaned and Ren inside. Results appear immediately; all displayed scientific metrics come from the real model."
     },
     {
       "id": "mission-pass",
       "title": "Mission result · PASS",
       "group": "Results",
       "file": "screens/mission-pass.png",
-      "sourcePath": "docs/media/journey-0.10-review/mission-pass.png",
+      "sourcePath": "docs/media/journey-0.11-review/mission-pass.png",
       "width": 1280,
       "height": 720,
-      "sha256": "8d90c477593ca41ef054ef768a602ca4da297570995463902bac77a0b57556f0",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/mission-pass.png",
+      "sha256": "d5c147dab1262d82c14a9fbaa68469dae61ff2f379cb19fa01c1ae9cd3b076ad",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/mission-pass.png",
       "description": "An actual completed .5×-pace fixture: 46.875% cleaned, 1.703125 kWh stored and 10.9375 µGy model dose. Ren is inside; the game encourages more cleaning next time. The real model is advanced deterministically, not played in real time."
     },
     {
@@ -227,11 +287,11 @@
       "title": "Mission result · TRY AGAIN",
       "group": "Results",
       "file": "screens/mission-try-again.png",
-      "sourcePath": "docs/media/journey-0.10-review/mission-try-again.png",
+      "sourcePath": "docs/media/journey-0.11-review/mission-try-again.png",
       "width": 1280,
       "height": 720,
-      "sha256": "b5d76109ab42f32a6a61b12f99e2dd06070d6070a02af18991e014a33ca94613",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/mission-try-again.png",
+      "sha256": "c8e54858dd1e1f72e0d45f39a52cf5b6109a97f1f1afdb3721279f6cecd310f9",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/mission-try-again.png",
       "description": "An actual completed .25×-pace fixture: 23.4375% cleaned, 1.3515625 kWh stored and 10.9375 µGy model dose. Ren is inside; the result invites a new cleaning plan. The real model is advanced deterministically, not played in real time."
     },
     {
@@ -239,11 +299,11 @@
       "title": "Eight ideas come together",
       "group": "Results",
       "file": "screens/bubble-merge.png",
-      "sourcePath": "docs/media/journey-0.10/bubble-merge-desktop.png",
+      "sourcePath": "docs/media/journey-0.11/bubble-merge-desktop.png",
       "width": 1280,
       "height": 720,
-      "sha256": "d9490f3690e3a883d5249e4d93fc3fd299ba17ce269b9070d6ebbf98fba4d177",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/26f19540baf330b00b0ac4a1b470d0e1439f7382/docs/media/journey-0.10/bubble-merge-desktop.png",
+      "sha256": "94c065a8dd99f841c33348dfcc88ddea9534337c65bb176ca7939bade16b500d",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/bubble-merge-desktop.png",
       "description": "Actual science transition held at 0.35 seconds by the visual fixture. The game normally animates the ideas together; reduced motion skips this transition."
     },
     {
@@ -251,11 +311,11 @@
       "title": "How the science connects",
       "group": "Results",
       "file": "screens/science-connections.png",
-      "sourcePath": "docs/media/journey-0.10/science-desktop.png",
+      "sourcePath": "docs/media/journey-0.11/science-desktop.png",
       "width": 1280,
       "height": 720,
-      "sha256": "8473c0d789bc3d9ff73b7d39bb9f7e5c07045de65bc2a4a834656bed9df371f0",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/26f19540baf330b00b0ac4a1b470d0e1439f7382/docs/media/journey-0.10/science-desktop.png",
+      "sha256": "27a2431740236ef5fda27a5f54a52f93cfec2c754f2d20c297625827bf9e48fc",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/science-desktop.png",
       "description": "Four clickable visual relationships connect the eight ideas. Precise equations, numerical results and graphs remain available in optional detail."
     },
     {
@@ -263,11 +323,11 @@
       "title": "The numbers behind the result",
       "group": "Results",
       "file": "screens/worked-numbers.png",
-      "sourcePath": "docs/media/journey-0.10-review/worked-numbers.png",
+      "sourcePath": "docs/media/journey-0.11-review/worked-numbers.png",
       "width": 1280,
       "height": 720,
-      "sha256": "0a82601a7bd0d434922883bab1eede94bc8af027811f9610342eb878d07133ef",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/worked-numbers.png",
+      "sha256": "8b5e80ec3b69a1ec79e746b7280bf1a2667260baecc538e4bfbc41e170f44d42",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/worked-numbers.png",
       "description": "Expanded numerical explanations use the actual run’s generated energy, supplied energy and accumulated model dose."
     },
     {
@@ -275,11 +335,11 @@
       "title": "Your mission graphs",
       "group": "Results",
       "file": "screens/run-graphs.png",
-      "sourcePath": "docs/media/journey-0.10-review/run-graphs.png",
+      "sourcePath": "docs/media/journey-0.11-review/run-graphs.png",
       "width": 1280,
       "height": 720,
-      "sha256": "5a21bb043448616a25de91420d8c1af08feb699059218a20b83167054fe61437",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/run-graphs.png",
+      "sha256": "521928d8148da603ce81f14167574ae3c751f509d5dad0a8e66653d4c9120baf",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/run-graphs.png",
       "description": "Graphs are drawn from the actual recorded mission history. They show modeled stored energy and accumulated dose, not live NASA predictions."
     },
     {
@@ -287,11 +347,11 @@
       "title": "Try the idea somewhere new",
       "group": "Results",
       "file": "screens/learning-question.png",
-      "sourcePath": "docs/media/journey-0.10-review/learning-question.png",
+      "sourcePath": "docs/media/journey-0.11-review/learning-question.png",
       "width": 1280,
       "height": 720,
-      "sha256": "59e809362369ea6123db08c20a9ec9b650964a6f14cb50b24f7de641df97f778",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/learning-question.png",
+      "sha256": "792997e9846bf7a5036999d8b9e5241cf3840a8c0839111c770c6494b2aa3e8b",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/learning-question.png",
       "description": "Optional transfer question after the completed mission. The first answer is retained when a learner tries again."
     },
     {
@@ -299,23 +359,35 @@
       "title": "Home",
       "group": "Navigation",
       "file": "screens/home.png",
-      "sourcePath": "docs/media/journey-0.10/home-desktop.png",
+      "sourcePath": "docs/media/journey-0.11/home-desktop.png",
       "width": 1280,
       "height": 720,
-      "sha256": "2d200dde0b5b53e911d32121a3e21f4767854585d43b36104011312900a3cb17",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/26f19540baf330b00b0ac4a1b470d0e1439f7382/docs/media/journey-0.10/home-desktop.png",
-      "description": "The main Home menu after the completed run: play, optional science, story, updates and More."
+      "sha256": "98337bd1dd3a8080006281767ec56459d49f1007a05924a5f389ef0185dddfb4",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/home-desktop.png",
+      "description": "The actual Home menu after the completed run: play, optional science, story, updates, View and accessibility, sound and motion settings, and More."
+    },
+    {
+      "id": "settings-home-return",
+      "title": "Settings → Home",
+      "group": "Navigation",
+      "file": "screens/settings-home-return.png",
+      "width": 1280,
+      "height": 720,
+      "description": "After opening settings from Home and pressing Back, Home returns without starting or replacing a mission.",
+      "sourcePath": "docs/media/journey-0.11/settings-home-return-desktop.png",
+      "sha256": "98337bd1dd3a8080006281767ec56459d49f1007a05924a5f389ef0185dddfb4",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/settings-home-return-desktop.png"
     },
     {
       "id": "more",
       "title": "More to explore",
       "group": "Navigation",
       "file": "screens/more.png",
-      "sourcePath": "docs/media/journey-0.10/more-desktop.png",
+      "sourcePath": "docs/media/journey-0.11/more-desktop.png",
       "width": 1280,
       "height": 720,
       "sha256": "6a6f20bf23f14b8e8202e4162ca85ca561414f24dbce64cc4c736202e5d6b494",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/26f19540baf330b00b0ac4a1b470d0e1439f7382/docs/media/journey-0.10/more-desktop.png",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/more-desktop.png",
       "description": "Secondary Home destinations: settings, NASA observations, the earlier advanced lab and Quit."
     },
     {
@@ -323,11 +395,11 @@
       "title": "Updates & downloads · source-run mode",
       "group": "Navigation",
       "file": "screens/updates.png",
-      "sourcePath": "docs/media/journey-0.10-review/updates.png",
+      "sourcePath": "docs/media/journey-0.11-review/updates.png",
       "width": 1280,
       "height": 720,
-      "sha256": "dbbc5e853a1f72561751339d46aa730e1daa2dba642a18fce79efbe315f0d6fb",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/updates.png",
+      "sha256": "59f5eca201c74514afd63ded580ff81e3643103402f0746bba2911e2fea0fd54",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/updates.png",
       "description": "The actual idle update interface opened from Home in an isolated source run. This mode explicitly says in-game installation is unavailable; no check, download or install was requested. This image does not establish packaged-host updater behavior."
     },
     {
@@ -335,11 +407,11 @@
       "title": "Small phone: opening story",
       "group": "Small screens",
       "file": "screens/phone-story.png",
-      "sourcePath": "docs/media/journey-0.10-review/phone-story.png",
+      "sourcePath": "docs/media/journey-0.11-review/phone-story.png",
       "width": 320,
       "height": 568,
-      "sha256": "de5f604c4f5a3fdd967e932b35a865553eabd7db963f3a1e86fe76e6bf631fe5",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/phone-story.png",
+      "sha256": "5c68a65e9a1209a6f045662c0e6df1b46555c1a9daf6f29915e6609ed6b422bb",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/phone-story.png",
       "description": "Actual 320×568 native viewport. Review title wrapping, contrast and reachable navigation at a small phone-shaped size."
     },
     {
@@ -347,35 +419,59 @@
       "title": "Phone: cleaning view",
       "group": "Small screens",
       "file": "screens/phone-mission.png",
-      "sourcePath": "docs/media/journey-0.10/mission-portrait.png",
+      "sourcePath": "docs/media/journey-0.11/mission-portrait.png",
       "width": 390,
       "height": 844,
-      "sha256": "807672047dd9b2c8b34170f47bc4514aeb46cf0564edb435410aa7fa7d23b7b2",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/26f19540baf330b00b0ac4a1b470d0e1439f7382/docs/media/journey-0.10/mission-portrait.png",
-      "description": "Actual 390×844 native viewport showing the same mixed-pace run. This verifies composition, not performance on a physical phone."
+      "sha256": "5bc773ac8c28e2ff0e55fd5564a22ee3c877df3d63c925cb17e87d2178e0f6f4",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/mission-portrait.png",
+      "description": "Actual 390×844 native Science window during the same mixed-pace run. Eight live concepts use a horizontally scrollable rail above the framed work area. This verifies composition, not performance on a physical phone."
+    },
+    {
+      "id": "phone-focused-window",
+      "title": "Phone: Focused window",
+      "group": "Small screens",
+      "file": "screens/phone-focused-window.png",
+      "width": 390,
+      "height": 844,
+      "description": "Actual 390×844 native viewport in Focused window mode. Review the enlarged work area, three primary readings and reachable controls. This is composition evidence, not physical-phone performance.",
+      "sourcePath": "docs/media/journey-0.11/focused-window-portrait.png",
+      "sha256": "6b5ed690798084cf8dd19ff2e5e4eaaee0a7789c489a37a47e7d544b9f2fac1f",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/focused-window-portrait.png"
     },
     {
       "id": "small-phone-mission",
       "title": "Small phone: cleaning view",
       "group": "Small screens",
       "file": "screens/small-phone-mission.png",
-      "sourcePath": "docs/media/journey-0.10-review/small-phone-mission.png",
+      "sourcePath": "docs/media/journey-0.11/mission-small-phone.png",
       "width": 320,
       "height": 568,
-      "sha256": "d4718155d11542bd405e5daa14088c716adfcc91e9dea8ab23105ea732f28a72",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/small-phone-mission.png",
-      "description": "Actual 320×568 native viewport. Review the three primary readings, scene visibility and pace controls."
+      "sha256": "8adfc22dd9b53bd49c6f87c612794729a8dd36ddaddd9e017cb8def8b81731d1",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/mission-small-phone.png",
+      "description": "Actual 320×568 native Science window. The eight concepts remain reachable in a horizontally scrollable rail; the screenshot shows its starting position. Review the title, three readings, framed work area and pace controls."
+    },
+    {
+      "id": "small-phone-view-menu",
+      "title": "Small phone: choose your window",
+      "group": "Small screens",
+      "file": "screens/small-phone-view-menu.png",
+      "width": 320,
+      "height": 568,
+      "description": "Actual 320×568 native viewport showing the scrollable View menu. Review readable choices and access to Resume, Back and settings; this is not a physical mobile-device test.",
+      "sourcePath": "docs/media/journey-0.11-review/small-phone-view-menu.png",
+      "sha256": "63d6f813c1e7423c72a45e51366b37027d714c5baad4a60ea3d402afbfa6c9f2",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/small-phone-view-menu.png"
     },
     {
       "id": "small-phone-results",
       "title": "Small phone: results",
       "group": "Small screens",
       "file": "screens/small-phone-results.png",
-      "sourcePath": "docs/media/journey-0.10-review/small-phone-results.png",
+      "sourcePath": "docs/media/journey-0.11-review/small-phone-results.png",
       "width": 320,
       "height": 568,
-      "sha256": "3ead10363f735a1c9a7f5a88f6fd38565e17bc357f4c41d6d91de00069ecfcd0",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/small-phone-results.png",
+      "sha256": "5b4295e2f820525117bac17fdf4e3bd1cc0e460792a89829061d337756e5f60d",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/small-phone-results.png",
       "description": "Actual 320×568 result screen. Review which result information is visible first and how the next actions are reached."
     },
     {
@@ -383,11 +479,11 @@
       "title": "Phone: science connections",
       "group": "Small screens",
       "file": "screens/phone-science.png",
-      "sourcePath": "docs/media/journey-0.10-review/phone-science.png",
+      "sourcePath": "docs/media/journey-0.11-review/phone-science.png",
       "width": 390,
       "height": 844,
-      "sha256": "953c2b3b7a7dacdcd63a36353de6602bb3164df7beba9737c1e0181536f0a479",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/phone-science.png",
+      "sha256": "45b7fcf5faf82bb66ae5db41d3f3496102b1e24e070f3d2fd97554d5d257b0ee",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.11-review/phone-science.png",
       "description": "Actual 390×844 science page. Cards can scroll vertically; the science tokens remain actionable."
     },
     {
@@ -395,15 +491,16 @@
       "title": "Short landscape: cleaning view",
       "group": "Small screens",
       "file": "screens/landscape-mission.png",
-      "sourcePath": "docs/media/journey-0.10-review/landscape-mission.png",
+      "sourcePath": "docs/media/journey-0.11/mission-landscape.png",
       "width": 844,
       "height": 390,
-      "sha256": "0cd858cfc3a8f0c784776da9630b3fe09b71752923bf4afcd14135f57618f7c6",
-      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/main/docs/media/journey-0.10-review/landscape-mission.png",
-      "description": "Actual 844×390 native viewport. Review whether the scene, readings and controls remain clear in a short landscape window."
+      "sha256": "8a6bf706680495dc091c2c59f5bfe975bba4d17c0c511d7b9378f7d30c1e0db2",
+      "sourceUrl": "https://raw.githubusercontent.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0/docs/media/journey-0.11/mission-landscape.png",
+      "description": "Actual 844×390 native Science window. All eight concept bubbles use compact side columns around the framed work area. Review Ren, the panel, readings and pace controls in a short landscape window."
     }
   ],
   "displayName": "KŌMAKU: Dust & Radiation",
   "title": "KŌMAKU",
-  "subtitle": "DUST & RADIATION"
+  "subtitle": "DUST & RADIATION",
+  "verified_game_source_commit": "20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0"
 }
