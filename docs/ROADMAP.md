@@ -4,9 +4,11 @@
 
 ## Next delivery: 0.11 candidate
 
-The next release restores the outpost window and eight live mission-concept bubbles. It retains the current short wording, fonts and equations, adds **View → Science window / Focused window**, direct Home actions in Menu/Settings, scripted radio captions, and local schema 2 view-preference migration. It is **not published**. [Candidate contract](design-specs/JOURNEY-0.11.md).
+The next release restores the outpost window and eight live mission-concept bubbles. It retains the current short wording, fonts and equations, adds **View → Science window / Focused window**, Menu → Home and direct view/sound settings on Home, scripted radio captions, and local schema 2 view-preference migration. It is **not published**. [Candidate contract](design-specs/JOURNEY-0.11.md).
 
-The immediate gates are integrated responsive/navigation review, profile migration and pause behavior, recorded source captures, native exports and compatible-content update checks, exact packaged-document checks, and public-file verification after publication. A source implementation or old screenshot does not complete those gates. Keep the 0.10 download links active until actual release acceptance.
+The complete candidate source suite has passed, with 170 captures across five viewports, 39 native Linux navigation assertions and a 41-screen review gallery checked by 22 browser tests. [Candidate media and MP4](media/journey-0.11/README.md) · [Validation](VALIDATION.md).
+
+Exports, Mac startup, all fourteen native compatible-content update jobs and the Linux 0.4 gate have passed. **Publication is held:** visual acceptance remains pending, and the Windows package gate requires a corrected-harness recheck after a cleanup error invalidated its overall success flag. Final publication and public-file verification are not complete. The separate 41-screen review site is live for feedback. Keep 0.10 downloads active. [Current validation](VALIDATION.md).
 
 ## Published baseline and continuing work
 
@@ -27,7 +29,7 @@ The released journey is **a readable opening → close window mission → 90-sec
 
 The current release acceptance does not by itself establish physical M5 performance, all mobile/browser support, learning effectiveness, photoreal reference fidelity or a complete astronaut curriculum. Those claims need their own measurements and reviews.
 
-After candidate acceptance, the next priority is feedback from the design team and target learners: can a child find Start, see what speed changes, reach an ending, and explain one connection? Use that evidence to guide the next mission and any future personalized progression.
+The immediate product priority is visual review with the owner/design team; passing automation has not resolved that review. Subsequent supervised learner feedback should ask: can a child find Start, see what speed changes, reach an ending, and explain one connection? Use that evidence to guide the next mission and any future personalized progression.
 
 [Team status](TEAM-STATUS.md) · [Request tracker](REQUEST-TRACKER.md) · [0.11 candidate contract](design-specs/JOURNEY-0.11.md) · [historical 0.10 contract](design-specs/JOURNEY-0.10.md) · [Downloads](DOWNLOADS.md) · [Submission draft](SUBMISSION-DRAFT.md).
 

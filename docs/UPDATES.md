@@ -2,6 +2,18 @@
 
 **Published [0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1) — November 15, 2026, 13:53:05 UTC.** Built from `26f19540baf330b00b0ac4a1b470d0e1439f7382`. This release simplifies the interface and corrects the installation handoff while preserving the 90-second mission and its equations. [Release notes](releases/0.10.0-alpha.1.md).
 
+## 0.11 candidate updates passed; publication held
+
+The restored-window candidate retains the existing runtime/update trust and adds local profile schema 2 for the view preference. Recognized schema 1 progress migrates without changing application identity. Candidate source `20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0` has passed source checks; this does not by itself prove that an older installer can activate the new pack.
+
+[Build 43729552243](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43729552243) completed exports and Mac startup. All [fourteen Mac/Windows update jobs](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43730091761) passed, covering public **0.6.0, 0.6.1, 0.7.0, 0.7.1, 0.8.0, 0.9.0 and 0.10.0** baselines. The [Linux 0.4 baseline](evidence/update-0.4-to-0.11-linux.json) also passed. These checks verify activation, healthy repeat startup and same-size corruption recovery using the exact signed candidate content; they are not new proofs of public HTTP delivery or end-user notification behavior.
+
+Candidate manifest SHA-256: `1efef62ea57680480c927e4b03134cc9817f0d098267b099b2a759bbf9cc06fc`.
+
+**The game release is held.** Visual acceptance remains pending. Separately, the Windows package-startup report contains three passed probes but a cleanup error and an unreliable overall success flag; the package gate awaits a corrected-harness recheck. The successful content-update matrix does not override that separate issue. [Gate status](VALIDATION.md). No 0.11 update is published or available through production release discovery; 0.10 remains the current published release.
+
+## Published 0.10 update evidence
+
 The accepted signed pack passed activation, healthy repeat startup and same-size corruption recovery using unchanged public **0.6.0, 0.6.1, 0.7.0, 0.7.1, 0.8.0 and 0.9.0** installers on both Mac and Windows—**twelve passed jobs**—plus the documented Linux 0.4 baseline. [Native matrix run](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43721023112).
 
 | Baseline | Mac                                                | Windows                                              |

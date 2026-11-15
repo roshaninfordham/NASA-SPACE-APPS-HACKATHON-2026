@@ -3,10 +3,13 @@
 
 No editor, rebuild, re-signing, quarantine removal, or security-setting changes.
 Graphical startup is recorded separately from the required headless check.
+Overall acceptance also requires cleanup of the fresh workspace and profile;
+startup evidence remains visible when a later cleanup operation fails.
 """
 from __future__ import annotations
 
 import argparse
+from contextlib import contextmanager
 import hashlib
 import json
 import os
@@ -26,6 +29,44 @@ import zipfile
 from branding import archive_name, archive_stem
 
 MARKER = "RED_VEIL_SCENE_READY"
+CLEANUP_RETRY_DELAYS = (0.2, 0.4, 0.8, 1.6)
+
+
+def cleanup_owned_resource(cleanup, system: str, resource: str, report: dict) -> bool:
+    """Clean only a caller-owned fresh workspace/profile; never hide failure.
+
+    Windows may briefly retain an executable handle after its process exits.
+    Only explicit sharing/lock violations are retried, for at most three
+    seconds. Other permission, path and I/O errors fail immediately.
+    """
+    for attempt in range(len(CLEANUP_RETRY_DELAYS) + 1):
+        try:
+            cleanup()
+        except Exception as error:
+            if (system == "Windows" and isinstance(error, OSError)
+                    and getattr(error, "winerror", None) in (32, 33)
+                    and attempt < len(CLEANUP_RETRY_DELAYS)):
+                time.sleep(CLEANUP_RETRY_DELAYS[attempt])
+                continue
+            report.setdefault("cleanup_error", {})[resource] = str(error)
+            report.setdefault("cleanup_attempts", {})[resource] = attempt + 1
+            report[resource + "_cleanup_passed"] = False
+            print(f"Native verification {resource} cleanup failed: {error}", flush=True)
+            return False
+        report.setdefault("cleanup_attempts", {})[resource] = attempt + 1
+        report[resource + "_cleanup_passed"] = True
+        return True
+    return False  # The bounded loop always returns above.
+
+
+@contextmanager
+def native_workspace(system: str, report: dict):
+    """Keep cleanup evidence separate from the native checks in this context."""
+    temporary = tempfile.TemporaryDirectory(prefix="komaku-native-")
+    try:
+        yield temporary.name
+    finally:
+        cleanup_owned_resource(temporary.cleanup, system, "workspace", report)
 
 
 def digest(path: Path) -> str:
@@ -156,7 +197,8 @@ def main() -> int:
     logs.mkdir(exist_ok=False)
     system = platform.system()
     report = {"system": system, "os": platform.platform(), "machine": platform.machine(),
-              "commands": [], "passed": False,
+              "commands": [], "passed": False, "startup_passed": False,
+              "workspace_cleanup_passed": None, "profile_cleanup_passed": None,
               "scope": "Exact native release executable startup on CI; not Finder approval, physical-device playtesting, or updater acceptance.",
               "audio": "Dummy driver: hosted runners have no audio device; real audio is not verified.",
               "trust": "Ad-hoc Mac signature is integrity only; no Developer ID/notarization. Windows executable is unsigned."}
@@ -172,9 +214,9 @@ def main() -> int:
         profile = app_profile(system)
         if profile.exists() or profile.is_symlink():
             raise ValueError("Existing player profile detected: use a fresh CI runner; it will not be overwritten")
-        report["profile"] = "Fresh application-specific profile; deleted after check"
+        report["profile"] = "Fresh application-specific profile; cleanup pending"
         owned_profile = True
-        with tempfile.TemporaryDirectory(prefix="komaku-native-") as temporary:
+        with native_workspace(system, report) as temporary:
             extracted = Path(temporary) / "extracted"
             extracted.mkdir()
             if system == "Darwin":
@@ -226,20 +268,40 @@ def main() -> int:
             report[label] = passed
             if not passed:
                 raise ValueError(label + " did not reach the game without engine errors")
-            report["passed"] = True
+            report["startup_passed"] = True
     except Exception as error:
+        report["passed"] = False
         report["error"] = str(error)
         print(f"Native package verification failed: {error}", flush=True)
     finally:
-        if owned_profile and profile is not None and profile.exists():
-            shutil.rmtree(profile)
-        report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        if owned_profile and profile is not None:
+            def remove_profile():
+                if profile.exists() or profile.is_symlink():
+                    shutil.rmtree(profile)
+            cleaned = cleanup_owned_resource(remove_profile, system, "profile", report)
+            report["profile"] = ("Fresh application-specific profile; absent after cleanup" if cleaned else
+                                 "Fresh application-specific profile; cleanup failed; residual files may remain")
+    report["passed"] = bool(report["startup_passed"] and report["workspace_cleanup_passed"]
+                            and report["profile_cleanup_passed"] and not report.get("error")
+                            and not report.get("cleanup_error"))
+    try:
         summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
         if summary_path:
             with open(summary_path, "a", encoding="utf-8") as summary:
                 summary.write(f"\n### Native {system} package check\n\nPassed: **{report['passed']}**. "
-                              f"Headless: {report.get('headless-startup', False)}. Graphical: {report.get('graphical-startup', False)}.\n\n"
+                              f"Startup checks: {report['startup_passed']}. "
+                              f"Headless: {report.get('headless-startup', False)}. Graphical: {report.get('graphical-startup', False)}. "
+                              f"Workspace cleanup: {report['workspace_cleanup_passed']}. Profile cleanup: {report['profile_cleanup_passed']}.\n\n"
                               f"{report['scope']}\n\n{report['trust']}\n")
+    except OSError as error:
+        report["passed"] = False
+        report["summary_error"] = str(error)
+        print(f"Native verification summary could not be written: {error}", flush=True)
+    try:
+        report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    except OSError as error:
+        print(f"Native verification report could not be written: {error}", flush=True)
+        return 1
     return 0 if report["passed"] else 1
 
 

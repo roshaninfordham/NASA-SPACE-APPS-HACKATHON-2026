@@ -16,14 +16,18 @@ A short Mars learning game for ages 7–12, built with Godot. From mission contr
 
 ## The 0.11 candidate
 
-**In development: 0.11.0-alpha.1 candidate — not published.** The next interface restores the outpost-window presentation and eight visible science bubbles, with **View → Science window / Focused window**, direct Home navigation, and captioned radio feedback. It retains the 0.10 short wording, typography, 90-second mission and equations. [Candidate design contract](docs/design-specs/JOURNEY-0.11.md). Downloads and published acceptance below still refer to 0.10 until the new build passes its own release checks.
+**0.11.0-alpha.1 candidate — publication held; visual acceptance pending.** The next interface restores the outpost-window presentation and eight visible science bubbles, with **View → Science window / Focused window**, direct Home navigation, and captioned radio feedback. It retains the 0.10 short wording, typography, 90-second mission and equations. [Candidate design contract](docs/design-specs/JOURNEY-0.11.md). Downloads and published acceptance below still refer to 0.10 until the new build passes its own release checks.
 
 - **Science window** restores the visible outpost frame and eight concept bubbles whose readings follow the running mission. Opening an explanation pauses play. These are simulated readings; only the separate NASA viewer retrieves a solar image.
 - **Focused window** offers a quieter view of the same mission through **View**. View changes do not change the rules or restart the round; the selected view is saved locally.
-- **Menu** and **Settings** provide direct Home actions. Short player/Ren radio captions acknowledge Start and pace changes without microphone input or generated conversation.
+- **Menu → Home** returns to the main choices. Home offers direct **View & accessibility** and **Sound, motion & pace** settings. Short player/Ren radio captions acknowledge Start and pace changes without microphone input or generated conversation.
 - Local profile schema 2 adds the view preference while migrating recognized schema 1 progress and settings. The existing save identity and update trust remain unchanged.
 
-Candidate source checks, new screenshots, exported startup and update evidence must be recorded separately. The existing 0.10 images retain their original source scope; they are not screenshots of the restored interface.
+**Candidate source checks passed:** the complete shared source suite, 170 captured states across five viewports, 39 native Linux navigation assertions, and a 41-screen review gallery checked by 22 browser tests. Candidate source: `20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0`. [Native evidence](docs/evidence/journey-native-0.11.json) · [0.11 gallery and capture provenance](docs/media/journey-0.11/README.md) · [Actual cleaning MP4](docs/media/journey-0.11/cleaning-live.mp4) · [Clip provenance and scope](docs/media/journey-0.11/CLEANING-CLIP.md).
+
+[Build 43729552243](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43729552243) completed exports and the Mac startup check. All [fourteen native update jobs](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43730091761) and the [Linux 0.4 update gate](docs/evidence/update-0.4-to-0.11-linux.json) passed. **Publication is held:** visual acceptance is still pending, and the Windows package report contains a cleanup error despite three passed startup probes and an unreliable overall success flag. A corrected verification harness must recheck that package. [Current evidence and limits](docs/VALIDATION.md).
+
+The [41-screen public review gallery](https://roshaninfordham.github.io/NASA-SPACE-APPS-HACKATHON-2026/review/0.11.0-alpha.1/) is live and passed 22 browser tests; it is a feedback site, not a game release. [Deployment evidence](docs/evidence/screen-review-0.11.0-alpha.1.json). Source screenshots and tests do not establish visual approval, physical-device performance or a published installer.
 
 ## The published 0.10 experience
 
@@ -52,7 +56,7 @@ The [0.10 capture record](docs/media/journey-0.10/capture-provenance.json) docum
 
 ## Download and open this version
 
-**Latest published download: 0.10.0-alpha.1.** The 0.11 candidate is not yet available as a published release. [Official version page](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1) lists publication status and available files. Download the matching platform ZIP below, then extract the whole archive.
+**Latest published download: 0.10.0-alpha.1.** The 0.11 candidate is held for visual review and a Windows package-gate recheck; it is not a published release. [Official version page](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1) lists publication status and available files. Download the matching platform ZIP below, then extract the whole archive.
 
 | Platform                  | 0.10.0 archive                                                                                                                                                                          | Open after extracting the whole ZIP                  |
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |

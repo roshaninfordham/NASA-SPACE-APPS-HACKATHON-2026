@@ -1,6 +1,6 @@
 # <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — 0.11 candidate interface contract
 
-**Unpublished candidate · November 15, 2026.** The available download remains [0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1). This contract restores the outpost-window setting and eight visible science bubbles while keeping the concise wording and typography introduced in [0.10](JOURNEY-0.10.md). Implementation, test acceptance and publication are separate milestones.
+**Unpublished candidate · November 15, 2026. Publication is held pending visual acceptance and a reliable Windows package-gate recheck.** The available download remains [0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1). This contract restores the outpost-window setting and eight visible science bubbles while keeping the concise wording and typography introduced in [0.10](JOURNEY-0.10.md). Implementation, test acceptance and publication are separate milestones.
 
 ## The window and its eight concepts
 
@@ -30,9 +30,13 @@ The existing result-first flow, optional science connection animation, exact equ
 
 ## Acceptance before publication
 
-Record candidate-specific evidence for responsive layouts and visible bubble readings, view/profile migration, pause/focus/terminal navigation, radio captions, and the result flow. Capture the integrated scene with source and fixture provenance. Published 0.10 screenshots remain historical evidence and must not be relabelled as 0.11.
+Candidate source `20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0` has passed the complete shared source suite. The [integrated capture record](../media/journey-0.11/capture-provenance.json) covers 170 states across five viewports with its recorded runtime hashes and fixture actions. [Native Linux navigation](../evidence/journey-native-0.11.json) passed 39 assertions; the 41-screen review gallery passed 22 browser tests. The [actual cleaning MP4](../media/journey-0.11/cleaning-live.mp4) records production animation at measured frame timing; its [provenance](../media/journey-0.11/CLEANING-CLIP.md) identifies the fixture and Linux capture limits. Capture records retain their original source revision and runtime fingerprints rather than being relabelled with a later documentation commit.
 
-Before publication, require source checks, exported startup, compatible signed-content update checks, exact packaged documentation/PDF verification, and public-file verification. Do not infer physical-device performance, assistive-technology compatibility or learner effectiveness from automated checks. Keep the published 0.10 links active until the release actually exists and its files have been verified.
+Published 0.10 screenshots remain historical evidence. New source captures do not establish export startup, signed-update acceptance, publication or physical-device performance.
+
+Exports, Mac startup, all fourteen native content-update jobs and the Linux 0.4 gate have passed. The Windows package gate needs a corrected-harness recheck: startup probes passed, but file-lock cleanup failed and its overall success flag was incorrectly retained. [Detailed gate status](../VALIDATION.md).
+
+**Visual acceptance remains pending and publication is held.** The 41-screen public review gallery has 22 passed browser tests; it is feedback infrastructure, not acceptance of the game’s artistic quality. Do not infer physical-device performance, assistive-technology compatibility or learner effectiveness from automated checks. Keep the published 0.10 links active; final publication and public-file verification have not occurred.
 
 [Team status](../TEAM-STATUS.md) · [Request tracker](../REQUEST-TRACKER.md) · [Roadmap](../ROADMAP.md) · [Submission answers](../SUBMISSION-COPY-PASTE.md).
 

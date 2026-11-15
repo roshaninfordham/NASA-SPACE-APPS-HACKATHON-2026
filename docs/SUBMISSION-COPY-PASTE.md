@@ -2,7 +2,11 @@
 
 **Team Roshan Xingbo · draft for review · November 15, 2026.** Nothing has been submitted. Official form questions and limits have not been supplied. The three summaries below contain exactly 50, 150, and 300 words when counted by whitespace; the form may count words differently.
 
-**Build to link now:** [published 0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1). The restoration of eight visible, updating science bubbles is work in progress for the next interface revision. Do not describe that revision as a published 0.11 build. These answers describe the released mission and its optional science library unless a future feature is explicitly identified.
+**Build to link now:** [published 0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1). The restoration of eight visible, updating science bubbles is implemented in the reviewed 0.11 candidate; release acceptance is still in progress. Do not describe that revision as a published 0.11 build. These answers describe the released mission and its optional science library unless a future feature is explicitly identified.
+
+## Candidate footage for the video team
+
+The restored 0.11 interface now has [reviewable native screenshots](media/journey-0.11/README.md) and an [actual cleaning MP4](media/journey-0.11/cleaning-live.mp4), with [capture provenance](media/journey-0.11/CLEANING-CLIP.md). The source suite and 39 native Linux navigation assertions passed; 170 states were captured. The separate 41-screen review gallery passed 22 browser tests. **This is an unpublished development preview**, not a new downloadable release. The published link remains 0.10. Exports and compatible-content update checks passed, but visual acceptance is pending and the Windows package gate needs a reliable recheck; publication is held. Label candidate footage accordingly; do not mix 0.11 interface images with a claim that the 0.10 download has that interface.
 
 ## Project name
 
@@ -90,7 +94,7 @@ The mission works offline and requires no child account, microphone, health data
 
 **Available in the published 0.10 build:** the outpost-window mission, cleaning-pace controls, fictional tiredness, dust/power/battery calculations, automatic entry, results, an optional eight-concept Science library, result explanations, and the optional NASA solar-image viewer. Desktop archives and a web export are available; the web export needs HTTP(S) hosting. We are not claiming native Android/iOS releases or an automatically playable hosted site.
 
-**In progress:** restoring the eight visible, updating science bubbles around the mission view and reviewing their presentation. Use footage from a verified build, or label an unreleased recording as a development preview.
+**Candidate awaiting release acceptance:** the restored eight visible, updating science bubbles around the mission view have source captures and checks. Use footage from a verified build, or label an unreleased recording as a development preview.
 
 **Future work:** supervised tests with children and educators, accessibility improvements, clearer explanations, and additional missions. Personalized recommendations are a possible future direction, not an implemented or validated adaptive AI claim.
 

@@ -2,7 +2,11 @@
 
 **For Team Roshan Xingbo to review. Nothing has been submitted.** Use the [copy-ready answers](SUBMISSION-COPY-PASTE.md) for exact 50-, 150-, and 300-word options, the full source list, and the short video script. Official questions and limits have not been supplied.
 
-**Available build: [0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1).** The next interface revision is restoring eight visible, updating science bubbles; that work is in progress and is not a published 0.11 release. The optional eight-concept Science library described below is already part of 0.10. Record the verified build, or label new interface footage as a development preview.
+**Available build: [0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1).** The 0.11 candidate restores eight visible, updating science bubbles and has passed source review; publication is held pending visual acceptance and a reliable Windows package-gate recheck. The optional eight-concept Science library described below is already part of 0.10. Record the verified build, or label new interface footage as a development preview.
+
+## Candidate footage for the video team
+
+The restored 0.11 interface now has [reviewable native screenshots](media/journey-0.11/README.md) and an [actual cleaning MP4](media/journey-0.11/cleaning-live.mp4), with [capture provenance](media/journey-0.11/CLEANING-CLIP.md). The source suite and 39 native Linux navigation assertions passed; 170 states were captured. The separate 41-screen review gallery passed 22 browser tests. **This is an unpublished development preview**, not a new downloadable release. The published link remains 0.10. Exports and compatible-content update checks passed, but visual acceptance is pending and the Windows package gate needs a reliable recheck; publication is held. Label candidate footage accordingly; do not mix 0.11 interface images with a claim that the 0.10 download has that interface.
 
 ## Project name and tagline
 

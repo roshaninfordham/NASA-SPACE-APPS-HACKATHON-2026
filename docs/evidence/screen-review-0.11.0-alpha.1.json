@@ -1,0 +1,630 @@
+{
+  "schema": 1,
+  "verified_utc": "2026-11-15T15:27:05.408843+00:00",
+  "review_url": "https://roshaninfordham.github.io/NASA-SPACE-APPS-HACKATHON-2026/review/0.11.0-alpha.1/",
+  "review_source_commit": "19dceff56af108fb5df5453d8c7f6a21a316cbde",
+  "game_source_commit": "20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0",
+  "deployment_run": 43729787210,
+  "screen_count": 41,
+  "public_files_verified": 116,
+  "previous_game_and_review_files_unchanged": 70,
+  "browser_suite": {
+    "passed": 22,
+    "profiles": [
+      "Chromium1440x960desktop",
+      "Chromium390x844touch emulation"
+    ],
+    "limits": "No physical iOS/Android device claim"
+  },
+  "files": [
+    {
+      "path": "deployment-provenance.json",
+      "bytes": 1026,
+      "sha256": "1164df1fc02394eee775084b67ed4a340f073e7b41f1ba51eecaf9d0d6dd703a"
+    },
+    {
+      "path": "index.html",
+      "bytes": 6005,
+      "sha256": "58c18e78042317146f004c0bac172818adc1fa348da07ec6257c8b8ac35bf669"
+    },
+    {
+      "path": "index.manifest.json",
+      "bytes": 812,
+      "sha256": "ad260fb3bbc8b6f51b7d1978683a303134c55caf9c7b33233052c12cc362bd86"
+    },
+    {
+      "path": "index.service.worker.js",
+      "bytes": 15927,
+      "sha256": "5fdf5d57f5866cffd98bbabc91a7def814401b4674087c2f08bd23c8ce762c28"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/CHANGELOG.md",
+      "bytes": 6927,
+      "sha256": "481cfbd119a58dc7dbfe6860e4de089f2a8c3e0104cf1796b751e657314186a4"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/CREDITS.md",
+      "bytes": 1691,
+      "sha256": "192c9d5f36efdaecf20a6d839a9cded7dc43c0cf4e6ec37fbc21d12a8b1cd38e"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/DOWNLOADS.md",
+      "bytes": 2965,
+      "sha256": "ea9d9abb24035e68645a917cdedc73dab921c040ef56c6b2f7f3ee9cc44aec6d"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/LEARNING-DESIGN.md",
+      "bytes": 7362,
+      "sha256": "f122f5634bdd11a0c39b91eada84d476ab37300bd46f089def70ad775c0f54d3"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/SCIENCE.md",
+      "bytes": 7474,
+      "sha256": "9ed69fa8280efd965e84ca1f02ae77a04f3b4cb30e480c77b3962fcbc6319029"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/TEAM-STATUS.md",
+      "bytes": 6164,
+      "sha256": "0e34d6f73ae39095d2062175995a3d2909ee75de80d71c5777bc2cfbb65578ea"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/UPDATES.md",
+      "bytes": 8902,
+      "sha256": "b0744fc31e8086f459b2267541b61548b130b9e81f32211e7e776f8a393e6c1d"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/browser-updates.css",
+      "bytes": 1496,
+      "sha256": "0608eb3cfb9b4cf9d642d05a29963efe35087d8e9709f6c7abc141344ea2dc59"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/browser-updates.js",
+      "bytes": 10151,
+      "sha256": "2a87c673a82de68865f46f94619b4debc8e9bb19629dd3f4a5225ed31d7d5009"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/index.144x144.png",
+      "bytes": 7874,
+      "sha256": "14b9a241943e69ac1c8eb916cfa7228fd2686bf33824c81c00691fccfd2e91ae"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/index.180x180.png",
+      "bytes": 10874,
+      "sha256": "8ff97ac7d52263b71887877ea9fb751b3dea89175c0c73e511a48a5ccc5ebc0d"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/index.512x512.png",
+      "bytes": 51000,
+      "sha256": "8e8b0b0f1ff38639d116a61c1ceaca263e5d818d53f6036744e516559a5308ba"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/index.apple-touch-icon.png",
+      "bytes": 10874,
+      "sha256": "8ff97ac7d52263b71887877ea9fb751b3dea89175c0c73e511a48a5ccc5ebc0d"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/index.audio.position.worklet.js",
+      "bytes": 2973,
+      "sha256": "be33985bc7160d6bf9646f259cd86b259cd67b02ccb297ee5c44f8ac84327bc8"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/index.audio.worklet.js",
+      "bytes": 7298,
+      "sha256": "5b476a9c9ce642c0ee4256436d1bc31d9c38f868aca0f9a8e2a57c18d2dec2a3"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/index.html",
+      "bytes": 6005,
+      "sha256": "58c18e78042317146f004c0bac172818adc1fa348da07ec6257c8b8ac35bf669"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/index.icon.png",
+      "bytes": 8571,
+      "sha256": "ccb9d4e43b5a2efd62abaca79b4c9b349aabf1349ce05f638e275d08648fb1a2"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/index.js",
+      "bytes": 315759,
+      "sha256": "e3f56ee40e6f84371053db06692cfac15e2c8659547b11c6b2dfa1996dabd981"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/index.manifest.json",
+      "bytes": 323,
+      "sha256": "f2370137015c8e6b9708524891af654222bae81dc6b24eb41dfebd507a3360eb"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/index.offline.html",
+      "bytes": 971,
+      "sha256": "b0a5d443e78f58717adac780bac91c1431bfa3b801c41f4707d507fb5ad2e47f"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/index.pck",
+      "bytes": 264340,
+      "sha256": "e9cf215745acabeb7644ea64f9cc372997432b7a14de4c2c4da5ad82632af157"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/index.png",
+      "bytes": 21443,
+      "sha256": "3cb4495c0b98dfbe4b663cbf2b6836473572339beb66d902367893162a70be0e"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/index.wasm",
+      "bytes": 37700666,
+      "sha256": "26b61ce95247012ab3dca3ff51e96d1cdbff44ee91a8c20a83e150afca83f1b6"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/licenses/Godot-MIT.txt",
+      "bytes": 1149,
+      "sha256": "b0435e3b3e4e55238f05f4b306f30524a1b2e20147810d436eaa554fa6855c80"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/licenses/Godot-THIRDPARTY.txt",
+      "bytes": 99790,
+      "sha256": "b3330849267d56ddd3d62a513817506606c2195034411fe05859f0140bff9d8a"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/licenses/Kenney-ASSETS.md",
+      "bytes": 443,
+      "sha256": "14b13884025923bdc1bf033063e9fdd0b83e01b838a26920e4dff7959fe44924"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/licenses/Kenney-MIT.txt",
+      "bytes": 1062,
+      "sha256": "f755bf8f21002f8d5baedaf75564141d363971f3f7bc8c4062956b0b15a6f04f"
+    },
+    {
+      "path": "red-veil-builds/2880ad620b055d6be5c80fb5/licenses/Lilita-OFL.txt",
+      "bytes": 4391,
+      "sha256": "31d45880a38de46bc81835329c0c7d964609751e65add92769ea0095ad92c05b"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/index.html",
+      "bytes": 12275,
+      "sha256": "0ce52594ded639bee45e4f4c7fcc2c37abf8cf84b6ac06188d125b9b26a5ffd7"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/review.css",
+      "bytes": 18036,
+      "sha256": "834e17528511a258eda370beafd76da61c709aa3b2291a1fe6959646a5129941"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/review.js",
+      "bytes": 51371,
+      "sha256": "f6ff17e39b680470abe08d4e7c52bff3a0c7a3d8fe46ae9f36a5f9906bf754f5"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/bubble-merge.png",
+      "bytes": 88155,
+      "sha256": "d9490f3690e3a883d5249e4d93fc3fd299ba17ce269b9070d6ebbf98fba4d177"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/discovery-library.png",
+      "bytes": 125831,
+      "sha256": "ff8f54bc0237859c67f8fb835826030d943bc444ea844ffa47753a2c666d2ca6"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/home.png",
+      "bytes": 34997,
+      "sha256": "2d200dde0b5b53e911d32121a3e21f4767854585d43b36104011312900a3cb17"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/landscape-mission.png",
+      "bytes": 124778,
+      "sha256": "0cd858cfc3a8f0c784776da9630b3fe09b71752923bf4afcd14135f57618f7c6"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/learning-question.png",
+      "bytes": 85313,
+      "sha256": "59e809362369ea6123db08c20a9ec9b650964a6f14cb50b24f7de641df97f778"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/microgray-card.png",
+      "bytes": 96042,
+      "sha256": "ac8891601c7248c4d2d645e51636b956a29f71812f12904c8a75275e93d76e57"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/mission-cleaning.png",
+      "bytes": 292534,
+      "sha256": "8b08e77e84f99e1d06aa5fa86babe8fc276a9beae106ceea0a81d2ee14b6e759"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/mission-microgray.png",
+      "bytes": 101182,
+      "sha256": "08ac064973e7fb8be3396cdfee197976474240cd800bdbe3cfd457c02f8a98ba"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/mission-pass.png",
+      "bytes": 96225,
+      "sha256": "8d90c477593ca41ef054ef768a602ca4da297570995463902bac77a0b57556f0"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/mission-ready.png",
+      "bytes": 299848,
+      "sha256": "460b8fe2a9fcf499282867c02fa4af19c82049013fc05b588905c0f07dbf8f2a"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/mission-try-again.png",
+      "bytes": 95404,
+      "sha256": "b5d76109ab42f32a6a61b12f99e2dd06070d6070a02af18991e014a33ca94613"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/mission-win.png",
+      "bytes": 94417,
+      "sha256": "b4456d5968b72807f6928405f6ab04003683cb6b1bcba481edd4f92fc1202960"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/more.png",
+      "bytes": 41166,
+      "sha256": "6a6f20bf23f14b8e8202e4162ca85ca561414f24dbce64cc4c736202e5d6b494"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/nasa-context.png",
+      "bytes": 294884,
+      "sha256": "d88e115b7df0a385aa73ecf5574d8549390830241179a667e07d7ad37edb3a73"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/nasa-details.png",
+      "bytes": 355178,
+      "sha256": "6b94485a080df65fb6405fb8b64d0148c3bc6b83f9893951f48a1923657cc2b2"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/optional-science.png",
+      "bytes": 112782,
+      "sha256": "b0dd6db2bf4ce761ec6a083d3d178dd30c39623c00c225cec2558b02dd5d4d05"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/pause.png",
+      "bytes": 78359,
+      "sha256": "43806ff9864b3dba158dca8138509034e4cd2186bc77ff682a396398c42d1524"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/phone-mission.png",
+      "bytes": 98257,
+      "sha256": "807672047dd9b2c8b34170f47bc4514aeb46cf0564edb435410aa7fa7d23b7b2"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/phone-science.png",
+      "bytes": 66863,
+      "sha256": "953c2b3b7a7dacdcd63a36353de6602bb3164df7beba9737c1e0181536f0a479"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/phone-story.png",
+      "bytes": 174112,
+      "sha256": "de5f604c4f5a3fdd967e932b35a865553eabd7db963f3a1e86fe76e6bf631fe5"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/power-card.png",
+      "bytes": 97278,
+      "sha256": "fe00752fde3a190fb33a58b99d84a8e4c7ab229a374bcdf6d0da7359d3a81ca8"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/run-graphs.png",
+      "bytes": 98660,
+      "sha256": "5a21bb043448616a25de91420d8c1af08feb699059218a20b83167054fe61437"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/scene-loading.png",
+      "bytes": 18772,
+      "sha256": "0d5f3d349c86089f9b1001d7c4bf4d33bd4b58065b19dd7a37e97f3a41c3f5c9"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/science-connections.png",
+      "bytes": 109001,
+      "sha256": "8473c0d789bc3d9ff73b7d39bb9f7e5c07045de65bc2a4a834656bed9df371f0"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/settings.png",
+      "bytes": 97468,
+      "sha256": "3c813df548a49f5a35be893493b4404e0da27b35f83d9158b29ebcd2c73fdc6f"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/small-phone-mission.png",
+      "bytes": 76429,
+      "sha256": "d4718155d11542bd405e5daa14088c716adfcc91e9dea8ab23105ea732f28a72"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/small-phone-results.png",
+      "bytes": 43588,
+      "sha256": "3ead10363f735a1c9a7f5a88f6fd38565e17bc357f4c41d6d91de00069ecfcd0"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/storm-soon.png",
+      "bytes": 272103,
+      "sha256": "834b20e8441504ac37c803e0653e2087d5f86259622edd30f9ebe3606f8de55a"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/story-control-room.png",
+      "bytes": 1024026,
+      "sha256": "3f19ff900a4c9383ae50de1f34e87a749bbabbd56c5846b5c16ef9cb5d3955de"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/story-mars.png",
+      "bytes": 883198,
+      "sha256": "34b19741981d07d4979ffe62f6e19dc7d64a19b4aed184e03053625721eb8cb9"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/story-ren.png",
+      "bytes": 1141212,
+      "sha256": "38b5725ea434ed500807ef954a857745a3502930e3f8dfcc794e65b35a8a7698"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/updates.png",
+      "bytes": 45624,
+      "sha256": "dbbc5e853a1f72561751339d46aa730e1daa2dba642a18fce79efbe315f0d6fb"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens/worked-numbers.png",
+      "bytes": 103508,
+      "sha256": "0a82601a7bd0d434922883bab1eede94bc8af027811f9610342eb878d07133ef"
+    },
+    {
+      "path": "review/0.10.0-alpha.1/screens.json",
+      "bytes": 24509,
+      "sha256": "7e6a5226e8ff321e54b5681666897c74a39510fffebd601684ad50ad1330d8cd"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/index.html",
+      "bytes": 12275,
+      "sha256": "0ce52594ded639bee45e4f4c7fcc2c37abf8cf84b6ac06188d125b9b26a5ffd7"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/review.css",
+      "bytes": 18036,
+      "sha256": "834e17528511a258eda370beafd76da61c709aa3b2291a1fe6959646a5129941"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/review.js",
+      "bytes": 51371,
+      "sha256": "f6ff17e39b680470abe08d4e7c52bff3a0c7a3d8fe46ae9f36a5f9906bf754f5"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/bubble-merge.png",
+      "bytes": 88140,
+      "sha256": "94c065a8dd99f841c33348dfcc88ddea9534337c65bb176ca7939bade16b500d"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/discovery-library.png",
+      "bytes": 160014,
+      "sha256": "b25c226dfe0b742a4b820c22f53939aa9fde035a56465de88e1c466a738a6e4b"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/focused-window.png",
+      "bytes": 288517,
+      "sha256": "932a40e86cd83fa0495ccdf168ec8f8339f776d3c4c78edf2e627f7a5501060f"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/home.png",
+      "bytes": 44492,
+      "sha256": "98337bd1dd3a8080006281767ec56459d49f1007a05924a5f389ef0185dddfb4"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/landscape-mission.png",
+      "bytes": 146295,
+      "sha256": "8a6bf706680495dc091c2c59f5bfe975bba4d17c0c511d7b9378f7d30c1e0db2"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/learning-question.png",
+      "bytes": 85322,
+      "sha256": "792997e9846bf7a5036999d8b9e5241cf3840a8c0839111c770c6494b2aa3e8b"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/microgray-card.png",
+      "bytes": 96044,
+      "sha256": "2245ae8312805fe5e570167167041ad3df197ff74cdd55d830a7b4895b5e7dfe"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/mission-cleaning.png",
+      "bytes": 313342,
+      "sha256": "e727efa84c13e09514555a8339feea099b6a9a16e71436be1778ada609558a50"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/mission-microgray.png",
+      "bytes": 136598,
+      "sha256": "3caad9947da56e583df64c173dd7014ee2404e8fd9e9f358a5a590e0e9ccae7f"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/mission-pass.png",
+      "bytes": 96219,
+      "sha256": "d5c147dab1262d82c14a9fbaa68469dae61ff2f379cb19fa01c1ae9cd3b076ad"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/mission-ready.png",
+      "bytes": 324055,
+      "sha256": "f3df1a08084ec97051c16401ff675cf5bbf4b029eec01e96d04ffa597ca6d35b"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/mission-try-again.png",
+      "bytes": 95426,
+      "sha256": "c8e54858dd1e1f72e0d45f39a52cf5b6109a97f1f1afdb3721279f6cecd310f9"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/mission-win.png",
+      "bytes": 94413,
+      "sha256": "25b721a9dbecc008c00069c1160ec6429b54c76c1b5a47c60435817d5e7ec8a4"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/more.png",
+      "bytes": 41166,
+      "sha256": "6a6f20bf23f14b8e8202e4162ca85ca561414f24dbce64cc4c736202e5d6b494"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/nasa-context.png",
+      "bytes": 294884,
+      "sha256": "d88e115b7df0a385aa73ecf5574d8549390830241179a667e07d7ad37edb3a73"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/nasa-details.png",
+      "bytes": 355100,
+      "sha256": "812dc220380e62d7cab44b8b7a232b2a2f0acafc4edc297a1161b3ba5023f320"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/optional-science.png",
+      "bytes": 112822,
+      "sha256": "b02e673eac31c6fa55d3463ac9149238685e5f528f753c737f6fdc1217447dbd"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/pause.png",
+      "bytes": 115515,
+      "sha256": "695444b3dae57e9ca5b939a6d38fb69458a8662d9a59575f8b07017421b78b53"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/phone-focused-window.png",
+      "bytes": 104781,
+      "sha256": "6b5ed690798084cf8dd19ff2e5e4eaaee0a7789c489a37a47e7d544b9f2fac1f"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/phone-mission.png",
+      "bytes": 116526,
+      "sha256": "5bc773ac8c28e2ff0e55fd5564a22ee3c877df3d63c925cb17e87d2178e0f6f4"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/phone-science.png",
+      "bytes": 66873,
+      "sha256": "45b7fcf5faf82bb66ae5db41d3f3496102b1e24e070f3d2fd97554d5d257b0ee"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/phone-story.png",
+      "bytes": 174132,
+      "sha256": "5c68a65e9a1209a6f045662c0e6df1b46555c1a9daf6f29915e6609ed6b422bb"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/power-card.png",
+      "bytes": 97280,
+      "sha256": "b2d48630b0da7c580c56b9a8d0323b7bbca7237b0bd6c0f3796259495ff8dc4c"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/run-graphs.png",
+      "bytes": 98665,
+      "sha256": "521928d8148da603ce81f14167574ae3c751f509d5dad0a8e66653d4c9120baf"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/scene-loading.png",
+      "bytes": 18772,
+      "sha256": "0d5f3d349c86089f9b1001d7c4bf4d33bd4b58065b19dd7a37e97f3a41c3f5c9"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/science-connections.png",
+      "bytes": 109011,
+      "sha256": "27a2431740236ef5fda27a5f54a52f93cfec2c754f2d20c297625827bf9e48fc"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/settings-home-return.png",
+      "bytes": 44492,
+      "sha256": "98337bd1dd3a8080006281767ec56459d49f1007a05924a5f389ef0185dddfb4"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/settings-pause-return.png",
+      "bytes": 115425,
+      "sha256": "7f229a215fffa75149407ae88245ba9700547bfd12e666a2817ecec0200471a8"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/settings-view-return.png",
+      "bytes": 122762,
+      "sha256": "23b3b0ab53f74537c332bda6a6c3c6d8e78bff703229af2045774391d39c4a4f"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/settings.png",
+      "bytes": 134331,
+      "sha256": "95317b709c0b013480f374571408fbdd9c39743acdbc57af9d3a86b8a8192ce0"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/small-phone-mission.png",
+      "bytes": 77522,
+      "sha256": "8adfc22dd9b53bd49c6f87c612794729a8dd36ddaddd9e017cb8def8b81731d1"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/small-phone-results.png",
+      "bytes": 43553,
+      "sha256": "5b4295e2f820525117bac17fdf4e3bd1cc0e460792a89829061d337756e5f60d"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/small-phone-view-menu.png",
+      "bytes": 65661,
+      "sha256": "63d6f813c1e7423c72a45e51366b37027d714c5baad4a60ea3d402afbfa6c9f2"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/storm-soon.png",
+      "bytes": 293892,
+      "sha256": "ae3d46590575ea90592b6fabd9be90f2c292a743ca57406784a7054d44de4b86"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/story-control-room.png",
+      "bytes": 1024026,
+      "sha256": "3f19ff900a4c9383ae50de1f34e87a749bbabbd56c5846b5c16ef9cb5d3955de"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/story-mars.png",
+      "bytes": 883198,
+      "sha256": "34b19741981d07d4979ffe62f6e19dc7d64a19b4aed184e03053625721eb8cb9"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/story-ren.png",
+      "bytes": 1141212,
+      "sha256": "38b5725ea434ed500807ef954a857745a3502930e3f8dfcc794e65b35a8a7698"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/updates.png",
+      "bytes": 45606,
+      "sha256": "59f5eca201c74514afd63ded580ff81e3643103402f0746bba2911e2fea0fd54"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/view-menu.png",
+      "bytes": 157630,
+      "sha256": "13aafdca57097bc4ad7bc1a71400a64a1d473fbe8dc64f7cd0d17a301e6ab5bf"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/view-settings.png",
+      "bytes": 101526,
+      "sha256": "c57b780fefabb2bf52aa1624c10501dc75cac321560a991d7e91dd9f2c6ba06c"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens/worked-numbers.png",
+      "bytes": 103485,
+      "sha256": "8b5e80ec3b69a1ec79e746b7280bf1a2667260baecc538e4bfbc41e170f44d42"
+    },
+    {
+      "path": "review/0.11.0-alpha.1/screens.json",
+      "bytes": 31494,
+      "sha256": "bdf3f6b003d169474b6d76061d7a0aaca2801b8135ba8c9f7986ec79d15d2078"
+    },
+    {
+      "path": "review/index.html",
+      "bytes": 309,
+      "sha256": "aa15614613cbc15d31a1a31c9278a0ae751c3bc74d3b7d919de121b75a852745"
+    },
+    {
+      "path": "web-release.json",
+      "bytes": 6026,
+      "sha256": "72c02477942fe9ccaede2256c30a699fdae47d6f7426ee7d5606ef77ab7ef8de"
+    }
+  ],
+  "public_smoke": {
+    "profiles": [
+      {
+        "name": "desktop",
+        "passed": true,
+        "http_status": 200,
+        "screens": 41,
+        "shared_fresh_context": true,
+        "errors": []
+      },
+      {
+        "name": "phone",
+        "passed": true,
+        "http_status": 200,
+        "screens": 41,
+        "shared_fresh_context": true,
+        "errors": []
+      }
+    ],
+    "checked": [
+      "actual desktop and touch pin coordinates",
+      "original-resolution annotated PNG plus notes",
+      "JSON export",
+      "shared review identity in fresh contexts",
+      "GitHub draft URL with exact screenshot identity"
+    ],
+    "github_requests": "draft navigation intercepted locally; no feedback posted",
+    "finished_utc": "2026-11-15T15:27:30.674Z"
+  }
+}

@@ -7,13 +7,15 @@ All published game versions and notable unreleased work are recorded here. The v
 Restore the outpost-window presentation and eight visible, updating science bubbles while preserving the published 0.10 wording, fonts, short explanations and mission rules. This entry describes candidate work, not a published package or completed release acceptance. [Design contract](docs/design-specs/JOURNEY-0.11.md).
 
 - Add **View → Science window / Focused window** for the same mission. The default Science window exposes the eight concepts during play; a bubble opens a paused explanation, while Focused window reduces surrounding information.
-- Add direct **Home** actions to **Menu** and **Settings**, retaining contextual Back/Resume destinations and safe pause behavior.
+- Expose **Home** in **Menu**, with direct **View & accessibility** and **Sound, motion & pace** settings on Home. Retain contextual Back/Resume destinations and safe pause behavior.
 - Add brief player/Ren radio captions for Start and pace changes. These are scripted feedback, not microphone input, voice recognition or AI conversation.
 - Migrate recognized local schema 1 progress to schema 2, adding the saved view preference without resetting existing settings or run history. Keep application/save identity and content-update trust stable.
 - Preserve the 90-second standard clock, 30 simulated minutes, pace/fatigue model, actual energy, automatic entry, cleaned-fraction outcomes and equal final dose. The optional NASA SDO image remains separate from the model.
 - Prepare copy-ready submission answers and replace the obsolete EVA submission outline with the current window-mission scope. Record source wording for the Pathfinder citation and distinguish concept footage from gameplay.
 
-The published 0.10 downloads and historical galleries remain available. New source/layout, native startup, compatible-content updates, packaged-document checks and public-file verification are required before claiming a 0.11 release. Physical-device and learner acceptance retain their separate scope.
+Candidate source `20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0` passed the complete shared source suite. The [new gallery](docs/media/journey-0.11/README.md) records 170 states across five viewports; [native Linux navigation](docs/evidence/journey-native-0.11.json) passed 39 assertions, and the 41-screen review gallery passed 22 browser tests. An [actual cleaning MP4](docs/media/journey-0.11/cleaning-live.mp4) records ordinary production animation and measured frame timing; its [scope](docs/media/journey-0.11/CLEANING-CLIP.md) is separate from device performance.
+
+The [build](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43729552243) completed exports and Mac startup. The [fourteen Mac/Windows update jobs](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43730091761) and Linux 0.4 update gate passed. The Windows package’s three startup probes passed, but a file-lock cleanup error and incorrectly retained overall success flag make that package gate unreliable until rechecked with the corrected harness. **Release held: visual acceptance remains pending.** Public game-release verification has not occurred; 0.10 remains the available download. The separate 41-screen review site is live with 22 passed browser tests.
 
 ## Team screen review website — 2026-11-15
 

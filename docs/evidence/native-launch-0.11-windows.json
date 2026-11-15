@@ -1,0 +1,75 @@
+{
+  "system": "Windows",
+  "os": "Windows-2025Server-10.0.26100-SP0",
+  "machine": "AMD64",
+  "commands": [
+    {
+      "label": "headless-startup",
+      "command": [
+        "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\komaku-native-7z51eipi\\extracted\\KOMAKU-Dust-and-Radiation.exe",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--log-file",
+        "D:\\a\\NASA-SPACE-APPS-HACKATHON-2026\\NASA-SPACE-APPS-HACKATHON-2026\\native-launch-logs\\headless-startup-engine.log",
+        "--",
+        "--smoke-test"
+      ],
+      "timeout_seconds": 90,
+      "exit_code": 0,
+      "elapsed_seconds": 1.578,
+      "log": "D:\\a\\NASA-SPACE-APPS-HACKATHON-2026\\NASA-SPACE-APPS-HACKATHON-2026\\native-launch-logs\\headless-startup.log",
+      "output": "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org\n\nRED_VEIL_SCENE_READY version=0.11.0-alpha.1 nodes=235 journey=mission\n"
+    },
+    {
+      "label": "graphical-startup",
+      "command": [
+        "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\komaku-native-7z51eipi\\extracted\\KOMAKU-Dust-and-Radiation.exe",
+        "--audio-driver",
+        "Dummy",
+        "--log-file",
+        "D:\\a\\NASA-SPACE-APPS-HACKATHON-2026\\NASA-SPACE-APPS-HACKATHON-2026\\native-launch-logs\\graphical-startup-engine.log",
+        "--",
+        "--smoke-test"
+      ],
+      "timeout_seconds": 90,
+      "exit_code": 0,
+      "elapsed_seconds": 8.187,
+      "log": "D:\\a\\NASA-SPACE-APPS-HACKATHON-2026\\NASA-SPACE-APPS-HACKATHON-2026\\native-launch-logs\\graphical-startup.log",
+      "output": "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org\nWARNING: Your video card drivers seem not to support the required OpenGL 3.3 version, switching to ANGLE.\n   at: DisplayServerWindows (platform/windows/display_server_windows.cpp:7421)\nOpenGL API OpenGL ES 3.0 (ANGLE 2.1.1 git hash: aaebda1c5a40) - Compatibility - Using Device: Google Inc. (Microsoft) - ANGLE (Microsoft, Microsoft Basic Render Driver (0x0000008C) Direct3D11 vs_5_0 ps_5_0, D3D11-10.0.26100.33648)\n\nRED_VEIL_SCENE_READY version=0.11.0-alpha.1 nodes=235 journey=mission\n"
+    },
+    {
+      "label": "angle-startup",
+      "command": [
+        "C:\\Users\\RUNNER~1\\AppData\\Local\\Temp\\komaku-native-7z51eipi\\extracted\\KOMAKU-Dust-and-Radiation.exe",
+        "--rendering-driver",
+        "opengl3_angle",
+        "--audio-driver",
+        "Dummy",
+        "--log-file",
+        "D:\\a\\NASA-SPACE-APPS-HACKATHON-2026\\NASA-SPACE-APPS-HACKATHON-2026\\native-launch-logs\\angle-startup-engine.log",
+        "--",
+        "--smoke-test"
+      ],
+      "timeout_seconds": 90,
+      "exit_code": 0,
+      "elapsed_seconds": 1.344,
+      "log": "D:\\a\\NASA-SPACE-APPS-HACKATHON-2026\\NASA-SPACE-APPS-HACKATHON-2026\\native-launch-logs\\angle-startup.log",
+      "output": "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org\nOpenGL API OpenGL ES 3.0 (ANGLE 2.1.1 git hash: aaebda1c5a40) - Compatibility - Using Device: Google Inc. (Microsoft) - ANGLE (Microsoft, Microsoft Basic Render Driver (0x0000008C) Direct3D11 vs_5_0 ps_5_0, D3D11-10.0.26100.33648)\n\nRED_VEIL_SCENE_READY version=0.11.0-alpha.1 nodes=235 journey=mission\n"
+    }
+  ],
+  "passed": true,
+  "scope": "Exact native release executable startup on CI; not Finder approval, physical-device playtesting, or updater acceptance.",
+  "audio": "Dummy driver: hosted runners have no audio device; real audio is not verified.",
+  "trust": "Ad-hoc Mac signature is integrity only; no Developer ID/notarization. Windows executable is unsigned.",
+  "version": "0.11.0-alpha.1",
+  "source_commit": "20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0",
+  "manifest_sha256": "1efef62ea57680480c927e4b03134cc9817f0d098267b099b2a759bbf9cc06fc",
+  "archive": "KOMAKU-Dust-and-Radiation-0.11.0-alpha.1-Windows-x64.zip",
+  "archive_sha256": "5f902cd8be81a1ce21a12b32c995ebcd4ed096cd999b465ee4faf5e1743d5bb1",
+  "profile": "Fresh application-specific profile; deleted after check",
+  "headless-startup": true,
+  "graphical-startup": true,
+  "angle-startup": true,
+  "error": "[WinError 32] The process cannot access the file because it is being used by another process: 'C:\\\\Users\\\\RUNNER~1\\\\AppData\\\\Local\\\\Temp\\\\komaku-native-7z51eipi\\\\extracted\\\\KOMAKU-Dust-and-Radiation.exe'"
+}

@@ -4,13 +4,17 @@
 
 ## Candidate 0.11: the next interface
 
-**In development: 0.11.0-alpha.1 candidate — not published.** The next interface restores the outpost-window presentation and eight visible science bubbles, with **View → Science window / Focused window**, direct Home navigation, and captioned radio feedback. It retains the 0.10 short wording, typography, 90-second mission and equations. [Candidate design contract](design-specs/JOURNEY-0.11.md). Downloads and published acceptance below still refer to 0.10 until the new build passes its own release checks.
+**0.11.0-alpha.1 candidate — publication held; visual acceptance pending.** The next interface restores the outpost-window presentation and eight visible science bubbles, with **View → Science window / Focused window**, direct Home navigation, and captioned radio feedback. It retains the 0.10 short wording, typography, 90-second mission and equations. [Candidate design contract](design-specs/JOURNEY-0.11.md). Downloads and published acceptance below still refer to 0.10 until the new build passes its own release checks.
 
 The player remains inside the outpost, looking through the window at Ren and the panel. **Science window** restores eight visible bubbles with model-linked readings; **Focused window** keeps the view quieter. **View** changes presentation only. Existing short card wording and fonts remain. Opening a concept pauses the mission; detailed equations and sources stay available on request.
 
 **Home** is explicit in Menu, and Home offers direct access to view and sound settings. Scripted player/Ren captions acknowledge Start and pace changes. Profile schema 2 saves the chosen view and migrates recognized schema 1 settings/history; this is local preference storage, not a new intelligence or health layer.
 
-The equations, 90-second standard round, automatic entry and outcome rules are unchanged. The candidate needs its own integrated screenshots, navigation, export, update and publication evidence. Until then, the release links and acceptance records in this page identify **0.10**, not the candidate.
+The equations, 90-second standard round, automatic entry and outcome rules are unchanged. Candidate source `20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0` passed the complete shared source suite. The [0.11 gallery](media/journey-0.11/README.md) records **170 captured states across five viewports**, [native Linux navigation](evidence/journey-native-0.11.json) passed **39 assertions**, and the **41-screen review gallery** passed **22 browser tests**. [Download the actual cleaning MP4](media/journey-0.11/cleaning-live.mp4) for editing; retain its [capture scope and timing](media/journey-0.11/CLEANING-CLIP.md).
+
+[Build 43729552243](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43729552243) completed exports and [Mac startup](evidence/native-launch-0.11-macos.json). All [fourteen Mac/Windows update jobs](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43730091761) and the [Linux 0.4 gate](evidence/update-0.4-to-0.11-linux.json) passed. The [Windows package report](evidence/native-launch-0.11-windows.json) records three passed startup probes followed by a file-lock cleanup error; its retained overall success flag is unreliable, so the package gate awaits a corrected-harness recheck.
+
+**Publication is held, and visual acceptance remains pending.** The [public 41-screen review gallery](https://roshaninfordham.github.io/NASA-SPACE-APPS-HACKATHON-2026/review/0.11.0-alpha.1/) is available for feedback with [22 passed browser tests and deployment evidence](evidence/screen-review-0.11.0-alpha.1.json). This is not a 0.11 game release. Technical checks do not establish that the visual design meets the team’s expectations. Published downloads remain **0.10**.
 
 ## What the team can explain about published 0.10
 
