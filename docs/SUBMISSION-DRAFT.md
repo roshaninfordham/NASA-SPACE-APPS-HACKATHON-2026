@@ -1,6 +1,8 @@
 # <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — submission draft
 
-**For Team Roshan Xingbo to review. Nothing in this document has been submitted.** The official questions and word limits have not been supplied, so these sections can be shortened or rearranged when the form is available. This describes the current game design; final submission links and build claims must match the tested release.
+**For Team Roshan Xingbo to review. Nothing has been submitted.** Use the [copy-ready answers](SUBMISSION-COPY-PASTE.md) for exact 50-, 150-, and 300-word options, the full source list, and the short video script. Official questions and limits have not been supplied.
+
+**Available build: [0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1).** The next interface revision is restoring eight visible, updating science bubbles; that work is in progress and is not a published 0.11 release. The optional eight-concept Science library described below is already part of 0.10. Record the verified build, or label new interface footage as a development preview.
 
 ## Project name and tagline
 
@@ -38,13 +40,15 @@ NASA's published observations gave us a real scientific starting point and a way
 
 **Curiosity's Radiation Assessment Detector (RAD)** supplies the historical absorbed-dose reference: approximately **210 ±40 microgray per day** in its tissue-like E detector during the early surface mission at Gale Crater. We use the central value to introduce dose rate and accumulation over time. Our increasing radiation curve and storm countdown are authored lesson settings, not a current Mars measurement or forecast.
 
-**Pathfinder's dust research** shows that deposited dust can impair solar-cell performance. The published experiment reports a **0.28% per day decrease in short-circuit current**. That supports the game's central connection—less dust can let more useful sunlight reach the solar cells—but the percentage is not used as our cleaning rate or a universal power-loss coefficient.
+**Pathfinder's dust research** shows that deposited dust can impair solar-cell performance. The cited paper reports a **0.28% per day decrease in short-circuit current**. Its NASA abstract and full text were checked on November 15, 2026; both say “per day.” We preserve that wording without relabelling it “per sol” or assuming an observation duration. That supports the game's central connection—less dust can let more useful sunlight reach the solar cells—but the percentage is not used as our cleaning rate or a universal power-loss coefficient.
 
 **Mars Exploration Rover power research** helped us keep three quantities distinct: solar generation, the habitat's consumption, and energy stored in a battery. **Curiosity shielding observations** provide context for why surrounding material and shelter matter, without claiming that our fictional dome is an engineered radiation shield.
 
 The app also offers a separate, optional **NASA Solar Dynamics Observatory (SDO)** viewer that requests the latest available AIA 193 Å browse image of the Sun. It labels successful online retrieval, cached imagery, stale files, and the bundled example separately. This image supports exploration; its pixels do not drive the Mars simulation or score.
 
 Together, these sources let us build a traceable lesson: measured observations motivate the concepts, while the code and science guide disclose the simplified equations and game assumptions.
+
+**Complete current source list and verified source wording:** [copy-ready NASA/data answer](SUBMISSION-COPY-PASTE.md#nasa-data-and-sources-what-we-actually-use). The links below are the main sources; Mars facts, the NASA radiation context articles, and EPA unit definitions are also listed there.
 
 **Source links:** [Curiosity RAD paper / NASA archive](https://ntrs.nasa.gov/citations/20180007641) · [primary manuscript, Table 1](https://authors.library.caltech.edu/records/kdt88-3aw98) · [Pathfinder experiment](https://ntrs.nasa.gov/citations/20020031145) · [rover power operations](https://ntrs.nasa.gov/citations/20230007029) · [Curiosity shielding observations](https://www.nasa.gov/centers-and-facilities/jpl/how-nasas-curiosity-rover-is-making-mars-safer-for-astronauts/) · [NASA SDO](https://sdo.gsfc.nasa.gov/data/).
 
@@ -68,11 +72,17 @@ Success means more than recognizing a word. A useful next step is to ask childre
 
 ## How is it built?
 
-The playable client uses the open-source **Godot** engine. The mission equations are separated from the visual interface, animation, audio, and science explanations so the design can change without silently changing the rules. The model integrates changing cleaning rate, solar power, stored energy, and dose over simulated time; tests check arithmetic, state transitions, and numerical consistency.
+The playable client uses the open-source **Godot 4.6.3** engine and typed **GDScript**. Godot supplies the C++ engine; Python supports packaging, validation, and PDF generation. The mission equations are separated from the visual interface, animation, audio, and science explanations so the design can change without silently changing the rules. The model integrates changing cleaning rate, solar power, stored energy, and dose over simulated time; tests check arithmetic, state transitions, and numerical consistency.
 
 The mission can run offline. The optional NASA image view uses HTTPS and a clearly labelled fallback when a current image cannot be retrieved. Progress and preferences remain local; the mission does not require a child's name, health data, microphone, account, or cloud AI service.
 
 The repository contains source code, model documentation, source links, and an illustrated science guide. Downloadable releases are the current distribution route. Use the final release evidence for supported operating systems and installation details; a cross-platform engine alone does not establish support on every device.
+
+## Accessibility and current limits
+
+Reading and Pause stop the simulation. Reduced-motion and separate music/effects settings are available. The mission uses short rounds and concise explanations, with deeper material on request. Accessibility testing with children and assistive technologies remains necessary; we do not claim universal device support or accessibility certification.
+
+Desktop downloads and a web export are published. The web export needs HTTP(S) hosting; there is no claimed native Android/iOS release. Initial operating-system trust prompts can remain for the desktop builds.
 
 ## What comes next?
 
@@ -85,7 +95,7 @@ Today, a child can start with one panel and one clear question. Tomorrow, we hop
 ## Links to include after final review
 
 - **Source and documentation:** [GitHub repository](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026).
-- **Download the game:** [Releases](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases). Select the tested release to record, then use that exact release URL in the submission.
+- **Download the game:** [published 0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1). Replace this only after a newer build is actually published and verified.
 - **Science guide:** [illustrated PDF](media/KOMAKU-Science-Guide.pdf), [readable source](SCIENCE-GUIDE.md), and [source index](SOURCE-INDEX.md).
 - **Video:** Add the team's finished video URL after checking the official duration limit.
 
