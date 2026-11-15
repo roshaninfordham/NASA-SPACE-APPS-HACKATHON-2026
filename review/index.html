@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="referrer" content="no-referrer" />
+    <title>KŌMAKU · Team screen review</title>
+    <link rel="stylesheet" href="./review.css" />
+    <script defer src="./review.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#workspace">Skip to selected screen</a>
+    <header class="masthead">
+      <div class="identity">
+        <span id="wordmark" class="wordmark">KŌMAKU</span
+        ><span class="identity-divider"></span><span>Team screen review</span>
+      </div>
+      <div class="masthead-actions">
+        <span id="version" class="version">Loading screens…</span
+        ><button id="share-review" type="button" disabled>Share review</button
+        ><button id="github-review" class="primary" type="button" disabled>
+          Send to GitHub ↗
+        </button>
+      </div>
+    </header>
+    <div id="load-error" class="load-error" role="alert" hidden>
+      <h1>We couldn’t open the screen gallery.</h1>
+      <p id="load-error-message"></p>
+      <button id="retry-load" type="button">Try again</button
+      ><label class="file-button"
+        >Open screens.json<input
+          id="manifest-file"
+          type="file"
+          accept="application/json,.json"
+      /></label>
+    </div>
+    <main id="app" class="app" aria-busy="true">
+      <aside class="screen-sidebar">
+        <details id="screen-picker" open>
+          <summary>Screens <span id="screen-count"></span></summary>
+          <p class="sidebar-intro">
+            Follow the journey. Mark what could be clearer.
+          </p>
+          <nav id="screen-list" aria-label="Game screens"></nav>
+        </details>
+        <p class="sidebar-foot">
+          Actual game captures.<br />Your changes stay in this browser until you
+          share them.
+        </p>
+      </aside>
+      <section
+        id="workspace"
+        class="workspace"
+        tabindex="-1"
+        aria-labelledby="screen-title"
+      >
+        <div class="screen-heading">
+          <div>
+            <p id="screen-group" class="eyebrow">THE PLAYER’S JOURNEY</p>
+            <h1 id="screen-title">Choose a screen</h1>
+            <p id="screen-description" class="description"></p>
+          </div>
+          <a
+            id="original-screen"
+            class="quiet-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            hidden
+            >Original ↗</a
+          >
+        </div>
+        <div class="toolbar" role="toolbar" aria-label="Annotation tools">
+          <div class="tools">
+            <button
+              id="tool-select"
+              data-tool="select"
+              aria-label="Select"
+              aria-pressed="false"
+              title="Select or move a mark (V)"
+            >
+              <span aria-hidden="true">↖</span><span>Select</span>
+            </button>
+            <button
+              id="tool-rect"
+              data-tool="rect"
+              aria-label="Rectangle"
+              aria-pressed="false"
+              title="Drag a rectangle (B)"
+            >
+              <span aria-hidden="true">▭</span><span>Box</span>
+            </button>
+            <button
+              id="tool-ellipse"
+              data-tool="ellipse"
+              aria-label="Ellipse"
+              aria-pressed="false"
+              title="Drag an ellipse (E)"
+            >
+              <span aria-hidden="true">◯</span><span>Ellipse</span>
+            </button>
+            <button
+              id="tool-arrow"
+              data-tool="arrow"
+              aria-label="Arrow"
+              aria-pressed="false"
+              title="Drag an arrow (A)"
+            >
+              <span aria-hidden="true">↗</span><span>Arrow</span>
+            </button>
+            <button
+              id="tool-pin"
+              data-tool="pin"
+              aria-label="Pin"
+              aria-pressed="true"
+              title="Place a numbered pin (P)"
+            >
+              <span aria-hidden="true">⌖</span><span>Pin</span>
+            </button>
+          </div>
+          <div class="edit-tools">
+            <div class="zoom-tools" aria-label="Screenshot zoom">
+              <button
+                id="zoom-out"
+                type="button"
+                aria-label="Zoom out"
+                disabled
+              >
+                −
+              </button>
+              <button
+                id="zoom-fit"
+                type="button"
+                title="Fit the whole screenshot"
+              >
+                Fit
+              </button>
+              <button id="zoom-in" type="button" aria-label="Zoom in">+</button>
+              <span id="zoom-status" aria-live="polite">Fit</span>
+            </div>
+            <button
+              id="add-center"
+              type="button"
+              title="Add the chosen shape at the center without drawing"
+            >
+              Add at center</button
+            ><button
+              id="undo"
+              type="button"
+              disabled
+              title="Undo last change (Ctrl/Cmd+Z)"
+            >
+              Undo</button
+            ><button id="delete-mark" type="button" disabled>
+              Delete mark
+            </button>
+          </div>
+        </div>
+        <div
+          id="stage"
+          class="stage"
+          tabindex="0"
+          aria-label="Screenshot annotation canvas"
+          aria-describedby="canvas-help"
+        >
+          <div id="image-frame" class="image-frame">
+            <img id="screenshot" alt="" draggable="false" /><svg
+              id="annotation-layer"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-label="Drawing annotations"
+            ></svg>
+          </div>
+          <p id="image-loading" class="image-loading">
+            Loading the captured screen…
+          </p>
+        </div>
+        <div class="canvas-caption">
+          <p id="canvas-help">
+            Choose a tool, then draw on the screen. Keyboard: choose a tool,
+            focus the canvas, and press Enter to add a centered mark. Zoom for
+            detail; use Select and drag an empty area to pan.
+          </p>
+          <span id="image-size"></span>
+        </div>
+        <div class="workspace-footer">
+          <div>
+            <span class="save-dot" aria-hidden="true"></span
+            ><span id="save-status">Local draft</span>
+          </div>
+          <div class="export-actions">
+            <button id="export-png" type="button" disabled>
+              Save annotated PNG</button
+            ><button id="export-json" type="button" disabled>Export JSON</button
+            ><label class="file-button"
+              >Import JSON<input
+                id="import-json"
+                type="file"
+                accept="application/json,.json"
+            /></label>
+          </div>
+        </div>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
+      </section>
+      <aside class="inspector" aria-label="Review notes">
+        <div class="inspector-heading">
+          <h2>Your feedback</h2>
+          <span id="mark-count" class="counter">0 / 20 marks</span>
+        </div>
+        <p class="inspector-intro">
+          Point to the detail. Tell the team what would make it better.
+        </p>
+        <label for="reviewer-name"
+          >Your name <span class="optional">optional</span></label
+        ><input
+          id="reviewer-name"
+          type="text"
+          maxlength="80"
+          autocomplete="name"
+          placeholder="Team member"
+        />
+        <div class="section-label">
+          <h3>Marks on this screen</h3>
+          <button
+            id="clear-review"
+            class="text-button danger"
+            type="button"
+            disabled
+          >
+            Clear draft
+          </button>
+        </div>
+        <ol id="mark-list" class="mark-list"></ol>
+        <p id="empty-marks" class="empty-note">
+          Place your first pin on something you’d like to discuss.
+        </p>
+        <div id="selected-editor" hidden>
+          <label for="selected-note" id="selected-note-label">Mark note</label
+          ><textarea
+            id="selected-note"
+            aria-label="Mark note"
+            maxlength="500"
+            rows="4"
+            placeholder="What should change here? Why?"
+            spellcheck="true"
+          ></textarea>
+          <div class="field-meta">
+            <span id="selected-kind"></span><span id="note-count">0 / 500</span>
+          </div>
+        </div>
+        <label for="general-comment">General comment</label
+        ><textarea
+          id="general-comment"
+          maxlength="2000"
+          rows="5"
+          placeholder="How does this screen feel? Is the next action clear?"
+          spellcheck="true"
+        ></textarea>
+        <div class="field-meta">
+          <span>About this screen</span
+          ><span id="comment-count">0 / 2,000</span>
+        </div>
+        <div class="sharing-note">
+          <strong>You control when feedback is sent.</strong>
+          <p>
+            Drawing and saving need no account. Sharing a link makes its notes
+            visible to anyone with the link. GitHub feedback is public and
+            requires your own GitHub sign-in and a final Submit.
+          </p>
+          <a
+            id="view-team-feedback"
+            class="quiet-link"
+            href="https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/issues?q=is%3Aissue%20%22%5BScreen%20review%5D%22%20in%3Atitle"
+            target="_blank"
+            rel="noopener noreferrer"
+            >View team feedback ↗</a
+          >
+        </div>
+      </aside>
+    </main>
+    <dialog id="transfer-dialog" aria-labelledby="transfer-title">
+      <div class="dialog-heading">
+        <h2 id="transfer-title">Share your review</h2>
+        <button
+          id="close-transfer"
+          class="icon-button"
+          type="button"
+          aria-label="Close sharing dialog"
+        >
+          ×
+        </button>
+      </div>
+      <p id="transfer-description"></p>
+      <label id="transfer-value-label" for="transfer-value">Review link</label
+      ><textarea
+        id="transfer-value"
+        readonly
+        rows="5"
+        spellcheck="false"
+      ></textarea>
+      <div class="dialog-actions">
+        <button id="copy-transfer" type="button">Copy link</button
+        ><button id="download-transfer" type="button">Download JSON</button
+        ><a
+          id="open-github"
+          class="button primary"
+          target="_blank"
+          rel="noopener noreferrer"
+          hidden
+          >Open GitHub draft ↗</a
+        >
+      </div>
+      <p id="transfer-status" role="status" aria-live="polite"></p>
+    </dialog>
+  </body>
+</html>

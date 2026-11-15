@@ -1,0 +1,56 @@
+name: Publish screen review gallery
+on:
+  workflow_dispatch:
+    inputs:
+      bootstrap_run_id:
+        description: Successful existing Pages run, used only before a preservation inventory exists
+        default: "43638541666"
+        required: true
+concurrency:
+  group: red-veil-github-pages
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:review
+      - run: python -m unittest discover -s tests -p 'test_screen_review*.py'
+      - name: Preserve the served game and publish only the review addition
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BASE_RUN_ID: ${{ inputs.bootstrap_run_id }}
+        run: python scripts/prepare_screen_review_site.py --output "$RUNNER_TEMP/komaku-review-site" --bootstrap-run-id "$BASE_RUN_ID"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/komaku-review-site
+          retention-days: 30
+  deploy:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}review/
+    steps:
+      - name: Deploy the preserved site and versioned review gallery
+        id: deployment
+        uses: actions/deploy-pages@v4

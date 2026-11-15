@@ -16,7 +16,8 @@
     "game:run": "godot --path game",
     "game:test": "python3 scripts/test_game.py",
     "game:build": "python3 scripts/build_game.py",
-    "test:pwa": "playwright test --config playwright.web.config.js"
+    "test:pwa": "playwright test --config playwright.web.config.js",
+    "test:review": "playwright test --config playwright.review.config.js"
   },
   "dependencies": {
     "three": "0.181.2"

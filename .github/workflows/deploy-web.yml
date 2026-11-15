@@ -51,6 +51,8 @@ jobs:
           with Path(os.environ["GITHUB_STEP_SUMMARY"]).open("a") as summary:
               summary.write(f"### Verified website inputs\n\nPublished release: `{provenance['native_release_tag']}`\n\nNative source: `{provenance['native_source_commit']}`\n\nWeb packaging source: `{provenance['packaging_source_commit']}`\n\nOriginal Web ZIP SHA-256: `{provenance['native_web_sha256']}`\n\nThis site adds versioned assets and PWA update handling; it is not the original release ZIP unchanged.\n\nExpected site URL after successful deployment: {provenance['expected_pages_url']}\n")
           PY
+      - name: Keep the versioned screen-review gallery available
+        run: python scripts/prepare_screen_review_site.py --existing-site "$RUNNER_TEMP/red-veil-pages"
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ runner.temp }}/red-veil-pages
