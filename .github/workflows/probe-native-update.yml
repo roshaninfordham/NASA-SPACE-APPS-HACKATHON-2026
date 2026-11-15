@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [macos-latest, windows-latest]
-        baseline: ["0.6.0-alpha.1", "0.6.1-alpha.1"]
+        baseline: ["0.6.0-alpha.1", "0.6.1-alpha.1", "0.7.0-alpha.1"]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     steps:
@@ -75,7 +75,7 @@ jobs:
     if: always()
     runs-on: ubuntu-24.04
     steps:
-      - name: Require both public baselines on both native platforms
+      - name: Require all supported public baselines on both native platforms
         env:
           MATRIX_RESULT: ${{ needs.native_update.result }}
         run: test "$MATRIX_RESULT" = success

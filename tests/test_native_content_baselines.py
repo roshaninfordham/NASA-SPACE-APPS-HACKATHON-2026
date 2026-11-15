@@ -22,13 +22,26 @@ class NativeContentBaselinesTest(unittest.TestCase):
     def write_record(self, version, record):
         (self.root / f"docs/evidence/release-{version}.json").write_text(json.dumps(record), encoding="utf-8")
 
-    def test_both_immutable_records_match_independent_pins(self):
-        self.assertEqual(native.DEFAULT_BASELINE, "0.6.1-alpha.1")
-        self.assertEqual(set(native.BASELINES), {"0.6.0-alpha.1", "0.6.1-alpha.1"})
+    def test_all_immutable_records_match_independent_pins(self):
+        self.assertEqual(native.DEFAULT_BASELINE, "0.7.0-alpha.1")
+        self.assertEqual(set(native.BASELINES), {"0.6.0-alpha.1", "0.6.1-alpha.1", "0.7.0-alpha.1"})
         for version, record in self.records.items():
             self.assertEqual(record["version"], version)
             self.assertEqual(record["source_commit"], native.BASELINES[version]["source_commit"])
-            self.assertEqual(len(record["assets"]), 9)
+            self.assertEqual(len(record["assets"]), 10 if version == "0.7.0-alpha.1" else 9)
+
+    def test_science_guide_required_only_for_baselines_that_shipped_it(self):
+        for version, original in self.records.items():
+            with self.subTest(version=version):
+                record = copy.deepcopy(original)
+                filename = f"KOMAKU-Shield-Protocol-{version}-Science-Guide.pdf"
+                if version == "0.7.0-alpha.1":
+                    record["assets"] = [asset for asset in record["assets"] if asset["name"] != filename]
+                else:
+                    record["assets"].append({"name": filename, "bytes": 1, "sha256": "0" * 64})
+                self.write_record(version, record)
+                with patch.object(native, "ROOT", self.root), self.assertRaisesRegex(ValueError, "asset set changed"):
+                    native.baseline_evidence(version)
 
     def test_unknown_baseline_rejected_before_download_or_directory_creation(self):
         folder = self.root / "download"

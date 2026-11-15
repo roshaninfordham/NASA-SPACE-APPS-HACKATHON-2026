@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Test signed content using unchanged public 0.6/0.6.1 Mac/Windows installers.
+"""Test signed content using unchanged public 0.6/0.6.1/0.7 Mac/Windows installers.
 
 Runs only on a fresh native CI runner, refuses an existing player profile, and
 cleans its newly created profile. Staging uses the matching editor with the
@@ -25,10 +25,11 @@ import zipfile
 from verify_baseline_update import bounded_json, expect_journal, version_order, write_harness
 from verify_native_package import app_profile, scene_ready, validate_archive
 from verify_native_update_acceptance import ENGINE, UPDATE_NAMES, digest, validate_artifacts, verify_signature
+from branding import archive_name, supplemental_asset_names
 
 ROOT = Path(__file__).resolve().parent.parent
 REPOSITORY = "roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026"
-DEFAULT_BASELINE = "0.6.1-alpha.1"
+DEFAULT_BASELINE = "0.7.0-alpha.1"
 # Independent immutable identities; evidence files supply the complete asset list.
 BASELINES = {
     "0.6.0-alpha.1": {
@@ -42,6 +43,12 @@ BASELINES = {
         "manifest_sha256": "1f03cb4a0b79b2a86c67e5e4da6209cedd07a2adc2bca2456c1fb66711590175",
         "macOS-universal": "ee444fc6fc11ccef7d62a6d4f151ab5b051b3d42bd7a18f17258a69108364c7d",
         "Windows-x64": "6bb0249dc616528821dc2ec2bad9901b3f643ec2783b22ca2644107ea0872761",
+    },
+    "0.7.0-alpha.1": {
+        "source_commit": "8968859e8ffdcda7b8c0c216ff0262df633400e6",
+        "manifest_sha256": "1da540b47c4f5606aed074417470ebe9c508ab0e03903d12d10f63dfa3d49abf",
+        "macOS-universal": "d132433260479b984981e707f9581c613b5e4117a4e11bccbc59415a6683b353",
+        "Windows-x64": "068106d04e19b605377a564b3f48a90fd26481aac10a3d254903703dfeb33828",
     },
 }
 
@@ -59,7 +66,7 @@ def baseline_evidence(version):
     if evidence.get("version") != version or evidence.get("source_commit") != pinned["source_commit"]:
         raise ValueError("Historical evidence identity changed")
     assets = evidence.get("assets", [])
-    expected_names = {f"KOMAKU-Shield-Protocol-{version}-{suffix}.zip" for suffix in ("macOS-universal", "Windows-x64", "Linux-x64", "Web")} | UPDATE_NAMES | {"release-manifest.json", "SHA256SUMS.txt"}
+    expected_names = {archive_name(version, suffix) for suffix in ("macOS-universal", "Windows-x64", "Linux-x64", "Web")} | UPDATE_NAMES | {"release-manifest.json", "SHA256SUMS.txt"} | supplemental_asset_names(version)
     if not isinstance(assets, list) or len(assets) != len(expected_names):
         raise ValueError("Historical evidence asset set changed")
     names = set()
