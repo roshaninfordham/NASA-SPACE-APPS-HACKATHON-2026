@@ -2,6 +2,22 @@
 
 All published game versions and notable unreleased work are recorded here. The version and source commit in each release manifest identify the exact downloadable build. Documentation on `main` can be newer than an installer.
 
+## [0.8.0-alpha.1] — 2026-11-15
+
+Source snapshot for the final words-only workflow. **Publication and new pace-model integration/release acceptance remain pending** until the exact candidate passes its gates. Historical entries below retain their original scope.
+
+- Introduce a short Mars opening followed by control-room preflight. Set a starting pace and explicitly press START MISSION; all model quantities remain frozen beforehand. Science bubbles and the constellation are optional learning routes.
+- Replace radio/recall controls with SLOWER, FASTER and a seven-step pace slider from 0.25 to 1.75. Fictional fatigue grows above pace 1 and recovers below 1 while cleaning remains; effective work is 0.125 × pace × (1 − fatigue) sections/minute.
+- Run a fixed 30 simulated minutes at a standard sixfold clock. Ren enters automatically at the deadline. There is no walking route, recall, manual work hold or early-entry command.
+- Integrate continuous work into solar generation and actual battery kWh. Remove the prior warning-time energy forecast and reserve target. Classify final cleaned fraction as WIN ≥80%, PASS ≥40%, otherwise LOSE.
+- Use 210 µGy/day as a historical Curiosity reference inside an explicitly authored increasing rate curve. All completed default rounds accumulate 10.9375 µGy; remove lower-dose stars. Keep gray distinct from sievert and omit health/wearable inference.
+- Retain shared navigation, focus/fullscreen recovery, paused science readings, accessible audio/motion settings, the optional advanced lab and local progress boundaries. Preserve earlier quiz identities instead of relabeling past learning records.
+- Add NASA SDO's latest available solar browse image with verified HTTPS, bounded decoding, cache/fallback, publication-age labels and required attribution. The imagery does not change mission equations or score.
+- Update the model guide, science PDF, pitch and captures for the final workflow. Fresh final-workflow fingerprints, numerical audit and integrated evidence must replace earlier radio/recall evidence before release acceptance is claimed.
+- Preserve stable branding/save/update identities, credited audio and original design references. Continue signed desktop content updates, without claiming new compatibility until the actual release bytes are tested.
+
+Mac remains ad-hoc signed without Developer ID/notarization; Windows remains unsigned. Native Android/iOS installers are not provided.
+
 ## [0.7.1-alpha.1] — 2026-11-15
 
 A startup-performance patch for the indoor operator view. Published from `c86ad73da7810176e437e33e192a8d8475ae72a8`. [Validation 43657982759](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43657982759), [signed build/native launch 43657993286](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43657993286), [six native updater jobs 43658356504](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43658356504), and [publication 43658558570](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43658558570) all passed. [Public-file evidence](docs/evidence/release-0.7.1-alpha.1.json) records all ten accepted assets redownloaded and verified, including the 16-page PDF and every ZIP’s versioned `START-HERE.txt`. [Startup measurements and scope](docs/WINDOW-STARTUP-PERFORMANCE.md).

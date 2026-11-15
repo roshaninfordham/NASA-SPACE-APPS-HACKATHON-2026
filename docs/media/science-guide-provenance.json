@@ -1,34 +1,30 @@
 {
   "schema": 1,
-  "reviewed_on": "2026-11-14",
+  "reviewed_on": "2026-11-15",
   "pages": 16,
-  "scope": "Native indoor operator/EVA teaching model and planner source; not NASA endorsement or validated engineering/learning outcomes.",
-  "source_fingerprint": "c06f4c553c5459ab87f96d54d2ca705ea36be324743dadb3053aa9ca0a39e6f2",
+  "scope": "Final 0.8 pace/fatigue workflow only, with a historical radiation baseline and authored ramp. No medical, physiological, engineering, learning-efficacy, or NASA endorsement claim.",
+  "source_fingerprint": "d365c27432dea8124f217182d3506bae4e9650ea04a3f474dba8fd1a313a73f5",
   "sources": {
-    "docs/SCIENCE-GUIDE.md": "441f31fda15fdf2de4396c1b21fde5fb5f07d37390fcfb49c3b82c45c7217a5f",
-    "scripts/build_science_guide.py": "31d5a07b5a386520626afd4f03016364b0216d9ca58b051f613941ea8da36169",
-    "game/scripts/mission.gd": "8f483e340c38d196507022575fa74f510143d0c31d173ad807e7463a58746726",
-    "game/scripts/companion_rescue.gd": "848517bd7a0a510b47fe96fc5e2da5eb5c2cc428dc6fe1ac0d1b4d27f8c5c163",
-    "game/scripts/player.gd": "425a9598e9c71bdc9ea57836e51d4218a1b5fb20840e71ac1be26f73d7f547ac",
-    "game/scripts/game.gd": "054020893cea2a28fc53e259d888db27bc0a99fc0033aac5d9bb88ded1c39a61",
-    "game/scripts/suit_experiments.gd": "f1b678d3a8fa3e8007bf10a7b42d9aa2d3610f5ecc5ae9b3377f277acf43c585",
-    "game/scripts/suit_lab.gd": "fcbc6ded02cace6120523dec881a040715243b6c848c01ddaadf7b3786e0a056",
-    "game/scripts/learning.gd": "50b35a132d485c2846dd4327e6518fc8084f37cbd74835362b8cbfa25158dd0c",
-    "game/scripts/mission_adviser.gd": "4c9a0bb51f8b6adb58f0ba61c8fa5c2f8d44335c8c890c7629d67b6d772b774a",
-    "game/scripts/mission_planner.gd": "42d195928567dccbb3b993fb91c71d05dd83359043842193df5d63e3cf857c27",
-    "game/data/nasa-observations.json": "3cba43b6dd1c723a7d0e686bb205934d7c69c6a3222490e442f5d16873fbca2e",
-    "game/data/lessons.json": "6a2818e7cf8d0f5ed9f80e3feb545bc7cd1079e99a337a8f47ba7c47309f26df",
-    "game/licenses/DejaVu-Font-License.txt": "810205354319c787fc9ede3ba76d03073fd0f62b00b585506e8065355e71e18d",
-    "docs/SCIENCE.md": "8d4566d941eeca891476f0028d5dc6e4d431c68e64221770535e4775484dfd71",
-    "docs/LEARNING-DESIGN.md": "7e3d3298b7f8d7b09d8e04163e51818a946e2f7d61174630d0ea40e63181afe4",
-    "docs/evidence/challenge-source-check.json": "efe5abdb00a63c12462e370b4a450ff7e8ee31fb2ada2d7f1e4d8d78814c8c04"
+    "docs/SCIENCE-GUIDE.md": "6a2545a6f462c05ad6597351321b23867c23c554f62a08b1777ddeef4b70b177",
+    "scripts/build_science_guide.py": "c90ba23c9a85944a7ae0d7abcd58dc3e75e8e521bec400dc7dd49cc01673487a",
+    "game/scripts/pace_mission.gd": "b1ef86e2128e1e3f0fcada91a94b09a9f496954503d542a43ea8f154286bcc8e",
+    "game/data/mission-concepts.json": "1a81eafaf6eeaaeb46662218d45d6f635d5e1a4d61577af262bc4715bca8ef29",
+    "docs/SCIENCE-JOURNEY-SOURCES.md": "eff5122a9e9c40d18c433b07e45fee69c8b461ea306ee641aadb684c3dff386b",
+    "docs/design-specs/FINAL-WORKFLOW.md": "d2006155ffc8834f2e51670e642caa0671b2f0dd17e0a71b51ec1c8a9b8d8f29",
+    "docs/TRAINING-MODEL.md": "140958edb154906085ac28f6931faa9ffeb9f6e8e3c74889f26b0d68cb09a776",
+    "docs/VIDEO-EQUATIONS.md": "a2cc6ee1f3fd19fcddd2b227d94afc6c60d2204a5efd7d206a53077c1c0b92b1",
+    "docs/SOURCE-INDEX.md": "d54858e0911f80ef7dc6af58812658c5935aede7e5b5fc899855ed2c1a3d9673",
+    "docs/LIVE-DATA.md": "fbb973cd390af31dccf1cd26ec6cd77fd951181b731d36d4dab81bf3f5ccddd2",
+    "game/live/solar_feed.gd": "d19d6b54fbf31f204a58b711d813dfa8a60ece161c563df8a1c96fd263b147c0",
+    "game/assets/nasa/sdo-aia-193-provenance.json": "24c613d31236c812542c89194f2ded177415e5695f3c16dbce295677b7ce099d",
+    "game/licenses/DejaVu-Font-License.txt": "810205354319c787fc9ede3ba76d03073fd0f62b00b585506e8065355e71e18d"
   },
   "artifacts": {
-    "docs/media/KOMAKU-Science-Guide.pdf": "58592c32b3ef1ef4c21d463fe74a998a718ac6822f4a05251f4a0098c03c81f4",
-    "docs/media/science-guide-systems.png": "2123893a852cfca6ebf880f67a9e9bce0b6f3bf059e63bc9e59c0d4682809cc3",
-    "docs/media/science-guide-dust.png": "5277d34ef933b240fd2bf45679bae061a528fbee9479f8ed6a39c12e7d0b05c9",
-    "docs/media/science-guide-loads.png": "941c332837d50fd78e76085fb94567bbff56c71cfc2090c2f7a21a9369233534",
-    "docs/media/science-guide-weather.png": "fe8108a28a4b7f904bb6ffecb53289253d7b7884fcb46d0ca59262d3aa464c6e"
+    "docs/media/KOMAKU-Science-Guide.pdf": "16608f88304f09067317e60760619148a567238ffc6232a9d1584e9eff9f38ec",
+    "docs/media/science-guide-journey.png": "5fa288bac1bb84a44e9a9932688c44f856df6e9cb7978616e531cb06fec2a841",
+    "docs/media/science-guide-dose.png": "e71764f41b698d757047af13dca6a48f524ad7048c1f36151222afde3fcd3065",
+    "docs/media/science-guide-energy.png": "60f5463134e742353939f11d883352e72476cdf4b9ad2369225b16cabb2c638e",
+    "docs/media/science-guide-plans.png": "49f74a56f71bc5bcb63a31fc60787d345182263ebbf0f70e07dd36a9010410eb"
   },
   "build": {
     "command": "python3 scripts/build_science_guide.py",
@@ -47,18 +43,8 @@
     "text_and_image_bounds": "passed",
     "searchable_macron_each_page": "passed",
     "font_notice_attachment": "DejaVu-Font-License.txt extracted and matched byte-for-byte to the source notice.",
-    "visual_review": {
-      "reviewed_on": "2026-11-15",
-      "body_text_compared_pages": [
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
-      ],
-      "rendered_pages": [16],
-      "method": "All 16 page bodies match the previous committed PDF exactly after ignoring the shared source-fingerprint footer. The updated sources page and shared footer were rendered at 1.3x and visually inspected.",
-      "pdf_sha256": "58592c32b3ef1ef4c21d463fe74a998a718ac6822f4a05251f4a0098c03c81f4"
-    },
-    "citation_links": 7,
-    "repeat_build": "Two consecutive builds with the performance-patch sources produced byte-identical PDFs, including the exact embedded font notice.",
-    "source_changes_since_previous_guide": ["game/scripts/game.gd"]
-  },
-  "regenerated_on": "2026-11-15"
+    "visual_review": "All 16 final pace-workflow pages rendered and visually inspected after frozen runtime and source-document integration; figures, seven-pace comparisons, formulas, tables, source links, and footers are readable and unclipped.",
+    "deterministic_rebuild": "Repeated build produced byte-identical PDF and all four figures.",
+    "https_links": 12
+  }
 }

@@ -12,7 +12,7 @@ func capture() -> void:
 		if args[i] == "--view": view = args[i + 1]
 		if args[i] == "--output": output = args[i + 1]
 	root.size = Vector2i(1670, 941)
-	var game = load("res://main.tscn").instantiate()
+	var game = load("res://legacy_mission.tscn").instantiate()
 	root.add_child(game)
 	await process_frame
 	if view != "title":

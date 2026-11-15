@@ -1,0 +1,16 @@
+{
+  "source_url": "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_512_0193.jpg",
+  "source_page_url": "https://sdo.gsfc.nasa.gov/data/",
+  "http_status": 200,
+  "content_type": "image/jpeg",
+  "file_updated_utc": "Sun, 15 Nov 2026 04:53:06 GMT",
+  "bytes": 46464,
+  "sha256": "22959b1772e4b49fd9fd3bf6c917b11170f7d454cb045cad67907b05ede0ab26",
+  "width": 512,
+  "height": 512,
+  "credit": "Courtesy of NASA/SDO and the AIA, EVE, and HMI science teams.",
+  "policy_url": "https://sdo.gsfc.nasa.gov/data/rules.php",
+  "retrieved_utc": "2026-11-15T05:00:55.578635+00:00",
+  "purpose": "Bundled educational fallback; not live and not used for quantitative scientific analysis or mission parameters.",
+  "publication_time_note": "HTTP Last-Modified is publication metadata, not a verified observation time."
+}

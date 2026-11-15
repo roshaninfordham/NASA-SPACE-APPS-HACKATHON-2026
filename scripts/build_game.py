@@ -18,7 +18,7 @@ from sign_update import REPOSITORY, RUNTIME_CONTRACT, sign_pack, valid_version, 
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "releases"
-DOCS = ["CREDITS.md", "CHANGELOG.md", "docs/DOWNLOADS.md", "docs/MACOS-LAUNCH-REPAIR.md", "docs/MISSION-PLANNER.md", "docs/PERFORMANCE.md", "docs/SCIENCE.md", "docs/LEARNING-DESIGN.md", "docs/TEAM-STATUS.md", "docs/UPDATES.md", "docs/SPEC-IMPLEMENTATION.md"]
+DOCS = ["CREDITS.md", "CHANGELOG.md", "docs/DOWNLOADS.md", "docs/MACOS-LAUNCH-REPAIR.md", "docs/TRAINING-MODEL.md", "docs/SCIENCE-JOURNEY-SOURCES.md", "docs/AUDIO-CREDITS.md", "docs/LIVE-DATA.md", "docs/SOURCE-INDEX.md", "docs/VIDEO-PITCH.md", "docs/VIDEO-EQUATIONS.md", "docs/media/KOMAKU-Video-Equations.pdf", "docs/NAVIGATION.md", "docs/MISSION-PLANNER.md", "docs/PERFORMANCE.md", "docs/SCIENCE.md", "docs/LEARNING-DESIGN.md", "docs/TEAM-STATUS.md", "docs/UPDATES.md", "docs/SPEC-IMPLEMENTATION.md"]
 UPDATE_ASSETS = {"red-veil-content.pck", "update-manifest.json", "update-manifest.sig"}
 METADATA_ASSETS = {"release-manifest.json", "SHA256SUMS.txt"}
 
@@ -53,16 +53,24 @@ Linux: run KOMAKU-Shield-Protocol.x86_64.
 Web archive: serve index.html over HTTP(S), as explained in DOWNLOADS.md.
 
 FIRST MISSION
-Start inside mission control. Mira is the astronaut outside the window.
-WASD moves inside; mouse looks. Tab pauses and enables cursor controls.
-1: panel cleaner. 2: save base power. 3: guide Mira home.
-After Mira enters, keep the base powered through the storm.
-Explore has no timer. Learn & more contains the optional Outdoor EVA mission.
+Follow the short Mars story into the control-room window.
+Set a starting pace, then press START MISSION (or Enter).
+1: SLOWER. 3: FASTER. The slider selects the same cleaning effort.
+High effort builds game tiredness; gentler effort restores it.
+Ren steps inside automatically when the countdown ends. There is no walk.
+All controls also work by click/touch. No microphone is required.
+Science cards and Pause stop the mission clock. Escape leaves fullscreen
+first and pauses; another Escape closes one panel or offers Resume.
+Settings has music, sound effects, reduced motion and relaxed/quick pacing.
+Debrief connects your actual run to four equations and an optional quiz.
+Home > Advanced lab retains the earlier Mira/EVA mission separately.
 
 UPDATES AND SCIENCE
 Compatible desktop updates appear at a safe menu on a fresh launch:
 Update available → Install → Restart. Engine changes need a new installer.
 Read KOMAKU-Science-Guide.pdf for equations, data and teaching assumptions.
+Live Sun shows NASA SDO imagery with timestamps; cached imagery works offline.
+Its latest image is educational context, not a Mars radiation prediction.
 This is a learning-game alpha, not certified astronaut training.
 
 VERSION AND SUPPORT
@@ -75,6 +83,9 @@ made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC
     archive.write(ROOT / "docs/media/KOMAKU-Science-Guide.pdf", "KOMAKU-Science-Guide.pdf")
     for file in DOCS:
         archive.write(ROOT / file, Path(file).name)
+        if Path(file).parent != Path("."):
+            # Retain the original docs hierarchy as well as convenient root copies.
+            archive.write(ROOT / file, file)
     for file in (ROOT / "game/licenses").iterdir():
         archive.write(file, "licenses/" + file.name)
 

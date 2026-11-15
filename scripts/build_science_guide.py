@@ -22,23 +22,47 @@ PROVENANCE = ROOT / "docs/media/science-guide-provenance.json"
 SOURCES = [
     "docs/SCIENCE-GUIDE.md",
     "scripts/build_science_guide.py",
-    "game/scripts/mission.gd",
-    "game/scripts/companion_rescue.gd",
-    "game/scripts/player.gd",
-    "game/scripts/game.gd",
-    "game/scripts/suit_experiments.gd",
-    "game/scripts/suit_lab.gd",
-    "game/scripts/learning.gd",
-    "game/scripts/mission_adviser.gd",
-    "game/scripts/mission_planner.gd",
-    "game/data/nasa-observations.json",
-    "game/data/lessons.json",
+    "game/scripts/pace_mission.gd",
+    "game/data/mission-concepts.json",
+    "docs/SCIENCE-JOURNEY-SOURCES.md",
+    "docs/design-specs/FINAL-WORKFLOW.md",
+    "docs/TRAINING-MODEL.md",
+    "docs/VIDEO-EQUATIONS.md",
+    "docs/SOURCE-INDEX.md",
+    "docs/LIVE-DATA.md",
+    "game/live/solar_feed.gd",
+    "game/assets/nasa/sdo-aia-193-provenance.json",
     "game/licenses/DejaVu-Font-License.txt",
-    "docs/SCIENCE.md",
-    "docs/LEARNING-DESIGN.md",
-    "docs/evidence/challenge-source-check.json",
 ]
-FIGURES = ["systems", "dust", "loads", "weather"]
+# The current guide covers the final pace workflow, not retained legacy engines.
+FIGURES = ["journey", "dose", "energy", "plans"]
+PAGE_COUNT = 16
+
+
+def pace_defaults() -> dict:
+    """Read authoritative numeric settings without executing GDScript."""
+    source = (ROOT / "game/scripts/pace_mission.gd").read_text()
+    block = re.search(r"const DEFAULTS := (\{.*?\n\})", source, flags=re.S)
+    if not block:
+        raise AssertionError("Pace-model defaults could not be found")
+    values = json.loads(re.sub(r",\s*}", "}", block.group(1)))
+    expected = {
+        "warning_seconds": 1800.0, "time_scale": 6.0,
+        "base_cleaning_rate_sections_per_minute": 0.125, "max_sections": 4,
+        "initial_fatigue": 0.0, "fatigue_max": 0.9,
+        "fatigue_growth_per_minute": 0.08, "fatigue_recovery_per_minute": 0.12,
+        "clear_solar_power_kw": 8.0, "minimum_solar_transmission": 0.25,
+        "habitat_load_kw": 1.0, "initial_battery_kwh": 0.5,
+        "battery_capacity_kwh": 6.0, "background_dose_ugy_per_day": 210.0,
+        "dose_reference_day_seconds": 86400.0, "radiation_ramp_multiplier": 3.0,
+        "win_clean_fraction": 0.8, "pass_clean_fraction": 0.4,
+    }
+    multipliers = re.search(r"const CLEANING_MULTIPLIERS := (\[[^\]]+\])", source)
+    if not multipliers or json.loads(multipliers.group(1)) != [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75]:
+        raise AssertionError("Pace choices changed; review the guide comparisons")
+    if values != expected:
+        raise AssertionError("Pace defaults changed; update worked examples before rebuilding")
+    return values
 
 
 def sha(path: Path) -> str:
@@ -70,7 +94,8 @@ def check() -> int:
         print("Science guide is stale:\n- " + "\n- ".join(failures), file=sys.stderr)
         print("Run python3 scripts/build_science_guide.py and review the PDF.", file=sys.stderr)
         return 1
-    print(f"Science guide provenance verified: {len(SOURCES)} sources, PDF and 4 figures.")
+    pace_defaults()
+    print(f"Science guide provenance verified: {len(SOURCES)} sources, PDF and {len(FIGURES)} figures.")
     return 0
 
 
@@ -103,54 +128,86 @@ def build() -> None:
                          "axes.spines.top": False, "axes.spines.right": False,
                          "axes.labelcolor": "#352633", "text.color": "#352633",
                          "xtick.color": "#57424a", "ytick.color": "#57424a"})
-    wine, teal, rose, gold = "#59283e", "#177b85", "#bd647b", "#d29a53"
+    wine, teal, rose, gold = "#172f46", "#087b85", "#ab4662", "#b77a25"
+    model = pace_defaults()
 
     def save(fig, name):
         fig.savefig(media / f"science-guide-{name}.png", dpi=170, bbox_inches="tight",
                     facecolor="#fffdfb", metadata={"Software": "KOMAKU science guide"})
         plt.close(fig)
 
+    fig, ax = plt.subplots(figsize=(8, 2.45))
+    ax.set(xlim=(0, 12), ylim=(0, 3)); ax.axis("off")
+    nodes = [(0.1, "STORY", "Year 2059\nA reason to help", wine),
+             (3.1, "PREFLIGHT", "Explore if you want\nSet pace → START", teal),
+             (6.1, "CHOOSE PACE", "Watch work + effort\nAutomatic entry", wine),
+             (9.1, "CONNECT", "Your run → equations\nExplain + try again", teal)]
+    for x, title, label, colour in nodes:
+        ax.add_patch(FancyBboxPatch((x, 1.05), 2.65, 1.5, boxstyle="round,pad=0.08", fc=colour, ec="none"))
+        ax.text(x + 1.325, 2.16, title, color="white", ha="center", weight="bold", fontsize=9)
+        ax.text(x + 1.325, 1.58, label, color="white", ha="center", va="center", fontsize=8.5)
+    for x in [2.83, 5.83, 8.83]:
+        ax.add_patch(FancyArrowPatch((x, 1.8), (x + 0.23, 1.8), arrowstyle="->", mutation_scale=11, color=gold, lw=1.5))
+    ax.text(6, 0.42, "Eight optional science ideas. Reading pauses the mission; review never gates Start.", ha="center", fontsize=9)
+    save(fig, "journey")
+
+    deadline = model["warning_seconds"] / 60
+    minutes = [i / 10 for i in range(int(deadline * 10) + 1)]
+    day_minutes = model["dose_reference_day_seconds"] / 60
+    baseline = model["background_dose_ugy_per_day"]
+    ramp = model["radiation_ramp_multiplier"]
+    def dose(t):
+        return baseline / day_minutes * (t + ramp * t*t / (2*deadline))
     fig, ax = plt.subplots(figsize=(8, 2.7))
-    ax.set(xlim=(0, 10), ylim=(0, 3)); ax.axis("off")
-    nodes = [(0.3, 1.5, "HABITAT", "Solar → habitat battery\nClean panels · save power", wine),
-             (3.7, 1.5, "CREWMATE", "Suit battery → life support\nReturn · cycle · enter", teal),
-             (7.1, 1.5, "VISOR", "Suit battery → cleaner\nInspection benefit in EVA", wine)]
-    for x, y, title, text, colour in nodes:
-        ax.add_patch(FancyBboxPatch((x, y - 0.6), 2.6, 1.3, boxstyle="round,pad=0.12", fc=colour, ec="none"))
-        ax.text(x + 1.3, y + 0.35, title, color="white", ha="center", weight="bold", fontsize=11)
-        ax.text(x + 1.3, y - 0.13, text, color="white", ha="center", va="center", fontsize=9)
-    for x in [3.0, 6.4]:
-        ax.add_patch(FancyArrowPatch((x, 1.5), (x + 0.55, 1.5), arrowstyle="<->", mutation_scale=18, color=gold, lw=2))
-    ax.text(5, 0.25, "One decision changes another. The two batteries remain separate.", ha="center", fontsize=11)
-    save(fig, "systems")
+    ax.plot(minutes, [dose(t) for t in minutes], color=teal, lw=2.5)
+    ax.scatter([deadline], [dose(deadline)], color=rose, s=45, zorder=4)
+    ax.annotate(f"All completed rounds: {dose(deadline):.4f} µGy", (deadline, dose(deadline)),
+                xytext=(3, 9.8), arrowprops={"arrowstyle":"->", "color":rose}, color=wine)
+    ax.set(xlabel="Simulated minutes outside", ylabel="Absorbed model dose (µGy)",
+           xlim=(0,30.8), ylim=(0,12), title="Historical baseline + authored rising rate; no health threshold")
+    ax.grid(alpha=.17); fig.tight_layout(); save(fig, "dose")
 
-    fig, axes = plt.subplots(1, 2, figsize=(8, 2.8))
-    ts = [i / 100 for i in range(401)]
-    axes[0].plot(ts, [math.exp(-x / 0.8) * 100 for x in ts], color=teal, lw=2.5)
-    axes[0].set(xlabel="Air opacity τ (μ fixed at 0.8)", ylabel="Direct transmission (%)", ylim=(0, 105), title="Airborne dust")
-    ds = [i / 100 for i in range(96)]
-    axes[1].plot(ds, [(1 - x) * 100 for x in ds], color=rose, lw=2.5)
-    axes[1].set(xlabel="Deposited panel dust fraction", ylabel="Surface factor (%)", ylim=(0, 105), title="Surface dust")
-    for ax in axes: ax.grid(alpha=0.16)
-    fig.tight_layout(); save(fig, "dust")
+    initial_power = model["clear_solar_power_kw"] * model["minimum_solar_transmission"]
+    slope = model["clear_solar_power_kw"] * (1-model["minimum_solar_transmission"]) / model["max_sections"]
+    def constant_pace(t, u):
+        # Exact independent constant-pace solution, with a split at F_max.
+        # None of these seven default constant plans reaches the work cap by T.
+        k = model["base_cleaning_rate_sections_per_minute"] * u
+        growth = model["fatigue_growth_per_minute"] * max(u-1, 0)
+        active = min(t, model["fatigue_max"] / growth) if growth else t
+        rest = t-active
+        f = growth*active
+        w_at_bound = k*(active - growth*active*active/2)
+        work = w_at_bound + k*(1-f)*rest
+        integral_work = k*(active*active/2 - growth*active**3/6) + w_at_bound*rest + k*(1-f)*rest*rest/2
+        if work > model["max_sections"] + 1e-8:
+            raise AssertionError("Guide constant plan reached a new work boundary; revise plot integrator")
+        energy = model["initial_battery_kwh"] + ((initial_power-model["habitat_load_kw"])*t+slope*integral_work)/60
+        return work, min(model["battery_capacity_kwh"],max(0,energy)), f
+    choices = [0.25,0.5,0.75,1,1.25,1.5,1.75]
+    expected = [(0.9375,1.3515625),(1.875,1.703125),(2.8125,2.0546875),(3.75,2.40625),(3.28125,2.40625),(2.4609375,2.27880859375),(2.1328125,2.1689453125)]
+    for u, (work, energy) in zip(choices,expected):
+        actual = constant_pace(deadline,u)
+        if abs(actual[0]-work)>1e-10 or abs(actual[1]-energy)>1e-10:
+            raise AssertionError("Guide's independent constant-pace comparison changed")
 
-    fig, ax = plt.subplots(figsize=(8, 2.5))
-    loads = [1.30, 2.20, 0.67, 1.57]
-    bars = ax.barh(["Normal / off", "Normal / on", "Save / off", "Save / on"], loads, color=[wine, rose, teal, gold])
-    solar = 4.8 * .75 * math.exp(-.25 / .65) * .72
-    ax.axvline(solar, color=teal, ls="--", lw=1.5, label=f"Initial solar ≈ {solar:.3f} kW")
-    for bar, value in zip(bars, loads): ax.text(value + .04, bar.get_y() + bar.get_height()/2, f"{value:.2f}", va="center", fontsize=9)
-    ax.set(xlabel="Electrical load (kW)", xlim=(0, 2.75)); ax.invert_yaxis(); ax.legend(frameon=False, loc="lower right", fontsize=9)
-    fig.tight_layout(); save(fig, "loads")
+    fig, ax = plt.subplots(figsize=(8, 2.9))
+    for u, colour, dash in [(1,teal,"-"),(1.25,gold,"--"),(1.75,rose,"-.")]:
+        ax.plot(minutes,[constant_pace(t,u)[1] for t in minutes],color=colour,ls=dash,lw=2.2,label=f"Constant pace {u:g}×")
+    ax.set(xlabel="Mission minutes",ylabel="Actually stored energy (kWh)",xlim=(0,30),ylim=(0.4,2.65),title="Integrate the whole power history; these are not forecasts")
+    ax.legend(frameon=False,fontsize=8,loc="upper left"); ax.grid(alpha=.17)
+    fig.tight_layout(); save(fig,"energy")
 
-    fig, ax = plt.subplots(figsize=(8, 2.7))
-    times = [i / 50 for i in range(601)]
-    storm = [math.sin(math.pi * min(1, max(0, (t - 1)/10))) ** 2 for t in times]
-    ax.plot(times, storm, color=wine, lw=2.5, label="Synthetic dust strength s")
-    ax.axvspan(4, 7, color=gold, alpha=.25, label="Independent particle event")
-    ax.set(xlabel="Simulated hours (12 h = 4 real min at normal speed)", ylabel="Storm strength", xlim=(0,12), ylim=(0,1.13))
-    ax.legend(loc="upper left", frameon=False, fontsize=9); ax.grid(alpha=.15)
-    fig.tight_layout(); save(fig, "weather")
+    fig, ax = plt.subplots(figsize=(8, 3.1))
+    clean = [100*constant_pace(deadline,u)[0]/model["max_sections"] for u in choices]
+    colours = [teal if c>=80 else gold if c>=40 else rose for c in clean]
+    positions=list(range(len(choices)))
+    ax.barh(positions,clean,color=colours,height=.63)
+    ax.axvline(40,color=wine,ls=":",lw=1.4,label="PASS boundary: 40%")
+    ax.axvline(80,color=wine,ls="--",lw=1.4,label="WIN boundary: 80%")
+    ax.set(yticks=positions,yticklabels=[f"Pace {u:g}×" for u in choices],xlabel="Panel cleaned after the same 30-minute round (%)",xlim=(0,100))
+    ax.invert_yaxis(); ax.legend(frameon=False,fontsize=8,loc="lower left",bbox_to_anchor=(0,1.01),ncol=2)
+    fig.tight_layout(); save(fig,"plans")
 
     source_hashes = {name: sha(ROOT / name) for name in SOURCES}
     fingerprint = hashlib.sha256(json.dumps(source_hashes, sort_keys=True).encode()).hexdigest()
@@ -179,11 +236,11 @@ def build() -> None:
     content = SOURCE.read_text()
     pieces = re.split(r"^## (.+)$", content, flags=re.M)
     pages = [(pieces[i], pieces[i+1]) for i in range(1, len(pieces), 2)]
-    if len(pages) != 16: raise AssertionError(f"Expected 16 designed pages, found {len(pages)}")
+    if len(pages) != PAGE_COUNT: raise AssertionError(f"Expected {PAGE_COUNT} designed pages, found {len(pages)}")
     pdf = canvas.Canvas(str(PDF), pagesize=(width, height), invariant=1, pageCompression=1, pdfVersion=(1, 7))
     pdf.setTitle("KŌMAKU: Shield Protocol — The science inside the game")
     pdf.setAuthor("Team Roshan Xingbo")
-    pdf.setSubject("Native teaching model. Source fingerprint " + fingerprint + "; source hashes " + json.dumps(source_hashes, sort_keys=True))
+    pdf.setSubject("0.8 science journey with retained legacy appendix. Source fingerprint " + fingerprint + "; source hashes " + json.dumps(source_hashes, sort_keys=True))
     pdf.setKeywords("KOMAKU, Mars, science, energy, learning, teaching model")
 
     def draw(flow, y, gap=8):
@@ -245,13 +302,13 @@ def build() -> None:
                 while i<len(lines) and lines[i].strip() and not lines[i].startswith(("### ","|","```","![")):
                     if re.match(r"\d+\. ",lines[i]): break
                     paragraph.append(lines[i].strip());i+=1
-                style=styles["small"] if page_no==16 else styles["body"]
+                style=styles["small"] if page_no in (12,16) else styles["body"]
                 y=draw(Paragraph(inline(" ".join(paragraph)),style),y,8)
         pdf.setStrokeColor(colors.HexColor("#ded1d6"));pdf.setLineWidth(.5);pdf.line(left,58,width-right,58)
         pdf.setFont("Guide",6.8);pdf.setFillColor(colors.HexColor("#66515a"))
         pdf.drawString(left,45,"made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC")
-        pdf.setFont("GuideMono",6.8);pdf.drawString(left,32,"MODEL REVIEW 2026-11-14  ·  " + fingerprint[:12])
-        pdf.setFont("GuideBold",8);pdf.drawRightString(width-right,32,f"{page_no:02d} / 16")
+        pdf.setFont("GuideMono",6.8);pdf.drawString(left,32,"GUIDE REVIEW 2026-11-15  ·  " + fingerprint[:12])
+        pdf.setFont("GuideBold",8);pdf.drawRightString(width-right,32,f"{page_no:02d} / {PAGE_COUNT}")
         pdf.showPage()
     pdf.save()
 
@@ -275,7 +332,7 @@ def build() -> None:
 
     # Validate final page count, searchable macron, and every text/image bounding box.
     document=fitz.open(PDF)
-    if len(document)!=16: raise AssertionError(f"Unexpected PDF page count: {len(document)}")
+    if len(document)!=PAGE_COUNT: raise AssertionError(f"Unexpected PDF page count: {len(document)}")
     for number,page in enumerate(document,1):
         text=page.get_text()
         if "KŌMAKU" not in text: raise AssertionError(f"Brand glyph missing on page {number}")
@@ -284,24 +341,24 @@ def build() -> None:
             x0,y0,x1,y1=block["bbox"]
             if x0< -0.5 or y0< -0.5 or x1>width+.5 or y1>height+.5:
                 raise AssertionError(f"Out-of-page block on page {number}: {block['bbox']}")
-        if not re.search(rf"{number:02d} / 16",text): raise AssertionError("Page footer missing")
+        if not re.search(rf"{number:02d} / {PAGE_COUNT}",text): raise AssertionError("Page footer missing")
     if document.embfile_names() != [notice_name]: raise AssertionError("Font notice attachment missing")
     if document.embfile_get(notice_name) != notice: raise AssertionError("Font notice bytes differ from upstream notice")
     document.close()
     artifacts={str(PDF.relative_to(ROOT)):sha(PDF)}
     artifacts.update({f"docs/media/science-guide-{name}.png":sha(media/f"science-guide-{name}.png") for name in FIGURES})
     versions={name:importlib.metadata.version(name) for name in ["reportlab","matplotlib","Pillow","PyMuPDF"]}
-    provenance={"schema":1,"reviewed_on":"2026-11-14","pages":16,
-        "scope":"Native indoor operator/EVA teaching model and planner source; not NASA endorsement or validated engineering/learning outcomes.",
+    provenance={"schema":1,"reviewed_on":"2026-11-15","pages":PAGE_COUNT,
+        "scope":"Final 0.8 pace/fatigue workflow only, with a historical radiation baseline and authored ramp. No medical, physiological, engineering, learning-efficacy, or NASA endorsement claim.",
         "source_fingerprint":fingerprint,"sources":source_hashes,"artifacts":artifacts,
         "build":{"command":"python3 scripts/build_science_guide.py","dependencies":versions,
             "fonts":"DejaVu Sans, DejaVu Sans Bold, DejaVu Sans Mono (embedded TrueType)",
             "deterministic_pdf":True,"network_requests":False},
-        "validation":{"page_count":16,"text_and_image_bounds":"passed","searchable_macron_each_page":"passed",
+        "validation":{"page_count":PAGE_COUNT,"text_and_image_bounds":"passed","searchable_macron_each_page":"passed",
             "font_notice_attachment":"DejaVu-Font-License.txt extracted and matched byte-for-byte to the source notice.",
             "visual_review":"Required separately after regeneration; automated checks do not assess visual quality."}}
     PROVENANCE.write_text(json.dumps(provenance,indent=2,ensure_ascii=False)+"\n")
-    print(f"Built {PDF.relative_to(ROOT)} ({PDF.stat().st_size:,} bytes), 16 pages; layout/glyph checks passed.")
+    print(f"Built {PDF.relative_to(ROOT)} ({PDF.stat().st_size:,} bytes), {PAGE_COUNT} pages; layout/glyph checks passed.")
 
 
 if __name__ == "__main__":

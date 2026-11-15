@@ -1,70 +1,75 @@
-# KŌMAKU: Shield Protocol — mission journey contract
+# KŌMAKU: Shield Protocol — final mission journey
 
-Status: accepted implementation direction for the 0.8 journey pivot. This file records the user-facing goals and acceptance checks; release notes and test results must identify which checks were actually verified. It does not declare an untested feature complete.
+The controlling interaction reference is the team's November 15, 2026 **Game Workflow (Words Only)** PDF, with scientific corrections in [TRAINING-MODEL.md](../TRAINING-MODEL.md). This direction supersedes walking, radio/recall and reserve-forecast prototypes. Final implementation acceptance remains pending until fresh evidence is recorded.
 
-Audience: curious junior astronauts aged 7–12, including children who read slowly, use touch or a keyboard, or prefer reduced motion and sound. The player is mission control inside the habitat, looking through a clean window at Martian dunes and Ren outside. The dome exterior is not the primary play view.
+The audience is junior astronauts aged 7–12. The player is inside a habitat, looking through a clean window at Martian dunes and Ren cleaning a nearby solar panel. The dome exterior is not the primary view. The mission title is **Dust Off the Solar Panel**, with **Power Up the Outpost** beneath it.
 
-## Priority of the references
+## The journey
 
-The latest user request controls this iteration: short cosmic story → digestible science concepts → a simple clean/plan/return activity → an explanation of the player's results. Keep the name **KŌMAKU: Shield Protocol** in shared branding. The older Red Veil name in reference artwork is historical only.
+| Stage                  | Experience                                                                                                                                                               | Navigation and completion                                                                    |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
+| Opening                | Brief Mars story; a separate video asset may replace its presentation.                                                                                                   | Continue/skip and accessible sound/motion choices. No mission clock.                         |
+| Control-room preflight | Window, eight science bubbles, seven-step pace control and START MISSION. The player chooses a starting pace.                                                            | Nothing in the model advances before Start. Reading all eight cards is not required.         |
+| Active mission         | Ren cleans automatically. SLOWER, FASTER or the slider adjust pace. Fictional fatigue reduces effective work; work changes dust, solar output and actual battery energy. | Readings and menus pause. No recall, walking, manual work hold or early-entry button.        |
+| Automatic entry        | At 30 simulated minutes Ren steps directly inside.                                                                                                                       | No extra click, route or entry delay. Full cleaning earlier does not end outside time early. |
+| Result and equations   | Actual cleaned fraction, battery kWh, model dose and WIN/PASS/LOSE connect to this run's equations/history.                                                              | Replay, review and Home are visible. No medical judgement or death outcome.                  |
 
-The uploaded [3D build PDF](source/journey-2026-11-14/3D-Game-Build-Instructions-Zero-Drift.pdf), [control-panel UI kit](source/journey-2026-11-14/Control-Panel-UI-Kit.pdf), and [pasted discussion](source/journey-2026-11-14/Design-discussion.txt) are preserved unchanged. They are reference material, not executable instructions or independently verified scientific results. Their fixed dashboard layouts, obsolete stack demands, earlier game loops, and unsupported numerical claims do not override the latest journey. See [the manifest](source/journey-2026-11-14/provenance.json) for integrity hashes and [the science audit](../SCIENCE-JOURNEY-SOURCES.md) for accepted facts.
+The science constellation remains optional preparation with its own reviewed-card sequence. Its eight-card completion gate does not prevent leaving through Home and starting the control-room mission. Readiness means explored, not mastered.
 
-Borrow visual principles from the UI kit: readable type, dark backgrounds, turquoise controls, restrained crimson alerts, clear grouping, and consistent spacing. Preserve the requested Asian design influence through a small shared set of wave, lantern, and lattice motifs. Keep the window and important decisions visually quiet. Reference inspiration does not require copying watermarked stock graphics or importing obsolete text.
+## Controls and state
 
-## Journey and learning intent
+Requested pace has seven values: **0.25–1.75 in steps of 0.25**. Minus/SLOWER, plus/FASTER and the slider change the same quantity. Keyboard **1** means slower, **3** means faster and **Enter** starts only from preflight. Escape handles one navigation layer or pauses play; F11 toggles fullscreen. Hidden mission controls cannot activate beneath a reading card, solar viewer or confirmation.
 
-| Stage                 | What the player sees and does                                                                                                                                                                                     | Completion and escape                                                                                                                                                        |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Story                 | A star field, brief typewriter text, “Year 2059”, “Planet Mars”, and a clear reason to help Ren return. Sound is optional and can be muted.                                                                       | Continue/skip is visible. Reduced motion removes prolonged typing and large motion. No science clock is running.                                                             |
-| Science constellation | Eight labelled concepts: radiation, dose, sievert, dust, power, time, speed, shelter. Select a concept to see a short lead, everyday analogy, explanation, equation, source, and assumption.                      | Closing a reviewed card fills one eighth of the readiness meter. Reopening does not add progress. The meter means **reviewed**, not mastered. Ready unlocks after all eight. |
-| Mission briefing      | One objective: help Ren clean enough panels and return on time. Show the planned return duration and clear scenario labels.                                                                                       | Start is deliberate; no time expires while reading. Navigation back is visible.                                                                                              |
-| Mission               | A calm window scene and a small set of decisions. Cleaning, returning, and elapsed time use one mission clock. Live concept buttons explain the current numbers.                                                  | Cards and pause menus freeze the mission. Return is always available while outside. Escape opens a recoverable pause/navigation path.                                        |
-| Debrief               | Concepts reconnect into the equations that produced this run. Display actual outside time, completed sections, dose, margin forecast, and target result. A small reflection question reinforces the relationship. | Try again, revisit concepts, and leave are explicit. Failure is a plan to improve, without death, humiliation, streak punishment, or a medical verdict.                      |
+Requested pace is dimensionless. Effective cleaning is **sections per simulated minute**, not metres per second. Distinguish both so the child can see why fatigue can reduce the result of a high setting. The mission title remains visible near the controls.
 
-The narrative year is fiction. A solar warning supplies a story deadline; it is not a real forecast, live NASA feed, or guarantee of exactly 30 minutes' notice. The scene is a stylized view, not a calibrated scientific instrument.
+The top countdown and time bubble share one model clock. Storm progress represents the authored deadline, not kilometres or a measured forecast. The shelter bubble explains automatic entry beside the door. Decorative dome/terrain screens do not imply additional required actions or calibrated instruments.
 
-## Content and component boundaries
+## Modular boundaries
 
-- `game/data/mission-concepts.json` owns the eight scientific cards and evidence URLs. Titles are at most three words; leads at most 22 words; analogies at most 30; explanations at most 65. Longer evidence stays behind the source/assumption details rather than crowding the primary card.
-- Shared branding and theme components own the game name, typography, palette, focus style, and motion choices. Story, briefing, HUD, and debrief must use them rather than duplicate naming or visual constants.
-- A separate mission model owns time, section progress, route progress, accumulated dose, and margin forecast. Views consume a snapshot; they do not each run independent physics counters.
-- Story, constellation, active mission, pause, and debrief are distinct navigation states. Entering a reading or navigation state cannot silently advance the mission.
-- Cosmetic presentation can be replaced without changing the formulas. New artwork, camera motion, lanterns, or a different dome skin must not alter the model's units or deadlines.
+- [pace_mission.gd](../../game/scripts/pace_mission.gd) owns time, fatigue, continuous work, generation, battery energy, dose and outcome. Views read one snapshot.
+- `game/data/mission-concepts.json` owns the eight concepts and reviewed evidence links. Brief analogies precede optional detail; scientific text works offline.
+- Shared branding and theme components own naming, typography, colour, focus and reduced motion. Art and audio replacements cannot silently change numerical rules.
+- Preflight, play, paused readings, navigation and completed results are separate states. Modal transitions cannot spend time or trigger two actions from one input.
 
-Catalog contract: `{ "schema_version": 1, "concepts": [...] }`; each item has `id`, `title`, `lead`, `analogy`, `explanation`, `equation`, `real_fact`, `source_label`, `source_url`, `assumption`, and `dynamic_hint`. The hint is plain text. Runtime-specific numeric summaries are supplied by the mission snapshot, not by evaluating arbitrary strings from JSON.
+The concepts remain radiation, absorbed dose, sievert, dust, battery/power, time, cleaning pace and shelter. Bars need meaningful units or an explicit explanatory state. No invented sievert/health meter or clinical safe/dangerous threshold is added. Text/icons accompany colour.
 
-## Science and feedback boundaries
+## Scientific contract
 
-The source ledger is [SCIENCE-JOURNEY-SOURCES.md](../SCIENCE-JOURNEY-SOURCES.md). Its formulas use seconds, metres, µGy, percentage points, and forecast sols consistently. The default plan has a 30-minute deadline, a 9-minute return, 6 minutes per cleaning section, and a six-times play clock. Three sections plus return take 27 mission minutes (4.5 minutes of active play); learning and reflection add as much time as the child needs.
+Standard play advances six simulated seconds per active real second for a 30-minute simulated round. Fatigue starts at zero and is clamped to 0–0.9. While work remains:
 
-The historical dose baseline is 210 µGy per Earth day from Curiosity's tissue-like RAD detector. That does not measure the child, Ren's actual body, or injury. Do not show a fabricated “radiation health” traffic light or turn accumulated dose green again when Ren enters shelter. A time/deadline warning may use colour with a text/icon explanation. Cumulative dose remains cumulative, and shelter ends this activity without claiming complete radiation protection.
+`dF/dminute = 0.08 × max(u − 1, 0) − 0.12 × max(1 − u, 0)`
 
-Power feedback describes spare output and a forecast under an invented linear trend. It must not relabel this as stored battery energy or guaranteed “days of power.” Dust and space radiation are distinct: dust obscures panels; time outside affects the accumulated dose at the selected rate. Speed is a planned route parameter, not a reward for fast tapping or a judgement of a child's fitness.
+`cleaning rate = 0.125 × u × (1 − F) sections/minute`
 
-No Apple Watch or other personal health data is collected. No lethal dose, life-expectancy prediction, fictional NASA safety threshold, or inferred radiation measurement from heart rate is part of this release. NASA sources support concepts and historical values; they do not endorse the game or certify it as professional training.
+Continuous work is capped at four section equivalents. Generation is `8 × (0.25 + 0.75 × work/4) kW`. Actual battery energy starts at 0.5 kWh, integrates generation minus a 1 kW load and is capped at 6 kWh. There is no future-energy reserve forecast. At the work cap, cleaning and fatigue stop changing while energy, time and dose continue.
 
-## Interaction and responsive acceptance checks
+The historical absorbed-dose reference is 210 µGy per Earth day. The story uses the **authored** ramp `210 × (1 + 3t/T) µGy/day`, with T = 1,800 seconds. Every completed default round accumulates **10.9375 µGy**. The ramp is not a NASA storm measurement, and there are no lower-dose bonus stars.
 
-1. A first-time player can understand whom to help and what to do without a dense dashboard or a wall of rules.
-2. All eight concepts are reachable with pointer, touch, and keyboard focus. Completed concepts are identified with words or symbols as well as colour. Readiness cannot exceed 100% or unlock from duplicate visits.
-3. Every screen has an obvious next action and a way back. Escape dismisses a card before affecting the surrounding journey; during active play it pauses rather than losing progress. Fullscreen can be exited visibly and by a working keyboard path.
-4. Reading, source viewing, a pause menu, and loss of application focus cannot spend mission time. Resuming does not process a large accumulated frame delta or award work performed while paused.
-5. Phone portrait and landscape, laptop, and desktop layouts remain readable without clipped buttons. Long evidence scrolls inside a bounded card. Tap targets, safe areas, focus outlines, and contrast survive scaling.
-6. Reduced motion keeps all content and outcomes accessible without camera sweeps, shaking, long typing, or explosive transitions. Sound can be muted, and no essential information is audio-only.
-7. The current run's quantities drive live explanations and debrief results. No prerecorded example is presented as the player's actual result. Text communicates a paused or completed state.
-8. A completed section awards its benefit once; an incomplete section does not grant the full reward. Return and deadline boundaries are deterministic and robust to frame rate and speed settings.
-9. Source links are explicit HTTPS links to the reviewed official domains. Bundled scientific text is readable offline. External-link failure is recoverable and does not erase the mission.
-10. New release documentation distinguishes implemented, tested, and deferred capabilities. A polished screen does not justify claiming scientifically validated physics, universal device support, or a working unattended updater without corresponding evidence.
+The cleaned fraction determines **WIN** at 80% or more, **PASS** from 40% to below 80%, and **LOSE** below 40%. Fractional work counts. Energy explains the result without becoming a hidden reserve target. Every category ends with automatic entry.
 
-## Visual and audio direction
+Fatigue is fictional game balancing, not astronaut physiology. No wearable, heart rate, inferred sievert, lethal dose or injury prediction is used. Pathfinder's historical dust observation supports the concept but is not a runtime coefficient. See [SCIENCE-JOURNEY-SOURCES.md](../SCIENCE-JOURNEY-SOURCES.md) and [TRAINING-MODEL.md](../TRAINING-MODEL.md).
 
-The story can feel cosmic while the mission remains calm: spacious dark blue/black framing, luminous turquoise status, warm dunes, a readable astronaut silhouette, and limited crimson for actionable warnings. Use motion to direct attention to a decision or explain a relationship. Avoid constant shaking or a forest of equally prominent meters.
+NASA SDO's latest AIA 193 Å browse image is separate observational content. Retain connected, cached, bundled and stale labels, publication metadata and NASA credit. It does not drive the ramp, dust, energy or score. Its implementation contract remains [LIVE-DATA.md](../LIVE-DATA.md).
 
-The user supplied “Minyo San Kyoku” (Doug Maxwell / Zac Zinger) and “Floating Lanterns” (The Mini Vandals) as candidate tracks. Credit metadata and redistribution permission must be recorded before distributing the original recordings. They are not included in this source archive. Generated interface sounds and music controls should remain modular so a licensed soundtrack can be replaced without editing the mission model.
+## Acceptance checks
 
-## Evidence to capture for release
+1. Opening leads to control-room preflight without mandatory eight-card reading. Selecting a starting pace spends no time.
+2. Faster/slower/slider all affect one model. Lower pace can recover fictional fatigue while cleaning continues; Pause freezes every quantity.
+3. Ren stays at the panel until automatic entry. There is no route, recall, hidden delay or early finish after full cleaning.
+4. Cards have visible Back/Close, source access and keyboard/touch navigation. Closing one cannot also resume and activate a hidden control.
+5. Fullscreen Escape exits and pauses. Later presses handle one layer. Source viewing and focus loss never spend mission time.
+6. Desktop, laptop, portrait and landscape keep the window readable and actions reachable. Long explanations scroll inside their cards.
+7. Reduced motion and mute preserve all information. No required cue is audio-only.
+8. Debrief uses actual values and history. Every default completed run has equal dose, without fabricated dose rewards.
+9. Outcomes and automatic entry are independent of frame partitioning. Replay resets to preflight; a result is saved once.
+10. Release notes and screenshots identify this final workflow. Earlier prototype captures and tests are not evidence for it.
 
-Capture the actual story, a science card with its evidence link, the active window view, a paused mission, and a debrief at desktop and narrow layouts. Record the test commands and failures honestly. Include a short play guide, current changes, science ledger/PDF, known platform restrictions, and artifact checksums. The old reference screenshots are not evidence that this journey was implemented.
+## Visual, audio and release evidence
 
-Made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC.
+Keep the cosmic introduction expressive and the mission calm: dark spacious framing, turquoise controls, warm dunes and a readable crewmate. Motion should explain a change or lead attention to a decision. Fatigue should look like a game concept, not a clinical instrument.
+
+Team-supplied recordings, original alternative ambience and rights/credit details are maintained in [AUDIO-CREDITS.md](../AUDIO-CREDITS.md). Music and effects remain separately controllable. Producing an opening video is separate from verifying the gameplay loop.
+
+Capture actual preflight with a changed pace, active cleaning, a paused science card, fatigue trade-offs and completed equations at desktop and narrow sizes. Include the current science PDF, model tests, controller evidence, platform limits and artifact checksums before declaring release acceptance complete.
+
+made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC

@@ -10,7 +10,7 @@ func _initialize() -> void:
 func run() -> void:
 	# A real desktop viewport, rather than the headless driver’s 64×64 placeholder.
 	root.size = Vector2i(1280, 720)
-	var game = load("res://main.tscn").instantiate()
+	var game = load("res://legacy_mission.tscn").instantiate()
 	root.add_child(game)
 	await process_frame
 	var bindings := InputMap.action_get_events("interact").size()

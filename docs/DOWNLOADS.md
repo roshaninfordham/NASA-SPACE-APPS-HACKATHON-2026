@@ -2,25 +2,39 @@
 
 Downloads are published as **GitHub Release assets**, not GitHub Packages. A repository containing code and export presets does not imply that an installer exists. Use the release notes to distinguish built, launch-tested, unsigned, and unsupported targets.
 
-**Latest published download: [v0.7.1-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.7.1-alpha.1).** Source `c86ad73da7810176e437e33e192a8d8475ae72a8` passed validation, signed builds and hosted native Mac/Windows launch gates. [Release evidence](evidence/release-0.7.1-alpha.1.json).
+**Release source snapshot: 0.8.0-alpha.1.** Prepared November 15, 2026, America/New_York. Publication was pending when this source snapshot was prepared; check the [release index](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases) for available files and the final acceptance record. A versioned source document alone is not proof of publication.
 
-| Platform or document      | Download                                                                                                                                                                           |
+The platform links below target [v0.8.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.8.0-alpha.1) and become available **only once published**. If they are not live, use the [release index](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases) to choose an available version. Read its own release notes and manifest; historical [0.7.1 evidence](evidence/release-0.7.1-alpha.1.json) covers the earlier operator mission.
+
+| Platform or document      | Versioned asset — available once published                                                                                                                                         |
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Mac Apple Silicon / Intel | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.1-alpha.1/KOMAKU-Shield-Protocol-0.7.1-alpha.1-macOS-universal.zip) |
-| Windows x64               | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.1-alpha.1/KOMAKU-Shield-Protocol-0.7.1-alpha.1-Windows-x64.zip)             |
-| Linux x64                 | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.1-alpha.1/KOMAKU-Shield-Protocol-0.7.1-alpha.1-Linux-x64.zip)                 |
-| WebGL2 browser            | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.1-alpha.1/KOMAKU-Shield-Protocol-0.7.1-alpha.1-Web.zip)                         |
-| Science guide             | [16-page PDF](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.7.1-alpha.1/KOMAKU-Shield-Protocol-0.7.1-alpha.1-Science-Guide.pdf)           |
+| Mac Apple Silicon / Intel | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-macOS-universal.zip) |
+| Windows x64               | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-Windows-x64.zip)             |
+| Linux x64                 | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-Linux-x64.zip)                 |
+| WebGL2 browser            | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-Web.zip)                         |
+| Science guide             | [16-page PDF](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-Science-Guide.pdf)           |
 
-The release has **ten assets**: four platform ZIPs, the standalone PDF, signed game content, its update manifest/signature, the release manifest and checksums. Every ZIP includes `START-HERE.txt` with launch/first-mission instructions and the same guide as `KOMAKU-Science-Guide.pdf`. Extract the whole archive, then read `START-HERE.txt`.
+The configured release layout has **ten assets**: four platform ZIPs, the standalone PDF, signed game content, its update manifest/signature, the release manifest and checksums. Every ZIP includes `START-HERE.txt` with launch/first-mission instructions and the same guide as `KOMAKU-Science-Guide.pdf`. Extract the whole archive, then read `START-HERE.txt`.
 
 From version 0.5 onward, ZIP names begin with `KOMAKU-Shield-Protocol-<version>`. Historical 0.4 and earlier downloads retain `Red-Veil` filenames and the previous app name; those published artifacts are not renamed. The signed content filename and local save/update identities remain unchanged for compatibility. Use the notes attached to the version you download.
 
-Version **0.7.1** preserves the indoor mission and visual framing while deferring optional scenery until requested. The first outdoor/Field Notes visit builds that content and keeps it cached afterward; see [startup measurements and tradeoffs](WINDOW-STARTUP-PERFORMANCE.md). Existing compatible desktop apps can install the signed content through **Update available → Install → Restart**; actual public 0.7.0 Mac/Windows binaries passed this content-activation gate alongside older baselines. [Updater scope](UPDATES.md).
+Historically, version **0.7.1** preserved the indoor mission and visual framing while deferring optional scenery until requested. The first outdoor/Field Notes visit builds that content and keeps it cached afterward; see [startup measurements and tradeoffs](WINDOW-STARTUP-PERFORMANCE.md). Existing compatible desktop apps could install that signed 0.7.1 content through **Update available → Install → Restart**; actual public 0.7.0 Mac/Windows binaries passed this content-activation gate alongside older baselines. [Updater scope](UPDATES.md).
+
+## Play the 0.8 journey
+
+After the opening, the control room is in **preflight**. Choose Ren's starting cleaning pace, inspect any science bubbles you want, then press **START MISSION**. No time, dose, fatigue, work or battery energy advances before Start. The separate science constellation is optional.
+
+Use **SLOWER / 1**, **FASTER / 3** or the stepped slider to choose pace 0.25–1.75. **Enter** starts from preflight; Escape handles Back/Pause and fullscreen exit, while F11 toggles fullscreen. The mission book pauses every quantity while explaining it.
+
+Ren cleans at the nearby panel while fictional fatigue affects effective work. Partial cleaning increases solar generation; generation minus load changes actual battery kWh. After 30 simulated minutes—five active minutes at the standard sixfold clock—Ren enters automatically. There is no recall, walk or manual work hold. All completed default rounds have the same 10.9375 µGy model dose; no health judgement or lower-dose bonus is calculated.
+
+The debrief classifies cleanliness as WIN at 80% or more, PASS at 40% or more, otherwise LOSE, and connects the actual run to its equations. The older operator/EVA/labs remain under **Advanced lab · earlier mission** with separate rules.
+
+Final pace-workflow source/package validation and publication are pending. Versioned links identify intended release files, not proof they are already available. [Model and units](TRAINING-MODEL.md) · [Navigation](NAVIGATION.md).
 
 ## MacBook with Apple Silicon, including M5
 
-Version **0.7.1-alpha.1** retains the Mac bundle-signing repair introduced in **0.6.1-alpha.1** for the invalid 0.6.0 signature. If your existing app says “damaged,” download the corrected macOS universal ZIP; an app that cannot launch cannot install its own content update. Saves stay in the existing user-data location.
+The **0.8.0-alpha.1** source retains the Mac bundle-signing repair introduced in **0.6.1-alpha.1** for the invalid 0.6.0 signature. If your existing app says “damaged,” download the corrected macOS universal ZIP; an app that cannot launch cannot install its own content update. Saves stay in the existing user-data location.
 
 1. Download the macOS universal ZIP from the official release and extract it. It includes Apple Silicon (arm64, including M5) and Intel (x86_64).
 2. Open `KŌMAKU- Shield Protocol.app`. This alpha is locally **ad-hoc signed**, but has **no Apple Developer ID or notarization**. A valid integrity signature does not grant Apple's downloaded-app approval.
@@ -43,9 +57,9 @@ The Web ZIP is a static Godot export. Serve its folder over HTTP(S); do not doub
 
 Touch controls are provided for landscape browser play. No production native Android or iOS package is published. An earlier Android arm64 build was internal tooling validation only; production signing and physical-device testing remain separate work.
 
-## Indoor-operator controls in 0.7
+## Historical 0.7.1 and advanced-mode controls
 
-The published 0.7 title has **Start mission**, **Explore · no timer**, and **Learn & more**. Start and Explore use the indoor room, with only dunes and Mira in the default forward window view. Extra labs, learning tools, the guide, updates and **Outdoor EVA mission** are under **Learn & more**.
+The earlier 0.7 title has **Start mission**, **Explore · no timer**, and **Learn & more**. Start and Explore use the indoor room, with only dunes and Mira in the default forward window view. Extra labs, learning tools, the guide, updates and **Outdoor EVA mission** are under **Learn & more**.
 
 | Action                       | Keyboard / mouse                                                 |
 | ---------------------------- | ---------------------------------------------------------------- |
@@ -62,9 +76,9 @@ Pause during an untimed tour offers **Resume room tour**, **Start rescue mission
 
 **Outdoor EVA mission** retains the earlier outdoor mechanics and equipment. There, **E** interacts, **Q** cleans the player’s visor, and **Space** hops. It remains an optional advanced activity.
 
-The optional planner compares four cleaner/power-saving policies over one simulated hour while paused, holding Mira’s present protection state fixed. It does not simulate her journey or the airlock cycle. **Use this plan** applies only the chosen switches. [Planner assumptions](MISSION-PLANNER.md). The [16-page science PDF](media/KOMAKU-Science-Guide.pdf) is bundled into each ZIP after its source-fingerprint check.
+The optional planner compares four cleaner/power-saving policies over one simulated hour while paused, holding Mira’s present protection state fixed. It does not simulate her journey or the airlock cycle. **Use this plan** applies only the chosen switches. [Planner assumptions](MISSION-PLANNER.md). The guide for the published version is bundled into each ZIP after its source-fingerprint check. The repository guide may be newer; use the release-linked PDF for the version you downloaded.
 
-## Core controls and optional outdoor EVA
+## Retained outdoor EVA controls
 
 Movement, pause and guide controls are shared. Equipment interaction, visor cleaning and hopping belong to **Learn & more → Outdoor EVA mission**, the original outdoor mode also found in historical 0.6.1:
 
@@ -77,6 +91,6 @@ Movement, pause and guide controls are shared. Equipment interaction, visor clea
 | Pause                    | Escape             | Start                    |
 | Field guide              | F1                 | Open from the title menu |
 
-The current **Learn & more** menu also offers **Explorer suit lab** and **Habitat field notes**. In untimed exploration, **I** opens habitat lessons. The suit lab opens from Pause too. Back/Escape returns to the previous activity; these learning interfaces pause mission resources.
+The retained advanced **Learn & more** menu also offers **Explorer suit lab** and **Habitat field notes**. In untimed exploration, **I** opens habitat lessons. The suit lab opens from Pause too. Back/Escape returns to the previous activity; these learning interfaces pause mission resources.
 
 No account is required. There are no ads, analytics, or remote game APIs. A mission summary is stored locally. Tell us the release version, device, OS, what you did, and what happened when reporting a problem; do not include personal information in public issues.

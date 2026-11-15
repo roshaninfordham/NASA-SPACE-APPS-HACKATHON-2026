@@ -20,6 +20,24 @@ var _shell: StandardMaterial3D
 var _red: StandardMaterial3D
 var _gold: StandardMaterial3D
 var _joint: StandardMaterial3D
+# The released idle sculpture keeps its original batches. Articulated geometry
+# is allocated only on first use, then reused across work/idle transitions.
+var _arm_ranges: Dictionary = {}
+var _legacy_arm_meshes: Dictionary = {}
+var _working_body_meshes: Dictionary = {}
+var _training_rig: Node3D
+var _training_shoulder: Node3D
+var _training_elbow: Node3D
+var _training_tools: Node3D
+var _training_wand: MeshInstance3D
+var _training_brush: MeshInstance3D
+var _training_active := false
+var _training_multiplier := 1.0
+var _training_reduced_motion := false
+var _training_phase := 0.0
+const WORK_SHOULDER := Vector3(0.211, 1.155, 0)
+const WORK_ELBOW := Vector3(0.286, 0.987, 0.025)
+const WORK_WRIST := Vector3(0.164, 0.925, 0.182)
 
 func _ready() -> void:
 	set_meta("product_name", Branding.display_name())
@@ -54,6 +72,7 @@ func _ready() -> void:
 	_build_arms()
 	_build_head()
 	_flush_batches()
+	if _training_active: set_training_cleaning(true, _training_multiplier, _training_reduced_motion)
 
 func _material(label: String, color: Color, roughness: float, metallic: float) -> StandardMaterial3D:
 	var result := StandardMaterial3D.new()
@@ -64,6 +83,9 @@ func _material(label: String, color: Color, roughness: float, metallic: float) -
 	return result
 
 func _add(mesh: Mesh, mat: Material, transform: Transform3D, parent: Node3D) -> void:
+	# Articulated batches retain the exact authored vertices around joint pivots.
+	if parent.has_meta("geometry_origin"):
+		transform.origin -= Vector3(parent.get_meta("geometry_origin"))
 	var groups: Dictionary = _batches.get(parent, {})
 	var batch: Dictionary = groups.get(mat, {"vertices": [], "normals": [], "indices": []})
 	var arrays := mesh.surface_get_arrays(0)
@@ -241,32 +263,42 @@ func _build_torso() -> void:
 	_blossom(_upper, Vector3(-0.213, 1.191, 0.084), 0.015, _gold)
 
 func _build_arms() -> void:
-	for side in [-1.0, 1.0]:
-		var shoulder := Vector3(side * 0.211, 1.155, 0)
-		var elbow := Vector3(side * 0.286, 0.987, 0.025)
-		var wrist := Vector3(-0.259, 0.808, 0.085) if side < 0 else Vector3(0.164, 0.925, 0.182)
-		_ellipsoid(_upper, shoulder, Vector3(0.084, 0.098, 0.083), _shell)
-		_limb(_upper, shoulder + Vector3(0, -0.035, 0), elbow + Vector3(0, 0.032, 0), 0.070, _soft)
-		_ellipsoid(_upper, elbow, Vector3(0.064, 0.059, 0.064), _joint)
-		_limb(_upper, elbow + (wrist - elbow).normalized() * 0.043, wrist, 0.059, _soft)
-		var direction := (wrist - elbow).normalized()
-		var hand_basis := _axis_basis(-direction)
-		var cuff := TorusMesh.new()
-		cuff.inner_radius = 0.049
-		cuff.outer_radius = 0.062
-		cuff.rings = 20
-		cuff.ring_segments = 6
-		_add(cuff, _red, Transform3D(hand_basis, wrist), _upper)
-		var palm := wrist + direction * 0.045
-		_add(_sphere, _shell, Transform3D(hand_basis.scaled(Vector3(0.043, 0.051, 0.032)), palm), _upper)
-		for finger in range(4):
-			var offset := hand_basis.x * ((finger - 1.5) * 0.018)
-			var start := palm + direction * 0.031 + offset
-			var finish := start + direction * (0.040 if finger == 0 or finger == 3 else 0.052)
-			_limb(_upper, start, finish, 0.0085, _shell)
-		_limb(_upper, palm + hand_basis.x * 0.038, palm + hand_basis.x * 0.057 + direction * 0.029, 0.011, _shell)
-		# Fine original shoulder fan arcs, kept away from the face.
-		_wave_motif(_upper, shoulder + Vector3(0, 0.024, 0.081), 0.047)
+	for mat in _batches.get(_upper, {}):
+		_arm_ranges[mat] = {"start": _batches[_upper][mat].indices.size()}
+	for side in [-1.0, 1.0]: _build_arm(side, _upper, _upper)
+	for mat in _batches.get(_upper, {}):
+		if not _arm_ranges.has(mat): _arm_ranges[mat] = {"start": 0}
+		_arm_ranges[mat].end = _batches[_upper][mat].indices.size()
+	for mat in _arm_ranges.keys():
+		if _arm_ranges[mat].start == _arm_ranges[mat].end: _arm_ranges.erase(mat)
+
+func _build_arm(side: float, upper_parent: Node3D, forearm_parent: Node3D) -> void:
+	var shoulder := Vector3(side * 0.211, 1.155, 0)
+	var elbow := Vector3(side * 0.286, 0.987, 0.025)
+	var wrist := Vector3(-0.259, 0.808, 0.085) if side < 0 else Vector3(0.164, 0.925, 0.182)
+	_ellipsoid(upper_parent, shoulder, Vector3(0.084, 0.098, 0.083), _shell)
+	_limb(upper_parent, shoulder + Vector3(0, -0.035, 0), elbow + Vector3(0, 0.032, 0), 0.070, _soft)
+	_ellipsoid(forearm_parent, elbow, Vector3(0.064, 0.059, 0.064), _joint)
+	_limb(forearm_parent, elbow + (wrist - elbow).normalized() * 0.043, wrist, 0.059, _soft)
+	var direction := (wrist - elbow).normalized()
+	var hand_basis := _axis_basis(-direction)
+	var cuff := TorusMesh.new()
+	cuff.inner_radius = 0.049
+	cuff.outer_radius = 0.062
+	cuff.rings = 20
+	cuff.ring_segments = 6
+	_add(cuff, _red, Transform3D(hand_basis, wrist), forearm_parent)
+	var palm := wrist + direction * 0.045
+	_add(_sphere, _shell, Transform3D(hand_basis.scaled(Vector3(0.043, 0.051, 0.032)), palm), forearm_parent)
+	for finger in range(4):
+		var offset := hand_basis.x * ((finger - 1.5) * 0.018)
+		var start := palm + direction * 0.031 + offset
+		var finish := start + direction * (0.040 if finger == 0 or finger == 3 else 0.052)
+		_limb(forearm_parent, start, finish, 0.0085, _shell)
+	_limb(forearm_parent, palm + hand_basis.x * 0.038, palm + hand_basis.x * 0.057 + direction * 0.029, 0.011, _shell)
+	# Fine original shoulder fan arcs, kept away from the face.
+	_wave_motif(upper_parent, shoulder + Vector3(0, 0.024, 0.081), 0.047)
+
 
 func _blossom(parent: Node3D, center: Vector3, radius: float, mat: Material) -> void:
 	for petal in range(5):
@@ -390,20 +422,138 @@ func _flush_batches() -> void:
 			visual.material_override = mat
 			if mat.resource_name in ["ClearHelmet", "VisorReflection", "VisorRim"]: visual.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 			parent.add_child(visual)
+			if parent == _upper and _arm_ranges.has(mat): _legacy_arm_meshes[visual] = visual.mesh
 			triangles += batch.indices.size() / 3
 			surfaces += 1
-	set_meta("triangle_count", triangles)
-	set_meta("material_surfaces", surfaces)
+	set_meta("triangle_count", int(get_meta("triangle_count", 0)) + triangles)
+	set_meta("material_surfaces", int(get_meta("material_surfaces", 0)) + surfaces)
 	_batches.clear()
 
 func _process(delta: float) -> void:
+	if not is_finite(delta) or delta < 0.0: return
 	_elapsed += minf(delta, 0.1)
 	if not is_instance_valid(_upper) or not is_instance_valid(_head): return
+	if _training_active:
+		if not _training_reduced_motion:
+			# A stalled render frame cannot produce an unbounded visual jump.
+			_training_phase = fposmod(_training_phase + minf(delta, 0.25) * 2.4 * _training_multiplier, TAU)
+		_apply_training_pose()
+		return
+	_apply_idle_pose()
+
+func _apply_idle_pose() -> void:
+	_upper.transform = Transform3D.IDENTITY
+	_head.rotation = Vector3.ZERO
 	_upper.position.y = sin(_elapsed * 1.25) * 0.0026 * idle_amount
 	_upper.rotation.z = sin(_elapsed * 0.55) * 0.003 * idle_amount
 	_head.rotation.z = -0.035 + sin(_elapsed * 0.43) * 0.012 * idle_amount
 	_head.rotation.y = sin(_elapsed * 0.37) * 0.016 * idle_amount
 	_glow.emission_energy_multiplier = 0.78 + sin(_elapsed * 1.25) * 0.07 * idle_amount
+
+## Cosmetic work animation. The caller owns work rate and mission progression.
+## Local +X faces the panel; its deck is centered at (1.8,1.08,0), tilt X=-35°.
+## The model stays planted at its existing origin; this never moves the actor.
+func set_training_cleaning(active: bool, multiplier: float = 1.0, reduced_motion: bool = false) -> void:
+	_training_active = active
+	_training_multiplier = clampf(multiplier, 0.0, 4.0) if is_finite(multiplier) else 1.0
+	_training_reduced_motion = reduced_motion
+	if not is_instance_valid(_upper): return
+	if active: _ensure_training_rig()
+	if is_instance_valid(_training_rig):
+		_training_rig.visible = active
+		_training_tools.visible = active
+		for visual: MeshInstance3D in _legacy_arm_meshes:
+			visual.mesh = _working_body_meshes[visual] if active else _legacy_arm_meshes[visual]
+	if active: _apply_training_pose()
+	else:
+		_training_phase = 0.0
+		_apply_idle_pose()
+
+func _ensure_training_rig() -> void:
+	if is_instance_valid(_training_rig): return
+	# Remove only arm index ranges in the working copy. Keep every original mesh
+	# resource for an exact rest/exhibit restoration, with no idle draw-call cost.
+	for visual: MeshInstance3D in _legacy_arm_meshes:
+		var original: Mesh = _legacy_arm_meshes[visual]
+		var arrays := original.surface_get_arrays(0)
+		var indices: PackedInt32Array = arrays[Mesh.ARRAY_INDEX]
+		var span: Dictionary = _arm_ranges[visual.material_override]
+		var kept := indices.slice(0, int(span.start))
+		kept.append_array(indices.slice(int(span.end)))
+		_working_body_meshes[visual] = _mesh(arrays[Mesh.ARRAY_VERTEX], arrays[Mesh.ARRAY_NORMAL], kept)
+	_training_rig = Node3D.new()
+	_training_rig.name = "TrainingArticulatedArms"
+	_upper.add_child(_training_rig)
+	for side in [-1.0, 1.0]:
+		var shoulder_point := Vector3(side * 0.211, 1.155, 0)
+		var elbow_point := Vector3(side * 0.286, 0.987, 0.025)
+		var shoulder := Node3D.new()
+		shoulder.name = "RightShoulder" if side > 0 else "LeftShoulder"
+		shoulder.position = shoulder_point
+		shoulder.set_meta("geometry_origin", shoulder_point)
+		_training_rig.add_child(shoulder)
+		var elbow := Node3D.new()
+		elbow.name = "Elbow"
+		elbow.position = elbow_point - shoulder_point
+		elbow.set_meta("geometry_origin", elbow_point)
+		shoulder.add_child(elbow)
+		_build_arm(side, shoulder, elbow)
+		if side > 0:
+			_training_shoulder = shoulder
+			_training_elbow = elbow
+	_flush_batches()
+	_training_tools = Node3D.new()
+	_training_tools.name = "TrainingCleaningTool"
+	add_child(_training_tools)
+	_training_wand = MeshInstance3D.new()
+	_training_wand.name = "LightweightBrushHandle"
+	var shaft := CylinderMesh.new()
+	shaft.top_radius = 0.012
+	shaft.bottom_radius = 0.012
+	shaft.height = 1.0
+	shaft.radial_segments = 8
+	_training_wand.mesh = shaft
+	_training_wand.material_override = _shell
+	_training_tools.add_child(_training_wand)
+	_training_brush = MeshInstance3D.new()
+	_training_brush.name = "SoftPanelBrush"
+	var brush := BoxMesh.new()
+	brush.size = Vector3(0.22, 0.035, 0.08)
+	_training_brush.mesh = brush
+	_training_brush.material_override = _joint
+	_training_tools.add_child(_training_brush)
+
+func _apply_training_pose() -> void:
+	var sweep := 0.0 if _training_reduced_motion else sin(_training_phase)
+	# Rotate around the hips, not the feet, so the waist and boots stay connected.
+	var lean := Basis(Vector3.FORWARD, 0.085)
+	var hip := Vector3(0, 0.795, -0.005)
+	_upper.transform = Transform3D(lean, hip - lean * hip)
+	_head.rotation = Vector3(0.12, 0.45, -0.04)
+	_glow.emission_energy_multiplier = 0.78
+	var wrist_target := _upper.transform.affine_inverse() * Vector3(0.48, 1.055, 0.085 + sweep * 0.035)
+	var upper_length := WORK_SHOULDER.distance_to(WORK_ELBOW)
+	var fore_length := WORK_ELBOW.distance_to(WORK_WRIST)
+	var direction := (wrist_target - WORK_SHOULDER).normalized()
+	var distance := clampf(WORK_SHOULDER.distance_to(wrist_target), absf(upper_length - fore_length) + 0.001, upper_length + fore_length - 0.001)
+	var along := (upper_length * upper_length - fore_length * fore_length + distance * distance) / (2.0 * distance)
+	var bend := (Vector3.DOWN - direction * Vector3.DOWN.dot(direction)).normalized()
+	var elbow := WORK_SHOULDER + direction * along + bend * sqrt(maxf(0.0, upper_length * upper_length - along * along))
+	var wrist := WORK_SHOULDER + direction * distance
+	var upper_basis := Basis(Quaternion((WORK_ELBOW - WORK_SHOULDER).normalized(), (elbow - WORK_SHOULDER).normalized()))
+	var fore_basis := Basis(Quaternion((WORK_WRIST - WORK_ELBOW).normalized(), (wrist - elbow).normalized()))
+	_training_shoulder.basis = upper_basis
+	_training_elbow.basis = upper_basis.inverse() * fore_basis
+	var palm := _upper.transform * (wrist + (wrist - elbow).normalized() * 0.045)
+	# Match the companion panel's actual top plane, including its 4cm skin.
+	var z := sweep * 0.18
+	var tilt := deg_to_rad(-35.0)
+	var plane_y := 1.08 + 0.04 / cos(tilt) - tan(tilt) * z
+	_training_brush.basis = Basis(Vector3.RIGHT, tilt)
+	_training_brush.position = Vector3(0.80, plane_y, z) + _training_brush.basis.y * 0.0175
+	var tip := _training_brush.position + _training_brush.basis.y * 0.025
+	var shaft := tip - palm
+	_training_wand.transform = Transform3D(_axis_basis(shaft).scaled_local(Vector3(1, shaft.length(), 1)), (tip + palm) * 0.5)
 
 ## Pure presentation presets. They never change mission protection or resources.
 func apply_theme(index: int) -> void:

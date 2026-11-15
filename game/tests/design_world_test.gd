@@ -113,7 +113,7 @@ func interface_root(game: Node3D) -> Control:
 
 func run() -> void:
 	root.size = Vector2i(1280, 720)
-	var game = load("res://main.tscn").instantiate()
+	var game = load("res://legacy_mission.tscn").instantiate()
 	var configured: bool = game.art != null and game.art.habitat_scene != null and game.art.interior_scene != null and game.hud_scene != null
 	check(configured, "Default game binds the designed habitat, interior, and HUD instead of the fallback blockout")
 	if not configured:

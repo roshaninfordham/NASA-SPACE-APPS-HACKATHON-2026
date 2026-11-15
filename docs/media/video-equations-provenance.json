@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-11-15",
+  "pages": 2,
+  "sources": {
+    "docs/VIDEO-EQUATIONS.md": "a2cc6ee1f3fd19fcddd2b227d94afc6c60d2204a5efd7d206a53077c1c0b92b1",
+    "docs/design-specs/FINAL-WORKFLOW.md": "d2006155ffc8834f2e51670e642caa0671b2f0dd17e0a71b51ec1c8a9b8d8f29",
+    "scripts/build_video_equations.py": "890ec15e22183ffb1e2b14ee58808d9382e4baf29bc1fd0aa4871771d93df5ee",
+    "game/scripts/pace_mission.gd": "b1ef86e2128e1e3f0fcada91a94b09a9f496954503d542a43ea8f154286bcc8e",
+    "game/licenses/DejaVu-Font-License.txt": "810205354319c787fc9ede3ba76d03073fd0f62b00b585506e8065355e71e18d"
+  },
+  "pdf_sha256": "fc5098c4eb9cc77d17134f70d98c661ff0eca574640bd6989af7dadab35af3fb",
+  "source_fingerprint": "438c8d780073a93f50f68439e64c27e8587708a21bede3c7ec2b5be5ed3eccd4",
+  "embedded_license": "DejaVu-Font-License.txt",
+  "scope": "Agreed final-workflow equation handoff. Historical dose reference plus explicitly authored pace/effort/storm model.",
+  "build": "python3 scripts/build_video_equations.py",
+  "network_requests": false,
+  "validation": {
+    "visual_review": "Both final pages rendered and inspected; equations, active-cleaning indicator, worked example, unit distinctions, sources, and font-license attachment checked.",
+    "deterministic_rebuild": "Repeated build produced byte-identical PDF.",
+    "https_links": 4
+  }
+}

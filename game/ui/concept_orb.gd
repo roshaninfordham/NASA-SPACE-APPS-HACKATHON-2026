@@ -2,7 +2,7 @@ extends Button
 ## One science concept, always identified by readable words and a vector glyph.
 ## Ring levels describe a model quantity or reading progress, never medical risk.
 const Style = preload("res://ui/journey_style.gd")
-const TITLES := {"radiation":"Radiation","dose":"Microgray","sievert":"Sievert","dust":"Dust","power":"Power","time":"Time","speed":"Speed","shelter":"Shelter"}
+const TITLES := {"radiation":"Radiation","dose":"Microgray","sievert":"Sievert","dust":"Dust","power":"Energy","time":"Time","speed":"Clean pace","shelter":"Shelter"}
 var concept_id := ""
 var title := ""
 var level := 0.0
@@ -10,6 +10,7 @@ var status_text := "Explore"
 var tone := "normal"
 var reviewed := false
 var reduced_motion := false
+var measurement_scale := false
 var _caption: Label
 var _status: Label
 var _backdrop: StyleBoxFlat
@@ -65,6 +66,10 @@ func set_reviewed(value: bool) -> void:
 	reviewed = value
 	set_level(1.0 if value else 0.0, "Reviewed" if value else "Explore", "normal")
 
+func set_measurement_scale(value: bool) -> void:
+	measurement_scale = value
+	queue_redraw()
+
 func set_reduced_motion(value: bool) -> void:
 	# No continuous motion is required for understanding any orb state.
 	reduced_motion = value
@@ -81,6 +86,8 @@ func _accent() -> Color:
 
 func _layout() -> void:
 	if not is_instance_valid(_caption): return
+	_caption.add_theme_font_size_override("font_size",12 if size.y < 90 else 15)
+	_status.add_theme_font_size_override("font_size",11 if size.y < 90 else 12)
 	_caption.position = Vector2(1, size.y - 38)
 	_caption.size = Vector2(maxf(1, size.x - 2), 20)
 	_status.position = Vector2(1, size.y - 18)
@@ -100,6 +107,15 @@ func _draw() -> void:
 	if has_focus() or is_hovered():
 		draw_arc(center, radius + 4.0, 0, TAU, 64, Style.PEARL if has_focus() else accent, 2.0, true)
 	_draw_glyph(center, radius * 0.48, accent)
+	if measurement_scale:
+		var x := size.x - 8.0
+		var top := maxf(8.0,center.y-radius)
+		var bottom := minf(size.y-40.0,center.y+radius)
+		draw_line(Vector2(x,top),Vector2(x,bottom),Color(accent,0.28),2.0,true)
+		draw_line(Vector2(x,bottom),Vector2(x,lerpf(bottom,top,level)),accent,2.0,true)
+		for index in range(5):
+			var y := lerpf(bottom,top,index/4.0)
+			draw_line(Vector2(x-5,y),Vector2(x,y),Color(accent,0.5),1.0,true)
 	if reviewed:
 		var badge := center + Vector2(radius * 0.72, radius * 0.70)
 		draw_circle(badge, 8.0, Style.CYAN, true, -1.0, true)

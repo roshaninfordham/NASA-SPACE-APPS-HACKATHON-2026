@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "passed": true,
+  "test": "res://tests/journey_native_navigation_test.gd",
+  "completed_utc": "2026-11-15T05:51:30.937169+00:00",
+  "elapsed_seconds": 30.14,
+  "exit_code": 0,
+  "assertions": 29,
+  "failures": 0,
+  "engine": "Godot 4.6.3",
+  "backend": "Linux X11 on authenticated private Xvfb display",
+  "renderer": "OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)",
+  "source_sha256": {
+    "game/data/mission-concepts.json": "1a81eafaf6eeaaeb46662218d45d6f635d5e1a4d61577af262bc4715bca8ef29",
+    "game/legacy_mission.tscn": "029ddf7bf09ea93545251b6ca0c81b1a4b55cfc080105a88b06fd36a62ea5fb7",
+    "game/live/solar_feed.gd": "d19d6b54fbf31f204a58b711d813dfa8a60ece161c563df8a1c96fd263b147c0",
+    "game/live/solar_panel.gd": "f486d84cf237aceebbff01ad91ce7728b338f3e104504ddbb3c3d1186df63eb2",
+    "game/main.tscn": "3bc87b51a9d232dfb6523136b855d588103a2860df9f546bf71a42f0cc3576ef",
+    "game/project.godot": "c7aaf03809348642b0fd897899b59a436d54e104c680e5595f6d8fc698a431b0",
+    "game/scripts/branding.gd": "1fb7745f091ffae744ef8d622cc9047ac6603395e87addb159f46ae29381694a",
+    "game/scripts/game.gd": "054020893cea2a28fc53e259d888db27bc0a99fc0033aac5d9bb88ded1c39a61",
+    "game/scripts/journey_audio.gd": "2dca618940638d9842a2d765392e839d0d59b6e66219478aa627ee882246abf7",
+    "game/scripts/journey_game.gd": "c7622cce9c329d419253d3a4f6a30538b5722c511eff3a3852d778960c6d921f",
+    "game/scripts/journey_input_guard.gd": "5f9894ecde5a6d6dcf57b498cd7a02c80f177d9dec580de95638b7dc7d7cb63a",
+    "game/scripts/journey_progress.gd": "47371ec20a44f2439fbe37d719856509c62cc24eda3620a88e1f336e70cb5125",
+    "game/scripts/navigation_policy.gd": "1954c40babf5f4de83adc9580a7b3b0c1c6849ed1aafefa94866cf6a1f8a5f7b",
+    "game/scripts/pace_mission.gd": "b1ef86e2128e1e3f0fcada91a94b09a9f496954503d542a43ea8f154286bcc8e",
+    "game/tests/journey_native_navigation_test.gd": "078c47397382a4eac615f03fa1d051ff93428244a322fd78e19def0846be5f33",
+    "game/ui/concept_orb.gd": "32f70e2a59ed6379f429f540d13d4748be56b890db5a824c7d2f1d2e1820694d",
+    "game/ui/journey_shell.gd": "ec1de5b18dd52948b6d0d986c5359ee5235a9624bc56039c2a3a39c9ce063677",
+    "game/ui/journey_style.gd": "67bcb2db6abcfdea50b1994be623ebbc7f8af5a69e872558ae5c4ad9671deed9",
+    "game/ui/training_hud.gd": "776fc8f81360fbf427e95834d1d884c0b38146bb02e152db103813d7b74a3b48"
+  },
+  "source_unchanged_during_run": true,
+  "actual_display_checks": [
+    "Fullscreen entry and exit",
+    "Window size and position restoration",
+    "Captured pointer release",
+    "Application focus loss and return through a separate X11 client"
+  ],
+  "godot_input_dispatch_checks": [
+    "Physical-only Escape and F11 via Viewport.push_input",
+    "Pointer hit-testing of confirmation buttons via Viewport.push_input",
+    "Window-close handling via injected NOTIFICATION_WM_CLOSE_REQUEST",
+    "Updater and legacy modal stacking, discard confirmation, and root guard cleanup"
+  ],
+  "network": "Disabled with online_sources_enabled=false; no NASA or update transport involved",
+  "profile": "Fresh isolated application user-data directory",
+  "warnings": ["Xvfb graphics driver does not support changing VSync mode"],
+  "not_verified": [
+    "Exported full-game package launch",
+    "Physical keyboard or mouse input",
+    "Physical native title-bar close click",
+    "macOS or Windows window behavior",
+    "Browser or mobile fullscreen and networking"
+  ],
+  "log": "journey-native-0.8.txt"
+}

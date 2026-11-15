@@ -4,6 +4,9 @@ The journey controller separates two actions: changing the operating system's wi
 
 ## Player behavior
 
+- **Preflight:** select a cleaning pace without advancing time, fatigue, work, energy or dose. **Enter / START MISSION** begins the run only from preflight. The science constellation is optional.
+- **Pace controls:** **1 / SLOWER**, **3 / FASTER** and the stepped slider select 0.25–1.75. They act only when exposed in preflight or active play, never beneath a card or modal. There is no Recall or manual work-hold shortcut.
+- **Completion:** at 30 simulated minutes Ren enters automatically. Replay returns to preflight, rather than starting a hidden countdown immediately.
 - **Escape in fullscreen:** leave fullscreen, show the pointer and pause an active mission. A second Escape can handle the current dialog or pause screen. Reading or changing window mode should not cost mission time.
 - **Escape in a window:** close the top concept/dialog or open the mission pause menu. Each press handles only one layer. A confirmation dialog's Escape means “keep playing.”
 - **F11 / Fullscreen button:** toggle fullscreen explicitly. The app starts in a normal window; entering fullscreen is never a prerequisite to play.
@@ -40,11 +43,13 @@ Add the guard deferred if the root is busy adding children. Bind its lifetime to
 
 The reusable guard is [`journey_input_guard.gd`](../game/scripts/journey_input_guard.gd). Set its `controller` property before attaching it. It keeps a weak reference and calls `controller.handle_global_input(event)` for each input event. Returning `true` consumes the event; returning `false` or nothing yields to the scene. A controller can also call `set_input_as_handled()` directly. The guard does not independently interpret keys, so there is only one owner of fullscreen, pause, modal and story navigation. A missing or freed controller safely yields input. The controller must still connect its `tree_exiting` signal to the guard's `queue_free()`.
 
-Before updating mission time, call `poll_external_exit()`. If it returns true, pause. Also pause on application/window focus loss. Releasing a key after a modal closes must not trigger another navigation action; key echoes are ignored. Numeric mission shortcuts belong only to the running mission, never to a concept, confirmation, story or result screen. Resume must explicitly restore its intended pointer mode, and a paused legacy activity must remain paused after a lesson closes.
+Before updating mission time, call `poll_external_exit()`. If it returns true, pause. Also pause on application/window focus loss. Releasing a key after a modal closes must not trigger another navigation action; key echoes are ignored. Pace shortcuts belong only to exposed preflight or running-mission controls, never to a concept, confirmation, story or result screen. Enter starts only in preflight; closing a dialog cannot also trigger Start. Resume must explicitly restore its intended pointer mode, and a paused legacy activity must remain paused after a lesson closes.
 
 This policy module supplies window behavior; the main controller owns the journey's exact pause, confirmation and back-stack behavior. Source tests of the policy alone do not prove that every player-facing menu has been wired correctly.
 
 ## Verification scope
+
+**Final pace-workflow integration evidence is pending until refreshed.** The display policy and guard checks below have their own stable scope. Earlier full-controller evidence is bound to its recorded source hashes and must not be relabeled as proof of the new preflight/automatic-entry flow.
 
 [`navigation_policy_test.gd`](../game/tests/navigation_policy_test.gd) checks normal/exclusive fullscreen, key releases and repeats, untouched startup geometry, portrait restoration, smaller/moved monitors, asynchronous same-frame toggles, external mode exits and unsupported displays. It also sends actual Godot input through a last-root guard and nested consuming modal, confirming dispatch order and one-action ownership. Display operations use an injected deterministic backend in this suite.
 

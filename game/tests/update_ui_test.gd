@@ -11,7 +11,7 @@ func _initialize() -> void:
 	call_deferred("run")
 
 func run() -> void:
-	var scene = load("res://main.tscn")
+	var scene = load("res://legacy_mission.tscn")
 	var game = scene.instantiate()
 	root.add_child(game)
 	await process_frame

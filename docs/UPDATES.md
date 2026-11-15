@@ -1,8 +1,10 @@
 # Updating <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand -->
 
+**Release source snapshot: 0.8.0-alpha.1.** Prepared November 15, 2026, America/New_York. Publication was pending when this source snapshot was prepared; check the [release index](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases) for available files and the final acceptance record. A versioned source document alone is not proof of publication.
+
 ## What players can expect
 
-**Current release: [0.7.1-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.7.1-alpha.1).** Its deferred optional-world construction is compatible signed content for the existing Godot runtime; mission rules and default window framing are unchanged. The public download retains the native Mac packaging repair described below. [Release evidence](evidence/release-0.7.1-alpha.1.json). [Startup scope and first-visit tradeoff](WINDOW-STARTUP-PERFORMANCE.md).
+**This document accompanies the 0.8.0-alpha.1 source.** Publication and exact-pack acceptance must be verified from its release record. Historical [0.7.1 evidence](evidence/release-0.7.1-alpha.1.json) established signed content delivery for the earlier indoor operator model; it does not automatically prove compatibility of a new pack. [Earlier startup scope](WINDOW-STARTUP-PERFORMANCE.md).
 
 The **0.6.1-alpha.1 packaging repair** keeps the signed-content updater introduced in 0.4. Broken 0.6.0 Mac installations need one corrected full download: a content pack cannot repair the enclosing app signature, and a blocked app cannot run its updater. The older v0.3 installer also needs one manual upgrade. Existing saves and the pinned update key remain compatible.
 
@@ -20,9 +22,15 @@ Godot initializes global script-class and resource UID registries before content
 
 A successful startup acknowledgement only means that the startup checkpoint completed. It cannot certify every mission, device, or later gameplay path. Initial app signing/notarization, backups, real-device tests, and release review remain separate from content signatures.
 
-## One-time owner setup (completed for this repository)
+## Acceptance required for the new journey
 
-Run this on **your own trusted laptop**, outside the managed cloud terminal. That terminal's repository-administration and secrets requests were denied even after a personal login. No private signing key has been generated or provisioned by the development agents.
+The 0.8 source introduces new screens, scripts, fonts, audio, and a separate pace-and-fatigue model (explicit Start, continuous cleaning/transmission, generation/load/battery balance, fixed-deadline automatic entry) while retaining the existing Godot runtime and pinned trust root. Keeping those identities alone does not prove compatibility. Build the signed candidate, then run native launch and supported historical-installer activation, repeat-start, and tamper-recovery checks on that exact pack. New resource and script loading must respect the baseline registries described above.
+
+Only after those gates and public-file verification should the release be advertised as an available in-game update. Existing staging/signature/recovery implementation is established; successful 0.7.1 acceptance is historical evidence, not a substitute for testing 0.8. Native runtime or bootstrap-contract changes still require an installer transition.
+
+## Existing signing setup (already completed)
+
+The repository already has its signing setup. **Do not repeat setup or rotate the key for the 0.8 journey.** The commands below document recovery/provisioning for an owner who needs it; they are not a new action request. Use a trusted owner laptop for that work. No private signing key has been generated or provisioned by the development agents.
 
 Prerequisites: Python 3.11+, OpenSSL, the GitHub `gh` CLI, and a local checkout of this repository. Sign in with the repository owner account:
 
@@ -59,10 +67,10 @@ The **Build downloadable game** Actions workflow has independent `signed_updates
 For local builds, use an existing key outside the checkout:
 
 ```sh
-python3 scripts/build_game.py --version 0.7.1-alpha.1 --signed-updates --private-key "$HOME/.config/red-veil/signing/update-private.pem"
+python3 scripts/build_game.py --version 0.8.0-alpha.1 --signed-updates --private-key "$HOME/.config/red-veil/signing/update-private.pem"
 ```
 
-Version 0.7.1-alpha.1 is already published. Update the project version deliberately before building a later release; published assets are immutable.
+This example targets the versioned 0.8.0-alpha.1 source snapshot and requires its project version and frozen source to match. Version 0.7.1-alpha.1 is already published and must not be overwritten. A local build is not publication or proof of baseline compatibility.
 
 Signed builds produce four platform ZIPs, a standalone versioned science PDF and these five fixed assets (ten total):
 

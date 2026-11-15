@@ -23,7 +23,7 @@ func capture():
     var output := args[1]
     root.size = Vector2i(int(args[2]), int(args[3]))
     for i in range(5): await process_frame
-    var game = load("res://main.tscn").instantiate()
+    var game = load("res://legacy_mission.tscn").instantiate()
     root.add_child(game)
     for i in range(8): await process_frame
     if mode == "suit": game.show_suit_lab()

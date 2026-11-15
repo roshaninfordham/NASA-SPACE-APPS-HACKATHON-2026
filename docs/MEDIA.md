@@ -1,5 +1,21 @@
 # <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> media gallery
 
+## 0.8 — cleaning, energy and the live Sun
+
+These are actual native Godot source-project captures of the current journey. The player sees Ren clean a visible solar array from inside the habitat, chooses a starting pace, and presses Start. Slower/Faster controls change modeled tiredness and effective work. The display shows actual stored energy; Ren enters shelter automatically when the countdown ends.
+
+![Current journey: story, concepts, cleaning and reflection](media/journey/contact-sheet.png)
+
+[Actual native cleaning animation](media/journey/cleaning-live.gif) · [Animation provenance](media/journey/CLEANING-CLIP.md)
+
+[Full desktop/portrait screenshots and fixture method](media/journey/README.md) · [Source and image hashes](media/journey/capture-provenance.json)
+
+![NASA SDO image fetched through the actual game client](media/journey/live-sun-desktop.png)
+
+[Live NASA capture scope](media/journey/LIVE-SUN.md) · [Exact response and source fingerprints](media/journey/live-sun-provenance.json). The entire NASA image, including its embedded observation label, is preserved. The viewer distinguishes the file-publication timestamp from the successful-fetch timestamp. The online image is an educational observation, not a measured dose at the fictional Mars habitat.
+
+The reproducible general gallery disables networking, isolates player data and advances the actual model to documented fixture points. The live-NASA capture separately uses the actual HTTPS client with verified TLS. These are native Linux/X11 software-rendered source captures, not recordings from downloaded Mac/Windows installers, physical phones or a child usability study. A source fingerprint identifies the exact implementation; a later documentation commit does not change the depicted runtime. See [validation](VALIDATION.md) for independent numerical, interaction, network and release-artifact evidence.
+
 ## 0.7.1 — the same window view with deferred loading
 
 Published [0.7.1-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.7.1-alpha.1) retains the indoor composition and rescue sequence. The capture below comes from the frozen runtime whose fingerprints match release source `c86ad73da7810176e437e33e192a8d8475ae72a8`.
@@ -8,7 +24,7 @@ Published [0.7.1-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HAC
 
 This is an unedited 1280×720 source-project viewport captured with Godot 4.6.3, Xvfb and Mesa llvmpipe, with ambient time frozen for comparison. It is not an image of a downloaded installer or a physical-device performance test. [Capture hashes and numerical comparison](evidence/window-startup/candidate/comparison.json) record 52 changed pixels versus the earlier mission view; the framing is preserved, not asserted pixel-identical. [Returned title after Field Notes](evidence/window-startup/candidate/visual/field_notes_return.png) verifies restoration of the window camera. [Measurement method](WINDOW-STARTUP-PERFORMANCE.md) and [package verification](evidence/release-0.7.1-alpha.1.json) have separate scopes.
 
-The 0.7 screenshots below remain historical input/rescue evidence. The 0.7.1 patch defers optional geometry and repairs the architecture lesson's camera restoration; it does not introduce a new visual direction. The current [science guide](media/KOMAKU-Science-Guide.pdf) has refreshed source provenance with unchanged scientific explanations.
+The 0.7 screenshots below remain historical input/rescue evidence. The 0.7.1 patch defers optional geometry and repairs the architecture lesson's camera restoration; it does not introduce a new visual direction. The 0.7.1 packaged guide refreshed source provenance without changing that historical model. The current guide explains the final pace-and-fatigue journey; the earlier model remains documented separately.
 
 ## Historical 0.7 release — indoor mission control
 
@@ -28,7 +44,7 @@ The arrival image turns toward Mira after she enters. It is **behavior evidence,
 
 [Capture hashes, source fingerprints and input methodology](media/0.7-capture.json) identify these 1280×720 Godot 4.6.3 Linux GL/Xvfb/Mesa software renders. The PNGs were copied directly from the viewport without cropping, compositing or added overlays. Earlier outdoor-start images under these filenames were superseded and have now been replaced. These captures do not establish physical Mac/Windows/mobile performance, photoreal fidelity or learning outcomes.
 
-The regenerated [16-page science guide](media/KOMAKU-Science-Guide.pdf) explains the operator mission, optional EVA, planner and teaching assumptions. Source-fingerprint checks guard against stale packaging.
+Use the guide bundled with the corresponding historical release for those operator/EVA rules. The current [16-page science guide](media/KOMAKU-Science-Guide.pdf) covers the final pace mission; source-fingerprint checks guard against stale packaging.
 
 The final landscape-only inventory falls from **109,710 to 21,388 retained triangles**; this is not a whole-game or FPS result. [Landscape scope](DESIGN-PIVOT-0.7.md). Earlier performance captures and their 33.7%/approximately 61% reductions are historical pre-pivot measurements. The former headless stone-placement digest was invalid and does not prove unchanged placements; [the corrected record](PERFORMANCE.md) explains why.
 

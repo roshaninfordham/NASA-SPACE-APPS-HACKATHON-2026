@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Test signed content using unchanged public 0.6/0.6.1/0.7 Mac/Windows installers.
+"""Test signed content using unchanged public 0.6 through 0.7.1 Mac/Windows installers.
 
 Runs only on a fresh native CI runner, refuses an existing player profile, and
 cleans its newly created profile. Staging uses the matching editor with the
@@ -29,7 +29,7 @@ from branding import archive_name, supplemental_asset_names
 
 ROOT = Path(__file__).resolve().parent.parent
 REPOSITORY = "roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026"
-DEFAULT_BASELINE = "0.7.0-alpha.1"
+DEFAULT_BASELINE = "0.7.1-alpha.1"
 # Independent immutable identities; evidence files supply the complete asset list.
 BASELINES = {
     "0.6.0-alpha.1": {
@@ -49,6 +49,12 @@ BASELINES = {
         "manifest_sha256": "1da540b47c4f5606aed074417470ebe9c508ab0e03903d12d10f63dfa3d49abf",
         "macOS-universal": "d132433260479b984981e707f9581c613b5e4117a4e11bccbc59415a6683b353",
         "Windows-x64": "068106d04e19b605377a564b3f48a90fd26481aac10a3d254903703dfeb33828",
+    },
+    "0.7.1-alpha.1": {
+        "source_commit": "c86ad73da7810176e437e33e192a8d8475ae72a8",
+        "manifest_sha256": "fa36a81713a0a5d8e1961f108a5379052c99f4336e8eef8c2264f1d93851799d",
+        "macOS-universal": "d87e1770bb8e74fa2cb81a9e4e07142aec9dceb55bdcedd61abac4517dffb2e9",
+        "Windows-x64": "0bcb0dcbd3ff95655b4c9666a0d15d065398b1ffa841943e09a04445268bb949",
     },
 }
 
@@ -259,7 +265,7 @@ def main():
     parser.add_argument("--candidate-artifacts", required=True, type=Path)
     parser.add_argument("--expected-commit", required=True)
     parser.add_argument("--workspace", required=True, type=Path)
-    parser.add_argument("--baseline", choices=tuple(BASELINES), default=DEFAULT_BASELINE, help="Immutable published installer to test (default: repaired 0.6.1)")
+    parser.add_argument("--baseline", choices=tuple(BASELINES), default=DEFAULT_BASELINE, help=f"Immutable published installer to test (default: {DEFAULT_BASELINE})")
     args = parser.parse_args()
     if not re.fullmatch(r"[0-9a-f]{40}", args.expected_commit):
         parser.error("Exact source SHA required")

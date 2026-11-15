@@ -48,7 +48,7 @@ func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	for viewport_size in [Vector2i(1280,720), Vector2i(960,540), Vector2i(390,844), Vector2i(844,390)]:
 		root.size = viewport_size
-		var game = load("res://main.tscn").instantiate()
+		var game = load("res://legacy_mission.tscn").instantiate()
 		root.add_child(game)
 		current_scene = game
 		await frames(12)

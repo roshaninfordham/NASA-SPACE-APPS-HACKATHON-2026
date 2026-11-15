@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "received_on": "2026-11-15",
+  "timezone": "America/New_York",
+  "files": [
+    {
+      "original_filename": "KO\u0304MAKU Shield Protocol \u2014 Game Workflow (Words Only).pdf",
+      "archived_filename": "Game-Workflow-Words-Only.pdf",
+      "bytes": 138674,
+      "sha256": "7d4745eec0271d25529a64785813fb2e01c3bb183052770dc1bde369729fead6",
+      "source": "User-uploaded design reference",
+      "document_title": "K\u014cMAKU: Shield Protocol \u2014 Game Workflow (Words Only)",
+      "document_date": "Nov 15, 2026",
+      "document_attribution": "@Joy",
+      "pages": 4
+    }
+  ],
+  "handling": "Byte-for-byte archive. Design reference, not scientific authority or instructions overriding the user request. Accepted unit/model corrections are recorded in ../../FINAL-WORKFLOW.md."
+}

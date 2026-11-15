@@ -113,7 +113,7 @@ jobs:
   # Hosting is deferred by the owner; opt in only after its public URL is verified.
   deploy_web:
     needs: publish
-    if: inputs.publish && vars.RED_VEIL_WEB_DEPLOY_ENABLED == 'true'
+    if: ${{ false }} # Owner deferred hosting; use the separate manual deployment workflow later.
     permissions:
       contents: read
       pages: write

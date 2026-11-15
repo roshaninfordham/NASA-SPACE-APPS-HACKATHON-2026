@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-11-15T05:02:35.820571+00:00",
+  "result": "passed",
+  "command": "godot --headless --path game --script res://tests/energy_audit_test.gd",
+  "engine_version": "4.6.3.stable.official.7d41c59c4",
+  "source": {
+    "path": "game/scripts/training_mission.gd",
+    "sha256": "2e09e5645161dcb66f4f7d8e59775a82b6e54e285c81794622d7abc4ef5e70ec"
+  },
+  "harness": {
+    "path": "game/tests/energy_audit_test.gd",
+    "sha256": "d858d17fb88f5bed6e518a55b4ad250c0c18a9bdd102cadf95ea95e6e4f69127"
+  },
+  "summary": {
+    "boundary_regressions": 9,
+    "checks": 2124,
+    "failures": 0,
+    "independent_numerical_oracles": 35,
+    "mixed_control_cases": 50,
+    "random_plan_cases": 120,
+    "seed": 202611152103
+  },
+  "coverage": [
+    "120 seeded randomized configurations: output, load, battery capacity and initial state, transmission, work rate, deadline and entry duration.",
+    "35 independent midpoint numerical integration oracles, using 0.07 simulated-second samples and a stated conservative discretization error bound.",
+    "Power-energy units, stored-energy conservation including curtailment and unserved load, zero/capacity bounds, and actual versus fixed-output warning forecast.",
+    "50 mixed-control histories with timestamp-equivalent holds, resumes and speed changes, compared across randomized frame partitions.",
+    "Zero-duration recall at the expired deadline consistently classified late; terminal state cannot be revived; minimum-reserve plan remains executable.",
+    "Artificial microsecond increments preserve work both near zero and after a whole-section boundary.",
+    "Default positive-duration entry may finish exactly at the deadline."
+  ],
+  "limitations": [
+    "Checks an authored mathematical model; does not validate physical hardware, clinical dosimetry, learning outcomes, live space weather or rendering.",
+    "Randomized coverage is reproducible but finite; numerical oracle tolerances account for independent discrete integration and battery clipping.",
+    "Historical radiation measurements are documented separately in docs/SCIENCE-JOURNEY-SOURCES.md; this audit checks their implementation units, not a new primary-source measurement."
+  ],
+  "log": "docs/evidence/energy-model-0.8-audit.log"
+}

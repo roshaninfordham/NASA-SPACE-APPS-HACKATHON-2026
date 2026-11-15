@@ -1,6 +1,6 @@
 extends SceneTree
 const Progress = preload("res://scripts/journey_progress.gd")
-const Mission = preload("res://scripts/training_mission.gd")
+const Mission = preload("res://scripts/pace_mission.gd")
 var failures := 0
 var assertions := 0
 var test_dir := ""
@@ -27,7 +27,7 @@ func sample_result(seconds := 210.0) -> Dictionary:
 	return {"status": "success", "elapsed_seconds": seconds, "sim_elapsed_seconds": 1260.0, "sections_cleaned": 2, "dose_ugy": 3.0625}
 
 func quiz(answer: int) -> Dictionary:
-	return {"question_id": "return-time-transfer-1", "first_answer": answer, "answered": answer >= 0, "correct": answer == 0, "assisted": false}
+	return {"question_id": "pace-fatigue-transfer-1", "first_answer": answer, "answered": answer >= 0, "correct": answer == 0, "assisted": false}
 
 func assert_rejected_file(name: String, contents: String) -> void:
 	var path := test_dir.path_join(name + ".json")
@@ -69,10 +69,7 @@ func _initialize() -> void:
 	check(Progress.new(path).reviewed_ids.size() == 8, "Complete concept readiness survives reopening")
 
 	var model = Mission.new()
-	model.start_cleaning()
-	model.advance(120.0)
-	model.request_return()
-	model.advance(90.0)
+	model.advance(300.0)
 	var full_result: Dictionary = model.result()
 	full_result["personal_note"] = "not allowed in the save"
 	var answer := quiz(0)
@@ -82,10 +79,28 @@ func _initialize() -> void:
 	check(store.runs[0].quiz.size() == 5 and not store.runs[0].quiz.has("untrusted_extra"), "Quiz drops arbitrary input fields")
 	full_result.dose_ugy = 999
 	answer.first_answer = 2
-	check(store.runs[0].dose_ugy == 3.0625 and store.runs[0].quiz.first_answer == 0, "Stored summary is detached from caller dictionaries")
+	check(is_equal_approx(store.runs[0].dose_ugy, 10.9375) and store.runs[0].quiz.first_answer == 0, "Stored summary is detached from caller dictionaries")
 	check(not read_text(path).contains("personal_note") and not read_text(path).contains("identity"), "Unapproved data never reaches the save file")
 	check(store.record_result(sample_result(), quiz(1)) and not store.runs[-1].quiz.correct, "Incorrect first answer is recorded honestly")
 	check(store.record_result(sample_result()) and not store.runs[-1].quiz.answered and store.runs[-1].quiz.first_answer == -1, "Skipping practice preserves an unanswered state")
+	var legacy_quiz := quiz(0)
+	legacy_quiz.question_id = "return-time-transfer-1"
+	check(not store.record_result(sample_result(), legacy_quiz), "New records cannot use the retired walking quiz")
+	var legacy_payload: Dictionary = initial.duplicate(true)
+	var legacy_row := sample_result()
+	legacy_row.quiz = legacy_quiz
+	legacy_payload.runs = [legacy_row]
+	var legacy_path := test_dir.path_join("legacy.json")
+	write_text(legacy_path, JSON.stringify(legacy_payload))
+	var legacy = Progress.new(legacy_path)
+	check(legacy.storage_available and legacy.runs[0].quiz.question_id == "return-time-transfer-1", "Historical quiz records retain their original meaning on load")
+	check(legacy.record_result(sample_result(), quiz(0)) and Progress.new(legacy_path).runs.size() == 2, "Old and new quiz versions remain readable together")
+	legacy_payload.runs[0].quiz.question_id = "cleaning-rate-transfer-1"
+	var previous_path := test_dir.path_join("previous-cleaning.json")
+	write_text(previous_path, JSON.stringify(legacy_payload))
+	var previous = Progress.new(previous_path)
+	check(previous.storage_available and previous.runs[0].quiz.question_id == "cleaning-rate-transfer-1", "Prior cleaning quiz retains its original meaning after the fatigue pivot")
+	check(not previous.record_result(sample_result(), legacy_payload.runs[0].quiz), "New quiz records cannot pretend to answer a retired cleaning question")
 	var bad_quiz := quiz(1)
 	bad_quiz.correct = true
 	check(not store.record_result(sample_result(), bad_quiz), "Forged correct flag is rejected")

@@ -8,6 +8,9 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parent.parent
 GODOT_SUITES = (
+    "pace_mission_test", "pace_audit_test", "training_mission_test", "energy_audit_test", "live_solar_feed_test", "solar_panel_test", "training_panel_test", "training_astronaut_test", "journey_audio_test", "journey_progress_test",
+    "navigation_policy_test", "journey_input_guard_test", "training_hud_test",
+    "journey_shell_test", "journey_integration_test", "journey_update_ui_test",
     "mission_test", "learning_test", "gameplay_test", "art_contract_test",
     "design_world_test", "dialog_contract_test", "visual_style_test",
     "interior_spec_test", "exterior_spec_test", "suit_lab_test",
@@ -37,8 +40,12 @@ def main():
         environment = os.environ | {"XDG_DATA_HOME": profile}
         checked(["godot", "--headless", "--path", "game", "--editor", "--import"], environment)
         for suite in GODOT_SUITES:
-            checked(["godot", "--headless", "--path", "game", "--script", f"res://tests/{suite}.gd"], environment)
+            # Each executable suite owns a fresh player profile. Integration
+            # persistence must not silently seed a later test's first launch.
+            suite_environment = environment | {"XDG_DATA_HOME": str(Path(profile) / suite)}
+            checked(["godot", "--headless", "--path", "game", "--script", f"res://tests/{suite}.gd"], suite_environment)
         checked([sys.executable, "scripts/build_science_guide.py", "--check"], environment)
+        checked([sys.executable, "scripts/build_video_equations.py", "--check"], environment)
         for script in ("test_updater.py", "test_update_bootstrap.py"):
             checked([sys.executable, "scripts/" + script], environment)
         for suite in PYTHON_SUITES:

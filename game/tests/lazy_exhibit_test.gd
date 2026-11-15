@@ -56,7 +56,7 @@ func _initialize() -> void: call_deferred("run")
 func run() -> void:
 	root.size = Vector2i(1280,720)
 	for paused_operator in [false,true]:
-		var game = load("res://main.tscn").instantiate()
+		var game = load("res://legacy_mission.tscn").instantiate()
 		root.add_child(game)
 		current_scene = game
 		await frames()

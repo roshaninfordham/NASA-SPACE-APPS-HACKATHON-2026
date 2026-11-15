@@ -58,7 +58,7 @@ func run() -> void:
 	root.content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
 	root.size = _viewport_size
 	var start := Time.get_ticks_msec()
-	var game = load("res://scripts/world.gd").new() if _world_only else load("res://main.tscn").instantiate()
+	var game = load("res://scripts/world.gd").new() if _world_only else load("res://legacy_mission.tscn").instantiate()
 	root.add_child(game)
 	if _world_only:
 		game.update_weather(load("res://scripts/mission.gd").new())

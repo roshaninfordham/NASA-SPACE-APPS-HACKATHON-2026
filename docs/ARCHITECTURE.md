@@ -4,7 +4,34 @@
 
 ## Primary game runtime
 
-Godot 4.6.3 with typed GDScript and the compatibility renderer. The game is an offline first-person adventure. It has no account system, remote gameplay service, analytics SDK, or runtime dependency on a research API. The updater can contact public GitHub release endpoints without sending learner profiles or mission logs.
+Godot 4.6.3 with typed GDScript and the compatibility renderer. The game is an offline first-person adventure. It has no account system, remote gameplay service, analytics SDK, or runtime dependency on a research API. The updater can contact public GitHub release endpoints without sending learner profiles or mission logs. An optional Live Sun viewer fetches the latest available NASA SDO image directly over HTTPS; cached and bundled images keep the lesson available offline. It never changes mission equations.
+
+## Default 0.8 journey
+
+The final source direction follows the words-only workflow: opening → control-room preflight → explicit Start → fixed-duration pace/fatigue cleaning → automatic entry → equations. Optional science exploration is not a prerequisite for playing. The [independent v4 numerical audit](evidence/pace-model-0.8-audit.json) is recorded; final controller/package acceptance remains pending.
+
+```mermaid
+flowchart LR
+  Story[Opening] --> Preflight[Choose pace · no clock]
+  Preflight -->|Start| Model[Pace / fatigue mission]
+  Controls[Slower / Faster / slider] --> Model
+  Model --> HUD[Shared snapshot: work, energy, dose]
+  Model -->|30 simulated minutes| Result[Automatic entry and result]
+  Cards[Optional science readings] --> Pause[Pause whole model]
+  NASA[NASA SDO image client] --> Viewer[Separate observational viewer]
+```
+
+`game/scripts/pace_mission.gd` owns the new deterministic model: bounded requested pace and fictional fatigue, integrated work, continuous dust transmission, actual generation/load/battery energy, authored dose ramp and cleanliness outcome. It has no walking, recall or future reserve calculation. Views do not maintain independent physics counters. The earlier `training_mission.gd` describes a superseded prototype, not the final default contract.
+
+`journey_game.gd` coordinates preflight/play/pause/debrief and shared components. `journey_shell.gd` presents the opening, optional concepts and reflection; `training_hud.gd` presents the window controls and current values. Shared branding/theme/audio and the catalog remain replaceable. `journey_progress.gd` saves only bounded local preferences, explored IDs and run summaries; historical quiz identities stay distinct.
+
+The root-last input guard routes fullscreen Escape before nested dialogs. Reading, focus loss and navigation freeze every model quantity. Keys 1/3 adjust pace only in exposed preflight or active controls; Enter starts only in preflight. No hidden control receives shortcuts beneath a modal.
+
+The NASA SDO client is a separate HTTPS/cache boundary for browse imagery. It does not set the mission's authored radiation curve, fatigue or score. See [LIVE-DATA.md](LIVE-DATA.md). The persistent `/root/Updates` client and stable update/save identities remain unchanged; notices are deferred to safe screens, and downloads/restart require explicit actions.
+
+## Retained advanced-lab runtime
+
+The following diagram and boundaries describe the earlier mission, available from Home → Advanced lab. They are not the default 0.8 cleaning/energy rules.
 
 ```mermaid
 flowchart LR
@@ -48,7 +75,7 @@ flowchart LR
 
 The simulation updates in fixed steps of 1/120 hour. Four real minutes represent twelve fictional mission hours. Character movement uses real-time Godot physics and 3.71 m/s² gravity; the mission clock is deliberately compressed. This is a teaching abstraction, not a consistently time-scaled physical reconstruction.
 
-The default presentation puts the operator inside a bounded control room. The single suit and dose state belongs to Mira outside, independent of operator position. A separate crew-return controller handles the authored approach and airlock cycle; only completed arrival/cycling changes the mission shelter flag. These are game travel settings, not a validated airlock or human locomotion simulation.
+The retained advanced-lab presentation puts the operator inside a bounded control room. The single suit and dose state belongs to Mira outside, independent of operator position. A separate crew-return controller handles the authored approach and airlock cycle; only completed arrival/cycling changes the mission shelter flag. These are game travel settings, not a validated airlock or human locomotion simulation.
 
 The optional EVA mission retains physical hold-to-inspect and walking into the refuge bounds. In that mode, suit and dose refer to the first-person explorer. Both modes use the same numerical mission model, but their interaction and tracked-subject rules are explicit. The operator mode leaves the off-view array uninspected at its existing 0.75 efficiency factor.
 

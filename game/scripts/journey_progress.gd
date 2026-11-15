@@ -15,7 +15,9 @@ const DEFAULT_SETTINGS := {
 	"reduced_motion": false,
 	"pace": 1.0,
 }
-const QUIZ_ID := "return-time-transfer-1"
+const QUIZ_ID := "pace-fatigue-transfer-1"
+const PREVIOUS_QUIZ_ID := "cleaning-rate-transfer-1"
+const LEGACY_QUIZ_ID := "return-time-transfer-1"
 
 var settings: Dictionary = DEFAULT_SETTINGS.duplicate(true)
 var reviewed_ids: Array[String] = []
@@ -204,18 +206,20 @@ static func _valid_setting(key: String, value: Variant) -> bool:
 		"soundtrack": return value is String and value in ["supplied", "original"]
 	return false
 
-static func _normalize_quiz(value: Dictionary) -> Dictionary:
+static func _normalize_quiz(value: Dictionary, allow_legacy := false) -> Dictionary:
 	if value.is_empty(): return {"question_id": QUIZ_ID, "first_answer": -1, "answered": false, "correct": false, "assisted": false}
-	if value.get("question_id") != QUIZ_ID or not _number(value.get("first_answer"), -1, 2, true): return {}
+	var question: Variant = value.get("question_id")
+	if question != QUIZ_ID and not (allow_legacy and question in [LEGACY_QUIZ_ID, PREVIOUS_QUIZ_ID]): return {}
+	if not _number(value.get("first_answer"), -1, 2, true): return {}
 	var answer := int(value.first_answer)
 	if not value.get("answered") is bool or not value.get("correct") is bool or not value.get("assisted") is bool: return {}
 	if value.answered != (answer >= 0) or value.correct != (answer == 0): return {}
-	return {"question_id": QUIZ_ID, "first_answer": answer, "answered": answer >= 0, "correct": answer == 0, "assisted": value.assisted}
+	return {"question_id": question, "first_answer": answer, "answered": answer >= 0, "correct": answer == 0, "assisted": value.assisted}
 
 static func _normalize_run(value: Dictionary, from_disk: bool) -> Dictionary:
 	var fields := ["status", "elapsed_seconds", "sim_elapsed_seconds", "sections_cleaned", "dose_ugy", "quiz"]
 	if from_disk and not _exact_keys(value, fields): return {}
-	if value.get("status") not in ["success", "power-shortfall", "late"]: return {}
+	if value.get("status") not in ["success", "power-shortfall", "late", "win", "pass", "lose"]: return {}
 	if not _number(value.get("elapsed_seconds"), 0.0, 1728000.0): return {}
 	if not _number(value.get("sim_elapsed_seconds"), 0.0, 86400.0): return {}
 	if not _number(value.get("sections_cleaned"), 0, 12, true): return {}
@@ -224,7 +228,7 @@ static func _normalize_run(value: Dictionary, from_disk: bool) -> Dictionary:
 	if from_disk:
 		if not value.get("quiz") is Dictionary: return {}
 		if not _exact_keys(value.quiz, ["question_id", "first_answer", "answered", "correct", "assisted"]): return {}
-		quiz = _normalize_quiz(value.quiz)
+		quiz = _normalize_quiz(value.quiz, true)
 		if quiz.is_empty(): return {}
 	else:
 		quiz = _normalize_quiz({})

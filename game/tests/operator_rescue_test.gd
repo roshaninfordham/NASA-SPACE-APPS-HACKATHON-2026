@@ -58,7 +58,7 @@ func run() -> void:
 	model_contract()
 	for dimensions in [Vector2i(1280,720),Vector2i(960,540),Vector2i(390,844),Vector2i(844,390)]:
 		root.size = dimensions
-		var game = load("res://main.tscn").instantiate()
+		var game = load("res://legacy_mission.tscn").instantiate()
 		root.add_child(game)
 		current_scene = game
 		await frames(12)
@@ -121,7 +121,7 @@ func run() -> void:
 		check(game.finish_panel == debrief and is_instance_valid(debrief) and not game.player.enabled, "F1 and direct resume cannot replace terminal debrief or revive ended mission")
 		game.queue_free()
 		await frames()
-	var reset_game = load("res://main.tscn").instantiate()
+	var reset_game = load("res://legacy_mission.tscn").instantiate()
 	root.add_child(reset_game)
 	await frames()
 	check(reset_game.rescue.phase == "waiting" and reset_game.mission.time == 0 and not reset_game.mission.shelter, "Fresh scene resets companion and all mission protection")
@@ -131,7 +131,7 @@ func run() -> void:
 	check(not reset_game.operator_mode and not reset_game.world.is_window_presentation() and not reset_game.player.operator_area, "Design flag false restores coherent outdoor EVA default")
 	reset_game.queue_free()
 	await frames()
-	var tour_game = load("res://main.tscn").instantiate()
+	var tour_game = load("res://legacy_mission.tscn").instantiate()
 	root.add_child(tour_game)
 	current_scene = tour_game
 	await frames()
