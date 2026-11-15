@@ -1,6 +1,8 @@
 # <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand -->
 
-**Clear the dust. Discover the science.**
+**On Mars, dust steals the power and radiation limits the time to fix it.**
+
+**By Team Roshan Xingbo.** We turn scientists’ complex space knowledge into fun stories young astronauts can understand.
 
 **Submission video ready:** [download the 29.5-second, 1080p MP4](docs/media/submission-demo/KOMAKU-30-second-demo.mp4) · [credits and capture provenance](docs/media/submission-demo/README.md). The 24 fps edit combines actual engine footage, burned-in captions and an AI-generated Indian English male voice. It is a prototype demonstration, not footage of a child playing or a new release announcement.
 

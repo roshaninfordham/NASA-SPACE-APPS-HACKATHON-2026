@@ -1,6 +1,6 @@
 # <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — copy-ready submission answers
 
-**Team Roshan Xingbo · draft for review · November 15, 2026.** Nothing has been submitted. Official form questions and limits have not been supplied. The three summaries below contain exactly 50, 150, and 300 words when counted by whitespace; the form may count words differently.
+**Team Roshan Xingbo · draft for review · November 15, 2026.** Nothing has been submitted. The exact form answers are now in [SUBMISSION-FORM-ANSWERS.md](submission/SUBMISSION-FORM-ANSWERS.md); use that newer draft for submission. The material below is background copy. The three summaries below contain exactly 50, 150, and 300 words when counted by whitespace; the form may count words differently.
 
 **Build to link now:** [published 0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1). The restoration of eight visible, updating science bubbles is implemented in the reviewed 0.11 candidate; release acceptance is still in progress. Do not describe that revision as a published 0.11 build. These answers describe the released mission and its optional science library unless a future feature is explicitly identified.
 
@@ -124,7 +124,7 @@ Select highlights from a full round; cuts are editing, not a claim that the full
 - **Available release:** https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1
 - **Science sources:** https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/blob/main/docs/SOURCE-INDEX.md
 - **Science guide:** https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/blob/main/docs/SCIENCE-GUIDE.md
-- **Final video:** insert the team’s public video URL after export and a playback check.
+- **Final video:** https://www.youtube.com/watch?v=eIkaDw6MwKA (confirm logged-out playback and runtime before submission).
 
 Before sending, match the form’s actual fields and limits, confirm the selected release and video are accessible, and replace the final-video placeholder. This document is prepared copy, not an application submitted on the team’s behalf.
 

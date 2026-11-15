@@ -1,5 +1,15 @@
 # <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — short video pitch
 
+## Shared opening and closing lines
+
+**On Mars, dust steals the power and radiation limits the time to fix it.**
+
+**KŌMAKU: Dust & Radiation — by Team Roshan Xingbo.** We turn scientists’ complex space knowledge into fun stories young astronauts can understand.
+
+**Tomorrow, that child could be the one making these calls on Mars.**
+
+Use these as editorial options, not extra lines appended beyond the 30-second limit. New astronauts and adaptive missions are future plans. In the current game, pace changes cleaning and energy; all completed rounds share outside duration and dose.
+
 **0.10.0-alpha.1 recording and writing draft.** Use the final tested release when recording; this document does not itself establish publication. The mission lasts about 90 active real seconds at the standard clock speed, representing 30 simulated minutes. Set a cleaning pace in preflight, press Start, watch work and fictional tiredness, then enter automatically at the deadline. The result page and science explanation belong in the game capture. See the longer [submission draft](SUBMISSION-DRAFT.md) for the team’s review.
 
 ## Simple description
