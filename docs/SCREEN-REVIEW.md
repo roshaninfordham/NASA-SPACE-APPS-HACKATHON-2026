@@ -6,6 +6,8 @@ Review the major screens of <!-- brand:display_name -->KŌMAKU: Dust & Radiation
 
 **Versioned review:** https://roshaninfordham.github.io/NASA-SPACE-APPS-HACKATHON-2026/review/0.10.0-alpha.1/
 
+Published and verified on 15 November 2026. [Deployment](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43727500866) and [validation](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43727500954) passed. [Verification record](evidence/screen-review-0.10.0-alpha.1.json): 22 browser checks, 33 screenshots, all 71 public files checked and 33 existing website files preserved unchanged. Public desktop and touch-layout checks confirmed drawing, sharing and exports without submitting test feedback.
+
 These are 33 actual captured screens, not a playable browser build. The gallery covers the opening, mission controls, learning views, navigation, all three result categories and smaller layouts. Game source, image dimensions and SHA-256 fingerprints are recorded in its screen manifest. Review website changes do not change the published desktop game.
 
 ## Give feedback
