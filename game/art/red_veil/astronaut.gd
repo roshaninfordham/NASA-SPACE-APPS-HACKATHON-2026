@@ -2,13 +2,14 @@ extends Node3D
 const VisualStyle = preload("res://scripts/visual_style.gd")
 const Branding = preload("res://scripts/branding.gd")
 const Ornaments = preload("res://art/red_veil/exterior_ornaments.gd")
-## Original stylized Mira sculpture: cosmetic character, not an engineered suit.
+## Original stylized crew character: cosmetic presentation, not an engineered suit.
 ## Feet at y=0, height about 1.65 m, facing +Z. Geometry is built once and batched.
 @export var suit_color := VisualStyle.color("pearl")
 @export var crimson_color := VisualStyle.color("crimson")
 @export var gold_color := VisualStyle.color("rose_gold")
 @export_range(0.0, 1.0, 0.05) var idle_amount := 0.65
 var _elapsed := 0.0
+var _lower: Node3D
 var _upper: Node3D
 var _head: Node3D
 var _glow: StandardMaterial3D
@@ -20,7 +21,7 @@ var _shell: StandardMaterial3D
 var _red: StandardMaterial3D
 var _gold: StandardMaterial3D
 var _joint: StandardMaterial3D
-# The released idle sculpture keeps its original batches. Articulated geometry
+# The authored rest sculpture keeps its static batches. Articulated geometry
 # is allocated only on first use, then reused across work/idle transitions.
 var _arm_ranges: Dictionary = {}
 var _legacy_arm_meshes: Dictionary = {}
@@ -40,34 +41,40 @@ var _training_phase := 0.0
 const WORK_SWEEP_RADIANS_PER_SECOND := 4.8
 const BRUSH_SWEEP_METERS := 0.40
 const HAND_SWEEP_METERS := 0.105
-const WORK_SHOULDER := Vector3(0.211, 1.155, 0)
-const WORK_ELBOW := Vector3(0.286, 0.987, 0.025)
-const WORK_WRIST := Vector3(0.164, 0.925, 0.182)
+const WORK_SHOULDER := Vector3(-0.211, 1.155, 0)
+const WORK_ELBOW := Vector3(-0.286, 0.987, 0.025)
+const WORK_WRIST := Vector3(-0.259, 0.808, 0.085)
 
 func _ready() -> void:
 	set_meta("product_name", Branding.display_name())
 	_sphere = SphereMesh.new()
 	_sphere.radius = 1.0
 	_sphere.height = 2.0
-	_sphere.radial_segments = 16
-	_sphere.rings = 6
+	_sphere.radial_segments = 32
+	_sphere.rings = 14
 	_detail = SphereMesh.new()
 	_detail.radius = 1.0
 	_detail.height = 2.0
-	_detail.radial_segments = 10
-	_detail.rings = 3
+	_detail.radial_segments = 16
+	_detail.rings = 6
 	_soft = ShaderMaterial.new()
 	_soft.resource_name = "IridescentPearlFabric"
 	_soft.shader = preload("res://art/red_veil/suit_fabric.gdshader")
 	_soft.set_shader_parameter("pearl", suit_color)
-	_shell = _material("PearlArmor", suit_color.lightened(0.045), 0.25, 0.22)
-	_red = _material("CrimsonHarness", crimson_color, VisualStyle.number("lacquer_roughness"), 0.23)
+	_shell = _material("PearlArmor", Color("eee9e2"), 0.23, 0.10)
+	_shell.clearcoat_enabled = true
+	_shell.clearcoat = 0.35
+	_shell.clearcoat_roughness = 0.22
+	_red = _material("CrimsonHarness", crimson_color, 0.24, 0.12)
 	_gold = _material("WarmGold", gold_color, 0.28, 0.63)
-	_joint = _material("FlexWeave", Color("453443"), 0.72, 0.0)
+	_joint = _material("FlexWeave", Color("202d38"), 0.74, 0.0)
 	_glow = _material("WarmInstrumentLight", Color("ffdc96"), 0.28, 0.15)
 	_glow.emission_enabled = true
 	_glow.emission = Color("ffe3ac")
 	_glow.emission_energy_multiplier = 0.85
+	_lower = Node3D.new()
+	_lower.name = "PlantedBootsAndLegs"
+	add_child(_lower)
 	_upper = Node3D.new()
 	_upper.name = "BreathingUpperBody"
 	add_child(_upper)
@@ -76,6 +83,17 @@ func _ready() -> void:
 	_build_craft_details()
 	_build_arms()
 	_build_head()
+	# Soft local portrait fill keeps the face readable through the real visor in
+	# the operator's backlit view. It illuminates nearby geometry, not a flat tint.
+	var portrait_fill := OmniLight3D.new()
+	portrait_fill.name = "SoftHelmetPortraitFill"
+	portrait_fill.position = Vector3(0.15, 1.68, -0.63)
+	portrait_fill.light_color = Color("ffe9d0")
+	portrait_fill.light_energy = 0.72
+	portrait_fill.omni_range = 1.65
+	portrait_fill.omni_attenuation = 1.4
+	portrait_fill.shadow_enabled = false
+	add_child(portrait_fill)
 	_flush_batches()
 	if _training_active: set_training_cleaning(true, _training_multiplier, _training_reduced_motion)
 
@@ -110,15 +128,15 @@ func _add(mesh: Mesh, mat: Material, transform: Transform3D, parent: Node3D) -> 
 	_batches[parent] = groups
 
 func _ellipsoid(parent: Node3D, pos: Vector3, size: Vector3, mat: Material, rotation: Vector3 = Vector3.ZERO, detail: bool = false) -> void:
-	_add(_detail if detail else _sphere, mat, Transform3D(Basis.from_euler(rotation).scaled(size), pos), parent)
+	_add(_detail if detail else _sphere, mat, Transform3D(Basis.from_euler(rotation).scaled_local(size), pos), parent)
 
 func _ring(parent: Node3D, pos: Vector3, radius: float, tube: float, mat: Material, rotation: Vector3 = Vector3.ZERO, scale_shape: Vector3 = Vector3.ONE) -> void:
 	var mesh := TorusMesh.new()
 	mesh.inner_radius = radius - tube
 	mesh.outer_radius = radius + tube
-	mesh.rings = 24
-	mesh.ring_segments = 5
-	_add(mesh, mat, Transform3D(Basis.from_euler(rotation).scaled(scale_shape), pos), parent)
+	mesh.rings = 48
+	mesh.ring_segments = 8
+	_add(mesh, mat, Transform3D(Basis.from_euler(rotation).scaled_local(scale_shape), pos), parent)
 
 func _axis_basis(direction: Vector3) -> Basis:
 	var up := direction.normalized()
@@ -131,8 +149,8 @@ func _limb(parent: Node3D, from: Vector3, to: Vector3, radius: float, mat: Mater
 	var mesh := CapsuleMesh.new()
 	mesh.radius = radius
 	mesh.height = from.distance_to(to) + radius * 2.0
-	mesh.radial_segments = 8 if radius < 0.02 else 12
-	mesh.rings = 2 if radius < 0.02 else 4
+	mesh.radial_segments = 10 if radius < 0.02 else 24
+	mesh.rings = 3 if radius < 0.02 else 8
 	_add(mesh, mat, Transform3D(_axis_basis(to - from), (from + to) * 0.5), parent)
 
 func _mesh(vertices: PackedVector3Array, normals: PackedVector3Array, indices: PackedInt32Array) -> ArrayMesh:
@@ -212,20 +230,20 @@ func _sphere_patch(size: Vector3, rows: int, columns: int, maximum_angle: float,
 func _build_legs() -> void:
 	for side in [-1.0, 1.0]:
 		var x: float = side * 0.112
-		_ellipsoid(self, Vector3(x, 0.036, 0.046), Vector3(0.106, 0.036, 0.164), _joint)
-		_ellipsoid(self, Vector3(x, 0.105, 0.080), Vector3(0.105, 0.084, 0.145), _shell)
-		_ellipsoid(self, Vector3(x, 0.17, -0.008), Vector3(0.085, 0.11, 0.102), _shell)
-		_ring(self, Vector3(x, 0.055, 0.043), 0.095, 0.008, _glow, Vector3.ZERO, Vector3(1.0, 1.0, 1.55))
-		_ring(self, Vector3(x, 0.24, 0.0), 0.079, 0.012, _red)
-		_limb(self, Vector3(x, 0.30, 0.0), Vector3(x * 1.06, 0.43, 0.015), 0.080, _soft)
-		_limb(self, Vector3(x * 1.06, 0.54, 0.01), Vector3(x * 0.96, 0.73, 0.0), 0.099, _soft)
-		_ellipsoid(self, Vector3(x * 1.06, 0.49, 0.018), Vector3(0.083, 0.064, 0.082), _joint)
-		_ellipsoid(self, Vector3(x * 1.06, 0.50, 0.078), Vector3(0.070, 0.066, 0.027), _shell)
-		for y in [0.458, 0.480, 0.520]:
-			_ring(self, Vector3(x * 1.06, y, 0.013), 0.078, 0.0032, _gold)
-		_curve(self, PackedVector3Array([Vector3(x - 0.043, 0.12, 0.205), Vector3(x, 0.14, 0.218), Vector3(x + 0.043, 0.12, 0.205)]), 0.004, _red)
-	_ellipsoid(self, Vector3(0, 0.795, -0.005), Vector3(0.18, 0.105, 0.125), _soft)
-	_blossom(self, Vector3(-0.115, 0.648, 0.101), 0.026, _gold)
+		_ellipsoid(_lower, Vector3(x, 0.036, 0.046), Vector3(0.106, 0.036, 0.164), _joint)
+		_ellipsoid(_lower, Vector3(x, 0.105, 0.080), Vector3(0.105, 0.084, 0.145), _shell)
+		_ellipsoid(_lower, Vector3(x, 0.17, -0.008), Vector3(0.085, 0.11, 0.102), _shell)
+		_ring(_lower, Vector3(x, 0.055, 0.043), 0.095, 0.008, _glow, Vector3.ZERO, Vector3(1.0, 1.0, 1.55))
+		_ring(_lower, Vector3(x, 0.24, 0.0), 0.079, 0.012, _red)
+		_limb(_lower, Vector3(x, 0.30, 0.0), Vector3(x * 1.06, 0.43, 0.015), 0.080, _soft)
+		_limb(_lower, Vector3(x * 1.06, 0.54, 0.01), Vector3(x * 0.96, 0.73, 0.0), 0.099, _soft)
+		_ellipsoid(_lower, Vector3(x * 1.06, 0.49, 0.018), Vector3(0.083, 0.064, 0.082), _joint)
+		_ellipsoid(_lower, Vector3(x * 1.06, 0.50, 0.078), Vector3(0.070, 0.066, 0.027), _shell)
+		for y in [0.480]:
+			_ring(_lower, Vector3(x * 1.06, y, 0.013), 0.078, 0.0032, _gold)
+		_curve(_lower, PackedVector3Array([Vector3(x - 0.043, 0.12, 0.205), Vector3(x, 0.14, 0.218), Vector3(x + 0.043, 0.12, 0.205)]), 0.004, _red)
+	_ellipsoid(_lower, Vector3(0, 0.795, -0.005), Vector3(0.18, 0.105, 0.125), _soft)
+	_blossom(_lower, Vector3(-0.115, 0.648, 0.101), 0.026, _gold)
 
 func _build_torso() -> void:
 	var profile := [Vector3(0.79, 0.168, 0.126), Vector3(0.85, 0.178, 0.132), Vector3(0.93, 0.15, 0.12), Vector3(1.03, 0.204, 0.143), Vector3(1.14, 0.21, 0.135), Vector3(1.205, 0.171, 0.115), Vector3(1.23, 0.105, 0.091)]
@@ -249,12 +267,7 @@ func _build_torso() -> void:
 		_ring(_upper, Vector3(side * 0.13, 1.08, -0.23), 0.033, 0.004, _red)
 	# Segmented collar around a pressure-seal-inspired silhouette.
 	_ring(_upper, Vector3(0, 1.215, 0), 0.176, 0.024, _shell)
-	for segment in range(12):
-		var points := PackedVector3Array()
-		for step in range(4):
-			var angle := TAU * (segment + 0.11 + 0.78 * step / 3.0) / 12.0
-			points.append(Vector3(sin(angle) * 0.177, 1.235, cos(angle) * 0.177))
-		_curve(_upper, points, 0.016, _red, 6)
+	_ring(_upper, Vector3(0, 1.233, 0), 0.177, 0.012, _red)
 	_ring(_upper, Vector3(0, 1.249, 0), 0.181, 0.003, _gold)
 	# Circular chest badge with a crimson surround, raised gold bezel and warm core.
 	_ellipsoid(_upper, Vector3(0, 1.08, 0.148), Vector3(0.063, 0.063, 0.024), _red)
@@ -332,9 +345,12 @@ func _build_head() -> void:
 	_head.name = "MiraHeadAndHelmet"
 	_head.position = Vector3(0, 1.40, 0)
 	_upper.add_child(_head)
-	var skin := _material("WarmSkin", Color("c88d72"), 0.76, 0.0)
-	var hair := _material("BraidedHair", Color("281f2b"), 0.40, 0.08)
-	var eyes := _material("EyeIvory", Color("f2e9df"), 0.24, 0.0)
+	var skin := _material("WarmSkin", Color("d8a486"), 0.63, 0.0)
+	skin.emission_enabled = true
+	skin.emission = Color("6b3e2d")
+	skin.emission_energy_multiplier = 0.08
+	var hair := _material("BraidedHair", Color("422b24"), 0.70, 0.0)
+	var eyes := _material("EyeIvory", Color("e6d8c9"), 0.43, 0.0)
 	var iris := _material("ChestnutEyes", Color("53383a"), 0.22, 0.0)
 	var pupil := _material("Pupils", Color("171a29"), 0.21, 0.0)
 	var lips := _material("SoftLipLine", Color("9f555e"), 0.70, 0.0)
@@ -342,16 +358,16 @@ func _build_head() -> void:
 	var head_mesh := SphereMesh.new()
 	head_mesh.radius = 1.0
 	head_mesh.height = 2.0
-	head_mesh.radial_segments = 28
-	head_mesh.rings = 12
+	head_mesh.radial_segments = 40
+	head_mesh.rings = 20
 	_add(head_mesh, skin, Transform3D(Basis.IDENTITY.scaled(Vector3(0.14, 0.17, 0.133)), Vector3(0, 0, 0.008)), _head)
 	_ellipsoid(_head, Vector3(0, -0.15, -0.005), Vector3(0.055, 0.055, 0.052), skin)
 	_ellipsoid(_head, Vector3(0, -0.005, 0.140), Vector3(0.019, 0.027, 0.017), skin, Vector3.ZERO, true)
 	for side in [-1.0, 1.0]:
 		_ellipsoid(_head, Vector3(side * 0.14, -0.01, 0), Vector3(0.019, 0.035, 0.022), skin, Vector3.ZERO, true)
-		_ellipsoid(_head, Vector3(side * 0.054, 0.022, 0.131), Vector3(0.027, 0.017, 0.008), eyes, Vector3.ZERO, true)
-		_ellipsoid(_head, Vector3(side * 0.053, 0.021, 0.138), Vector3(0.012, 0.013, 0.004), iris, Vector3.ZERO, true)
-		_ellipsoid(_head, Vector3(side * 0.053, 0.021, 0.142), Vector3(0.006, 0.009, 0.002), pupil, Vector3.ZERO, true)
+		_ellipsoid(_head, Vector3(side * 0.054, 0.022, 0.131), Vector3(0.021, 0.012, 0.006), eyes, Vector3.ZERO, true)
+		_ellipsoid(_head, Vector3(side * 0.053, 0.021, 0.138), Vector3(0.012, 0.010, 0.005), iris, Vector3.ZERO, true)
+		_ellipsoid(_head, Vector3(side * 0.053, 0.021, 0.142), Vector3(0.005, 0.006, 0.002), pupil, Vector3.ZERO, true)
 		_ellipsoid(_head, Vector3(side * 0.053 - 0.004, 0.026, 0.144), Vector3.ONE * 0.0031, sparkle, Vector3.ZERO, true)
 		var brow := PackedVector3Array()
 		for point in range(7):
@@ -365,16 +381,16 @@ func _build_head() -> void:
 		_ring(_head, Vector3(side * 0.102, -0.144, 0.071), 0.014, 0.0024, _gold)
 		_ellipsoid(_head, Vector3(side * 0.178, -0.006, -0.012), Vector3(0.018, 0.036, 0.038), _red, Vector3.ZERO, true)
 		_ring(_head, Vector3(side * 0.196, -0.006, -0.012), 0.026, 0.0035, _gold, Vector3(0, 0, PI / 2.0))
-	_add(_sphere_patch(Vector3(0.147, 0.178, 0.149), 12, 32, 1.2, true), hair, Transform3D(Basis.IDENTITY, Vector3(0, 0.003, 0.008)), _head)
+	_add(_sphere_patch(Vector3(0.147, 0.178, 0.149), 24, 64, 1.2, true), hair, Transform3D(Basis.IDENTITY, Vector3(0, 0.003, 0.008)), _head)
 	var mouth := PackedVector3Array()
 	for point in range(11):
 		var t := float(point) / 10.0
 		mouth.append(Vector3(lerpf(-0.026, 0.026, t), -0.058 - sin(t * PI) * 0.006, 0.135 + sin(t * PI) * 0.005))
 	_curve(_head, mouth, 0.0021, lips)
-	var glass := _material("ClearHelmet", Color(0.82, 0.87, 1.0, 0.10), 0.11, 0.05)
-	glass.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-	glass.cull_mode = BaseMaterial3D.CULL_BACK
-	_add(_sphere_patch(Vector3(0.245, 0.245, 0.257), 14, 36, 2.28), glass, Transform3D(Basis.IDENTITY, Vector3(0, 0.005, 0)), _head)
+	var glass := ShaderMaterial.new()
+	glass.resource_name = "ClearHelmet"
+	glass.shader = preload("res://art/red_veil/character_visor.gdshader")
+	_add(_sphere_patch(Vector3(0.245, 0.245, 0.257), 24, 64, 2.28), glass, Transform3D(Basis.IDENTITY, Vector3(0, 0.005, 0)), _head)
 	# A continuous thin luminous rim makes the clear dome readable outdoors.
 	var rim := _material("VisorRim", Color(0.62, 0.88, 1.0, 0.65), 0.28, 0.0)
 	rim.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
@@ -400,13 +416,7 @@ func _build_head() -> void:
 		_curve(_head, streak, 0.0038 if x < 0 else 0.0016, reflection)
 
 
-	var cyan := _material("VisorData",Color("7be8f2"),0.3,0.0)
-	cyan.emission_enabled = true
-	cyan.emission = Color("7be8f2")
-	cyan.emission_energy_multiplier = 0.4
-	for row in range(3):
-		_curve(_head,PackedVector3Array([Vector3(0.11,0.015+row*0.018,0.205),Vector3(0.15,0.015+row*0.018,0.19)]),0.0015,cyan,3)
-	_ring(_head,Vector3(0.14,0.084,0.192),0.014,0.0014,cyan,Vector3(PI/2.0,0,0))
+	# The transparent face area stays clear of decorative HUD glyphs.
 	# Freckles and pearl studs remain original stylized geometry.
 	for side in [-1.0,1.0]:
 		_ellipsoid(_head,Vector3(side*0.147,-0.032,0.018),Vector3.ONE*0.004,_shell,Vector3.ZERO,true)
@@ -448,6 +458,7 @@ func _process(delta: float) -> void:
 
 func _apply_idle_pose() -> void:
 	_upper.transform = Transform3D.IDENTITY
+	_lower.transform = Transform3D.IDENTITY
 	_head.rotation = Vector3.ZERO
 	_upper.position.y = sin(_elapsed * 1.25) * 0.0026 * idle_amount
 	_upper.rotation.z = sin(_elapsed * 0.55) * 0.003 * idle_amount
@@ -503,7 +514,7 @@ func _ensure_training_rig() -> void:
 		elbow.set_meta("geometry_origin", elbow_point)
 		shoulder.add_child(elbow)
 		_build_arm(side, shoulder, elbow)
-		if side > 0:
+		if side < 0:
 			_training_shoulder = shoulder
 			_training_elbow = elbow
 	_flush_batches()
@@ -520,13 +531,26 @@ func _ensure_training_rig() -> void:
 	_training_wand.mesh = shaft
 	_training_wand.material_override = _shell
 	_training_tools.add_child(_training_wand)
+	var grip := MeshInstance3D.new()
+	grip.name = "BrushHandleGrip"
+	var grip_mesh := CylinderMesh.new()
+	grip_mesh.top_radius = 0.018
+	grip_mesh.bottom_radius = 0.018
+	grip_mesh.height = 0.23
+	grip_mesh.radial_segments = 16
+	grip.mesh = grip_mesh
+	grip.material_override = _joint
+	grip.position.y = -0.36
+	_training_wand.add_child(grip)
 	_training_brush = MeshInstance3D.new()
 	_training_brush.name = "SoftPanelBrush"
-	var brush := BoxMesh.new()
-	brush.size = Vector3(0.30, 0.024, 0.14)
-	_training_brush.mesh = brush
-	_training_brush.material_override = _red
 	_training_tools.add_child(_training_brush)
+	# Rounded lacquer shell, inset cushion and gold perimeter replace a boxlike
+	# tool silhouette. All are static batches beneath the existing contact pivot.
+	_ellipsoid(_training_brush, Vector3(0, 0.002, 0), Vector3(0.155, 0.014, 0.073), _red)
+	_ring(_training_brush, Vector3(0, 0.002, 0), 0.060, 0.003, _gold, Vector3.ZERO, Vector3(2.30, 1, 1))
+	_ellipsoid(_training_brush, Vector3(0, 0.017, 0), Vector3(0.040, 0.012, 0.028), _shell)
+	_flush_batches()
 	var bristles := MeshInstance3D.new()
 	bristles.name = "SoftBrushBristles"
 	var fibers := BoxMesh.new()
@@ -539,13 +563,16 @@ func _ensure_training_rig() -> void:
 func _apply_training_pose() -> void:
 	var sweep := 0.0 if _training_reduced_motion else sin(_training_phase)
 	# Rotate around the hips, not the feet, so the waist and boots stay connected.
-	# A small planted turn brings the working arm clear of the backpack. The
-	# wrist target is transformed back through this pose before solving the arm.
-	var lean := Basis(Vector3.UP, 0.34) * Basis(Vector3.FORWARD, 0.085)
+	# A planted three-quarter stance shows the face and the panel-side hand.
+	# Both visual branches turn together; the actor root never moves. The wrist
+	# target is transformed back through this pose before solving the arm.
+	var turn := Basis(Vector3.UP, 2.2)
+	_lower.basis = turn
+	var lean := turn * Basis(Vector3.FORWARD, 0.065)
 	var hip := Vector3(0, 0.795, -0.005)
 	_upper.transform = Transform3D(lean, hip - lean * hip)
 	# Look toward the +X work surface so the close view shows a focused profile.
-	_head.rotation = Vector3(0.12, 1.06, -0.04)
+	_head.rotation = Vector3(0.10, 0.20, -0.025)
 	_glow.emission_energy_multiplier = 0.78
 	var wrist_target := _upper.transform.affine_inverse() * Vector3(0.48, 1.055, 0.085 + sweep * HAND_SWEEP_METERS)
 	var upper_length := WORK_SHOULDER.distance_to(WORK_ELBOW)
@@ -583,9 +610,9 @@ func apply_theme(index: int) -> void:
 
 func _build_craft_details() -> void:
 	# Wrap jacket crossing and woven obi are geometry, so they read in silhouette.
-	_curve(_upper, PackedVector3Array([Vector3(-0.13,1.20,0.113),Vector3(-0.04,1.105,0.155),Vector3(0.12,0.95,0.142)]),0.008,_red,5)
-	_curve(_upper, PackedVector3Array([Vector3(0.12,1.20,0.113),Vector3(0.04,1.105,0.156),Vector3(-0.11,0.96,0.144)]),0.006,_gold,5)
-	var sash_mat := _material("LavenderSash",Color("b28bc9"),0.47,0.12)
+	_curve(_upper, PackedVector3Array([Vector3(-0.13,1.20,0.113),Vector3(-0.04,1.105,0.155),Vector3(0.12,0.95,0.142)]),0.012,_red,8)
+	_curve(_upper, PackedVector3Array([Vector3(0.12,1.20,0.113),Vector3(0.04,1.105,0.156),Vector3(-0.11,0.96,0.144)]),0.0025,_gold,6)
+	var sash_mat := _material("LavenderSash",Color("815769"),0.56,0.04)
 	# Sash hangs on the rear, tapering toward the knee; original crane line motif.
 	var sash := _loft([Vector3(0.49,0.052,0.010),Vector3(0.57,0.064,0.012),Vector3(0.76,0.073,0.014),Vector3(0.86,0.063,0.012)],16)
 	_add(sash,sash_mat,Transform3D(Basis.IDENTITY,Vector3(0.085,0,-0.143)),_upper)
@@ -600,12 +627,12 @@ func _build_craft_details() -> void:
 	_curve(_upper,PackedVector3Array(crane),0.003,_shell,4)
 	_curve(_upper,PackedVector3Array([Vector3(0.085,0.72,-0.168),Vector3(0.079,0.757,-0.168),Vector3(0.095,0.773,-0.168),Vector3(0.109,0.769,-0.168)]),0.0025,_gold,4)
 	for side in [-1.0,1.0]:
-		for level in range(3):
+		for level in range(1):
 			var x: float = side*0.112
-			var y := 0.10+level*0.045
-			_curve(self,PackedVector3Array([Vector3(x-0.07,y,0.14),Vector3(x,y+0.012,0.17),Vector3(x+0.07,y,0.14)]),0.009,_red,5)
-			_ellipsoid(self,Vector3(x+0.045,y+0.007,0.16),Vector3(0.012,0.012,0.006),_gold,Vector3.ZERO,true)
-		_wave_motif(self,Vector3(side*0.115,0.335,0.079),0.078)
+			var y := 0.145
+			_curve(_lower,PackedVector3Array([Vector3(x-0.07,y,0.14),Vector3(x,y+0.012,0.17),Vector3(x+0.07,y,0.14)]),0.009,_red,5)
+			_ellipsoid(_lower,Vector3(x+0.045,y+0.007,0.16),Vector3(0.012,0.012,0.006),_gold,Vector3.ZERO,true)
+		_wave_motif(_lower,Vector3(side*0.115,0.335,0.079),0.078)
 		_curve(_upper,PackedVector3Array([Vector3(side*0.15,0.83,-0.12),Vector3(side*0.20,0.91,-0.13),Vector3(side*0.18,1.03,-0.20)]),0.008,_joint,6)
 	# Backpack crescents and name are shared identity, never baked old wordmarks.
 	_ring(_upper,Vector3(0.0,1.12,-0.262),0.029,0.004,_glow,Vector3(PI/2.0,0,0))

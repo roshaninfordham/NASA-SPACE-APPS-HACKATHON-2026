@@ -11,6 +11,22 @@ func run() -> void:
 	root.add_child(panel)
 	await process_frame
 	check(panel.get_child_count() < 24 and panel.get_node("TiltedArray").get_child_count() < 12,"Array uses a bounded geometry budget")
+	var meshes := panel.find_children("*", "MeshInstance3D", true, false)
+	var triangles := 0
+	var in_bounds := true
+	for instance: MeshInstance3D in meshes:
+		var relative: Transform3D = panel.global_transform.affine_inverse()*instance.global_transform
+		var bounds: AABB = relative*instance.get_aabb()
+		in_bounds = in_bounds and bounds.position.x >= -1.233 and bounds.end.x <= 1.233 and bounds.position.y >= -0.001 and bounds.end.y <= 1.70 and bounds.position.z >= -0.81 and bounds.end.z <= 0.81
+		for surface in range(instance.mesh.get_surface_count()):
+			var arrays := instance.mesh.surface_get_arrays(surface)
+			var indices: PackedInt32Array = arrays[Mesh.ARRAY_INDEX] if arrays[Mesh.ARRAY_INDEX] != null else PackedInt32Array()
+			var vertices: PackedVector3Array = arrays[Mesh.ARRAY_VERTEX]
+			triangles += (indices.size() if not indices.is_empty() else vertices.size())/3
+	check(meshes.size() <= 28 and triangles <= 2000,"Refined array remains within 28 draw instances and 2000 triangles")
+	check(in_bounds,"Refined trim and supports remain inside the original work-view footprint")
+	var surface_node: MeshInstance3D = panel.get_node("TiltedArray/DustAndCells")
+	check(is_equal_approx(panel._deck.position.y,1.08) and is_equal_approx(panel._deck.rotation.x,deg_to_rad(-35.0)) and is_equal_approx(surface_node.position.y,0.04),"The fixed brush contact plane and working angle remain unchanged")
 	check(not panel.is_processing(),"Array never advances work through a visual clock")
 	var original := {"cleaning":true,"sections_cleaned":1,"section_progress":0.5,"max_sections":4}
 	var snapshot := original.duplicate(true)

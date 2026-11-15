@@ -49,6 +49,10 @@ func run() -> void:
 	hud.notebook_requested.connect(func():events.append("book"))
 	hud.view_requested.connect(func():events.append("view"))
 	check(hud.get_mission_view() == "science","Science window with live bubbles is the default")
+	for orb in hud.orbs.values(): check(orb.docked,"Live HUD bubble belongs to the continuous instrument housing")
+	var library_orb := preload("res://ui/concept_orb.gd").new()
+	check(not library_orb.docked,"Standalone science library tiles retain their separate card presentation")
+	library_orb.free()
 	for dimensions in [Vector2i(1280,720),Vector2i(960,540),Vector2i(390,844),Vector2i(844,390),Vector2i(320,568),Vector2i(1280,720)]:
 		root.size = dimensions
 		for mode in ["science","focus"]:

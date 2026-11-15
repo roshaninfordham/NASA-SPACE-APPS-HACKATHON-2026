@@ -429,8 +429,11 @@ func _build_window_enclosure() -> void:
 	_window_enclosure = Node3D.new()
 	_window_enclosure.name = "OperatorWindowRoom"
 	add_child(_window_enclosure)
-	var wall := _material(IVORY.darkened(0.20), 0.92, 0.0)
-	var floor := _material(IVORY.darkened(0.30), 0.96, 0.0)
+	var wall := _material(IVORY, 0.34, 0.18)
+	var floor := _material(Color("24333b"), 0.32, 0.36)
+	var lacquer := _material(Color("43172b"), 0.26, 0.42)
+	var warm_metal := _material(Color("bc8a73"), 0.30, 0.65)
+	var seal_light := _material(Color("6cdde0"), 0.35, 0.2, 0.42)
 	_window_box("RoomFloor", Vector3(18.4, 0.12, 14.6), Vector3(0, 0.0, -1.0), floor)
 	_window_box("RoomCeiling", Vector3(18.4, 0.18, 14.6), Vector3(0, 6.85, -1.0), wall)
 	_window_box("RearWall", Vector3(18.4, 6.9, 0.18), Vector3(0, 3.4, -8.2), wall)
@@ -440,7 +443,7 @@ func _build_window_enclosure() -> void:
 	# Left side contains a separate crew entry, never a path through the pane.
 	var pane_left := -5.70
 	var pane_right := 8.95
-	var pane_bottom := 0.22
+	var pane_bottom := 0.10
 	var pane_top := 6.65
 	var pane_center := Vector3((pane_left + pane_right) * 0.5, (pane_bottom + pane_top) * 0.5, 6.2)
 	var pane_size := Vector3(pane_right - pane_left, pane_top - pane_bottom, 0.10)
@@ -450,7 +453,10 @@ func _build_window_enclosure() -> void:
 	glass.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
 	var window := _window_box("ClearPanoramicWindow", pane_size, pane_center, glass)
 	window.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	_window_box("WindowSill", Vector3(pane_size.x + 0.16, 0.22, 0.18), Vector3(pane_center.x, 0.11, 6.2), wall)
+	_window_box("WindowSill", Vector3(pane_size.x + 0.16, 0.10, 0.18), Vector3(pane_center.x, 0.05, 6.2), wall)
+	_window_box("SillLacquerInset", Vector3(pane_size.x, 0.025, 0.20), Vector3(pane_center.x, 0.04, 6.08), lacquer)
+	_window_box("SillFineInlay", Vector3(pane_size.x, 0.008, 0.025), Vector3(pane_center.x, 0.091, 6.085), warm_metal)
+	_window_box("SillSealLight", Vector3(pane_size.x, 0.006, 0.02), Vector3(pane_center.x, 0.099, 6.175), seal_light)
 	_window_box("WindowHeader", Vector3(pane_size.x + 0.16, 0.18, 0.18), Vector3(pane_center.x, 6.74, 6.2), wall)
 	for x in [pane_left - 0.045, pane_right + 0.045]:
 		_window_box("WindowEdge", Vector3(0.09, 6.65, 0.18), Vector3(x, 3.35, 6.2), _materials.chrome)

@@ -32,6 +32,17 @@ func run() -> void:
 		for wall in frame._wall_polygons:
 			for overlap in Geometry2D.intersect_polygons(wall,safe_polygon): area_inside += polygon_area(overlap)
 		check(area_inside < 0.01, "Entire camera work rectangle stays unpainted at " + str(sample[0]))
+		# The new physical bevels are painted separately from the opaque wall;
+		# verify their complete faces, not just the original aperture outline.
+		var bevel_overlap := 0.0
+		for bounds in [Vector2(0,7),Vector2(7,12),Vector2(12,22),Vector2(22,26),Vector2(26,45)]:
+			var inner: PackedVector2Array = frame._rounded_path(frame._window.grow(bounds.x),frame._radius+bounds.x)
+			var outer: PackedVector2Array = frame._rounded_path(frame._window.grow(bounds.y),frame._radius+bounds.y)
+			for index in range(inner.size()):
+				var next := (index+1)%inner.size()
+				var face := PackedVector2Array([inner[index],outer[index],outer[next],inner[next]])
+				for overlap in Geometry2D.intersect_polygons(face,safe_polygon): bevel_overlap += polygon_area(overlap)
+		check(bevel_overlap < 0.01,"Every new physical bevel stays outside the camera-safe rectangle at "+str(sample[0]))
 		var corners_clear := true
 		for corner in safe_polygon: corners_clear = corners_clear and Geometry2D.is_point_in_polygon(corner,frame._inner_edge)
 		check(corners_clear, "Rounded frame leaves all four work-area corners clear at " + str(sample[0]))

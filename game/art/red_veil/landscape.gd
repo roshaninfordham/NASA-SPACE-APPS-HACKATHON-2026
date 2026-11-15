@@ -80,10 +80,10 @@ func _build_ground() -> void:
 	var mat := ShaderMaterial.new()
 	mat.shader = REGOLITH
 	# Close-value mineral tones keep the surface readable without mottled clutter.
-	mat.set_shader_parameter("dust_color", Color("96785d"))
-	mat.set_shader_parameter("mineral_color", Color("a18468"))
-	mat.set_shader_parameter("grain_scale", 30.0)
-	mat.set_shader_parameter("grain_strength", 0.18)
+	mat.set_shader_parameter("dust_color", Color("a87962"))
+	mat.set_shader_parameter("mineral_color", Color("c8a18a"))
+	mat.set_shader_parameter("grain_scale", 24.0)
+	mat.set_shader_parameter("grain_strength", 0.42)
 	# Existing flat floor remains the authoritative collider beneath this skin.
 	var visual := _mesh(ground, mat, "FineRegolith")
 	visual.position.y = 0.006
@@ -94,11 +94,15 @@ func _dune_point(layer: int, t: float, angle: float) -> Vector3:
 	# The first belt starts outside every mission landmark and its approach route.
 	var radial := Vector2(cos(angle), sin(angle))
 	var radius: float = [72.0, 139.0, 224.0][layer] + t * [69.0, 84.0, 92.0][layer]
-	var drift := sin(angle * 2.0 + layer * 1.3) * 7.0 + sin(angle * 3.0 - layer) * 3.0
+	var drift := sin(angle * 2.0 + layer * 1.3) * 7.0 + sin(angle * 5.0 + layer * 1.7) * 11.0
 	radius += drift * sin(PI * t)
-	var envelope := pow(maxf(0.0, sin(PI * t)), 1.65)
-	var crest := 0.79 + sin(angle * 2.0 + layer * 0.8) * 0.14 + sin(angle * 5.0 + 1.2) * 0.07
-	var height: float = [8.5, 22.0, 41.0][layer]
+	# Windward shoulder rises slowly to an offset crest; the leeward slip
+	# face falls faster. All relief remains beyond the playable flat routes.
+	var crest_t := 0.61 + sin(angle * 3.0 + layer * 0.9) * 0.09
+	var slope_t := (t / crest_t) if t < crest_t else ((1.0 - t) / (1.0 - crest_t))
+	var envelope := pow(sin(clampf(slope_t, 0.0, 1.0) * PI * 0.5), 1.6)
+	var crest := 0.76 + sin(angle * 3.0 + layer * 1.1) * 0.24 + sin(angle * 7.0 + 1.2 + layer) * 0.13
+	var height: float = [11.0, 29.0, 51.0][layer]
 	# Distant foothills are low-frequency too: a quiet horizon behind the dunes.
 	if layer == 2: crest += sin(angle * 7.0) * 0.10
 	return Vector3(radial.x * radius, height * envelope * crest - 0.04, radial.y * radius)
@@ -132,8 +136,13 @@ func _build_horizon() -> void:
 		arrays[Mesh.ARRAY_INDEX] = indices
 		var mesh := ArrayMesh.new()
 		mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arrays)
-		var color: Color = [Color("9a8065"), Color("9a826e"), Color("978478")][layer]
-		var mat := _material(color, 0.97)
+		var color: Color = [Color("bd957b"), Color("b49389"), Color("a28e99")][layer]
+		var mat := ShaderMaterial.new()
+		mat.shader = REGOLITH
+		mat.set_shader_parameter("dust_color", color.darkened(0.08))
+		mat.set_shader_parameter("mineral_color", color.lightened(0.06))
+		mat.set_shader_parameter("grain_strength", 0.15)
+		mat.set_shader_parameter("grain_scale", 24.0)
 		var ridge := _mesh(mesh, mat, "QuietDuneBelt%d" % layer)
 		ridge.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 

@@ -4,6 +4,43 @@ const Style = preload("res://ui/journey_style.gd")
 const Branding = preload("res://scripts/branding.gd")
 const ConceptOrb = preload("res://ui/concept_orb.gd")
 const WindowFrame = preload("res://ui/outpost_window_frame.gd")
+# A single continuous instrument housing; controls are drawn above it. The
+# gradient is geometry-only and remains identical when paused/reduced-motion.
+class InstrumentGlass extends Panel:
+	var console := false
+	var _shadow := StyleBoxFlat.new()
+	func _init() -> void:
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_theme_stylebox_override("panel",StyleBoxEmpty.new())
+		_shadow.bg_color = Color("0b121c")
+		_shadow.shadow_color = Color(0.01,0.005,0.015,0.42)
+		_shadow.shadow_size = 7
+		_shadow.shadow_offset = Vector2(0,4)
+		_shadow.set_corner_radius_all(20)
+	func _ready() -> void:
+		resized.connect(queue_redraw)
+	func _draw() -> void:
+		if size.x <= 0.0 or size.y <= 0.0: return
+		var radius := minf(20.0,minf(size.x,size.y)*0.2)
+		var corners := [Vector2(radius,radius),Vector2(size.x-radius,radius),size-Vector2(radius,radius),Vector2(radius,size.y-radius)]
+		var polygon := PackedVector2Array()
+		var colors := PackedColorArray()
+		for corner in range(4):
+			for sample in range(9):
+				var angle := PI+corner*PI*0.5+sample*PI/16.0
+				var point: Vector2 = corners[corner]+Vector2(cos(angle),sin(angle))*radius
+				polygon.append(point)
+				var color := Color("302430").lerp(Color("0d202b"),clampf(point.y/maxf(1.0,size.y),0.0,1.0))
+				colors.append(color)
+		draw_style_box(_shadow,Rect2(Vector2.ZERO,size))
+		draw_polygon(polygon,colors)
+		polygon.append(polygon[0])
+		draw_polyline(polygon,Color(0.83,0.65,0.59,0.48 if console else 0.35),1.0,true)
+		# A top reflection and fine cyan lower seam suggest coated glass, while
+		# keeping the center behind every word dark and free of decoration.
+		draw_line(Vector2(radius,1.5),Vector2(size.x-radius,1.5),Color(1.0,0.86,0.79,0.32),1.0,true)
+		draw_line(Vector2(radius,size.y-2.0),Vector2(size.x-radius,size.y-2.0),Color(0.31,0.91,0.96,0.16),1.0,true)
+
 signal start_requested
 signal cleaning_speed_requested(multiplier: float)
 signal concept_requested(id: String)
@@ -113,13 +150,19 @@ func _ready() -> void:
 	_rail.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
 	_rail.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_rail.follow_focus = true
+	var rail_glass := Style.panel().duplicate() as StyleBoxFlat
+	rail_glass.bg_color = Color("15212b")
+	rail_glass.border_color = Color(0.83,0.65,0.59,0.35)
+	rail_glass.set_corner_radius_all(20)
+	for side in [SIDE_LEFT,SIDE_TOP,SIDE_RIGHT,SIDE_BOTTOM]: rail_glass.set_content_margin(side,0)
+	_rail.add_theme_stylebox_override("panel",rail_glass)
 	_rail.mouse_filter = Control.MOUSE_FILTER_PASS
 	add_child(_rail)
 	_orb_row = HBoxContainer.new()
 	_orb_row.add_theme_constant_override("separation",8)
 	_rail.add_child(_orb_row)
-	_left_rail = Control.new()
-	_right_rail = Control.new()
+	_left_rail = _panel()
+	_right_rail = _panel()
 	for rail in [_left_rail,_right_rail]:
 		rail.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(rail)
@@ -128,10 +171,12 @@ func _ready() -> void:
 		orb.name = "Concept_" + id
 		orb.configure(id,ConceptOrb.short_title(id))
 		orb.set_measurement_scale(id not in ["sievert","shelter"])
+		orb.set_docked(true)
 		orb.pressed.connect(func():concept_requested.emit(orb.concept_id))
 		_orb_row.add_child(orb)
 		orbs[id] = orb
 	_bottom = _panel()
+	_bottom.console = true
 	add_child(_bottom)
 	_rate_label = _label(_bottom,"Cleaning · 0.000 sections/min",20,Style.PEARL,"body_bold")
 	_rate_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -182,8 +227,7 @@ func _ready() -> void:
 	refresh(snapshot)
 
 func _panel() -> Panel:
-	var panel := Panel.new()
-	panel.add_theme_stylebox_override("panel",Style.panel())
+	var panel := InstrumentGlass.new()
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return panel
 
@@ -236,10 +280,12 @@ func _style_slider() -> void:
 			for x in range(34):
 				var radius := Vector2(x+0.5,y+0.5).distance_to(Vector2(17,17))
 				if radius <= 16.0:
-					texture_image.set_pixel(x,y,Style.MUTED if state == "grabber_disabled" else (Style.PEARL if radius > 11.0 else Style.CORAL))
+					var pearl := Color("f6dbce").lerp(Color("a36c65"),float(y)/34.0)
+					var center_tint := Color("ff91a2").lerp(Color("bc2445"),float(y)/34.0)
+					texture_image.set_pixel(x,y,Style.MUTED if state == "grabber_disabled" else (pearl if radius > 12.0 else center_tint))
 		speed_slider.add_theme_icon_override(state,ImageTexture.create_from_image(texture_image))
-	var tick := Image.create(4,16,false,Image.FORMAT_RGBA8)
-	tick.fill(Style.PEARL)
+	var tick := Image.create(2,9,false,Image.FORMAT_RGBA8)
+	tick.fill(Color("d5b8ad"))
 	speed_slider.add_theme_icon_override("tick",ImageTexture.create_from_image(tick))
 
 func _request_pace(value: float) -> void:
@@ -258,7 +304,7 @@ func set_preflight(value: bool) -> void:
 		refresh(snapshot)
 
 func set_reduced_motion(value: bool) -> void:
-	# The HUD has no decorative process/tween. Model values remain visible.
+	# Model readings remain visible; only the bounded input pulse is optional.
 	reduced_motion = value
 	for orb in orbs.values(): orb.set_reduced_motion(value)
 
@@ -550,10 +596,16 @@ func get_work_view_rect() -> Rect2:
 	if not is_instance_valid(_top) or not is_instance_valid(_bottom):
 		return Rect2(Vector2.ZERO,size)
 	var side := _mission_view == "science" and _side_orbs
-	var left := _left_rail.position.x+_left_rail.size.x+12.0 if side else 12.0
-	var right := _right_rail.position.x-12.0 if side else size.x-12.0
-	var upper := _rail.position.y+_rail.size.y+10.0 if _mission_view == "science" and not _side_orbs else _top.position.y+_top.size.y+10.0
-	var lower := _bottom.position.y-10.0
+	# Give the physical rim breathing room on full-size instruments. Dense
+	# layouts preserve their existing aperture and 48px control targets.
+	var architectural := size.x >= 1000.0 and size.y >= 650.0
+	var side_gap := 42.0 if architectural else 12.0
+	var top_gap := 42.0 if architectural else 10.0
+	var lower_gap := 36.0 if architectural else 10.0
+	var left := _left_rail.position.x+_left_rail.size.x+side_gap if side else 12.0
+	var right := _right_rail.position.x-side_gap if side else size.x-12.0
+	var upper := _rail.position.y+_rail.size.y+10.0 if _mission_view == "science" and not _side_orbs else _top.position.y+_top.size.y+top_gap
+	var lower := _bottom.position.y-lower_gap
 	return Rect2(Vector2(left,upper),Vector2(maxf(1.0,right-left),maxf(1.0,lower-upper)))
 
 func get_science_readings() -> Dictionary:

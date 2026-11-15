@@ -1,11 +1,11 @@
 shader_type spatial;
 render_mode diffuse_burley, specular_schlick_ggx;
 
-uniform vec4 dust_color : source_color = vec4(0.32, 0.15, 0.125, 1.0);
-uniform vec4 mineral_color : source_color = vec4(0.49, 0.275, 0.23, 1.0);
-uniform float grain_scale = 48.0;
-// Presentation strength: reduced at the calm outpost, with derivative filtering.
-uniform float grain_strength : hint_range(0.0, 1.0) = 0.18;
+// Original procedural mineral surface: not a NASA terrain reconstruction.
+uniform vec4 dust_color : source_color = vec4(0.71, 0.46, 0.33, 1.0);
+uniform vec4 mineral_color : source_color = vec4(0.85, 0.64, 0.47, 1.0);
+uniform float grain_scale = 24.0;
+uniform float grain_strength : hint_range(0.0, 1.0) = 0.42;
 varying vec3 ground_position;
 
 float hash(vec2 p) {
@@ -23,19 +23,23 @@ void vertex() {
 }
 void fragment() {
 	vec2 p = ground_position.xz;
-	float broad = noise(p * 0.065);
-	float patches = noise(p * 0.63 + broad * 2.0);
-	float fine = noise(p * 6.0);
+	float broad = noise(p * 0.048);
+	float fine = noise(p * 2.4);
 	float grain_visibility = clamp(1.0 - length(fwidth(p * grain_scale)), 0.0, 1.0);
 	float grains = mix(0.5, noise(p * grain_scale), grain_visibility);
-	float ripple = sin(p.x * 4.1 + p.y * 1.8 + noise(p * 0.38) * 8.0) * 0.5 + 0.5;
-	float mineral = clamp(broad * 0.50 + patches * 0.35 + fine * 0.15, 0.0, 1.0);
+	// Wide, coherent wind ripples with derivative filtering: no animated
+	// textures, displacement, repeating pebbles or screen-space dependence.
+	float phase = dot(p, vec2(2.4, 1.15)) + broad * 5.0;
+	float ripple_visibility = 1.0 - smoothstep(0.5, 2.6, fwidth(phase));
+	float ripple = sin(phase) * ripple_visibility;
+	float mineral = clamp(0.27 + broad * 0.48 + fine * 0.08, 0.0, 1.0);
 	vec3 base = mix(dust_color.rgb, mineral_color.rgb, mineral);
-	base *= 0.97 + ((grains - 0.5) * 0.21 + (ripple - 0.5) * 0.05) * grain_strength;
+	base *= 1.0 + ((grains - 0.5) * 0.12 + ripple * 0.09) * grain_strength;
 	ALBEDO = base;
-	ROUGHNESS = 0.97 + (fine - 0.5) * 0.04 * grain_strength;
-	SPECULAR = 0.14;
-	// Minute relief only: the playable surface and collision remain level.
-	NORMAL_MAP = vec3(0.5 + (grains - 0.5) * 0.12 * grain_strength, 0.5 + (fine - 0.5) * 0.08 * grain_strength, 1.0);
-	NORMAL_MAP_DEPTH = 0.38;
+	ROUGHNESS = 0.92;
+	SPECULAR = 0.22;
+	// Normal detail affects light only; the authoritative floor stays level.
+	NORMAL_MAP = vec3(0.5 + cos(phase) * ripple_visibility * 0.12 * grain_strength,
+		0.5 + (grains - 0.5) * 0.08 * grain_strength, 1.0);
+	NORMAL_MAP_DEPTH = 0.32;
 }

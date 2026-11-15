@@ -3,8 +3,10 @@ extends RefCounted
 ## crew and array fit the actual unobstructed part of each screen. An asymmetric
 ## perspective frustum avoids stretching geometry or placing it under controls.
 const NEAR := 0.05
-const FAR := 220.0
-const EYE_FROM_CREW := Vector3(1.25, 1.78, -3.8)
+const FAR := 400.0
+# Seated operator height reveals the distant dune skyline above the array.
+# The adaptive lens still keeps the actual work large on every viewport.
+const EYE_FROM_CREW := Vector3(1.25, 1.20, -3.8)
 const AIM_FROM_CREW := Vector3(1.20, 0.80, 0.0)
 # Includes the planted boots, helmet, brush sweep and all edges of the 2.4 m array.
 const WORK_BOUNDS := AABB(Vector3(-0.42, 0.0, -0.76), Vector3(3.50, 1.70, 1.52))

@@ -98,9 +98,9 @@ func _ready() -> void:
 		var shader_sky := ShaderMaterial.new()
 		shader_sky.shader = preload("res://art/red_veil/mars_sky.gdshader")
 		# An art-directed dusty Martian sky, not a calibrated atmosphere model.
-		shader_sky.set_shader_parameter("zenith", Color("9b9291"))
-		shader_sky.set_shader_parameter("horizon", Color("d0b593"))
-		shader_sky.set_shader_parameter("sunset", Color("edcea6"))
+		shader_sky.set_shader_parameter("zenith", Color("718caa"))
+		shader_sky.set_shader_parameter("horizon", Color("eab5a0"))
+		shader_sky.set_shader_parameter("sunset", Color("ffe0ae"))
 		sky_mat = shader_sky
 	else:
 		var procedural_sky := ProceduralSkyMaterial.new()
@@ -112,27 +112,31 @@ func _ready() -> void:
 		sky_mat = procedural_sky
 	var sky := Sky.new()
 	sky.sky_material = sky_mat
+	# Static 128px sky radiance gives alloy/visor surfaces a real environment
+	# reflection in Compatibility, without screen-space effects or extra probes.
+	sky.radiance_size = Sky.RADIANCE_SIZE_128
+	sky.process_mode = Sky.PROCESS_MODE_QUALITY
 	env.sky = sky
 	env.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	env.ambient_light_color = Color("ded8cf")
-	env.ambient_light_energy = 0.42
-	# Keep the bright dust-sky background out of diffuse/specular lighting. The
-	# neutral fill + sun provide controlled contrast on pale laboratory surfaces.
-	env.ambient_light_sky_contribution = 0.0
-	env.reflected_light_source = Environment.REFLECTION_SOURCE_DISABLED
+	env.ambient_light_color = Color("a3b8d4")
+	env.ambient_light_energy = 0.38
+	# Cool diffuse fill separates shaded forms from the low warm dawn key.
+	# These are art-direction values, never inputs to mission solar/dose maths.
+	env.ambient_light_sky_contribution = 0.22
+	env.reflected_light_source = Environment.REFLECTION_SOURCE_SKY
 	env.tonemap_mode = Environment.TONE_MAPPER_FILMIC
-	env.tonemap_exposure = 0.85
+	env.tonemap_exposure = 0.95
 	env.fog_enabled = true
-	env.fog_sky_affect = 0.32
-	env.fog_light_color = Color("cbb396")
-	env.fog_density = 0.0022
+	env.fog_sky_affect = 0.12
+	env.fog_light_color = Color("deb3aa")
+	env.fog_density = 0.0035
 	var atmosphere := WorldEnvironment.new()
 	atmosphere.environment = env
 	add_child(atmosphere)
 	sun = DirectionalLight3D.new()
-	sun.rotation_degrees = Vector3(-29, -55, 0)
-	sun.light_color = Color("fff0dc")
-	sun.light_energy = 0.28
+	sun.rotation_degrees = Vector3(-24, -55, 0)
+	sun.light_color = Color("ffdbb8")
+	sun.light_energy = 0.82
 	sun.shadow_enabled = art.shadows_enabled
 	add_child(sun)
 	box(Vector3(180, 1, 180), sand, Vector3(0, -0.5, 0), self, true)
@@ -339,8 +343,8 @@ func update_weather(mission: VeilMission) -> void:
 	_last_mission_snapshot = mission.visual_snapshot().duplicate(true)
 	_snapshot_generation += 1
 	_deliver_visual_snapshots()
-	env.fog_density = 0.0022 + weather.storm * 0.025
-	sun.light_energy = 0.28 - weather.storm * 0.21
+	env.fog_density = 0.0035 + weather.storm * 0.025
+	sun.light_energy = 0.82 - weather.storm * 0.62
 	_last_panel_dust = mission.dust
 	_last_panel_cleaning = mission.cleaning
 	_apply_panel_visual_state()

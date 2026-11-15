@@ -1,47 +1,84 @@
 shader_type spatial;
 render_mode cull_back;
 
-// A readable, illustrative dust layer. Cleaning progress is supplied by the
-// mission model; this shader neither estimates solar output nor advances work.
+// An opaque manufactured array, with presentation detail independent of power
+// calculations. Only the real model fraction moves the dust-removal front.
 uniform float clean_fraction : hint_range(0.0, 1.0) = 0.0;
-// Set only when the model has advanced; zero for reduced motion and pause.
 uniform float work_feedback : hint_range(0.0, 1.0) = 0.0;
-uniform vec4 cell_color : source_color = vec4(0.025, 0.12, 0.26, 1.0);
-uniform vec4 dust_color : source_color = vec4(0.62, 0.36, 0.19, 1.0);
-uniform vec4 trace_color : source_color = vec4(0.26, 0.76, 0.86, 1.0);
+uniform vec4 cell_color : source_color = vec4(0.025, 0.11, 0.23, 1.0);
+uniform vec4 dust_color : source_color = vec4(0.66, 0.43, 0.27, 1.0);
+uniform vec4 trace_color : source_color = vec4(0.50, 0.69, 0.77, 1.0);
 
-float grain(vec2 point) {
+float hash(vec2 point) {
 	return fract(sin(dot(point, vec2(127.1, 311.7))) * 43758.5453);
 }
 
+float soft_noise(vec2 point) {
+	vec2 grid = floor(point);
+	vec2 local = fract(point);
+	vec2 blend = local * local * (3.0 - 2.0 * local);
+	return mix(mix(hash(grid), hash(grid + vec2(1.0, 0.0)), blend.x),
+		mix(hash(grid + vec2(0.0, 1.0)), hash(grid + vec2(1.0, 1.0)), blend.x), blend.y);
+}
+
+float fine_line(float distance_to_line, float width, float footprint) {
+	return 1.0 - smoothstep(width, width + max(footprint, 0.001), distance_to_line);
+}
+
 void fragment() {
-	vec2 cell = fract(UV * vec2(8.0, 3.0));
-	float edge = step(cell.x, 0.025) + step(0.975, cell.x) + step(cell.y, 0.025) + step(0.975, cell.y);
-	float trace = step(fract(cell.y * 5.0), 0.035);
-	vec3 glass = mix(cell_color.rgb, trace_color.rgb, clamp(edge * 0.5 + trace * 0.2, 0.0, 0.75));
-	float noise = grain(floor(UV * vec2(130.0, 80.0)));
-	float dust = smoothstep(clean_fraction - 0.012, clean_fraction + 0.012, UV.x);
+	vec2 tiles = UV * vec2(8.0, 4.0);
+	vec2 local = fract(tiles);
+	vec2 centered = abs(local - 0.5);
+	// Slightly clipped corners and narrow inter-cell gaps distinguish actual
+	// photovoltaic cells from a bright rectangular HUD grid.
+	float cell_distance = min(0.488 - max(centered.x, centered.y),
+		(0.925 - centered.x - centered.y) * 0.707);
+	float footprint = max(fwidth(tiles.x), fwidth(tiles.y));
+	float cell_mask = smoothstep(0.0, max(footprint * 0.8, 0.004), cell_distance);
+	float cell_tint = hash(floor(tiles));
+	vec3 silicon = cell_color.rgb * (0.90 + cell_tint * 0.19);
+	// Fine silver fingers fade smoothly below pixel size instead of producing
+	// a checkerboard or moiré on narrow viewports.
+	float finger_phase = fract(local.y * 25.0);
+	float finger = fine_line(min(finger_phase, 1.0 - finger_phase), 0.035, fwidth(tiles.y * 25.0));
+	finger *= 1.0 - smoothstep(0.35, 0.95, fwidth(tiles.y * 25.0));
+	float busbar = max(fine_line(abs(local.x - 0.28), 0.004, fwidth(tiles.x)),
+		fine_line(abs(local.x - 0.72), 0.004, fwidth(tiles.x)));
+	silicon = mix(silicon, trace_color.rgb, clamp(finger * 0.13 + busbar * 0.30, 0.0, 0.45));
+	vec3 glass = mix(vec3(0.009, 0.023, 0.041), silicon, cell_mask);
+	// Broad, subtle coating variation supplements real material highlights.
+	glass *= 0.95 + 0.10 * smoothstep(0.0, 1.0, UV.y);
+
+	float broad = soft_noise(UV * vec2(7.0, 5.0));
+	float grain = soft_noise(UV * vec2(95.0, 65.0));
+	float fine = soft_noise(UV * vec2(410.0, 270.0));
+	vec3 regolith = dust_color.rgb * (0.91 + broad * 0.11 + grain * 0.045 + fine * 0.025);
+	// A small irregular, feathered edge is a material detail. It is anchored
+	// to clean_fraction and cannot advance independently or change the model.
+	float irregularity = (soft_noise(vec2(UV.y * 27.0, 4.3)) - 0.5) * 0.007;
+	float front = clean_fraction + irregularity;
+	float dust = smoothstep(front - 0.006, front + 0.006, UV.x);
 	if (clean_fraction <= 0.0001) { dust = 1.0; }
 	if (clean_fraction >= 0.9999) { dust = 0.0; }
-	vec3 regolith = dust_color.rgb * (0.85 + noise * 0.28);
-	ALBEDO = mix(glass, regolith, dust * (0.90 + noise * 0.10));
-	// A steady progress seam makes small, truthful changes easy to see. It
-	// follows the same model fraction; it does not clear additional surface.
-	float seam = (1.0 - smoothstep(0.0, 0.006, abs(UV.x - clean_fraction))) * step(0.001, clean_fraction) * step(clean_fraction, 0.999);
-	EMISSION = trace_color.rgb * (0.13 * clamp(edge + trace, 0.0, 1.0) * (1.0 - dust) + 0.35 * seam);
-	// A soft satin reflection trails the real clearing edge. Its position depends
-	// on actual removed dust, never TIME, and it never changes the dust mask.
-	float fresh_strip = smoothstep(clean_fraction - 0.07, clean_fraction - 0.018, UV.x) * (1.0 - smoothstep(clean_fraction - 0.018, clean_fraction, UV.x)) * (1.0 - dust);
-	float satin = 0.35 + 0.65 * pow(max(0.0, 1.0 - abs(UV.y - 0.5) * 2.0), 2.0);
-	EMISSION += trace_color.rgb * fresh_strip * satin * work_feedback * 0.30;
-	// Sparse lifted-looking grains stay on the surface beside that same edge.
-	// These are small warm dust flecks, not sparks or an exposure simulation.
-	vec2 grit = UV * vec2(100.0, 60.0);
-	float grit_seed = grain(floor(grit));
-	vec2 grit_position = fract(grit + vec2(0.0, clean_fraction * 48.0 * (0.4 + grit_seed * 0.4)));
-	float fleck = (1.0 - smoothstep(0.025, 0.11, length(grit_position - vec2(0.5)))) * step(0.78, grit_seed);
-	float dust_edge = (1.0 - smoothstep(0.005, 0.05, UV.x - clean_fraction)) * step(clean_fraction, UV.x) * dust;
-	ALBEDO = mix(ALBEDO, vec3(1.0, 0.73, 0.40), fleck * dust_edge * work_feedback * 0.45);
-	ROUGHNESS = mix(0.26, 0.98, dust);
-	METALLIC = 0.18 * (1.0 - dust);
+	ALBEDO = mix(glass, regolith, dust);
+	// Dust stays fully opaque. No cell lines leak through untouched regolith.
+	ROUGHNESS = mix(0.22 + cell_tint * 0.035, 0.92 + grain * 0.06, dust);
+	METALLIC = 0.22 * (1.0 - dust);
+	SPECULAR = mix(0.72, 0.30, dust);
+	CLEARCOAT = 0.78 * (1.0 - dust);
+	CLEARCOAT_ROUGHNESS = 0.22;
+	EMISSION = glass * (1.0 - dust) * 0.10;
+
+	// A quiet freshly brushed highlight and fine lifted-looking grains are
+	// driven by observed work, never TIME. Reduced motion disables both.
+	float working = step(0.001, clean_fraction) * step(clean_fraction, 0.999) * work_feedback;
+	float edge = (1.0 - smoothstep(0.002, 0.015, abs(UV.x - front))) * working;
+	float satin = smoothstep(front - 0.055, front - 0.018, UV.x)
+		* (1.0 - smoothstep(front - 0.018, front, UV.x)) * (1.0 - dust);
+	EMISSION += vec3(0.36, 0.64, 0.71) * satin * working * 0.12;
+	vec2 grit = UV * vec2(180.0, 110.0);
+	float seed = hash(floor(grit));
+	vec2 position = fract(grit + vec2(0.0, clean_fraction * 31.0 * (0.4 + seed)));
+	float fleck = (1.0 - smoothstep(0.035, 0.12, length(position - 0.5))) * step(0.84, seed);
+	ALBEDO = mix(ALBEDO, dust_color.rgb * 1.24, edge * fleck * 0.45);
 }

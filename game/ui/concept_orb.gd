@@ -11,6 +11,7 @@ var tone := "normal"
 var reviewed := false
 var reduced_motion := false
 var measurement_scale := false
+var docked := false
 var _caption: Label
 var _status: Label
 var _backdrop: StyleBoxFlat
@@ -69,6 +70,11 @@ func set_reviewed(value: bool) -> void:
 	reviewed = value
 	set_level(1.0 if value else 0.0, "Explored" if value else "Explore", "normal")
 
+func set_docked(value: bool) -> void:
+	# HUD instruments share one housing; notebook tiles stay individually framed.
+	docked = value
+	queue_redraw()
+
 func set_measurement_scale(value: bool) -> void:
 	measurement_scale = value
 	queue_redraw()
@@ -123,40 +129,58 @@ func _layout() -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	if _backdrop: draw_style_box(_backdrop,Rect2(Vector2.ZERO,size))
+	if _backdrop and (not docked or is_hovered() or has_focus()):
+		_backdrop.bg_color = Color(Style.CYAN,0.045) if docked else Color(Style.GLASS,0.97)
+		_backdrop.border_color = Color(Style.CYAN,0.60 if has_focus() else (0.25 if docked else 0.40))
+		draw_style_box(_backdrop,Rect2(Vector2(1,1),size-Vector2(2,2)))
 	var compact := size.y < 90.0
 	var radius := 17.0 if compact else maxf(12.0,minf(size.x-20.0,size.y-58.0)*0.5)
+	# Keep enough room for a fine metallic bezel without encroaching on labels.
+	radius = maxf(10.0,radius-3.0)
 	var center := Vector2(25.0,size.y*0.5) if compact else Vector2(size.x*0.5,(size.y-49.0)*0.5)
 	var accent := _accent()
-	draw_circle(center, radius, Color(Style.GLASS, 0.96), true, -1.0, true)
-	draw_circle(center, radius - 3, Color(accent, 0.07 + level * 0.10), true, -1.0, true)
-	draw_arc(center, radius, 0, TAU, 64, Color(accent, 0.23), 2.0, true)
+	# Subtle fixed halos and layered machined rings replace opaque card slabs.
+	draw_circle(center,radius+5.0,Color(accent,0.025),true,-1.0,true)
+	draw_circle(center,radius+2.0,Color("0b1520"),true,-1.0,true)
+	draw_arc(center,radius+2.0,0,TAU,64,Color("766369"),1.0,true)
+	draw_arc(center,radius+2.0,PI,TAU,32,Color("c9a89a"),0.8,true)
+	draw_circle(center,radius-2.0,Color("102731"),true,-1.0,true)
+	draw_circle(center+Vector2(-radius*0.16,-radius*0.22),radius*0.7,Color(accent,0.025),true,-1.0,true)
+	draw_arc(center,radius-1.0,0,TAU,64,Color(accent,0.15),2.0,true)
+	if not compact:
+		for index in range(24):
+			var angle := -PI*0.5+float(index)*TAU/24.0
+			var direction := Vector2(cos(angle),sin(angle))
+			draw_line(center+direction*(radius-5.5),center+direction*(radius-3.5),Color(accent,0.22),0.8,true)
 	if level > 0.0:
-		draw_arc(center, radius, -PI * 0.5, -PI * 0.5 + TAU * level, 64, accent, 4.0, true)
+		var endpoint := -PI*0.5+TAU*level
+		draw_arc(center,radius-1.0,-PI*0.5,endpoint,64,Color(accent,0.10),7.0,true)
+		draw_arc(center,radius-1.0,-PI*0.5,endpoint,64,accent,2.5,true)
+		draw_circle(center+Vector2(cos(endpoint),sin(endpoint))*(radius-1.0),2.0,Color("e8ffff"),true,-1.0,true)
 	if has_focus() or is_hovered():
-		draw_arc(center, radius + 4.0, 0, TAU, 64, Style.PEARL if has_focus() else accent, 2.0, true)
+		draw_arc(center,radius+5.0,0,TAU,64,Style.PEARL if has_focus() else accent,1.5,true)
 	if _pulse_remaining > 0.0 and not reduced_motion:
 		var strength := _pulse_remaining/0.45
-		draw_arc(center,radius+4.0+(1.0-strength)*4.0,0,TAU,64,Color(accent,strength*0.55),2.0,true)
-	_draw_glyph(center, radius * 0.48, accent)
+		draw_arc(center,radius+5.0+(1.0-strength)*3.0,0,TAU,64,Color(accent,strength*0.55),2.0,true)
+	_draw_glyph(center,radius*0.48,accent)
 	if measurement_scale and not compact:
-		var x := size.x - 8.0
-		var top := maxf(8.0,center.y-radius)
-		var bottom := minf(size.y-49.0,center.y+radius)
-		draw_line(Vector2(x,top),Vector2(x,bottom),Color(accent,0.28),2.0,true)
-		draw_line(Vector2(x,bottom),Vector2(x,lerpf(bottom,top,level)),accent,2.0,true)
-		for index in range(5):
-			var y := lerpf(bottom,top,index/4.0)
-			draw_line(Vector2(x-5,y),Vector2(x,y),Color(accent,0.5),1.0,true)
+		# The main circular scale already shows the exact fraction. Tiny side
+		# ticks mark instrument calibration without the former heavy bracket.
+		for index in range(3):
+			var y := center.y-8.0+index*8.0
+			draw_line(Vector2(size.x-10.0,y),Vector2(size.x-7.0,y),Color(accent,0.25),1.0,true)
+	if docked:
+		var line_y := size.y-1.0
+		draw_line(Vector2(18.0,line_y),Vector2(size.x-18.0,line_y),Color(0.8,0.66,0.62,0.13),1.0,true)
 	if reviewed:
-		var badge := center + Vector2(radius * 0.72, radius * 0.70)
-		draw_circle(badge, 8.0, Style.CYAN, true, -1.0, true)
-		draw_polyline(PackedVector2Array([badge + Vector2(-4,0),badge + Vector2(-1,3),badge + Vector2(4,-3)]), Style.FLOOR, 1.8, true)
+		var badge := center+Vector2(radius*0.72,radius*0.70)
+		draw_circle(badge,8.0,Style.CYAN,true,-1.0,true)
+		draw_polyline(PackedVector2Array([badge+Vector2(-4,0),badge+Vector2(-1,3),badge+Vector2(4,-3)]),Style.FLOOR,1.8,true)
 	elif tone == "caution" or tone == "danger":
-		var badge := center + Vector2(radius * 0.73, radius * 0.70)
-		draw_colored_polygon(PackedVector2Array([badge + Vector2(0,-8),badge + Vector2(8,7),badge + Vector2(-8,7)]), accent)
-		draw_line(badge + Vector2(0,-3),badge + Vector2(0,2), Style.FLOOR, 2.0, true)
-		draw_circle(badge + Vector2(0,4), 1.0, Style.FLOOR)
+		var badge := center+Vector2(radius*0.73,radius*0.70)
+		draw_colored_polygon(PackedVector2Array([badge+Vector2(0,-8),badge+Vector2(8,7),badge+Vector2(-8,7)]),accent)
+		draw_line(badge+Vector2(0,-3),badge+Vector2(0,2),Style.FLOOR,2.0,true)
+		draw_circle(badge+Vector2(0,4),1.0,Style.FLOOR)
 
 func _draw_glyph(center: Vector2, scale: float, tint: Color) -> void:
 	var points := PackedVector2Array()

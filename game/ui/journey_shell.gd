@@ -52,6 +52,7 @@ var _story_index := 0
 var _story_brand: Label
 var _story_brand_subtitle: Label
 var _story_background: Texture2D
+var _result_background: Texture2D
 var _story_head: Label
 var _story_words: Label
 var _story_kicker: Label
@@ -226,34 +227,126 @@ class ConceptVisual extends Control:
 				_word("SHIELDING",center+Vector2(0,47),Style.MUTED)
 
 class ResultVisual extends Control:
+	## Original vector portrait and result diagram, not a screenshot of gameplay.
+	## The dust area uses the completed run's exact fraction; art adds no score.
 	var clean_fraction := 0.0
+	var outcome := ""
+	func _ready() -> void:
+		clip_contents = true
+		resized.connect(queue_redraw)
+	func _ellipse(center: Vector2, radii: Vector2, ink: Color) -> void:
+		var points := PackedVector2Array()
+		for index in range(48):
+			var angle := float(index) * TAU / 48.0
+			points.append(center + Vector2(cos(angle), sin(angle)) * radii)
+		draw_colored_polygon(points, ink)
+	func _shape(points: Array, ink: Color) -> void:
+		draw_colored_polygon(PackedVector2Array(points), ink)
+	func _spark(center: Vector2, radius: float, ink: Color) -> void:
+		_shape([center + Vector2(0, -radius), center + Vector2(radius * 0.25, -radius * 0.25), center + Vector2(radius, 0), center + Vector2(radius * 0.25, radius * 0.25), center + Vector2(0, radius), center + Vector2(-radius * 0.25, radius * 0.25), center + Vector2(-radius, 0), center + Vector2(-radius * 0.25, -radius * 0.25)], ink)
+	func _portrait(origin: Vector2, scale_value: float) -> void:
+		draw_set_transform(origin, 0.0, Vector2.ONE * scale_value)
+		var skin := Color("dba783")
+		var hair := Color("312930")
+		# Soft halo and a broad shoulder silhouette make a person readable before
+		# decorative suit details. Nothing here denotes radiation or health.
+		draw_circle(Vector2(0, -10), 77, Color(Style.CYAN, 0.045), true, -1, true)
+		draw_arc(Vector2(0, -10), 72, PI * 0.83, PI * 2.18, 64, Color(Style.CYAN, 0.18), 1.2, true)
+		_ellipse(Vector2(0, 79), Vector2(75, 15), Color("030b14", 0.55))
+		_shape([Vector2(-66, 79), Vector2(-64, 54), Vector2(-52, 41), Vector2(-25, 34), Vector2(25, 34), Vector2(52, 41), Vector2(64, 54), Vector2(66, 79)], Style.PEARL.darkened(0.16))
+		_ellipse(Vector2(-49, 55), Vector2(18, 23), Style.PEARL)
+		_ellipse(Vector2(49, 55), Vector2(18, 23), Style.PEARL.darkened(0.08))
+		_shape([Vector2(-30, 39), Vector2(30, 39), Vector2(38, 81), Vector2(-38, 81)], Color("efe2de"))
+		_shape([Vector2(-30, 44), Vector2(-18, 46), Vector2(-11, 81), Vector2(-26, 81)], Style.DEEP_CRIMSON)
+		_shape([Vector2(30, 44), Vector2(18, 46), Vector2(11, 81), Vector2(26, 81)], Style.DEEP_CRIMSON)
+		for x in [-51.0, 51.0]:
+			draw_line(Vector2(x - 8, 62), Vector2(x + 8, 62), Color("bca7a9"), 2.0, true)
+		# Transparent-looking helmet keeps the face, hair and expression visible.
+		draw_circle(Vector2(0, -17), 61, Color("506774"), true, -1, true)
+		draw_circle(Vector2(0, -17), 58, Style.PEARL, true, -1, true)
+		draw_circle(Vector2(0, -17), 54, Color("263b4b"), true, -1, true)
+		draw_circle(Vector2(0, -17), 51, Color("345565"), true, -1, true)
+		_ellipse(Vector2(0, -22), Vector2(34, 44), hair)
+		_ellipse(Vector2(-28, -11), Vector2(6, 9), skin.darkened(0.10))
+		_ellipse(Vector2(28, -11), Vector2(6, 9), skin.darkened(0.10))
+		_ellipse(Vector2(0, -14), Vector2(28, 36), skin)
+		_ellipse(Vector2(5, -10), Vector2(22, 29), Color("efc3a0"))
+		_ellipse(Vector2(-16, -4), Vector2(7, 4), Color("c97573", 0.28))
+		_ellipse(Vector2(17, -4), Vector2(7, 4), Color("c97573", 0.25))
+		# A swept fringe, rather than a dark visor, gives Ren an identifiable face.
+		_shape([Vector2(-32, -24), Vector2(-31, -46), Vector2(-16, -61), Vector2(11, -60), Vector2(31, -43), Vector2(30, -13), Vector2(22, -31), Vector2(16, -41), Vector2(7, -30), Vector2(-8, -32), Vector2(-18, -22), Vector2(-17, -38), Vector2(-25, -27), Vector2(-25, 4), Vector2(-31, -4)], hair)
+		for x in [-10.0, 11.0]:
+			draw_line(Vector2(x - 5, -25), Vector2(x + 4, -26), hair.lightened(0.10), 2.0, true)
+			_ellipse(Vector2(x, -17), Vector2(4, 5), Color("302a32"))
+			draw_circle(Vector2(x + 1, -19), 1.5, Style.PEARL, true, -1, true)
+		draw_polyline(PackedVector2Array([Vector2(0, -13), Vector2(-2, -5), Vector2(2, -4)]), Color("bb806a"), 1.4, true)
+		draw_arc(Vector2(0, 1), 9, PI * 0.13, PI * 0.87, 20, Color("8b4c51"), 2.0, true)
+		draw_line(Vector2(-4, 7), Vector2(4, 7), Color("fbe8d4"), 1.2, true)
+		# One small blossom echoes the suit's authored botanical motif.
+		for index in range(5):
+			var angle := float(index) * TAU / 5.0
+			draw_circle(Vector2(26, -36) + Vector2(cos(angle), sin(angle)) * 4.0, 3.0, Color("f0b2b2"), true, -1, true)
+		draw_circle(Vector2(26, -36), 1.8, Style.AMBER, true, -1, true)
+		draw_arc(Vector2(0, -17), 50, PI * 1.07, PI * 1.61, 36, Color(Style.PEARL, 0.72), 2.8, true)
+		draw_arc(Vector2(0, -17), 51, -0.53, 0.72, 28, Color(Style.CYAN, 0.45), 1.8, true)
+		_shape([Vector2(15, -62), Vector2(26, -56), Vector2(-26, 16), Vector2(-32, 7)], Color(Style.PEARL, 0.07))
+		for x in [-56.0, 56.0]:
+			draw_circle(Vector2(x, -13), 10, Style.DEEP_CRIMSON, true, -1, true)
+			draw_arc(Vector2(x, -13), 7, 0, TAU, 24, Color("e5b2aa"), 1.3, true)
+		_ellipse(Vector2(0, 37), Vector2(37, 12), Color("27303d"))
+		_ellipse(Vector2(0, 34), Vector2(36, 10), Style.PEARL)
+		_ellipse(Vector2(0, 33), Vector2(29, 6), Style.DEEP_CRIMSON)
+		draw_arc(Vector2(0, 32), 32, 0.10, PI - 0.10, 28, Style.ROSE, 2.0, true)
+		draw_circle(Vector2(0, 63), 12, Color("d6c6c7"), true, -1, true)
+		draw_circle(Vector2(0, 63), 9, Style.DEEP_CRIMSON, true, -1, true)
+		draw_arc(Vector2(0, 63), 6, -PI * 0.5, PI * 1.3, 28, Style.CYAN, 2.0, true)
+		if outcome == "win":
+			_spark(Vector2(-67, -54), 8, Color("efd6a2"))
+			_spark(Vector2(62, -63), 5, Color(Style.CYAN, 0.8))
+		draw_set_transform(Vector2.ZERO)
+	func _array(bounds: Rect2) -> void:
+		var top := bounds.position
+		var width := bounds.size.x
+		var height := bounds.size.y
+		var skew := minf(16, width * 0.07)
+		var corners := PackedVector2Array([top, top + Vector2(width, 0), top + Vector2(width - skew, height), top + Vector2(-skew, height)])
+		draw_colored_polygon(corners, Color("162f49"))
+		for row in range(3):
+			for column in range(8):
+				var cell := Rect2(float(column) / 8.0, float(row) / 3.0, 1.0 / 8.0, 1.0 / 3.0)
+				var a := top + Vector2(width * cell.position.x - skew * cell.position.y, height * cell.position.y)
+				var b := top + Vector2(width * cell.end.x - skew * cell.position.y, height * cell.position.y)
+				var c := top + Vector2(width * cell.end.x - skew * cell.end.y, height * cell.end.y)
+				var d := top + Vector2(width * cell.position.x - skew * cell.end.y, height * cell.end.y)
+				draw_polygon(PackedVector2Array([a,b,c,d]), PackedColorArray([Color("234765"),Color("1c3e5a"),Color("102d49"),Color("183751")]))
+				draw_polyline(PackedVector2Array([a,b,c,d,a]), Color(Style.CYAN, 0.38), 1.0, true)
+		var fraction := clampf(clean_fraction, 0.0, 1.0)
+		if fraction < 1.0:
+			var start := top + Vector2(width * fraction, 0)
+			draw_colored_polygon(PackedVector2Array([start, corners[1], corners[2], start + Vector2(-skew, height)]), Color("a77b56"))
+			for index in range(60):
+				var u := fposmod(index * 0.618034 + 0.11, 1.0)
+				var v := fposmod(index * 0.381966 + 0.17, 1.0)
+				if u > fraction + 0.01:
+					draw_circle(top + Vector2(width * u - skew * v, height * v), 0.7 + float(index % 3) * 0.4, Color("e7b685", 0.8), true, -1, true)
+		draw_polyline(PackedVector2Array([corners[0],corners[1],corners[2],corners[3],corners[0]]), Color("b8c7cc"), 3.0, true)
+		if fraction > 0.02:
+			draw_line(top + Vector2(5, 4), top + Vector2(width * fraction - 3, 4), Color(Style.CYAN, 0.75), 2, true)
 	func _draw() -> void:
 		var panel_style := Style.panel(true)
-		panel_style.bg_color = Color("142b37")
+		panel_style.bg_color = Color("102735")
+		panel_style.border_color = Color(Style.CYAN, 0.24)
 		draw_style_box(panel_style, Rect2(Vector2.ZERO, size))
-		var head := Vector2(size.x * 0.25, size.y * 0.40)
-		var radius := minf(37, size.y * 0.25)
-		# An original, simple helmet illustration; no fabricated health reading.
-		draw_circle(head, radius + 6, Style.PEARL)
-		draw_circle(head, radius + 1, Style.ROSE)
-		draw_circle(head, radius - 5, Style.GLASS)
-		draw_arc(head, radius - 10, PI * 1.05, PI * 1.75, 32, Style.CYAN, 3, true)
-		draw_line(head + Vector2(-radius * 0.7, radius + 6), head + Vector2(-radius, radius * 2.0), Style.PEARL, 15, true)
-		draw_line(head + Vector2(radius * 0.7, radius + 6), head + Vector2(radius, radius * 2.0), Style.PEARL, 15, true)
-		draw_line(head + Vector2(-radius * 0.55, radius + 16), head + Vector2(radius * 0.55, radius + 16), Style.ROSE, 8, true)
-		var bounds := Rect2(size.x * 0.52, size.y * 0.27, size.x * 0.39, size.y * 0.48)
-		draw_rect(bounds, Color("122e42"))
-		draw_rect(bounds, Style.CYAN, false, 2)
-		for index in range(1,4):
-			var x := bounds.position.x + bounds.size.x * index / 4
-			draw_line(Vector2(x, bounds.position.y), Vector2(x, bounds.end.y), Color(Style.CYAN, 0.6), 1.5)
-		draw_line(Vector2(bounds.position.x, bounds.get_center().y), Vector2(bounds.end.x, bounds.get_center().y), Color(Style.CYAN, 0.6), 1.5)
-		var dust_count := ceili(42 * (1 - clampf(clean_fraction, 0, 1)))
-		for index in range(dust_count):
-			var point := bounds.position + Vector2(6 + fposmod(index * 19.7, maxf(1,bounds.size.x - 12)), 6 + fposmod(index * 13.7, maxf(1,bounds.size.y - 12)))
-			draw_circle(point, 3, Style.AMBER)
-		var font := Style.font("display_bold")
-		draw_string(font, Vector2(size.x * 0.52, size.y * 0.91), "CREW INSIDE", HORIZONTAL_ALIGNMENT_LEFT, size.x * 0.43, 18, Style.CYAN)
+		var portrait_scale := minf((size.y - 18.0) / 160.0, size.x * 0.38 / 150.0)
+		var portrait_x := size.x * 0.205
+		_portrait(Vector2(portrait_x, size.y * 0.5 + 1.0), portrait_scale)
+		var content_x := size.x * 0.43
+		var content_width := size.x - content_x - 22.0
+		var font_size := 15 if size.x < 380 else 18
+		draw_circle(Vector2(content_x + 5, 28), 4, Style.CYAN, true, -1, true)
+		draw_string(Style.font("display_bold"), Vector2(content_x + 17, 34), "CREW INSIDE", HORIZONTAL_ALIGNMENT_LEFT, content_width - 17, font_size, Style.PEARL)
+		_array(Rect2(content_x + 8, 52, content_width - 8, size.y - 94))
+		draw_string(Style.font("body_bold"), Vector2(content_x, size.y - 17), "%.1f%% clear" % (clampf(clean_fraction, 0.0, 1.0) * 100.0), HORIZONTAL_ALIGNMENT_LEFT, content_width, font_size, Style.CYAN)
 
 class RunChart extends Control:
 	var samples: Array = []
@@ -700,6 +793,7 @@ func _close_dialog(mark_reviewed: bool) -> void:
 
 func show_debrief(result: Dictionary, concepts: Array) -> void:
 	state = "debrief"
+	if not is_instance_valid(_result_background): _result_background = load(STORY_BACKGROUNDS[2]) as Texture2D
 	_result = result.duplicate(true)
 	catalog = concepts.duplicate(true)
 	quiz_first_answer = -1
@@ -898,10 +992,12 @@ func _build_debrief_content() -> void:
 	var picture := ResultVisual.new()
 	picture.name = "ResultIllustration"
 	picture.clean_fraction = _value("clean_fraction", 0)
-	picture.custom_minimum_size = Vector2(0, 112)
+	picture.outcome = str(_result.get("status", ""))
+	picture.custom_minimum_size = Vector2(0, 170)
 	picture.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	picture.accessibility_name = "Ren is inside. The panel illustration shows the same cleaned fraction as the result."
+	picture.accessibility_description = "Original crew portrait and result diagram. Panel %.1f percent clear." % (100 * picture.clean_fraction)
 	_result_media.add_child(picture)
 	var science_card := PanelContainer.new()
 	science_card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -1307,6 +1403,7 @@ func _layout_debrief(narrow: bool, short: bool) -> void:
 	# Small screens put the three actual readings first; illustration stays below.
 	_result_content.move_child(_debrief_summary, 0 if narrow else 1)
 	_result_media.columns = 1 if narrow else 2
+	_result_media.get_node("ResultIllustration").custom_minimum_size.y = 166 if narrow else 170
 	_debrief_charts.columns = 1 if _body.size.x < 720 else 2
 	_equation_grid.columns = 2 if _body.size.x >= 1000 else 1
 	_merge_skip.size = Vector2(minf(252, _body.size.x), 52)
@@ -1352,12 +1449,26 @@ func _draw() -> void:
 		var scale_factor := maxf(size.x / image_size.x, size.y / image_size.y)
 		var region_size := size / scale_factor
 		draw_texture_rect_region(_story_background, Rect2(Vector2.ZERO, size), Rect2((image_size - region_size) * 0.5, region_size))
-		draw_rect(Rect2(Vector2.ZERO, size), Color(Style.FLOOR, 0.68))
+		# Keep the artwork luminous at the right while giving the short story a
+		# quiet, high-contrast reading area. A uniform veil flattened the scene.
+		for strip in range(64):
+			var t := float(strip) / 63.0
+			var shade := lerpf(0.86, 0.12, smoothstep(0.15, 0.85, t))
+			if size.x < 600: shade = lerpf(0.77, 0.43, t)
+			draw_rect(Rect2(size.x * strip / 64.0, 0, size.x / 64.0 + 1, size.y), Color(Style.FLOOR, shade))
+	elif state == "debrief":
+		# Reflections of the same outpost connect results to the mission. The
+		# scientific readings stay on solid, accessible cards above this artwork.
+		if is_instance_valid(_result_background):
+			var image_size := _result_background.get_size()
+			var region_size := size / maxf(size.x / image_size.x, size.y / image_size.y)
+			draw_texture_rect_region(_result_background, Rect2(Vector2.ZERO, size), Rect2((image_size-region_size)*0.5, region_size), Color(1,1,1,0.18))
 	var glow_center := size * Vector2(0.74, 0.58)
 	for index in range(22, 0, -1):
 		var radius := float(index) * maxf(size.x, size.y) * 0.024
 		draw_circle(glow_center, radius, Color(Style.color("cyan"), 0.0028))
-	for index in range(108):
+	# Stars belong to the discovery backdrop, not in front of the habitat.
+	for index in range(0 if state in ["story", "debrief"] else 72):
 		var point := Vector2(fposmod(index * 137.37 + 31.0, 997.0) / 997.0, fposmod(index * 71.73 + 19.0, 631.0) / 631.0) * size
 		var alpha := 0.19 + float(index % 4) * 0.1
 		if not reduced_motion: alpha *= 0.86 + 0.14 * sin(_time * 0.35 + index)
