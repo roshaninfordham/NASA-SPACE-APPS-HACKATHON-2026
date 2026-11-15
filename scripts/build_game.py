@@ -64,7 +64,7 @@ Science cards and Pause stop the mission clock. Escape leaves fullscreen
 first and pauses; another Escape closes one panel or offers Resume.
 Settings has music, sound effects, reduced motion and relaxed/quick pacing.
 Debrief connects your actual run to four equations and an optional quiz.
-Home > Advanced lab retains the earlier Mira/EVA mission separately.
+Home > More > Advanced lab retains the earlier Mira/EVA mission separately.
 
 UPDATES AND SCIENCE
 Compatible desktop updates appear at a safe menu on a fresh launch:
