@@ -2,25 +2,27 @@
 
 **Clear the dust. Discover the science.**
 
-A short Mars learning game for ages 7–12, built with Godot. From mission control, choose Ren's solar-panel cleaning pace and watch how dust, sunlight and stored energy connect. Eight optional science bubbles and an explanation of your own result make the ideas available when you need them.
+A short Mars learning game for ages 7–12, built with Godot. From mission control, choose Ren's solar-panel cleaning pace and watch how dust, sunlight and stored energy connect. Three main readings keep play clear; an optional eight-concept Science library and an explanation of your own result make the ideas available when you need them.
 
 [![Validation](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml/badge.svg)](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml)
 
-**Current source candidate: 0.9.0-alpha.1.** The new name, closer window view, larger controls, 90-second round and result-to-equation reveal are being prepared for release. Candidate work is not yet a published download. [Design and acceptance contract](docs/design-specs/JOURNEY-0.9.md) · [Candidate release notes](docs/releases/0.9.0-alpha.1.md) · [Submission draft for team review](docs/SUBMISSION-DRAFT.md).
+**Current source/package: 0.10.0-alpha.1; publication pending.** This interface update simplifies reading and navigation and corrects the installation handoff; the mission equations remain unchanged from the published [0.9.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.9.0-alpha.1). The 0.9.0 release was published November 15, 2026 at 13:12:47 UTC, and its assets remain unchanged. [Release notes](docs/releases/0.10.0-alpha.1.md).
 
-**Latest published download: [0.8.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.8.0-alpha.1).** Published November 15, 2026 from `8b13e027ce5e0fa941a6bbeb1e09c5873b11baee`; its ten public assets were redownloaded and matched to the accepted build. That version keeps the earlier Shield Protocol name and five-minute standard round. [Release evidence](docs/evidence/release-0.8.0-alpha.1.json).
+**Latest published release:** [0.9.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.9.0-alpha.1), built from `40dbea61cc1690b3f45bce397e75aa1e582cfebd`. The new 0.10.0 package requires its own acceptance before publication.
 
-![0.9 source preview: story, larger cleaning view and immediate result](docs/media/journey-0.9/contact-sheet.png)
+![0.10 source preview: a focused cleaning view, optional science and clear result](docs/media/journey-0.10/contact-sheet.png)
 
-[Current candidate screenshots](docs/media/journey-0.9/README.md) · [Actual cleaning motion](docs/media/journey-0.9/cleaning-live.gif) · [Equation reveal](docs/media/journey-0.9/science-desktop.png). These are native Linux source captures with recorded fixtures and source provenance, not physical-device or published-installer acceptance.
+[0.10 gameplay screenshots](docs/media/journey-0.10/README.md) · [Science relationships](docs/media/journey-0.10/science-desktop.png) · [Submission draft](docs/SUBMISSION-DRAFT.md). These are native Linux source captures with recorded fixtures and source provenance, not physical-device or published-installer acceptance.
 
-## The 0.9 experience
+## The 0.10 experience
 
-1. **Three short story scenes:** exterior habitat → Ren → the interior control room. Large, separately rendered titles sit over unlettered illustrations, with optional sound and reduced motion.
-2. **Choose a starting pace:** the control room opens in preflight. Inspect a bubble or adjust the pace, then press **START MISSION**. No reading-completion gate or running clock gets in the way.
-3. **See the work clearly:** Ren and the panel fill more of the window. SLOWER, FASTER and a red stepped slider change the visible brushing pace. Dust clearing and the readings follow the same model.
-4. **Finish a short round:** standard play takes about **90 active real seconds**, representing 30 simulated minutes. The large timer shows play time; a smaller clock explains mission time. Reading and Pause stop the whole simulation.
-5. **Understand the ending:** Ren automatically enters the shelter. The result shows actual panel cleaning, battery energy and model dose. **See how science connects** brings the eight ideas together into four equation groups; **Back to results**, **Try another plan** and **Home** keep navigation clear.
+1. **Start with a short story:** exterior habitat → Ren → the interior control room. Large titles and brief captions sit over unlettered illustrations, with optional sound and reduced motion. The first mission shows **Opening the window…** while preparing the scene; **Back to Home** cancels loading.
+2. **Choose a starting pace:** preflight has no running clock. Set the pace and press **START MISSION**. There is no reading-completion gate.
+3. **Focus on the cleaning:** the main view has **panel cleaned, energy stored and storm time**, with one red pace slider and Slower/Faster controls. Ren and the panel stay close to the window; brushing and visible dust follow the model.
+4. **Discover science when curious:** **Science** pauses play and opens eight concept tiles. Each starts with a short explanation, diagram and everyday analogy. **Learn more** and **Data & sources** reveal the detailed model and original evidence when requested.
+5. **Reach a clear ending:** standard play takes about **90 active real seconds**. Ren enters automatically and the result shows actual cleaning, battery energy and model dose. **See how science connects** merges the eight ideas into four short relationships; **Explore my numbers and graphs** opens the precise equations and run details. Back, retry and Home remain available.
+
+The mission represents 30 simulated minutes. The main timer shows real play time; **Time → Learn more** explains simulated time. Reading and Pause freeze all mission quantities together. Softer optional pace and discovery sounds support the existing visible warnings and audio controls.
 
 The opening art is newly generated adaptation of the team's visual references, not an exact copy of the inline originals or a gameplay render. [Artwork provenance](game/assets/art/journey/provenance.json). The warning beeps are original synthesized project audio; the mentioned Drive recording was unavailable. [Audio credits](docs/AUDIO-CREDITS.md).
 
@@ -35,35 +37,34 @@ WIN means at least 80% cleaned, PASS at least 40%, and TRY AGAIN below 40%. All 
 
 **Controls:** 1 = slower, 3 = faster, Enter = Start in preflight, Escape = contextual Back/Pause and fullscreen exit, F11 = fullscreen. The earlier operator/EVA/lab activities remain under **Advanced lab · earlier mission**, with separate rules.
 
-The [0.9 capture record](docs/media/journey-0.9/capture-provenance.json) documents the source and fixture used for the preview. Candidate source changes still require their own integrated and native-package acceptance. The [historical 0.8 gallery](docs/media/journey/README.md) and [live NASA observation](docs/media/journey/LIVE-SUN.md) remain labelled evidence for their recorded source snapshots. [Media](docs/MEDIA.md) · [Validation](docs/VALIDATION.md).
+The [0.10 capture record](docs/media/journey-0.10/capture-provenance.json) documents 135 states across five viewports, with zero layout findings and recorded unchanged source fingerprints. The shared source suite and native Linux navigation checks passed; package acceptance remains separate. The [historical 0.9 gallery](docs/media/journey-0.9/README.md) keeps its original source and fixture record. The [historical 0.8 gallery](docs/media/journey/README.md) and [live NASA observation](docs/media/journey/LIVE-SUN.md) remain labelled evidence for their recorded source snapshots. [Media](docs/MEDIA.md) · [Validation](docs/VALIDATION.md).
 
-## Download the published game
+## Download and open this version
 
-GitHub **Release assets** contain runnable downloads; the Packages tab is not required. These links are the verified **0.8.0-alpha.1** files until the 0.9 candidate passes publication and public-file checks.
+**This source/package: 0.10.0-alpha.1.** [Official version page](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1) lists publication status and available files. These are the versioned 0.10.0 download addresses; the separate 0.9.0 release above remains available while this release is prepared.
 
-| Platform or document      | Published 0.8 asset                                                                                                                                                                |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Apple Silicon / Intel Mac | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-macOS-universal.zip) |
-| Windows x64               | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-Windows-x64.zip)             |
-| Linux x64                 | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-Linux-x64.zip)                 |
-| WebGL2 browser            | [Web export ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-Web.zip)                  |
-| Science guide for 0.8     | [Versioned PDF](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-Science-Guide.pdf)         |
+| Platform                  | 0.10.0 archive                                                                                                                                                                          | Open after extracting the whole ZIP                  |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| Mac Apple Silicon / Intel | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-macOS-universal.zip) | `KŌMAKU- Dust and Radiation.app`                     |
+| Windows x64               | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Windows-x64.zip)             | `KOMAKU-Dust-and-Radiation.exe`                      |
+| Linux x64                 | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Linux-x64.zip)                 | `KOMAKU-Dust-and-Radiation.x86_64`                   |
+| WebGL2 browser            | [Web export ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Web.zip)                  | Serve over HTTP(S); do not double-click `index.html` |
 
-Extract the **whole ZIP** and read `START-HERE.txt`; native players need no editor or developer tools. Mac is ad-hoc signed without Apple Developer ID/notarization; Windows is unsigned. The Mac archive includes a consent-based helper that verifies integrity and changes quarantine only on the installed copy. Hosted launch checks do not establish physical M5 performance or approval by every device's security policy. [Installation](docs/DOWNLOADS.md) · [Mac repair](docs/MACOS-LAUNCH-REPAIR.md).
+Read `START-HERE.txt` and the [current installation guide](docs/DOWNLOADS.md). Native players need no editor or developer tools. Mac is ad-hoc signed without Developer ID/notarization; Windows is unsigned. The Mac archive includes **Install KŌMAKU.command**, a consent-based helper for a trusted download. Hosted tests do not establish every security-policy path or physical M5 performance.
 
-No production native Android or iOS installer is published. The Web export requires HTTP(S) hosting and WebGL2. Public hosting remains deferred by owner choice; there is no public play URL to include in a submission yet.
+GitHub Release assets contain the game; the Packages tab and source-code ZIP are not installers. No production native Android/iOS installer or public hosted play URL is supplied. Hosting remains deferred by owner choice. All three science/equation PDFs are included in this package.
 
 ## Updates inside the desktop game
 
 The compatible-content flow is **Update available → Install → Restart**. The game checks public GitHub releases at each fresh launch and on request, verifies a signed manifest and exact content size/hash, and retains recovery content. Notifications wait for safe menu/result points. There are no background notifications while the app is closed and no forced restart.
 
-For the 0.9 candidate, the native update gate includes unchanged public **0.6.0, 0.6.1, 0.7.0, 0.7.1 and 0.8.0** Mac/Windows installers—ten platform/version jobs—plus the documented Linux 0.4 baseline. These are required checks, not a claim that the candidate has already passed them. The accepted 0.8 transitions retain their own evidence. Engine/bootstrap incompatibilities still require a full installer, and an app that cannot launch needs one corrected installation. [Update contract and evidence](docs/UPDATES.md).
+For the 0.10.0 update, the native update gate includes unchanged public **0.6.0, 0.6.1, 0.7.0, 0.7.1, 0.8.0 and 0.9.0** Mac/Windows installers—twelve platform/version jobs—plus the documented Linux 0.4 baseline. These are required checks, not a claim that this version has already passed them. The accepted 0.8 transitions retain their own evidence. Engine/bootstrap incompatibilities still require a full installer, and an app that cannot launch needs one corrected installation. [Update contract and evidence](docs/UPDATES.md).
 
-The rename preserves application IDs, save locations, signing trust and the content-update contract. Existing installed app filenames can retain their original name while the updated game displays the new title. New 0.9 packages use `KOMAKU-Dust-and-Radiation`; historical assets keep their published filenames. [Shared branding](docs/BRANDING.md).
+The rename preserves application IDs, save locations, signing trust and the content-update contract. Existing installed app filenames can retain their original name while the updated game displays the new title. New 0.10.0 packages use `KOMAKU-Dust-and-Radiation`; historical assets keep their published filenames. [Shared branding](docs/BRANDING.md).
 
 ## Understand and present the science
 
-The current documentation includes a [16-page illustrated science guide](docs/media/KOMAKU-Science-Guide.pdf), [technical equation sheet](docs/media/KOMAKU-Video-Equations.pdf), and [word-only equation sheet](docs/media/KOMAKU-Video-Equations-Simple.pdf). All three are included by the 0.9 packaging configuration, with source fingerprints checked before building. The 0.8 archives retain their earlier two packaged PDFs. [Readable guide](docs/SCIENCE-GUIDE.md) · [Simple equations](docs/VIDEO-EQUATIONS-SIMPLE.md) · [Result copy](docs/RESULT-SCREEN-COPY.md).
+The current documentation includes a [16-page illustrated science guide](docs/media/KOMAKU-Science-Guide.pdf), [technical equation sheet](docs/media/KOMAKU-Video-Equations.pdf), and [word-only equation sheet](docs/media/KOMAKU-Video-Equations-Simple.pdf). All three are included in the 0.10.0 packaging configuration, with source fingerprints checked before building. The 0.8 archives retain their earlier two packaged PDFs. [Readable guide](docs/SCIENCE-GUIDE.md) · [Simple equations](docs/VIDEO-EQUATIONS-SIMPLE.md) · [Result copy](docs/RESULT-SCREEN-COPY.md).
 
 The historical **210 ±40 µGy/day** Curiosity RAD tissue-like detector observation supplies the baseline of an authored rising radiation curve. Pathfinder research reports a **0.28% per day decrease in solar-cell short-circuit current**; this supports the dust concept but is not a universal power-loss rate or runtime cleaning coefficient. Fatigue, deadline, panel transmission, load and battery specifications are explicit mission settings. [Source audit](docs/SCIENCE-JOURNEY-SOURCES.md) · [Complete source index](docs/SOURCE-INDEX.md).
 

@@ -19,6 +19,10 @@ var back_button: Button
 var refresh_button: Button
 var source_button: Button
 var info_scroll: ScrollContainer
+var details_button: Button
+var credit_label: Label
+var _details: VBoxContainer
+var _details_open := false
 var _heading: Label
 var _subtitle: Label
 var _image_frame: Panel
@@ -43,7 +47,7 @@ func _ready() -> void:
 	_heading = Style.label("The Sun, from NASA",34,Style.PEARL,"display")
 	_heading.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	background.add_child(_heading)
-	_subtitle = Style.label("Explore our star’s outer atmosphere.",17,Style.MUTED)
+	_subtitle = Style.label("Your mission works offline.",17,Style.MUTED)
 	_subtitle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_subtitle.max_lines_visible = 2
 	background.add_child(_subtitle)
@@ -77,21 +81,39 @@ func _ready() -> void:
 	background.add_child(info_scroll)
 	_info = VBoxContainer.new()
 	_info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_info.add_theme_constant_override("separation",12)
+	_info.add_theme_constant_override("separation",8)
 	info_scroll.add_child(_info)
-	status_label = _reading("Checking image status…",19,Style.CYAN,"display")
-	message_label = _reading("",16,Style.MUTED)
-	_reading("A different kind of light",24,Style.PEARL,"display")
-	_reading("This image shows the Sun’s corona: its very hot outer atmosphere. AIA sees extreme ultraviolet light that our eyes cannot see. False colour helps us explore the patterns.",17)
-	_reading("AIA 193 Å is an extreme-ultraviolet view with assigned colours. Brightness here is not a Mars danger reading.",16,Style.AMBER)
-	file_updated_label = _reading("NASA file updated: unknown",14,Style.MUTED)
-	successful_fetch_label = _reading("Fetched successfully: not yet",14,Style.MUTED)
-	last_checked_label = _reading("Last connection attempt: not yet",14,Style.MUTED)
-	age_label = _reading("File age: unknown",14,Style.MUTED)
-	_reading("The NASA file timestamp is HTTP Last-Modified metadata. It is not a verified camera exposure time. This is a periodically refreshed image, not a live video stream.",14,Style.MUTED)
-	_reading("Explore the Sun; keep the science separate",19,Style.AMBER,"display")
-	_reading("This image does not predict radiation on Mars. It does not change the mission’s radiation dose, storm deadline, battery or score.",16)
-	_reading(CREDIT,13,Style.MUTED)
+	# Status and credit are fixed outside the scrolling metadata. Reading a
+	# timestamp must never hide whether this is live, cached or bundled imagery.
+	status_label = Style.label("Checking image status…",19,Style.CYAN,"display")
+	status_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	status_label.max_lines_visible = 2
+	background.add_child(status_label)
+	credit_label = Style.label(CREDIT,13,Style.MUTED)
+	credit_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	credit_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	background.add_child(credit_label)
+	file_updated_label = _reading("File updated: unknown",14,Style.MUTED)
+	successful_fetch_label = _reading("Fetched: not yet",14,Style.MUTED)
+	details_button = Style.button("＋ Connection details")
+	details_button.name = "SolarConnectionDetails"
+	details_button.toggle_mode = true
+	details_button.custom_minimum_size.y = 48
+	details_button.toggled.connect(_toggle_details)
+	_info.add_child(details_button)
+	_details = VBoxContainer.new()
+	_details.name = "ConnectionDetails"
+	_details.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_details.add_theme_constant_override("separation",10)
+	_details.hide()
+	_info.add_child(_details)
+	message_label = _reading("",16,Style.MUTED,"body",_details)
+	last_checked_label = _reading("Last connection attempt: not yet",14,Style.MUTED,"body",_details)
+	age_label = _reading("File age: unknown",14,Style.MUTED,"body",_details)
+	_reading("The file date comes from NASA’s HTTP Last-Modified metadata. It is not a verified camera exposure time. This is a refreshed image, not a live video stream.",14,Style.MUTED,"body",_details)
+	_reading("What am I seeing?",20,Style.PEARL,"display",_details)
+	_reading("AIA sees extreme-ultraviolet light from the Sun’s hot outer atmosphere. The 193 Å image uses assigned colours to show light our eyes cannot see.",16,Style.PEARL,"body",_details)
+	_reading("This image does not predict radiation on Mars or change your mission’s dose, storm deadline, battery or score.",16,Style.AMBER,"body",_details)
 	back_button = Style.button("Back",true)
 	back_button.name = "SolarBack"
 	back_button.pressed.connect(close)
@@ -109,13 +131,24 @@ func _ready() -> void:
 	if is_instance_valid(client) and client.has_signal("changed"): client.changed.connect(refresh)
 	refresh()
 	_layout()
+	# Label wrapping can retain its pre-layout minimum height on the first
+	# frame. Settle fixed credit/status bounds before the viewer is presented.
+	_layout.call_deferred()
 	back_button.grab_focus.call_deferred()
 
-func _reading(text: String, pixels: int, tint: Color = Style.PEARL, face: String = "body") -> Label:
+func _reading(text: String, pixels: int, tint: Color = Style.PEARL, face: String = "body", parent: VBoxContainer = null) -> Label:
 	var label := Style.label(text,pixels,tint,face)
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_info.add_child(label)
+	(parent if parent != null else _info).add_child(label)
 	return label
+
+func _toggle_details(open: bool) -> void:
+	_details_open = open
+	_details.visible = open
+	details_button.text = "− Hide connection details" if open else "＋ Connection details"
+	details_button.accessibility_description = "Connection details expanded" if open else "Connection details collapsed"
+	# Closing a long explanation restores the concise dates at the top.
+	if not open: info_scroll.scroll_vertical = 0
 
 static func describe_age(seconds: float) -> String:
 	if not is_finite(seconds) or seconds < 0.0: return "unknown"
@@ -126,8 +159,15 @@ static func describe_age(seconds: float) -> String:
 
 func refresh() -> void:
 	if not is_instance_valid(background): return
+	var previous_snapshot := current_snapshot
 	current_snapshot = client.snapshot().duplicate(true) if is_instance_valid(client) and client.has_method("snapshot") else {}
 	var status := str(current_snapshot.get("status","fallback"))
+	if status == "loading":
+		# A loading event may contain only connection state. Keep the previous
+		# image's own dates with it until a new response actually supplies them.
+		for field in ["texture","source_kind","file_updated_utc","fetched_at_utc","last_success_utc","image_age_seconds","cache_age_seconds"]:
+			if not current_snapshot.has(field) and previous_snapshot.has(field):
+				current_snapshot[field] = previous_snapshot[field]
 	var source_kind := str(current_snapshot.get("source_kind","bundled"))
 	match status:
 		"loading": status_label.text = "Checking NASA · keeping the current image"
@@ -138,17 +178,23 @@ func refresh() -> void:
 	status_label.add_theme_color_override("font_color",Style.CYAN if status == "live" else Style.AMBER)
 	message_label.text = str(current_snapshot.get("message", "You can still explore this science view without a connection.")).left(500).trim_prefix("NASA connected · latest available. ")
 	var texture: Variant = current_snapshot.get("texture")
-	image_view.texture = texture if texture is Texture2D else null
+	if texture is Texture2D:
+		image_view.texture = texture
+	elif status != "loading":
+		image_view.texture = null
 	_empty.visible = image_view.texture == null
+	if status == "loading" and _empty.visible: status_label.text = "Checking NASA · no image yet"
 	var published := str(current_snapshot.get("file_updated_utc",""))
 	var fetched := str(current_snapshot.get("fetched_at_utc",current_snapshot.get("last_success_utc","")))
 	var checked := str(current_snapshot.get("last_checked_utc",""))
-	file_updated_label.text = "NASA file updated: " + (published if not published.is_empty() else "unknown")
-	successful_fetch_label.text = "Fetched successfully: " + (fetched if not fetched.is_empty() else "not yet on this device")
+	file_updated_label.text = "File updated: " + (published if not published.is_empty() else "unknown")
+	successful_fetch_label.text = "Fetched: " + (fetched if not fetched.is_empty() else "not yet on this device")
 	last_checked_label.text = "Last connection attempt: " + (checked if not checked.is_empty() else "not yet")
 	age_label.text = "NASA file age: " + describe_age(float(current_snapshot.get("image_age_seconds",-1.0)))
 	if source_kind == "cache": age_label.text += " · saved copy age: " + describe_age(float(current_snapshot.get("cache_age_seconds",-1.0)))
 	refresh_button.disabled = status == "loading" or not is_instance_valid(client)
+	refresh_button.text = "Checking…" if status == "loading" else ("Refresh" if background.size.x < 700.0 else "Refresh image")
+	refresh_button.accessibility_description = "Checking NASA; the current image remains visible" if status == "loading" else "Request the latest available NASA image"
 	if refresh_button.has_focus() and refresh_button.disabled: back_button.grab_focus.call_deferred()
 	background.accessibility_description = status_label.text + ". " + file_updated_label.text + ". " + successful_fetch_label.text
 
@@ -159,16 +205,24 @@ func _layout() -> void:
 	var short := view.y < 500.0
 	var margin := 12.0 if narrow or short else 20.0
 	var width := maxf(200,view.x-margin*2)
-	var header_height := 74.0 if short else 100.0
+	var header_height := 112.0 if narrow else (66.0 if short else 82.0)
 	_heading.position = Vector2(margin,margin)
-	_heading.size = Vector2(width,42)
+	_heading.size = Vector2(width if narrow else width*0.52,36 if narrow or short else 42)
 	_heading.add_theme_font_size_override("font_size",28 if narrow or short else 34)
-	_subtitle.position = Vector2(margin,margin+44)
-	_subtitle.size = Vector2(width,28 if short else 40)
-	_subtitle.add_theme_font_size_override("font_size",15 if short else 17)
+	_subtitle.position = Vector2(margin,margin+(38 if narrow or short else 46))
+	_subtitle.size = Vector2(width if narrow else width*0.52,24)
+	_subtitle.add_theme_font_size_override("font_size",15 if narrow or short else 17)
+	status_label.position = Vector2(margin,margin+68) if narrow else Vector2(margin+width*0.55,margin+4)
+	status_label.size = Vector2(width,40) if narrow else Vector2(width*0.45,52)
+	status_label.add_theme_font_size_override("font_size",17 if narrow or short else 19)
+	# Reserve two lines even before the font/wrapping layout settles.
+	var credit_height := 40.0
+	credit_label.position = Vector2(margin,view.y-margin-48-8-credit_height)
+	credit_label.size = Vector2(width,credit_height)
+	credit_label.add_theme_font_size_override("font_size",12 if narrow or short else 13)
 	var top := margin+header_height
-	var height := maxf(100,view.y-margin*2-header_height-48-14)
-	var image_size := minf(width,maxf(96,height*0.44)) if narrow else minf(width*0.48,maxf(96,height-74))
+	var height := maxf(100,credit_label.position.y-10-top)
+	var image_size := minf(width,maxf(96,height*0.58)) if narrow else minf(width*0.50,maxf(96,height-42))
 	_image_frame.position = Vector2(margin+(width-image_size)*0.5 if narrow else margin,top)
 	_image_frame.size = Vector2(image_size,image_size)
 	image_view.position = Vector2(5,5)
@@ -176,17 +230,18 @@ func _layout() -> void:
 	_empty.position = Vector2(5,5)
 	_empty.size = image_view.size
 	_image_caption.position = Vector2(_image_frame.position.x,top+image_size+4)
-	_image_caption.size = Vector2(image_size,64)
-	_image_caption.text = "Find a bright loop and a darker patch." if short else "Look for a bright loop and a darker patch in the Sun’s outer atmosphere."
+	_image_caption.size = Vector2(image_size,38)
+	_image_caption.add_theme_font_size_override("font_size",13 if narrow or short else 14)
+	_image_caption.text = "Sun image · not a Mars forecast." if narrow or short else "Explore the Sun’s outer atmosphere. This image does not predict Mars radiation."
 	if narrow:
-		info_scroll.position = Vector2(margin,top+image_size+74)
-		info_scroll.size = Vector2(width,maxf(48,height-image_size-74))
+		info_scroll.position = Vector2(margin,top+image_size+46)
+		info_scroll.size = Vector2(width,maxf(48,height-image_size-46))
 	else:
 		info_scroll.position = Vector2(margin+image_size+24,top)
 		info_scroll.size = Vector2(maxf(80,width-image_size-24),height)
 	var button_width := (width-20)/3.0
 	back_button.text = "Back"
-	refresh_button.text = "Refresh" if narrow else "Refresh image"
+	refresh_button.text = "Checking…" if current_snapshot.get("status") == "loading" else ("Refresh" if narrow else "Refresh image")
 	source_button.text = "NASA data" if narrow else "Open NASA data"
 	for index in range(3):
 		var button: Button = [back_button,refresh_button,source_button][index]

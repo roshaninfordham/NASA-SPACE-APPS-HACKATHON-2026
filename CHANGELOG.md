@@ -2,9 +2,22 @@
 
 All published game versions and notable unreleased work are recorded here. The version and source commit in each release manifest identify the exact downloadable build. Documentation on `main` can be newer than an installer.
 
-## [0.9.0-alpha.1] — candidate, not yet published
+## [0.10.0-alpha.1] — interface and installation update, publication pending
 
-The current source prepares **KŌMAKU: Dust & Radiation**. The latest published build remains 0.8.0-alpha.1 until the new source, native packages, baseline updates and public downloads pass their own acceptance. [Candidate notes](docs/releases/0.9.0-alpha.1.md) · [Design contract](docs/design-specs/JOURNEY-0.9.md).
+Correct the installation handoff bundled with 0.9.0: current download URLs, package version and Mac/Windows/Linux executable names now describe the actual 0.10.0 files. Put older-version instructions in an explicit historical section. Update the release documentation and native export version metadata; extend required update checks to the public 0.9.0 installers, for twelve Mac/Windows jobs across six baselines plus Linux 0.4. [Release notes](docs/releases/0.10.0-alpha.1.md).
+
+- Reduce the mission view to three primary readings—cleaned panel, stored energy and real play time—and one seven-step pace control. Keep Ren's work visible and move the eight concepts into an optional paused **Science** library.
+- Begin concept cards with a brief explanation, diagram and everyday analogy. **Learn more** reveals the full model; **Data & sources** keeps the original evidence accessible separately. Opening concepts is exploration, not a mastery score or required reading gate.
+- Shorten story and result copy. Show four simple science relationships after the bubble merge, with exact equations, actual-run numbers and graphs behind **Explore my numbers and graphs**. Keep result, retry and Home navigation explicit.
+- Show an actual first-scene loading state with **Back to Home** cancellation. Clarify pause, settings, source-viewer and return paths without advancing a hidden mission clock.
+- Add softer original pace, discovery and card sounds with cooldowns, reduced-motion adjustments and alert priority; retain mute, focus-loss and pause behavior. No unavailable Drive recording is claimed.
+- Retain the 90-second standard round, all mission equations and update trust. Regenerate all three science/equation PDFs for the current teaching flow and include them in every platform package.
+
+The published 0.9.0 artifacts are preserved. This is a new version with separate source, package, updater and public-file acceptance. No learning-effectiveness or physical-device claim follows from interface tests alone.
+
+## [0.9.0-alpha.1] — 2026-11-15
+
+Published **KŌMAKU: Dust & Radiation** at 13:12:47 UTC on November 15, 2026 from `40dbea61cc1690b3f45bce397e75aa1e582cfebd`. Its packaged installation document still foregrounded older 0.8 filenames and links; the separate 0.10.0 patch corrects that handoff without replacing published assets. [0.9 notes](docs/releases/0.9.0-alpha.1.md) · [Design contract](docs/design-specs/JOURNEY-0.9.md).
 
 - Rename the current display title and new package stem from shared brand metadata. Preserve app IDs, saved progress, signing trust, runtime contract and historical release filenames. Existing apps updated through content keep their original OS filename.
 - Shorten the standard round from five active real minutes to **90 active real seconds**, retaining 30 simulated minutes and the same work, fatigue, energy and dose equations. Make real play time the primary countdown and simulated time the secondary explanation.
@@ -15,7 +28,7 @@ The current source prepares **KŌMAKU: Dust & Radiation**. The latest published 
 - Refresh all three science/equation PDFs from the canonical brand and current clock settings; include the simple one-page sheet in the next package alongside the guide and technical sheet. Add submission-writing and recording drafts for team review.
 - Extend the required native content-update matrix to public 0.8 Mac/Windows installers, alongside 0.6.0, 0.6.1, 0.7.0 and 0.7.1. Ten native jobs and the Linux 0.4 baseline must pass on the exact signed candidate bytes before compatibility is claimed.
 
-Candidate source checks, captures, signed build IDs and publication evidence will be recorded against the frozen source. Historical release evidence below remains unchanged. Mac notarization, Windows publisher signing, public hosting, production native mobile packages and physical-device acceptance remain separate work.
+Source checks and media retain their recorded source scope; exact release/update records identify their accepted artifacts. Historical release evidence below remains unchanged. Mac notarization, Windows publisher signing, public hosting, production native mobile packages and physical-device acceptance remain separate work.
 
 ## [0.8.0-alpha.1] — 2026-11-15
 

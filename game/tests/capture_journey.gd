@@ -39,6 +39,18 @@ func check(condition: bool, note: String) -> void:
 		failures.append(note)
 		push_error(note)
 
+func press_modal_button(label: String) -> void:
+	var button: Button
+	if is_instance_valid(game.modal):
+		for candidate in game.modal.find_children("*", "Button", true, false):
+			if candidate.text == label:
+				button = candidate
+				break
+	check(button != null and button.is_visible_in_tree() and not button.disabled, "Visible modal action: " + label)
+	if button != null and button.is_visible_in_tree() and not button.disabled:
+		button.pressed.emit()
+	await frames(2)
+
 func walk_controls(node: Node, found: Array[Dictionary]) -> void:
 	if node is Control and node.is_visible_in_tree() and (node is BaseButton or node is Label):
 		var rect: Rect2 = node.get_global_rect()
@@ -55,15 +67,15 @@ func walk_controls(node: Node, found: Array[Dictionary]) -> void:
 			check(rect.position.x >= -1 and rect.end.x <= dimensions.x+1,"Horizontal overflow at %s in %s: %s" % [dimensions,fixture_actions[-1],copy.left(90)])
 	for child in node.get_children(): walk_controls(child,found)
 
-func capture(name: String) -> void:
-	await frames()
+func capture(name: String, settle_frames: int = 8) -> void:
+	await frames(settle_frames)
 	await RenderingServer.frame_post_draw
 	var filename := "%s-%dx%d.png" % [name,dimensions.x,dimensions.y]
 	var result := root.get_texture().get_image().save_png(output.path_join(filename))
 	check(result == OK,"Could not save " + filename)
 	var controls: Array[Dictionary] = []
-	walk_controls(game.interface,controls)
-	captures.append({"file":filename,"screen":name,"width":dimensions.x,"height":dimensions.y,"stage":game.stage,"shell_state":game.shell.state,"modal":game.modal_kind,"snapshot":game.model.snapshot(),"fixture_actions":fixture_actions.duplicate(),"visible_controls":controls})
+	walk_controls(game,controls)
+	captures.append({"file":filename,"screen":name,"width":dimensions.x,"height":dimensions.y,"stage":game.stage,"shell_state":game.shell.state,"modal":game.modal_kind,"nasa_viewer_open":is_instance_valid(game.solar_data_panel),"snapshot":game.model.snapshot(),"fixture_actions":fixture_actions.duplicate(),"visible_controls":controls})
 	print("JOURNEY_CAPTURE ",filename)
 	fixture_actions.clear()
 
@@ -85,7 +97,20 @@ func run_size(size: Vector2i) -> void:
 	game.shell.advance_story()
 	action("Reveal first story beat using its Continue action")
 	await capture("01-story")
+	game.shell.advance_story()
+	game.shell.advance_story()
+	action("Continue to the second story beat and reveal its complete crew message")
+	await capture("19-story-crew")
+	game.shell.advance_story()
+	game.shell.advance_story()
+	action("Continue to the third story beat and reveal its complete control-room message")
+	await capture("20-story-control")
 	game.shell._story_skip.pressed.emit()
+	action("Skip the final story beat; capture the actual cancellable opening-window state before scene construction")
+	await capture("21-opening-window", 0)
+	for load_frame in range(120):
+		if game.stage != "loading": break
+		await process_frame
 	await frames(2)
 	check(game.stage == "mission" and not game.mission_started,"Intro must open the stationary preflight control room")
 	game.show_preparation()
@@ -135,15 +160,32 @@ func run_size(size: Vector2i) -> void:
 	check(is_equal_approx(float(game.model.snapshot().cleaned_work),1.9),"Final workflow fixture incorporates slower actual cleaning as fatigue grows")
 	action("Press FASTER once to1.25x; advance24active seconds:1.9sections cleaned and16percent game fatigue, not the prior fatigue-free2section model")
 	await capture("04-cleaning")
-	game.open_concept("dose")
-	action("Open Microgray during the active mission; actual controller pauses the clock")
-	await capture("10-live-concept")
-	game.shell.close_concept()
+	game.hud.notebook_button.pressed.emit()
+	check(game.modal_kind == "notebook" and game.paused,"Science opens an optional paused discovery library")
+	action("Press Science to reveal the eight optional discoveries while the actual mission clock is paused")
+	await capture("22-science-library")
+	await press_modal_button("See the real Sun · NASA")
+	check(is_instance_valid(game.solar_data_panel) and game.solar_data_panel.current_snapshot.source_kind == "bundled", "Offline capture honestly labels bundled NASA context")
+	action("Open the NASA Sun viewer from the library with online requests disabled; this capture shows explicitly labeled bundled context, not a fresh observation")
+	await capture("25-nasa-context")
+	game.solar_data_panel.details_button.button_pressed = true
+	action("Expand the viewer's actual Connection details toggle to inspect source timestamps and offline status without leaving the paused mission")
+	await capture("26-nasa-details")
+	game.solar_data_panel.back_button.pressed.emit()
 	await frames(2)
+	var dose_tile: Button = game.modal.find_child("Concept_dose", true, false)
+	check(dose_tile != null and dose_tile.is_visible_in_tree(), "Microgray is a visible discovery tile")
+	dose_tile.pressed.emit()
+	action("Open the Microgray tile during the active mission; actual controller stays paused and the card starts concise")
+	await capture("10-live-concept")
+	game.shell._dialog_done.pressed.emit()
+	await frames(2)
+	check(game.modal_kind == "notebook" and game.paused,"Closing a discovery restores the paused library")
+	await press_modal_button("Back to mission")
 	game.hud.pause_button.pressed.emit()
 	action("Press Pause during cleaning; actual model remains unchanged")
 	await capture("05-pause")
-	game.show_settings()
+	await press_modal_button("Sound, motion & pace")
 	action("Open Sound, motion and pace from pause")
 	await capture("06-settings")
 	game.resume_mission()
@@ -172,8 +214,8 @@ func run_size(size: Vector2i) -> void:
 	await capture("17-bubble-merge")
 	game.shell._merge_skip.pressed.emit()
 	game.shell.set_process(true)
-	check(game.shell._merge_done and game.shell._equation_cards.size() == 4,"The merge exposes four word equations from the actual run")
-	action("Press Show equations to finish the same transition; inspect the four connected word equations")
+	check(game.shell._merge_done and game.shell._equation_cards.size() == 4,"The merge exposes four visual science connections from the actual run")
+	action("Press Show equations to finish the same transition; inspect the four visual science connections; precise word equations remain in optional details")
 	await capture("14-worked-equations")
 	game.shell._science_content.get_node("ScienceDetails").pressed.emit()
 	await frames()
@@ -191,6 +233,12 @@ func run_size(size: Vector2i) -> void:
 	check(game.shell._debrief_view == "results" and game.shell._result_content.visible,"Back to results returns without restarting or mutating the mission")
 	action("Press Back to results; the original WIN and its unchanged metrics remain available")
 	await capture("18-results-return")
+	game.shell._footer.get_node("Finish").pressed.emit()
+	action("Press Home after the completed mission; only the main destinations appear first")
+	await capture("23-home")
+	await press_modal_button("More")
+	action("Open More from Home to reveal optional settings, NASA observations, the earlier lab and Quit")
+	await capture("24-more")
 	game.queue_free()
 	await frames(3)
 	game = null
@@ -204,7 +252,7 @@ func run() -> void:
 	for index in range(args.size()-1):
 		if args[index] == "--output": output = args[index+1]
 	DirAccess.make_dir_recursive_absolute(output)
-	for size in [Vector2i(1280,720),Vector2i(390,844),Vector2i(844,390)]: await run_size(size)
+	for size in [Vector2i(1280,720),Vector2i(960,540),Vector2i(390,844),Vector2i(320,568),Vector2i(844,390)]: await run_size(size)
 	var manifest := {"kind":"actual-main-native-visual-fixture","engine":Engine.get_version_info().string,"method":"Actual main.tscn, isolated profile, direct UI intents and deterministic PaceMission v4 advancement. Coordinator processing is frozen for repeatable timestamps. This is not evidence of real-time play, audio quality, OS installation, hardware performance, or updater success.","captures":captures,"layout_failures":failures}
 	var file := FileAccess.open(output.path_join("capture-manifest.json"),FileAccess.WRITE)
 	file.store_string(JSON.stringify(manifest,"  ")+"\n")

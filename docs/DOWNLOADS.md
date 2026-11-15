@@ -1,114 +1,70 @@
 # Download and play <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand -->
 
-Downloads are published as **GitHub Release assets**, not GitHub Packages. A repository containing code and export presets does not imply that an installer exists. Use the release notes to distinguish built, launch-tested, unsigned, and unsupported targets.
+**This package: 0.10.0-alpha.1.** These instructions name the files in this version. Official downloads and publication status are listed on the [0.10.0 release page](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1). GitHub **Release assets**, rather than the Packages tab or source-code ZIP, contain the runnable game.
 
-**Current source candidate: 0.9.0-alpha.1; not yet published.** It introduces the **KŌMAKU: Dust & Radiation** name, a close view of Ren and the panel, larger controls, a 90-second standard round, three story illustrations and a result-to-equation reveal. New packages require their own launch/update/public-file acceptance; the working download links below still point to the accepted 0.8 release. [Candidate notes](releases/0.9.0-alpha.1.md).
+This version simplifies the interface and corrects the packaged installation handoff. It retains the 90-second format of [0.9.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.9.0-alpha.1). The underlying science equations remain unchanged. That earlier release is preserved rather than overwritten. Use the files and filenames for this package below.
 
-## What to expect in the 0.9 candidate
+## Choose the download for this version
 
-After the story, choose a pace in preflight and press **START MISSION**. Use **SLOWER / 1**, **FASTER / 3**, or the red stepped slider. The large timer counts about **90 active real seconds** at standard pacing; the smaller clock explains the **30 simulated minutes**. Reading and Pause stop the whole model. At zero, Ren enters automatically and the result opens. Choose **See how science connects** for the bubble merge and four equation groups, then **Back to results**, **Try another plan**, or **Home**.
+| Platform or document      | Official 0.10.0 file                                                                                                                                                                                                             |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Mac Apple Silicon / Intel | [KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-macOS-universal.zip](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-macOS-universal.zip) |
+| Windows x64               | [KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Windows-x64.zip](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Windows-x64.zip)         |
+| Linux x64                 | [KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Linux-x64.zip](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Linux-x64.zip)             |
+| WebGL2 browser            | [KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Web.zip](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Web.zip)                         |
+| Science guide             | [KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Science-Guide.pdf](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Science-Guide.pdf)     |
 
-The next package configuration includes all three PDFs: the science guide, technical equations, and word-only equations. New archive names use `KOMAKU-Dust-and-Radiation-0.9.0-alpha.1-<platform>.zip`; Windows/Linux executables use the same new stem. Native package acceptance and exact bytes are pending, so do not treat an expected filename as an available download.
+Extract the **whole archive** into a normal folder before starting. Read its `START-HERE.txt`; native players do not need Godot, a code editor or a developer account. The archives include the science guide, technical equation sheet and word-only equation sheet. Keep bundled data files with the application.
 
-The rename preserves progress, app IDs and updater trust. Existing apps updated by a content pack keep their original OS filename and show the new title inside. This is expected; do not rename internal signed app files yourself.
+## MacBook / macOS
 
-The 0.9 Mac candidate uses the filename **`KŌMAKU- Dust and Radiation.app`**. Its technical bundle name uses “and”; the game itself displays **KŌMAKU: Dust & Radiation**. This is an intentional export compatibility spelling. **Install KŌMAKU.command** is generated to recognize the matching app name. The candidate's Mac version metadata is `0.9.0`, and Windows file/product metadata is `0.9.0.1`; the full game and updater version is `0.9.0-alpha.1`. [Branding and packaging details](BRANDING.md). The 0.9 native launch gates are still pending; the 0.8 results below do not validate the new bundle.
+1. Extract the macOS universal ZIP. It contains Apple Silicon arm64 and Intel x86_64 code.
+2. Open **`KŌMAKU- Dust and Radiation.app`**. The filename intentionally uses “and”; the game displays **KŌMAKU: Dust & Radiation**. Do not rename files inside the app.
+3. This alpha is ad-hoc signed, without Apple Developer ID or notarization. If macOS blocks a download you trust, use **System Settings → Privacy & Security → Open Anyway**, when offered.
+4. If no usable override appears, the archive includes **`Install KŌMAKU.command`**. It verifies app integrity, requests explicit consent, copies the app to your own `~/Applications`, preserves an existing destination as a backup, removes quarantine only from that verified installed copy, and opens it. It does not require an administrator password or establish publisher identity; use it only for a trusted official download.
 
-## Published 0.8 downloads
+If macOS also blocks the helper, open Terminal, type `/bin/bash ` with a trailing space, drag **Install KŌMAKU.command** from Finder into Terminal, and press Return. Read its consent prompt before continuing. Do not disable Gatekeeper globally. For an extra integrity check, compare the archive's `shasum -a 256` output with the release's `SHA256SUMS.txt`.
 
-**Published prerelease: [0.8.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.8.0-alpha.1).** Released November 15, 2026 at 06:07:25 UTC (01:07:25 America/New_York), from source `8b13e027ce5e0fa941a6bbeb1e09c5873b11baee`. All ten public assets were downloaded again and matched to the accepted build. [Release evidence](evidence/release-0.8.0-alpha.1.json).
+An older app that cannot launch needs one corrected full installation before it can use in-game updates. Existing saves retain their location. Native hosted checks and a universal binary do not establish performance or every Finder/security-policy path on a physical M5 MacBook. [Mac repair context](MACOS-LAUNCH-REPAIR.md).
 
-The platform links below are the published **0.8.0-alpha.1** downloads. Read this version's release notes and `START-HERE.txt`; historical [0.7.1 evidence](evidence/release-0.7.1-alpha.1.json) belongs to the earlier operator mission.
+## Windows
 
-| Platform or document      | Published versioned asset                                                                                                                                                          |
-| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Mac Apple Silicon / Intel | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-macOS-universal.zip) |
-| Windows x64               | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-Windows-x64.zip)             |
-| Linux x64                 | [Linux ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-Linux-x64.zip)                 |
-| WebGL2 browser            | [Web ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-Web.zip)                         |
-| Science guide             | [16-page PDF](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-Science-Guide.pdf)           |
+Extract the whole Windows ZIP, then run **`KOMAKU-Dust-and-Radiation.exe`**. Do not open an executable from inside the ZIP preview. No development runtime is required.
 
-The release has **ten verified assets**: four platform ZIPs, the standalone 16-page science PDF, signed game content, its update manifest/signature, the release manifest and checksums. All ten were downloaded again and hash matched; all four ZIP CRC checks passed. Every ZIP includes versioned `START-HERE.txt`, the exact reviewed science guide and the technical two-page equation PDF in its bundled documentation. Extract the whole archive, then read `START-HERE.txt`.
+This alpha has no Windows publisher certificate/reputation. If SmartScreen appears, use its available **More info → Run anyway** option only when you trust this repository's official download. Managed-device policy may prevent an override. Hosted startup checks do not remove SmartScreen or validate every graphics driver.
 
-The separate [words-only equation notes](VIDEO-EQUATIONS-SIMPLE.md), [one-page simple equation PDF](media/KOMAKU-Video-Equations-Simple.pdf) and [proposed result-screen copy](RESULT-SCREEN-COPY.md) are repository follow-ups created after this build. They are not in the published ZIPs.
+## Linux
 
-Versions 0.5 through 0.8 use ZIP names beginning `KOMAKU-Shield-Protocol-<version>`. New 0.9 packages use `KOMAKU-Dust-and-Radiation-<version>`. Historical 0.4 and earlier downloads retain `Red-Veil` filenames and the previous app name; those published artifacts are not renamed. The signed content filename and local save/update identities remain unchanged for compatibility. Use the notes attached to the version you download.
+Extract the Linux ZIP, then run **`KOMAKU-Dust-and-Radiation.x86_64`**. If your archive tool did not preserve its executable permission, enable “Allow executing file as program” in your file manager, or run `chmod +x KOMAKU-Dust-and-Radiation.x86_64` from that extracted folder. Keep the other archive files beside it. Distribution and graphics-driver coverage need their own testing.
 
-Historically, version **0.7.1** preserved the indoor mission and visual framing while deferring optional scenery until requested. The first outdoor/Field Notes visit builds that content and keeps it cached afterward; see [startup measurements and tradeoffs](WINDOW-STARTUP-PERFORMANCE.md). Existing compatible desktop apps could install that signed 0.7.1 content through **Update available → Install → Restart**; actual public 0.7.0 Mac/Windows binaries passed this content-activation gate alongside older baselines. [Updater scope](UPDATES.md).
+## Start playing and reach the ending
 
-## Play the published 0.8 journey (earlier presentation)
+After the three story scenes, **Opening the window…** appears while Ren and the panel are prepared. **Back to Home** cancels loading. The control room then opens in **preflight**: choose Ren's starting pace and press **START MISSION**, or press **Enter**. Nothing advances before Start.
 
-After the opening, the control room is in **preflight**. Choose Ren's starting cleaning pace, inspect any science bubbles you want, then press **START MISSION**. No time, dose, fatigue, work or battery energy advances before Start. The separate science constellation is optional.
+The main view shows **panel cleaned, energy stored and storm time**. Use **Slower / 1**, **Faster / 3**, or the red stepped slider to choose pace. The timer counts about **90 active real seconds** at standard pacing. **Science** pauses the mission and opens the optional eight-concept library; cards begin with a short explanation and diagram, with **Learn more** and **Data & sources** for detail. **Time → Learn more** explains the **30 simulated minutes** used in the equations.
 
-Use **SLOWER / 1**, **FASTER / 3** or the stepped slider to choose pace 0.25–1.75. **Enter** starts from preflight; Escape handles Back/Pause and fullscreen exit, while F11 toggles fullscreen. The mission book pauses every quantity while explaining it.
+Pause, reading and accessibility clock settings can extend actual wall time. Escape handles the current dialog, Pause and fullscreen exit; F11 toggles fullscreen.
 
-Ren cleans at the nearby panel while fictional fatigue affects effective work. Partial cleaning increases solar generation; generation minus load changes actual battery kWh. After 30 simulated minutes—five active minutes at the standard sixfold clock—Ren enters automatically. There is no recall, walk or manual work hold. All completed default rounds have the same 10.9375 µGy model dose; no health judgement or lower-dose bonus is calculated.
+At zero, Ren automatically enters and the result opens with actual cleaned percentage, stored kWh and absorbed model dose. Choose **See how science connects** for the bubble merge and four short relationships, then **Explore my numbers and graphs** for the full equations. **Back to results**, **Try another plan** and **Home** remain available. There is no return walk or recall command in this mission.
 
-The debrief classifies cleanliness as WIN at 80% or more, PASS at 40% or more, otherwise LOSE, and connects the actual run to its equations. The older operator/EVA/labs remain under **Advanced lab · earlier mission** with separate rules.
+WIN means at least 80% cleaned, PASS at least 40%, otherwise TRY AGAIN. Ren is inside in every outcome. Energy and dose explain the run rather than adding hidden success tests. Completed default rounds share the same 10.9375 µGy model dose; the game does not infer health or personal sievert readings. [Model](TRAINING-MODEL.md).
 
-The shared source suite, exact native Mac/Windows launch gates, signed-content baseline gates and publication passed. [Release evidence](evidence/release-0.8.0-alpha.1.json) · [Model and units](TRAINING-MODEL.md) · [Navigation](NAVIGATION.md).
+## Updates after installation
 
-For compatible existing desktop installations, open **Updates & downloads**, check for the new version, download it and confirm Restart. The released 0.8 pack passed activation/recovery gates on the public 0.6.0, 0.6.1, 0.7.0 and 0.7.1 Mac/Windows installers and the documented Linux 0.4 baseline. These are local signed-content tests; see [updater evidence and limits](UPDATES.md) for the separate HTTP, notification and relaunch scope.
+Open **Updates & downloads**, check for a new compatible release, choose **Install**, then confirm **Restart**. The game verifies the signed content and keeps recovery content. It also checks at a fresh launch; there are no closed-app push notifications or forced restarts. Native engine/bootstrap changes require a full installer.
 
-## MacBook with Apple Silicon, including M5
+A content update preserves the existing OS app filename while the game displays its current title. This is expected; progress, app IDs and signing trust remain stable. New 0.10.0 installers use the filenames above. Mac metadata is `0.10.0`, Windows file/product metadata is `0.10.0.1`, and the full game/update identity is `0.10.0-alpha.1`.
 
-The published **0.8.0-alpha.1** app retains the Mac bundle-signing repair introduced in **0.6.1-alpha.1** for the invalid 0.6.0 signature. If your existing app says “damaged,” download the corrected macOS universal ZIP; an app that cannot launch cannot install its own content update. Saves stay in the existing user-data location.
-
-1. Download the macOS universal ZIP from the official release and extract it. It includes Apple Silicon (arm64, including M5) and Intel (x86_64).
-2. Open `KŌMAKU- Shield Protocol.app`. This alpha is locally **ad-hoc signed**, but has **no Apple Developer ID or notarization**. A valid integrity signature does not grant Apple's downloaded-app approval.
-3. If macOS blocks it, use **System Settings → Privacy & Security → Open Anyway**, when offered, after confirming that you trust this project's download.
-4. If macOS offers no usable override, the ZIP includes **Install KŌMAKU.command**. It checks the app's signature, asks for explicit consent, copies it into your own `~/Applications`, keeps an existing app as a backup, removes quarantine **only from that verified copy**, and opens it. It needs no administrator password. It does not establish publisher authenticity: use it only for a trusted official download.
-
-If macOS also blocks the `.command` file, open Terminal, type `/bin/bash ` (including the trailing space), drag **Install KŌMAKU.command** from Finder into Terminal, and press Return. Read the consent dialog before continuing. This is a one-time local installation step; no developer tools or account enrollment are needed. Do not run commands that disable Gatekeeper globally. For an extra integrity check, compare `shasum -a 256 <downloaded-zip>` with the release's `SHA256SUMS.txt`.
-
-The [0.8 macOS Actions gate](evidence/native-launch-0.8-macos.json) passed the exact archive's strict bundle signature, both architectures, and headless/graphical startup checks. They do not reproduce every Finder download route or certify M5 performance. [Root cause and verification limits](MACOS-LAUNCH-REPAIR.md).
-
-## Windows and Linux
-
-Windows x64: extract the **whole ZIP** and run `KOMAKU-Shield-Protocol.exe`. No editor or development runtime is needed. Windows may show SmartScreen because this alpha has no publisher certificate/reputation. Only if you trust this repository's download, use the available **More info → Run anyway** option. Managed-device policy can prohibit that override. The [0.8 Windows hosted gate](evidence/native-launch-0.8-windows.json) passed native headless and graphical startup checks; this does not remove SmartScreen.
-
-Linux x64: extract the ZIP and run `KOMAKU-Shield-Protocol.x86_64`. A headless launch of the exported binary is verified in the build environment. Desktop-driver and distribution coverage are not established by that check.
+Release acceptance uses activation/recovery checks on six original Mac/Windows baseline versions, including 0.9.0, plus the documented Linux 0.4 baseline. See the official release page and [update evidence and limits](UPDATES.md) for the results and scope; local content-activation checks do not establish every physical-device or HTTP/relaunch path.
 
 ## Browser and mobile
 
-The Web ZIP is a static Godot export. Public website deployment was skipped at the owner's request; hosting remains deferred. Serve its folder over HTTP(S); do not double-click `index.html` with a file URL. For a local test, `python3 -m http.server 5190 --directory <extracted-folder>` is sufficient. The single-thread export avoids requiring cross-origin-isolation headers. WebGL2 is required.
+The Web archive requires HTTP(S) hosting and WebGL2; do not double-click `index.html` using a file URL. For a local test, serve the extracted folder with `python3 -m http.server 5190 --directory <extracted-folder>`, then visit that server in a browser. Public hosting remains deferred by the owner. No production native Android or iOS installer is published.
 
-Touch controls are provided for landscape browser play. No production native Android or iOS package is published. An earlier Android arm64 build was internal tooling validation only; production signing and physical-device testing remain separate work.
+## Historical versions and optional earlier activities
 
-## Historical 0.7.1 and advanced-mode controls
+Versions 0.5–0.8 used `KOMAKU-Shield-Protocol` archive/executable names; 0.4 and earlier used `Red-Veil`. Those names apply only to those older downloads. The [0.8 release record](evidence/release-0.8.0-alpha.1.json) documents the earlier five-minute standard round. Do not follow its old executable names when opening the current package.
 
-The earlier 0.7 title has **Start mission**, **Explore · no timer**, and **Learn & more**. Start and Explore use the indoor room, with only dunes and Mira in the default forward window view. Extra labs, learning tools, the guide, updates and **Outdoor EVA mission** are under **Learn & more**.
+The retained **Advanced lab · earlier mission** offers the older operator/EVA activities with their own rules. Walking, equipment interaction, Mira's return route and the longer survival mission belong there, not to the current short Ren/panel mission. [Earlier mission planner](MISSION-PLANNER.md).
 
-| Action                       | Keyboard / mouse                                                 |
-| ---------------------------- | ---------------------------------------------------------------- |
-| Move/look inside the room    | **WASD / mouse**; movement stays within the operator area        |
-| Toggle panel cleaning        | **1**, or the cleaner button                                     |
-| Toggle power saving          | **2**, or the save button                                        |
-| Begin Mira’s return          | **3 / Guide Mira**; Mira follows a continuous side-airlock route |
-| Pause for clickable controls | **Tab**; **Escape** returns to walking                           |
-| Compare mission plans        | **P**, or Pause → **Compare mission plans**                      |
-
-The third action progresses through **Mira returning**, **Airlock cycling**, **Mira entering** and **Mira safe**. Her suit energy and dose remain separate from the operator’s location; shelter applies only after her airlock cycle and final walk to the indoor receiver. Keep base power working through **12 simulated hours** after starting, rather than stopping the mission as soon as Mira returns. The route and airlock countdown are explicit game assumptions, not a physical pressure simulation.
-
-Pause during an untimed tour offers **Resume room tour**, **Start rescue mission** and **Return to title**. Starting the rescue resets the practice switches, clock and Mira’s waiting state.
-
-**Outdoor EVA mission** retains the earlier outdoor mechanics and equipment. There, **E** interacts, **Q** cleans the player’s visor, and **Space** hops. It remains an optional advanced activity.
-
-The optional planner compares four cleaner/power-saving policies over one simulated hour while paused, holding Mira’s present protection state fixed. It does not simulate her journey or the airlock cycle. **Use this plan** applies only the chosen switches. [Planner assumptions](MISSION-PLANNER.md). The guide for the published version is bundled into each ZIP after its source-fingerprint check. The repository guide may be newer; use the release-linked PDF for the version you downloaded.
-
-## Retained outdoor EVA controls
-
-Movement, pause and guide controls are shared. Equipment interaction, visor cleaning and hopping belong to **Learn & more → Outdoor EVA mission**, the original outdoor mode also found in historical 0.6.1:
-
-| Action                   | Keyboard / mouse   | Controller               |
-| ------------------------ | ------------------ | ------------------------ |
-| Walk / look              | WASD / mouse       | Left / right sticks      |
-| Inspect or use equipment | E; hold to inspect | X; hold to inspect       |
-| Clean visor              | Q                  | Y                        |
-| Hop                      | Space              | A                        |
-| Pause                    | Escape             | Start                    |
-| Field guide              | F1                 | Open from the title menu |
-
-The retained advanced **Learn & more** menu also offers **Explorer suit lab** and **Habitat field notes**. In untimed exploration, **I** opens habitat lessons. The suit lab opens from Pause too. Back/Escape returns to the previous activity; these learning interfaces pause mission resources.
-
-No account is required. There are no ads, analytics, or remote game APIs. A mission summary is stored locally. Tell us the release version, device, OS, what you did, and what happened when reporting a problem; do not include personal information in public issues.
+No account is required. Report the release version, device, operating system, steps and exact error when asking for help, without including personal information in public issues.

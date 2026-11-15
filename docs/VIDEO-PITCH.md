@@ -1,10 +1,10 @@
 # <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — short video pitch
 
-**0.9.0-alpha.1 recording and writing draft.** Use the final tested release when recording; this document does not itself establish publication. The mission lasts about 90 active real seconds at the standard clock speed, representing 30 simulated minutes. Set a cleaning pace in preflight, press Start, watch work and fictional tiredness, then enter automatically at the deadline. The result page and science explanation belong in the game capture. See the longer [submission draft](SUBMISSION-DRAFT.md) for the team’s review.
+**0.10.0-alpha.1 recording and writing draft.** Use the final tested release when recording; this document does not itself establish publication. The mission lasts about 90 active real seconds at the standard clock speed, representing 30 simulated minutes. Set a cleaning pace in preflight, press Start, watch work and fictional tiredness, then enter automatically at the deadline. The result page and science explanation belong in the game capture. See the longer [submission draft](SUBMISSION-DRAFT.md) for the team’s review.
 
 ## Simple description
 
-KŌMAKU is a Mars learning game for ages 7–12. From a calm habitat window, the player chooses Ren's cleaning pace and sees how dust, solar generation and actual battery energy connect. Optional science bubbles and a result-based equation reveal explain the choices. NASA SDO provides a separate latest-image view of the real Sun.
+KŌMAKU is a Mars learning game for ages 7–12. From a calm habitat window, the player chooses Ren's cleaning pace and sees how dust, solar generation and actual battery energy connect. The main screen focuses on cleaning, stored energy and time. An optional eight-idea Science library and result-based relationship reveal explain the choices; deeper equations and sources open on request. NASA SDO provides a separate latest-image view of the real Sun.
 
 ## Narration: 30 seconds maximum
 

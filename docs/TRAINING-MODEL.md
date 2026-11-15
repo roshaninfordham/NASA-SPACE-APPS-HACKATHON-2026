@@ -6,11 +6,11 @@ This contract follows the team's November 15, 2026 **Game Workflow (Words Only)*
 
 ## One round
 
-The control room opens in **preflight**. The player can inspect science bubbles and set a starting pace without changing time, fatigue, work, energy or dose. **START MISSION** begins the simulation. The science constellation is optional; reading all eight cards is not a prerequisite for play.
+The control room opens in **preflight**. The player can inspect science bubbles and set a starting pace without changing time, fatigue, work, energy or dose. **START MISSION** begins the simulation. The main view shows three readings—cleaning, stored energy and time—beside one pace control. **Science** opens all eight live concept tiles. Reading every card is optional, not a prerequisite for play. Brief card introductions lead to **Learn more** and **Data & sources** when the player wants detail.
 
 During play, SLOWER, FASTER and the stepped slider choose one of seven dimensionless multipliers: **0.25, 0.50, 0.75, 1.00, 1.25, 1.50, 1.75**. Ren remains at the panel. There is no recall, walking route, manual work hold or early-entry command. Reading and Pause freeze the whole model, so pausing cannot recover fatigue while other quantities advance.
 
-The duration is **T = 1,800 simulated seconds = 30 simulated minutes**. Standard play advances 20 simulated seconds per active real second, giving a **90-second round**. The primary countdown shows active real play time; the smaller mission clock shows simulated time. Accessibility clock pacing, if offered, changes real duration rather than the equations at a given simulated time.
+The duration is **T = 1,800 simulated seconds = 30 simulated minutes**. Standard play advances 20 simulated seconds per active real second, giving a **90-second round**. The primary countdown shows active real play time; **Time → Learn more** also shows simulated time. Accessibility clock pacing, if offered, changes real duration rather than the equations at a given simulated time.
 
 At T, Ren steps directly inside and the round ends. If all four section equivalents are cleaned earlier, cleaning and fatigue stop changing; solar generation, battery energy, the clock and outside dose continue until T.
 

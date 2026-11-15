@@ -33,6 +33,9 @@ func run() -> void:
 	root.content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
 	var catalog: Array = JSON.parse_string(FileAccess.get_file_as_string("res://data/mission-concepts.json")).concepts
 	check(catalog.size() == 8, "Eight real source-backed concept entries exist")
+	for concept: Dictionary in catalog:
+		check(str(concept.lead).split(" ",false).size() <= 15 and str(concept.analogy).split(" ",false).size() <= 18, "Default concept copy stays brief: " + str(concept.id))
+		check(not str(concept.get("detail_lead", "")).is_empty() and not str(concept.get("detail_analogy", "")).is_empty(), "Original explanations remain available in expanded science: " + str(concept.id))
 	var shell := Shell.new()
 	shell.catalog = catalog.duplicate(true)
 	root.add_child(shell)
@@ -50,12 +53,16 @@ func run() -> void:
 	check(shell._story_index == 0 and shell._story_words.visible_characters == -1, "First advance reveals text without skipping the beat")
 	shell.advance_story()
 	check(shell._story_index == 1, "Second advance reaches the next story beat")
+	await frames()
+	check(shell._story_step.step == 1 and not shell._story_brand.visible, "Story dots advance while later beats give priority to the action headline")
+	for beat: Dictionary in Shell.STORY:
+		check(str(beat.body).split(" ", false).size() <= 10, "Each opening beat has one brief instruction")
 	shell.set_reduced_motion(true)
 	check(shell._story_words.visible_characters == -1, "Reduced motion reveals the complete current story immediately")
 	shell._story_skip.pressed.emit()
 	await frames()
 	check(shell.state == "preparation" and shell.readiness == 0, "Skip intro reaches real preparation without inventing reviewed topics")
-	check(not shell._ready_button.disabled and shell._ready_button.text == "Enter control room", "Optional concepts never block entering the control room")
+	check(not shell._ready_button.disabled and shell._ready_button.text == "Enter mission" and not shell._progress.visible, "Optional concepts have no completion bar or requirement before entering the mission")
 	shell._live_sun_button.pressed.emit()
 	check(live_sun_events == 1 and shell.state == "preparation" and shell.readiness == 0, "Preparation Live Sun requests the host panel without changing review or mission state")
 	shell._request_ready()
@@ -63,6 +70,23 @@ func run() -> void:
 	shell._orbs[0].grab_focus()
 	await key(KEY_ENTER)
 	check(shell.concept_open, "Keyboard activates the first concept orb")
+	check(not shell._dialog_extra.visible and not shell._dialog_data.visible, "A science card opens with its concise overview, not detailed equations and sources")
+	check(shell._dialog_more_button.text == "Learn more  +" and shell._dialog_data_button.text == "Data & sources  +", "Both explanation and evidence have explicit discoverable controls")
+	var animated_diagram = shell._dialog.find_child("ConceptDiagram", true, false)
+	shell.set_reduced_motion(false)
+	animated_diagram._process(0.1)
+	check(animated_diagram.motion_phase > 0, "The concept diagram animates the qualitative relationship")
+	shell.set_reduced_motion(true)
+	animated_diagram._process(0.1)
+	check(animated_diagram.motion_phase == 0 and animated_diagram.motion_reduced, "Reduced motion stops and resets the teaching diagram")
+	shell._dialog_more_button.pressed.emit()
+	check(shell._dialog_extra.visible and not shell._dialog_data.visible, "Learn more expands explanation without opening a second wall of source text")
+	var expanded_words := ""
+	for label in shell._dialog_extra.find_children("*", "Label", true, false): expanded_words += label.text + "\n"
+	check(str(catalog[0].detail_lead) in expanded_words and str(catalog[0].detail_analogy) in expanded_words, "Concise overview preserves the original detailed lead and analogy behind Learn more")
+	shell._dialog_more_button.pressed.emit()
+	shell._dialog_data_button.pressed.emit()
+	check(shell._dialog_data.visible and not shell._dialog_extra.visible, "Data and sources can be opened independently")
 	shell._request_ready()
 	check(ready_events == 1 and shell._ready_button.disabled, "An open reading card keeps the underlying Enter action inactive")
 	for index in range(6):
@@ -72,7 +96,7 @@ func run() -> void:
 	var source: Button
 	for control in shell._dialog.find_children("*", "Button", true, false):
 		if "↗" in control.text: source = control
-	check(source != null, "Concept has an explicit source action")
+	check(source != null and source.is_visible_in_tree(), "Expanded evidence has an explicit visible source action")
 	if source: source.pressed.emit()
 	var card_live_sun := shell._dialog.find_child("RadiationLiveSun", true, false) as Button
 	check(card_live_sun != null, "Radiation card offers a discoverable Live Sun action beside its source")
@@ -108,11 +132,13 @@ func run() -> void:
 	shell.show_live_concept("dose", snapshot)
 	await frames()
 	check(shell.visible and shell.state == "live" and shell.concept_open and not shell._body.visible, "Live concept uses a transparent shell with only its reading card")
+	check(shell._dialog_done.text == "Back to mission", "Direct mission ideas name their actual return destination")
 	check(shell._live_readout("dose").contains("%.2f" % float(snapshot.dose_ugy)), "Live explanation includes the actual run's current dose")
 	shell.close_concept()
 	check(not shell.visible and not shell.concept_open and shell.reviewed_ids == reviewed_before, "Closing a live card hides the shell and preserves preparation progress")
 	check(snapshot == snapshot_before, "Reading and closing never mutate the caller's mission snapshot")
-	shell.show_live_concept("power", snapshot)
+	shell.show_live_concept("power", snapshot, "Back to Science")
+	check(shell._dialog_done.text == "Back to Science", "Ideas opened from the science library label their return to Science")
 	var energy_readout: String = shell._live_readout("power")
 	check(energy_readout.contains("Stored now: %.3f kWh" % float(snapshot.battery_kwh)) and not energy_readout.contains("forecast"), "Live energy card shows actual storage without an obsolete forecast")
 	check(energy_readout.contains("%.2f kW" % float(snapshot.solar_power_kw)) and energy_readout.contains("capacity"), "Live energy card distinguishes current power from accumulated capacity-limited energy")
@@ -126,12 +152,31 @@ func run() -> void:
 	check(shell._merge_done and shell._scroll.visible and not shell._merge_skip.visible, "Results appear immediately, without waiting for an animation")
 	check(shell._debrief_view == "results" and shell._result_content.visible and not shell._science_content.visible, "A finished round opens the actual result, not a long science scroll")
 	check(shell._science_button.text == "See how science connects", "Result has a clear optional science action")
+	var result_meters := shell._debrief_summary.find_children("ActualLevel", "ProgressBar", true, false)
+	check(result_meters.size() == 2 and is_equal_approx(result_meters[0].value, result.clean_fraction), "Result cleaning meter uses the actual cleaned fraction")
+	check(is_equal_approx(result_meters[1].value, result.battery_kwh / result.battery_capacity_kwh), "Stored energy meter uses actual storage and actual capacity")
+	check(shell._debrief_summary.get_child(2).find_children("*", "ProgressBar", true, false).is_empty(), "Model dose has no invented health danger gauge")
 	shell._science_button.pressed.emit()
 	check(shell._debrief_view == "science" and shell._merge_done and shell._science_content.visible, "Reduced motion reveals equations immediately after the science action")
 	check(shell._equation_cards.size() == 4 and shell._word_equations().size() == 4, "Exactly four readable equation groups connect the eight concepts")
 	check(shell._word_equations()[0][1].contains("average effective") and shell._word_equations()[3][1].contains("average radiation rate"), "Changing rates use their averages, not final values multiplied over the whole run")
 	check(shell._word_equations()[1][1] == "Solar power = clear-panel power × sunlight getting through dust", "Power equation uses transmission once, with no erroneous extra dust multiplier")
 	check(not shell._science_details.visible, "Technical numbers and graphs begin collapsed")
+	var linked_ideas: Array[String] = []
+	var linked_tokens := shell._science_content.find_children("IdeaToken_*", "Button", true, false)
+	for token: Button in linked_tokens:
+		if token.is_visible_in_tree():
+			var id := str(token.name).trim_prefix("IdeaToken_")
+			if not id in linked_ideas: linked_ideas.append(id)
+	check(linked_ideas.size() == 8, "The four visual relationships and context tokens link every science idea")
+	var first_token := linked_tokens[0] as Button
+	first_token.grab_focus()
+	first_token.pressed.emit()
+	await frames()
+	check(shell.concept_open and shell._debrief_view == "science", "An equation token opens its own science card without resetting the result")
+	shell.close_concept()
+	await frames()
+	check(root.gui_get_focus_owner() == first_token, "Closing an equation idea restores focus to that exact token")
 	shell._science_button.pressed.emit()
 	check(shell._debrief_view == "results" and shell._result_content.visible and not shell._science_content.visible, "Back to results preserves the actual mission summary")
 	shell.set_reduced_motion(false)

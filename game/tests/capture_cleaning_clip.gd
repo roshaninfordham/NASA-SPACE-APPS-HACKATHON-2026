@@ -21,6 +21,14 @@ func run() -> void:
 	game.set_process(false)
 	game.focused = true
 	game.start_mission()
+	for load_frame in range(120):
+		if game.stage != "loading": break
+		await process_frame
+	if game.stage != "mission" or game.mission_started or game.model.snapshot().sim_elapsed_seconds != 0.0:
+		push_error("Native clip must start from the real loaded, unstarted control room")
+		quit(1)
+		return
+	game.focused = true
 	game.launch_mission()
 	game._process(0.0)
 	game.model.advance(18.0)

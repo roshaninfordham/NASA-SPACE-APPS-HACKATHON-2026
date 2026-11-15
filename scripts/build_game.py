@@ -13,7 +13,7 @@ import tempfile
 import zipfile
 from urllib.parse import quote
 
-from branding import archive_name, archive_stem, brand, supplemental_asset_names
+from branding import archive_name, archive_stem, brand, macos_app_name, supplemental_asset_names
 from sign_update import REPOSITORY, RUNTIME_CONTRACT, sign_pack, valid_version, validate_key_pair
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -46,7 +46,7 @@ def documents(archive, version):
 
 PLAY
 Extract this entire ZIP first. No game editor or development tools are required.
-Mac: open the .app. If blocked, read DOWNLOADS.md and use the included
+Mac: open {macos_app_name()}. If blocked, read DOWNLOADS.md and use the included
      Install KŌMAKU.command only after deciding you trust this download.
 Windows: open {archive_stem(version)}.exe.
 Linux: run {archive_stem(version)}.x86_64.

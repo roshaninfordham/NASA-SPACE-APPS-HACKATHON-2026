@@ -64,7 +64,7 @@ func set_level(value: float, description: String, state: String = "normal") -> v
 
 func set_reviewed(value: bool) -> void:
 	reviewed = value
-	set_level(1.0 if value else 0.0, "Reviewed" if value else "Explore", "normal")
+	set_level(1.0 if value else 0.0, "Explored" if value else "Explore", "normal")
 
 func set_measurement_scale(value: bool) -> void:
 	measurement_scale = value

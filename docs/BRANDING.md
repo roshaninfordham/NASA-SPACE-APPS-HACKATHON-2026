@@ -13,11 +13,11 @@ python scripts/sync_brand.py
 python scripts/sync_brand.py --check
 ```
 
-Synchronization updates the Godot product name and export metadata, export package paths, npm package name, browser entry title and description, web manifest names and generated icons. It preserves legacy save paths, package script entries, the authoritative project version, application identifiers and updater assets. Native export version fields are derived from that project version rather than maintained separately: for `0.9.0-alpha.1`, macOS metadata is `0.9.0` and Windows file/product metadata is `0.9.0.1`. The full alpha version remains the release/update identity. Runtime UI obtains the current text from the helper; build tools read the canonical package stem. All three PDF generators also read the canonical display name and fingerprint the brand JSON/helper, so a rename requires a new PDF build rather than leaving old headings.
+Synchronization updates the Godot product name and export metadata, export package paths, npm package name, browser entry title and description, web manifest names and generated icons. It preserves legacy save paths, package script entries, the authoritative project version, application identifiers and updater assets. Native export version fields are derived from that project version rather than maintained separately: for `0.10.0-alpha.1`, macOS metadata is `0.10.0` and Windows file/product metadata is `0.10.0.1`. The full alpha version remains the release/update identity. Runtime UI obtains the current text from the helper; build tools read the canonical package stem. All three PDF generators also read the canonical display name and fingerprint the brand JSON/helper, so a rename requires a new PDF build rather than leaving old headings.
 
 For macOS, `config/name.macos` is generated from the canonical name with **`&` replaced by `and`**, then normalized to Unicode NFD (decomposed form). The technical value is `KŌMAKU: Dust and Radiation`; the exported app filename is `KŌMAKU- Dust and Radiation.app`. The running game's window title and interface retain the exact canonical **KŌMAKU: Dust & Radiation** spelling.
 
-This technical spelling avoids an export issue in Godot 4.6.3: its Mac binary-name substitution can put a raw ampersand into `Info.plist`, producing invalid XML. NFD normalization also preserves the filename form needed for the bundle-signing path. Both are derived export rules, not a second manually maintained product name. The Mac install helper's `APP_NAME` and `APP_NAME_NFD` are generated from the same rule so app discovery and process checks match the exported bundle.
+This technical spelling avoids an export issue in Godot 4.6.3: its Mac binary-name substitution can put a raw ampersand into `Info.plist`, producing invalid XML. NFD normalization also preserves the filename form needed for the bundle-signing path. Both are derived export rules implemented by `macos_technical_name()` and `macos_app_name()` in `scripts/branding.py`, not a second manually maintained product name. The Mac install helper's `APP_NAME` and `APP_NAME_NFD` are generated from the same rule so app discovery and process checks match the exported bundle.
 
 Do not hand-normalize or rename files inside an already signed app. New candidates still require their own native plist, architecture, signature and startup gates; the export configuration alone is not proof of successful native launch or physical-Mac acceptance. See the [Mac launch repair](MACOS-LAUNCH-REPAIR.md).
 
@@ -39,10 +39,10 @@ An existing installer updated through a content pack keeps its original applicat
 
 `archive_stem(version)` preserves the prefix that was actually published:
 
-| Version               | Portable package prefix     |
-| --------------------- | --------------------------- |
-| 0.4 and earlier       | `Red-Veil`                  |
-| 0.5–0.8               | `KOMAKU-Shield-Protocol`    |
-| Current 0.9 candidate | `KOMAKU-Dust-and-Radiation` |
+| Version              | Portable package prefix     |
+| -------------------- | --------------------------- |
+| 0.4 and earlier      | `Red-Veil`                  |
+| 0.5–0.8              | `KOMAKU-Shield-Protocol`    |
+| 0.9 and current 0.10 | `KOMAKU-Dust-and-Radiation` |
 
 The new display name is **KŌMAKU: Dust & Radiation**, with `DUST & RADIATION` as the subtitle and `komaku-dust-and-radiation` as the package slug. Historical asset names are derived from version, not from untrusted downloaded brand metadata. This permits the new updater/tests to identify older official archives after a rename.

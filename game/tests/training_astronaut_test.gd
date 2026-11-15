@@ -32,6 +32,8 @@ func run() -> void:
 	check(actor._training_rig.visible and actor._training_tools.visible, "First cleaning request creates attached articulated arms and tool")
 	var brush_min := Vector3(INF, INF, INF)
 	var brush_max := Vector3(-INF, -INF, -INF)
+	var palm_min := Vector3(INF, INF, INF)
+	var palm_max := Vector3(-INF, -INF, -INF)
 	var bounded := true
 	var connected := true
 	var contacting := true
@@ -45,6 +47,8 @@ func run() -> void:
 		var wrist := forearm * (actor.WORK_WRIST - actor.WORK_ELBOW)
 		connected = connected and is_equal_approx(elbow.distance_to(wrist), actor.WORK_ELBOW.distance_to(actor.WORK_WRIST))
 		var palm: Vector3 = actor._upper.transform * (forearm * (actor.WORK_WRIST - actor.WORK_ELBOW + (actor.WORK_WRIST - actor.WORK_ELBOW).normalized() * 0.045))
+		palm_min = palm_min.min(palm)
+		palm_max = palm_max.max(palm)
 		var handle_start: Vector3 = actor._training_wand.transform * Vector3(0, -0.5, 0)
 		connected = connected and palm.distance_to(handle_start) < 0.0001
 		var contact: Vector3 = actor._training_brush.position - actor._training_brush.basis.y * 0.0175
@@ -58,6 +62,7 @@ func run() -> void:
 	check(connected, "Shoulder/elbow lengths remain fixed and the brush handle stays in the glove")
 	check(contacting and bounded, "Brush stays on the actual tilted panel plane within a bounded sweep")
 	check(brush_max.z - brush_min.z > 0.75 and brush_max.y - brush_min.y > 0.5, "Visible brush traverses a broad panel strip instead of a tiny wrist twitch")
+	check(palm_max.z - palm_min.z > 0.14, "Ren’s working glove visibly moves with the brush rather than holding a static arm")
 	check(planted, "Training pose pivots at the hip and never translates the actor or feet")
 	check(ids(actor) == allocated_nodes, "Continuous work reuses existing geometry without node accumulation")
 	actor.set_training_cleaning(true, 1.0, true)

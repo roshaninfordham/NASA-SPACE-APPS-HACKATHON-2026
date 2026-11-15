@@ -5,8 +5,8 @@
   "page_size_points": [1200, 675],
   "sources": {
     "game/data/brand.json": "ca53f5e7bbfedebfaaae206d304797652d82441c4b650decb975c3ab56a72b36",
-    "scripts/branding.py": "fde120b17c0affcca82426b942bfa81be77693ef78bd49ede5576cee0949d02b",
-    "docs/VIDEO-EQUATIONS-SIMPLE.md": "a4b107cd0287990a4b8e5552f97ab46c1142219fad9c83280d8e4f922ad2d80b",
+    "scripts/branding.py": "8f9bba7d71196f6e9c2a110c507ac3e8e3f8a3ef76e9bf1a0a93fae1bf46a754",
+    "docs/VIDEO-EQUATIONS-SIMPLE.md": "4f4758e52caefb3177931538e9c46a0b352ba96c2d16478fa753efa366dd2cdc",
     "scripts/build_video_equations_simple.py": "048c70f0565faa3b40fb472fb3d0a3082e77b0cf2c27bd595eaadf4cc21c7e0f",
     "game/licenses/DejaVu-Font-License.txt": "810205354319c787fc9ede3ba76d03073fd0f62b00b585506e8065355e71e18d"
   },

@@ -8,6 +8,7 @@ const TrainingPanel = preload("res://art/red_veil/training_panel.gd")
 const Shell = preload("res://ui/journey_shell.gd")
 const Hud = preload("res://ui/training_hud.gd")
 const Style = preload("res://ui/journey_style.gd")
+const Orb = preload("res://ui/concept_orb.gd")
 const Audio = preload("res://scripts/journey_audio.gd")
 const Navigation = preload("res://scripts/navigation_policy.gd")
 const Progress = preload("res://scripts/journey_progress.gd")
@@ -54,6 +55,8 @@ var _last_sections := 0
 var _guard: Node
 var _previous_focus: WeakRef
 var _dialog_margin: MarginContainer
+var _concept_return_to_library := false
+var _mission_load_serial := 0
 
 func _ready() -> void:
 	DisplayServer.window_set_title(Branding.display_name())
@@ -151,6 +154,22 @@ func begin_mission() -> void:
 	start_mission()
 
 func start_mission() -> void:
+	if stage == "loading": return
+	if not is_instance_valid(world):
+		_mission_load_serial += 1
+		var serial := _mission_load_serial
+		stage = "loading"
+		paused = true
+		hud.hide()
+		shell.hide()
+		get_viewport().disable_3d = true
+		var loading := _dialog("Opening the window…", "Preparing Ren and the solar panel.", "loading")
+		_button(loading, "Back to Home", show_home, true)
+		# Let the real loading message render before procedural scene creation.
+		# No invented percentages or simulated time are spent here.
+		await get_tree().process_frame
+		await get_tree().process_frame
+		if serial != _mission_load_serial or stage != "loading": return
 	_save_result()
 	_close_modal()
 	model.reset()
@@ -209,7 +228,7 @@ func _process(delta: float) -> void:
 	_sync_world(snapshot)
 	if int(snapshot.sections_cleaned) > _last_sections:
 		_last_sections = int(snapshot.sections_cleaned)
-		audio.cue("confirm")
+		audio.cue("section")
 	var remaining := float(snapshot.get("remaining_seconds", 90.0))
 	_warning_cooldown -= minf(delta, 0.25)
 	if remaining <= 30.0 and remaining > 0.0 and _warning_cooldown <= 0.0:
@@ -227,7 +246,10 @@ func _sync_world(snapshot: Dictionary) -> void:
 		for character in anchor.get_children():
 			if character.has_method("set_training_cleaning"):
 				character.set_training_cleaning(mission_started and bool(snapshot.cleaning), float(snapshot.get("effective_multiplier", float(snapshot.get("cleaning_multiplier", 1.0)) * (1.0 - float(snapshot.get("fatigue", 0.0))))), bool(progress.settings.reduced_motion) or paused)
-	if is_instance_valid(solar_panel): solar_panel.refresh(snapshot)
+	if is_instance_valid(solar_panel):
+		if solar_panel.has_method("set_reduced_motion"):
+			solar_panel.set_reduced_motion(bool(progress.settings.reduced_motion) or paused)
+		solar_panel.refresh(snapshot)
 	var room_anchor := world.get_node_or_null("InteriorAnchor")
 	if room_anchor:
 		for room in room_anchor.get_children():
@@ -235,7 +257,9 @@ func _sync_world(snapshot: Dictionary) -> void:
 				room.set_airlock_phase("complete" if snapshot.crew_sheltered else ("cycling" if snapshot.phase == "airlock" else "idle"))
 
 func set_cleaning_speed(multiplier: float) -> void:
-	if _can_act() and model.set_cleaning_speed(multiplier): audio.cue("confirm")
+	var previous := float(model.snapshot().cleaning_multiplier)
+	if _can_act() and model.set_cleaning_speed(multiplier):
+		audio.cue("pace_up" if multiplier > previous else "pace_down")
 	hud.refresh(model.snapshot())
 	_sync_world(model.snapshot())
 
@@ -258,16 +282,20 @@ func finish_mission() -> void:
 func open_concept(id: String) -> void:
 	if stage != "mission" or shell.concept_open: return
 	paused = true
+	_concept_return_to_library = modal_kind == "notebook"
 	_close_modal()
-	shell.show_live_concept(id, model.snapshot())
+	shell.show_live_concept(id, model.snapshot(), "Back to Science" if _concept_return_to_library else "Back to mission")
 
 func _concept_visibility(open: bool) -> void:
-	if stage == "preparation" and not open: progress.record_reviewed(shell.reviewed_ids)
+	if stage in ["preparation", "mission"] and not open: progress.record_reviewed(shell.reviewed_ids)
 	if stage == "mission":
 		paused = true
 		if not open:
 			# Reading ends with an explicit resume, so a browser/focus return is safe.
-			_ensure_pause_menu.call_deferred()
+			if _concept_return_to_library:
+				_concept_return_to_library = false
+				show_notebook.call_deferred()
+			else: _ensure_pause_menu.call_deferred()
 	audio.set_paused(open or (stage == "mission" and paused))
 	_refresh_updates()
 
@@ -297,8 +325,10 @@ func handle_global_input(event: InputEvent) -> bool:
 		if is_instance_valid(solar_data_panel): solar_data_panel.close()
 		elif is_instance_valid(update_panel): update_panel.close()
 		elif shell.concept_open: shell.handle_back()
+		elif stage == "loading": show_home()
 		elif is_instance_valid(modal):
 			if modal_kind == "pause": resume_mission()
+			elif modal_kind == "notebook": resume_mission()
 			elif stage == "mission": show_pause()
 			elif stage == "home": show_home()
 			else: _close_modal()
@@ -394,12 +424,13 @@ func _dialog(title: String, description: String, kind: String) -> VBoxContainer:
 	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	column.add_theme_constant_override("separation", 14)
 	scroll.add_child(column)
-	var heading := Style.label(title, 30, Style.PEARL, "display")
+	var heading := Style.label(title, 46 if kind == "home" else 32, Style.PEARL, "display_bold")
 	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(heading)
 	var detail := Style.label(description, 18, Style.MUTED)
 	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(detail)
+	detail.visible = not description.is_empty()
 	_reset_dialog_scroll.call_deferred(weakref(scroll))
 	return column
 
@@ -434,14 +465,12 @@ func show_pause() -> void:
 	if stage != "mission" or shell.concept_open: return
 	paused = true
 	audio.set_paused(true)
-	var box := _dialog("Take your time.", "The mission clock is paused. Reading and breaks never cost mission time.", "pause")
+	var box := _dialog("Paused", "Your mission is waiting.", "pause")
 	_button(box, "Resume mission", resume_mission, true)
-	_button(box, "Mission book · explore the eight ideas", show_notebook)
-	_button(box, "Live Sun · NASA observation", show_live_sun)
+	_button(box, "Science", show_notebook)
 	_button(box, "Sound, motion & pace", show_settings)
 	_button(box, "Restart this mission", confirm_restart)
 	_button(box, "Home", request_home)
-	_button(box, "Leave fullscreen" if navigation.is_fullscreen() else "Enter fullscreen · F11", func(): navigation.toggle_fullscreen())
 	_button(box, "Quit game", show_quit)
 
 func resume_mission() -> void:
@@ -455,12 +484,33 @@ func show_notebook() -> void:
 	if stage != "mission": return
 	paused = true
 	audio.set_paused(true)
-	var box := _dialog("Your mission book", "Set a cleaning pace, then start. High effort builds game tiredness; a gentler pace restores it. Ren steps indoors when the countdown ends. Energy is stored in kWh. These are teaching scenarios, not health readings.", "notebook")
-	_button(box, "Back to pause", show_pause, true)
-	_button(box, "Live Sun · NASA observation", show_live_sun)
+	var box := _dialog("Choose a discovery", "Paused. Tap an idea to see how it works.", "notebook")
+	_button(box, "Back to mission", resume_mission, true)
+	var grid := GridContainer.new()
+	grid.name = "ScienceTiles"
+	grid.columns = 2 if get_viewport().get_visible_rect().size.x < 600 else 4
+	grid.add_theme_constant_override("h_separation", 12)
+	grid.add_theme_constant_override("v_separation", 12)
+	box.add_child(grid)
+	var reference: WeakRef = weakref(grid)
+	modal.resized.connect(func():
+		var current = reference.get_ref()
+		if is_instance_valid(current): current.columns = 2 if get_viewport().get_visible_rect().size.x < 600 else 4
+	)
 	for item: Dictionary in catalog:
 		var id: String = item.id
-		_button(box, str(item.title), func(): open_concept(id))
+		var tile := Orb.new()
+		tile.name = "Concept_" + id
+		tile.configure(id, Orb.short_title(id), "Discover")
+		tile.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		grid.add_child(tile)
+		tile.custom_minimum_size = Vector2(110, 132)
+		tile.set_reduced_motion(bool(progress.settings.reduced_motion))
+		if hud.orbs.has(id):
+			var reading = hud.orbs[id]
+			tile.set_level(reading.level, reading.status_text, reading.tone)
+		tile.pressed.connect(open_concept.bind(id))
+	_button(box, "See the real Sun · NASA", show_live_sun)
 
 func _apply_preferences() -> void:
 	audio.set_music_enabled(bool(progress.settings.music_enabled))
@@ -468,6 +518,7 @@ func _apply_preferences() -> void:
 	audio.set_music_volume(float(progress.settings.music_volume))
 	audio.set_effects_volume(float(progress.settings.effects_volume))
 	if audio.has_method("set_soundtrack"): audio.set_soundtrack(str(progress.settings.get("soundtrack", "supplied")))
+	if audio.has_method("set_reduced_motion"): audio.set_reduced_motion(bool(progress.settings.reduced_motion))
 	shell.set_reduced_motion(bool(progress.settings.reduced_motion))
 	hud.set_reduced_motion(bool(progress.settings.reduced_motion))
 	if is_instance_valid(world) and is_instance_valid(world.dust_particles): world.dust_particles.emitting = not bool(progress.settings.reduced_motion)
@@ -475,7 +526,7 @@ func _apply_preferences() -> void:
 func show_settings() -> void:
 	if stage == "mission": paused = true
 	audio.set_paused(stage == "mission")
-	var box := _dialog("Make yourself at home.", "Music, sound effects and motion are yours to choose. Pace changes real play time; the same science equations still apply.", "settings")
+	var box := _dialog("Settings", "Sound, motion and play time.", "settings")
 	_button(box, "Back", func():
 		if stage == "mission": show_pause()
 		elif stage == "home": show_home()
@@ -508,6 +559,7 @@ func show_settings() -> void:
 		if stage == "mission": model.set_pace(value); hud.refresh(model.snapshot())
 	)
 	box.add_child(pace)
+	_button(box, "Leave fullscreen" if navigation.is_fullscreen() else "Enter fullscreen · F11", func(): navigation.toggle_fullscreen(); show_settings())
 	_button(box, "Use original ambient score" if str(progress.settings.get("soundtrack", "supplied")) == "supplied" else "Use team-supplied music", func():
 		progress.set_setting("soundtrack", "original" if str(progress.settings.get("soundtrack", "supplied")) == "supplied" else "supplied")
 		_apply_preferences()
@@ -515,7 +567,12 @@ func show_settings() -> void:
 	)
 	var music_credit := Style.label("Music: Minyo San Kyoku — Doug Maxwell / Zac Zinger; Floating Lanterns — The Mini Vandals. Team-supplied recordings. See AUDIO-CREDITS in the download.", 16, Style.MUTED)
 	music_credit.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	var credits := Style.button("Music credits")
+	credits.toggle_mode = true
+	credits.toggled.connect(func(value: bool): music_credit.visible = value)
+	box.add_child(credits)
 	box.add_child(music_credit)
+	music_credit.hide()
 	if not progress.last_error.is_empty(): box.add_child(Style.label("Settings work for this session, but local saving is unavailable.", 16, Style.AMBER))
 
 func confirm_restart() -> void:
@@ -532,6 +589,7 @@ func request_home() -> void:
 	else: show_home()
 
 func show_home() -> void:
+	_mission_load_serial += 1
 	_save_result()
 	stage = "home"
 	paused = true
@@ -540,12 +598,18 @@ func show_home() -> void:
 	get_viewport().disable_3d = true
 	audio.set_context("home")
 	audio.set_paused(false)
-	var box := _dialog(Branding.title(), "A small Mars mission about looking after your crew. Explore eight ideas, make a plan, and bring Ren home.", "home")
+	var box := _dialog(Branding.title(), Branding.subtitle() + "\nClear dust. Discover science.", "home")
 	_button(box, "Enter the control room", start_mission, true)
-	_button(box, "Explore the eight science ideas", show_preparation)
+	_button(box, "Science", show_preparation)
 	_button(box, "Replay the story", func(): _close_modal(); stage = "story"; shell.show_story(bool(progress.settings.reduced_motion)); audio.set_context("story"))
-	_button(box, "Sound, motion & pace", show_settings)
 	_button(box, "Updates & downloads", show_updates)
+	_button(box, "More", show_more)
+	_refresh_updates()
+
+func show_more() -> void:
+	var box := _dialog("More to explore", "", "home-more")
+	_button(box, "Back to Home", show_home, true)
+	_button(box, "Sound, motion & pace", show_settings)
 	_button(box, "Live Sun · NASA observation", show_live_sun)
 	_button(box, "Advanced lab · earlier mission", open_legacy)
 	_button(box, "Quit game", show_quit)

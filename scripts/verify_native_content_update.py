@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Test signed content using unchanged public 0.6 through 0.8 Mac/Windows installers.
+"""Test signed content using unchanged public 0.6 through 0.9.0 Mac/Windows installers.
 
 Runs only on a fresh native CI runner, refuses an existing player profile, and
 cleans its newly created profile. Staging uses the matching editor with the
@@ -25,11 +25,11 @@ import zipfile
 from verify_baseline_update import bounded_json, expect_journal, version_order, write_harness
 from verify_native_package import app_profile, scene_ready, validate_archive
 from verify_native_update_acceptance import ENGINE, UPDATE_NAMES, digest, validate_artifacts, verify_signature
-from branding import archive_name, supplemental_asset_names
+from branding import archive_name, archive_stem, supplemental_asset_names
 
 ROOT = Path(__file__).resolve().parent.parent
 REPOSITORY = "roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026"
-DEFAULT_BASELINE = "0.8.0-alpha.1"
+DEFAULT_BASELINE = "0.9.0-alpha.1"
 # Independent immutable identities; evidence files supply the complete asset list.
 BASELINES = {
     "0.6.0-alpha.1": {
@@ -62,6 +62,12 @@ BASELINES = {
         "macOS-universal": "15feed5e21cc14e12ed8176cf97b505ca71a44acca66bd0cae809a09688fe749",
         "Windows-x64": "deadf7007d6c0b0e37eed8eca4474fa2c67bf4da3d0f18cd63d1438d137ab53d"
     },
+    "0.9.0-alpha.1": {
+        "source_commit": "40dbea61cc1690b3f45bce397e75aa1e582cfebd",
+        "manifest_sha256": "c016d1d18303881f1a814f8cffaede6e6874b815fa1a0f6609b109c73c7e9a30",
+        "macOS-universal": "6912d3478cbcacb7d29939b3133d9e75cd74a701cd4220f2e0ad80203e4278c8",
+        "Windows-x64": "1fdaff22a94f92d7b9ce0e8f9d7ccee95930df29614bf34c9987a4af2919857f"
+    },
 }
 
 
@@ -90,7 +96,7 @@ def baseline_evidence(version):
             raise ValueError("Invalid historical asset size or checksum")
     by_name = {entry["name"]: entry for entry in assets}
     pins = {"release-manifest.json": pinned["manifest_sha256"]}
-    pins.update({f"KOMAKU-Shield-Protocol-{version}-{suffix}.zip": pinned[suffix] for suffix in ("macOS-universal", "Windows-x64")})
+    pins.update({archive_name(version, suffix): pinned[suffix] for suffix in ("macOS-universal", "Windows-x64")})
     if any(by_name[name]["sha256"] != expected for name, expected in pins.items()):
         raise ValueError("Historical evidence differs from independently pinned release bytes")
     return evidence
@@ -160,7 +166,7 @@ def acceptance(args):
         baseline_dir = fetch_baseline(workspace / "baseline", baseline_version)
         baseline = validate_artifacts(baseline_dir, baseline_commit)
         suffix = "macOS-universal" if system == "Darwin" else "Windows-x64"
-        archive = baseline_dir / f"KOMAKU-Shield-Protocol-{baseline_version}-{suffix}.zip"
+        archive = baseline_dir / archive_name(baseline_version, suffix)
         validate_archive(archive)
         extracted = workspace / "original"
         extracted.mkdir()
@@ -182,7 +188,7 @@ def acceptance(args):
         else:
             with zipfile.ZipFile(archive) as zipped:
                 zipped.extractall(extracted)
-            executable = extracted / "KOMAKU-Shield-Protocol.exe"
+            executable = extracted / (archive_stem(baseline_version) + ".exe")
             baseline_pack = executable
         original_hashes = {str(path.relative_to(extracted)): digest(path) for path in extracted.rglob("*") if path.is_file()}
         profile = app_profile(system)

@@ -8,7 +8,7 @@ Readable source for [the illustrated PDF](media/KOMAKU-Science-Guide.pdf). This 
 
 It is the year 2059 in our story. You are inside a Mars habitat, looking across the dunes. Ren is outside beside a dusty solar panel and the shelter entrance. Your job is to choose a working pace and discover how work, sunlight, stored energy, and radiation dose connect. The intended learners are ages 7–12, with optional detail for curious readers.
 
-The story leads directly to the control room in **preflight**. Inspect concepts or set a starting pace if you want; nothing advances until **START MISSION**. The eight science ideas are optional support, not a reading gate. The round lasts 30 simulated minutes, normally **90 active real seconds at ×20**. Reading and pauses add no mission time.
+The story leads directly to the control room in **preflight**. Inspect concepts or set a starting pace if you want; nothing advances until **START MISSION**. Three main readings show cleaning, stored energy, and time. The eight ideas live in optional **Science**, not a reading gate. The round lasts 30 simulated minutes, normally **90 active real seconds at ×20**. Reading and pauses add no mission time.
 
 ![The final mission journey](media/science-guide-journey.png)
 
@@ -24,7 +24,7 @@ This guide explains an educational model. It does not certify spacecraft, real a
 
 ### Explore the vocabulary without blocking play
 
-Each concept opens a short explanation, an everyday analogy, a simple equation or definition, a real-world fact, and a separate mission assumption. A source button opens the cited evidence in the device's browser when connected.
+Open **Science** to choose one of eight ideas. Each card starts with a brief explanation, diagram, and everyday analogy. **Learn more** reveals fuller reasoning and equations. **Data & sources** separates real evidence from game settings and opens cited sources in the device's browser when connected.
 
 | Concept   | The idea to take away                                                                                  |
 | --------- | ------------------------------------------------------------------------------------------------------ |
@@ -37,7 +37,7 @@ Each concept opens a short explanation, an everyday analogy, a simple equation o
 | Pace      | Requested multiplier differs from effective cleaning rate when fictional effort builds.                |
 | Shelter   | Ren enters automatically at zero; there is no physical route or distance calculation.                  |
 
-The optional review record means **concepts explored**, not mastery. Opening a card does not prove understanding. No reviewed-card percentage is required to start. Reading during play must pause the same model that handles work, effort, energy, and dose.
+The optional review record means **concepts explored**, not mastery. Opening a card does not prove understanding. The library shows no readiness percentage or reading-completion gate. Reading during play must pause the same model that handles work, effort, energy, and dose.
 
 The debrief reconnects ideas using the current run's values. A low-stakes reflection can invite an explanation; it cannot certify ability from a single answer. A result below the target is an invitation to try another plan, not punishment for reading slowly or needing a hint.
 
@@ -151,7 +151,7 @@ All rows have the same **10.9375 µGy** model dose. The chart describes this aut
 
 ### Four main groups, with effort underneath cleaning
 
-The reveal should explain the actual run in a short chain. Large child-facing lines can lead; the exact equation can appear underneath each line. The [separate video equation sheet](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/blob/main/docs/VIDEO-EQUATIONS.md) provides the animation handoff.
+The reveal explains the actual run in four short visual relationships. **Explore my numbers and graphs** opens the full equations and histories; the player can return to the result without opening that detail. The [separate video equation sheet](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/blob/main/docs/VIDEO-EQUATIONS.md) provides the animation handoff.
 
 | Group                    | Child-facing connection                                      | Numerical meaning                                     |
 | ------------------------ | ------------------------------------------------------------ | ----------------------------------------------------- |
@@ -203,7 +203,7 @@ Tests can verify arithmetic and state transitions. They do not validate real spa
 
 ### Exploring, understanding, and remembering are different
 
-The story leads to preflight, where the player may start immediately or explore science ideas first. The optional constellation remains available. A reviewed-card count is a record of exploration, not intelligence, readiness for a real mission, or mastery.
+The story leads to preflight, where the player may start immediately or choose **Explore science** first. The optional library remains available. Stored review history records exploration, not intelligence, readiness for a real mission, or mastery; the interface does not display a readiness score.
 
 Use short analogies to introduce each quantity. Follow with the scientific fact, its source, and the separate mission assumption. At the end, reconnect the player's choices to their recorded result and invite an explanation.
 
@@ -355,7 +355,7 @@ Older source modules may remain for historical or advanced uses. They do not sup
 
 The generator creates four diagrams, embeds DejaVu fonts, checks page bounds and searchable branding, and records source fingerprints. Pinned build libraries are ReportLab 4.4.9, Matplotlib 3.10.8, Pillow 13.0.0, and PyMuPDF 1.26.6. The PDF contains the complete font license as an attachment.
 
-The separate two-page handoff is `docs/media/KOMAKU-Video-Equations.pdf`; rebuild it with `python3 scripts/build_video_equations.py`. Both documents must be regenerated after changes to their fingerprinted sources.
+The technical sheet is `docs/media/KOMAKU-Video-Equations.pdf`; rebuild with `scripts/build_video_equations.py`. The word-only sheet uses `scripts/build_video_equations_simple.py`. Run each through Python. All three documents must be regenerated when their fingerprinted sources change.
 
 The source inventory covers this final model, concept catalog, source ledgers, workflow, live-image client/contract, and bundled-image provenance. Device tests, release evidence, and learner evaluation have different scopes. Passing arithmetic or PDF checks does not establish universal compatibility, learning effectiveness, or real-world spacecraft safety.
 

@@ -1,6 +1,6 @@
 # <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — result-screen copy
 
-**Result-screen copy contract for the 0.9 presentation.** The result should appear when the short round ends, with a separate action for the animated equation reveal. This document fixes the meaning and words behind the visual design; it does not change the model or modify previously published releases.
+**Result-screen copy contract for the 0.10 presentation.** The result should appear when the short round ends, with a separate action for the animated equation reveal. This document fixes the meaning and words behind the visual design; it does not change the model or modify previously published releases.
 
 Every completed round ends with Ren inside the shelter. The outcome comes from the actual fraction of the solar panel cleaned. Keep each screen encouraging, readable, and focused on one useful scientific connection.
 
@@ -8,9 +8,9 @@ Every completed round ends with Ren inside the shelter. The outcome comes from t
 
 **Title:** You powered up the outpost!
 
-**Message:** Ren is safely inside, and you cleared most of the panel. Great teamwork!
+**Message:** Ren is inside. The panel is mostly clear.
 
-**Science connection:** Less dust let more sunlight reach the solar cells. Better solar output helped charge the battery.
+**Science connection:** Less dust → more sunlight → more solar power.
 
 **Use when:** The clean fraction is at least 80%.
 
@@ -20,9 +20,9 @@ The title celebrates the cleaning goal. It does not mean the battery is full or 
 
 **Title:** Good progress, astronaut!
 
-**Message:** Ren is safely inside, and you cleared part of the panel. Try another plan to clean even more.
+**Message:** Ren is inside. You cleared part of the panel.
 
-**Science connection:** Some dust still reduced the panel's output. Faster work can help at first, but tiredness can reduce the effective cleaning rate.
+**Science connection:** Dust left on the panel still blocked some sunlight.
 
 **Use when:** The clean fraction is at least 40% and below 80%.
 
@@ -32,9 +32,9 @@ Tiredness here is the game's authored pace-dependent slowdown, not a measurement
 
 **Title:** Try a new cleaning plan!
 
-**Message:** Ren is safely inside, but too much dust remains to reach the cleaning goal. You can try a different pace.
+**Message:** Ren is inside. There is more dust to clear.
 
-**Science connection:** Slow work or high tiredness can reduce effective cleaning. Watch how pace changes the amount cleaned over time.
+**Science connection:** A balanced pace can remove more dust before the storm.
 
 **Use when:** The clean fraction is below 40%.
 
@@ -60,7 +60,7 @@ All completed default rounds share the same outside duration and radiation curve
 - **Try another plan** — return to a fresh preflight state so the player can choose a starting pace.
 - **Home** — return to the game's main navigation.
 
-Keep these labels and their order consistent across WIN, PASS, and LOSE. The equation view includes **Back to results**. The bubble animation may be skipped or reduced without hiding the equations or trapping navigation. The team's visual theme can change colours, illustrations, motion, and layout without changing the outcome rules or the meaning of the readings. Do not rely on colour or sound alone to communicate the result.
+Keep these labels and their order consistent across WIN, PASS, and LOSE. The equation view includes **Back to results**. Four brief visual relationships appear first; **Explore my numbers and graphs** opens the exact equations, recorded history and optional practice. Result meters show cleaning and stored energy, never a dose-as-health bar. The bubble animation may be skipped or reduced without hiding the equations or trapping navigation. The team's visual theme can change colours, illustrations, motion, and layout without changing the outcome rules or the meaning of the readings. Do not rely on colour or sound alone to communicate the result.
 
 ## Equation reveal and factual boundaries
 

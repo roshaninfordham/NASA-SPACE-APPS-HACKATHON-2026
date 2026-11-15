@@ -1,14 +1,14 @@
 # <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — team progress
 
-**Current source candidate: 0.9.0-alpha.1; not yet published.** The latest published prerelease is [0.8.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.8.0-alpha.1). New source, captures, packages and updates need their own exact-source acceptance. [Candidate notes](releases/0.9.0-alpha.1.md) · [Current design contract](design-specs/JOURNEY-0.9.md).
+**Current source/package: 0.10.0-alpha.1; publication pending.** This interface update simplifies reading and navigation and corrects the installation handoff; the mission equations remain unchanged from the published [0.9.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.9.0-alpha.1). The 0.9.0 release was published November 15, 2026 at 13:12:47 UTC, and its assets remain unchanged. [Release notes](releases/0.10.0-alpha.1.md).
 
 ## What the team can explain
 
-The new direction is **three short story scenes → preflight → 90-second cleaning round → result → animated science connection**. The player stays inside the habitat, close enough to see Ren's brush and the dusty solar panel through the window. Larger text, bubbles and colored pace controls make the choice easier to read; the mission leaves less of the screen to empty desert.
+The new direction is **three short story scenes → preflight → 90-second cleaning round → result → animated science connection**. The player stays inside the habitat, close enough to see Ren's brush and the dusty solar panel through the window. Three main readings—panel cleaned, energy stored and real play time—sit beside one red pace control. The optional Science library holds the eight concepts, so the window stays focused on Ren’s work.
 
 The real-time countdown starts at about 1:30 at standard pacing. It represents 30 simulated minutes, with every physical teaching-model equation unchanged. Slower/Faster and the stepped slider choose seven requested multipliers from 0.25 to 1.75. The fictional tiredness rule changes effective cleaning rate; partial cleaning immediately improves modeled solar output. Generation minus habitat load accumulates actual battery energy. Reading and Pause freeze the whole model.
 
-At zero, Ren automatically enters. The result appears first, with actual cleaned percentage, stored kWh and absorbed model µGy. **See how science connects** animates the eight concepts into four readable equation groups; **Back to results**, **Try another plan** and **Home** make the ending easy to revisit or record.
+At zero, Ren automatically enters. The result appears first, with actual cleaned percentage, stored kWh and absorbed model µGy. **See how science connects** animates the eight concepts into four short science relationships, with precise equations and graphs available under **Explore my numbers and graphs**; **Back to results**, **Try another plan** and **Home** make the ending easy to revisit or record.
 
 WIN/PASS/TRY AGAIN is determined by cleaned fraction: at least 80%, at least 40%, or below 40%. Ren is inside in every category. Energy and dose explain the run, not additional hidden success tests. Every completed default round has the same 10.9375 µGy model dose because outside time and the authored radiation curve are fixed.
 
@@ -16,17 +16,22 @@ WIN/PASS/TRY AGAIN is determined by cleaned fraction: at least 80%, at least 40%
 
 - **Name:** KŌMAKU: Dust & Radiation comes from the shared brand source. New packages use `KOMAKU-Dust-and-Radiation`; save/update identities and existing OS app names remain compatible.
 - **Story:** exterior, astronaut and interior illustrations are newly generated, unlettered adaptations of the team's references. Their [provenance](../game/assets/art/journey/provenance.json) identifies them separately from gameplay captures.
-- **Audio:** original countdown/warning/urgent beeps support the visual timer. The Drive recording could not be accessed and is not represented as included. Existing music credits and controls remain. [Audio credits](AUDIO-CREDITS.md).
-- **Science:** three regenerated PDFs explain the same model and 90-second presentation. The next packaging configuration includes all three; the published 0.8 archives retain their original two PDFs.
+- **Interface:** concise opening/result copy, real scene-loading feedback with cancellation, and optional short science cards reduce first-screen reading. **Learn more** and **Data & sources** retain the full explanation and evidence.
+- **Audio:** softer original pace, discovery and open/close cues support interaction; countdown/warning/urgent beeps still support the visual timer. The Drive recording could not be accessed and is not represented as included. Existing music credits and controls remain. [Audio credits](AUDIO-CREDITS.md).
+- **Science:** three regenerated PDFs explain the same model and 90-second presentation. The current package includes all three; the published 0.8 archives retain their original two PDFs.
 - **Submission:** [editable draft answers](SUBMISSION-DRAFT.md) and a [55-word video script with recording notes](VIDEO-PITCH.md) are ready for the team to review. No submission has been made, and the official questions/word limits are still unknown.
 
 Historical Curiosity RAD measurements ground the starting dose rate; Pathfinder supports the dust mechanism. The correct Pathfinder wording is **0.28% per day decrease in solar-cell short-circuit current**. NASA SDO provides a separate latest-image viewer; it does not drive the Mars storm or score. [Model](TRAINING-MODEL.md) · [All sources](SOURCE-INDEX.md).
 
-## Acceptance still required for 0.9
+## Acceptance still required for 0.10.0
 
-The candidate must pass integrated gameplay and responsive layout checks, exact-source native builds, package launch gates, signed-content activation/recovery on supported original installers, and public-file verification. The expanded native update matrix contains five baseline versions on both Mac and Windows, including 0.8, plus the documented Linux 0.4 check. A configured matrix is not a passed matrix.
+The shared source suite and 29-assertion native Linux navigation check have passed. The new gallery covers 135 states across five viewports with zero layout findings and unchanged recorded source hashes. Exact-source builds, package launch gates, signed-content activation/recovery on supported original installers, and public-file verification remain separate release gates. The expanded native update matrix contains six baseline versions on both Mac and Windows, including 0.9.0, plus the documented Linux 0.4 check. A configured matrix is not a passed matrix.
 
-The [0.9 gallery](media/journey-0.9/README.md) and [cleaning clip](media/journey-0.9/CLEANING-CLIP.md) now provide source captures with source and fixture provenance. The 0.8 gallery and acceptance records below keep their original scope. Code tests, native runner tests, physical-device usability and learning effectiveness remain distinct. [Validation](VALIDATION.md) · [Media](MEDIA.md).
+The [0.10 gallery](media/journey-0.10/README.md) records the new interface with source and fixture provenance. The [0.9 gallery](media/journey-0.9/README.md) remains historical evidence for its earlier interface. The 0.8 gallery and acceptance records below keep their original scope. Code tests, native runner tests, physical-device usability and learning effectiveness remain distinct. [Validation](VALIDATION.md) · [Media](MEDIA.md).
+
+## Published 0.9 baseline — historical evidence
+
+[0.9.0 public-file verification](evidence/release-0.9.0-alpha.1.json) records the accepted source and assets. Its gameplay introduced the current 90-second presentation; the underlying mission equations already existed in 0.8. Its bundled download guide still foregrounded old filenames and links, which 0.10 corrects without changing the old artifacts.
 
 ## Published 0.8 baseline — historical evidence
 

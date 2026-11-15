@@ -1,6 +1,6 @@
 # <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> credits and asset provenance
 
-This file covers the current source, including the **0.9.0-alpha.1 candidate source snapshot**. Published releases contain the notices for their own assets. Reviewed November 15, 2026, America/New_York.
+This file covers the current source, including the **0.10.0-alpha.1 source snapshot**. Published releases contain the notices for their own assets. Reviewed November 15, 2026, America/New_York.
 
 ## Runtime
 

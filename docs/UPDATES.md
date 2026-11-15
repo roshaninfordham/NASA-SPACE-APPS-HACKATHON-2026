@@ -1,14 +1,18 @@
 # Updating <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand -->
 
-**Current source candidate: 0.9.0-alpha.1; not yet published.** The signed update path retains the same engine, bootstrap contract, trust root and local data identity. The new name and package stem do not reset saves or rename existing OS app bundles.
+**Current source/package: 0.10.0-alpha.1; publication pending.** This interface update simplifies reading and navigation and corrects the installation handoff; the mission equations remain unchanged from the published [0.9.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.9.0-alpha.1). The 0.9.0 release was published November 15, 2026 at 13:12:47 UTC, and its assets remain unchanged. [Release notes](releases/0.10.0-alpha.1.md).
 
-The candidate's required native matrix now covers public **0.6.0, 0.6.1, 0.7.0, 0.7.1 and 0.8.0** on both Mac and Windows—**ten jobs**—plus the documented Linux 0.4 gate. Each unchanged baseline must activate the exact signed pack, repeat healthy startup and recover from same-size corruption. Configuration of these checks is not evidence that 0.9 has passed; final build/run IDs and exact hashes will be recorded after acceptance. [Candidate notes](releases/0.9.0-alpha.1.md).
+The candidate's required native matrix now covers public **0.6.0, 0.6.1, 0.7.0, 0.7.1, 0.8.0 and 0.9.0** on both Mac and Windows—**twelve jobs**—plus the documented Linux 0.4 gate. Each unchanged baseline must activate the exact signed pack, repeat healthy startup and recover from same-size corruption. Configuration of these checks is not evidence that 0.10.0 has passed; final build/run IDs and exact hashes will be recorded after acceptance. [Release notes](releases/0.10.0-alpha.1.md).
 
-## Latest published update: 0.8
+## Published 0.9 baseline
+
+[0.9.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.9.0-alpha.1) remains the latest published version while 0.10 completes acceptance. Its [public-file record](evidence/release-0.9.0-alpha.1.json) identifies the verified unchanged artifacts. The 0.10 interface and package-guide correction require a new signed pack; 0.9 assets are not replaced in place.
+
+## Historical 0.8 update evidence
 
 **Published [0.8.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.8.0-alpha.1) — November 15, 2026.** Built from `8b13e027ce5e0fa941a6bbeb1e09c5873b11baee`. All ten public files were redownloaded and matched to the accepted build; all four ZIPs passed integrity checks and contain the reviewed science and technical equation PDFs. [Release evidence](evidence/release-0.8.0-alpha.1.json).
 
-## What players can expect
+## Update behavior and earlier acceptance scope
 
 **0.8.0-alpha.1 is published and available to compatible desktop installations.** The exact signed pack passed activation, healthy repeat startup and same-size corruption recovery using unchanged public **0.6.0, 0.6.1, 0.7.0 and 0.7.1 Mac/Windows executables**, plus **0.4 Linux**. [Release record](evidence/release-0.8.0-alpha.1.json) · [Eight native update jobs](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43683700390).
 
@@ -74,10 +78,10 @@ The **Build downloadable game** Actions workflow has independent `signed_updates
 For local builds, use an existing key outside the checkout:
 
 ```sh
-python3 scripts/build_game.py --version 0.9.0-alpha.1 --signed-updates --private-key "$HOME/.config/red-veil/signing/update-private.pem"
+python3 scripts/build_game.py --version 0.10.0-alpha.1 --signed-updates --private-key "$HOME/.config/red-veil/signing/update-private.pem"
 ```
 
-This example targets the 0.9.0-alpha.1 candidate and requires its project version and frozen source to match. Published 0.8.0-alpha.1 and all earlier releases must not be overwritten. A local build is not publication or proof of baseline compatibility.
+This example targets the 0.10.0-alpha.1 patch and requires its project version and frozen source to match. Published 0.9.0-alpha.1 and all earlier releases must not be overwritten. A local build is not publication or proof of baseline compatibility.
 
 Signed builds produce four platform ZIPs, a standalone versioned science PDF and these five fixed assets (ten total):
 

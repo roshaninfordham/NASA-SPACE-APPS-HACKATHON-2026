@@ -20,7 +20,7 @@ On Mars, settled dust can reduce solar output, while radiation makes time outsid
 
 The player watches Ren work just outside the habitat window and chooses a cleaning pace. Faster work clears dust quickly at first, but a simple, clearly fictional tiredness rule can reduce the effective pace. As the panel becomes cleaner, the player sees more solar power and more stored battery energy. A short countdown gives the mission a clear ending: Ren automatically enters the shelter, and the result explains how much of the panel was cleaned.
 
-Eight optional science bubbles introduce the ideas in small pieces. After the mission, those ideas come together in four equation groups using the player's recorded result. The aim is to make relationships visible, invite another plan, and give children a reason to ask why—not require them to memorize equations before playing.
+The main view focuses on three readings: panel cleaning, stored energy and remaining time. Eight optional science ideas begin with a short explanation, diagram and everyday analogy; deeper reasoning and sources open on request. After the mission, those ideas come together in four equation groups using the player's recorded result. The aim is to make relationships visible, invite another plan, and give children a reason to ask why—not require them to memorize equations before playing.
 
 ## How does the game work?
 
@@ -56,7 +56,7 @@ If the form asks specifically about **Space Agency Partner data**, our current i
 
 The player acts as a teammate in mission control. A close view of one astronaut and one panel keeps attention on a small, understandable problem. Instead of presenting disconnected facts, the game lets a child see a chain: pace changes cleaning, cleaning changes the dust layer, dust changes solar output, and output over time changes stored energy.
 
-The eight science bubbles are available when a child wants an explanation. The result uses the player's own readings, then turns those familiar ideas into equations. A calm, futuristic visual identity and short rounds make room for experimentation without a long tutorial or a reading-completion gate.
+The eight ideas are available through **Science** when a child wants an explanation. **Learn more** and **Data & sources** keep deeper material within reach without placing it all on the first card. The result uses the player's own readings, then turns those familiar ideas into equations. A calm, futuristic visual identity and short rounds make room for experimentation without a long tutorial or a reading-completion gate.
 
 This is our design contribution, not a claim that these ideas have never appeared in another game or that learning effectiveness has already been established.
 

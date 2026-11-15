@@ -539,11 +539,13 @@ func _ensure_training_rig() -> void:
 func _apply_training_pose() -> void:
 	var sweep := 0.0 if _training_reduced_motion else sin(_training_phase)
 	# Rotate around the hips, not the feet, so the waist and boots stay connected.
-	var lean := Basis(Vector3.FORWARD, 0.085)
+	# A small planted turn brings the working arm clear of the backpack. The
+	# wrist target is transformed back through this pose before solving the arm.
+	var lean := Basis(Vector3.UP, 0.34) * Basis(Vector3.FORWARD, 0.085)
 	var hip := Vector3(0, 0.795, -0.005)
 	_upper.transform = Transform3D(lean, hip - lean * hip)
 	# Look toward the +X work surface so the close view shows a focused profile.
-	_head.rotation = Vector3(0.12, 1.40, -0.04)
+	_head.rotation = Vector3(0.12, 1.06, -0.04)
 	_glow.emission_energy_multiplier = 0.78
 	var wrist_target := _upper.transform.affine_inverse() * Vector3(0.48, 1.055, 0.085 + sweep * HAND_SWEEP_METERS)
 	var upper_length := WORK_SHOULDER.distance_to(WORK_ELBOW)

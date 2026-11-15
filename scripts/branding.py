@@ -40,6 +40,15 @@ def archive_name(version, platform):
     return f"{archive_stem(version)}-{version}-{platform}.zip"
 
 
+def macos_technical_name(display_name):
+    """Godot4.6.3 does not XML-escape its Mac executable placeholder."""
+    return display_name.replace("&", "and")
+
+
+def macos_app_name():
+    return re.sub(r'[\\/:*?"<>|]', "-", macos_technical_name(brand()["display_name"])) + ".app"
+
+
 def supplemental_asset_names(version):
     """Science guide is part of the immutable release contract from alpha 0.7."""
     stem = archive_stem(version)

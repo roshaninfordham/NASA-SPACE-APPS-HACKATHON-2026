@@ -53,6 +53,13 @@ var _fatigue_progress: ProgressBar
 var _mission_label: Label
 var _mission_subtitle: Label
 var _selected_multiplier := 1.0
+var _clean_title: Label
+var _clean_value: Label
+var _clean_progress: ProgressBar
+var _clean_target: ColorRect
+var _effort_label: Label
+var _goal_fraction := 0.8
+const PACE_NAMES := ["Gentlest", "Gentle", "Easy", "Steady", "Quick", "Fast", "Fastest"]
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -61,14 +68,23 @@ func _ready() -> void:
 	_top = _panel()
 	add_child(_top)
 	_timer_label = _label(_top,"01:30",46,Style.CORAL,"mono")
-	_timer_caption = _label(_top,"! MISSION TIME",11,Style.CORAL,"mono")
+	_timer_caption = _label(_top,"Storm in",16,Style.MUTED,"body_bold")
 	_title_label = _label(_top,Branding.title(),40,Style.PEARL,"display_bold")
-	_subtitle_label = _label(_top,Branding.subtitle(),16,Style.PEARL,"display_bold")
+	_subtitle_label = _label(_top,Branding.subtitle(),13,Style.MUTED,"display_bold")
 	for label in [_title_label,_subtitle_label]: label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_storm_label = _label(_top,"TIME TO STORM",11,Style.MUTED,"mono")
 	_storm_progress = _bar(_top,Style.CORAL)
 	_storm_progress.accessibility_name = "Elapsed fraction of the mission before the authored storm"
 	_storm_caption = _label(_top,"Ready to begin",11,Style.MUTED)
+	_clean_title = _label(_top,"Clean · goal 80%",16,Style.MUTED,"body_bold")
+	_clean_value = _label(_top,"0%",38,Style.PEARL,"display_bold")
+	_clean_progress = _bar(_top,Style.CYAN)
+	_clean_progress.accessibility_name = "Panel cleaned"
+	_clean_target = ColorRect.new()
+	_clean_target.name = "CleanGoalMarker"
+	_clean_target.color = Style.PEARL
+	_clean_target.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_top.add_child(_clean_target)
 	pause_button = _button(_top,"Pause","TrainingPause")
 	pause_button.tooltip_text = "Pause or open navigation. Escape also pauses."
 	pause_button.pressed.connect(func():pause_requested.emit())
@@ -125,19 +141,20 @@ func _ready() -> void:
 	_pace_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_pace_max = _label(_bottom,"1.75×",10,Style.MUTED,"mono")
 	_pace_max.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	_power_title = _label(_bottom,"BATTERY NOW",10,Style.MUTED,"mono")
-	_power_value = _label(_bottom,"0.00 kWh",20,Style.PEARL,"display")
+	_power_title = _label(_top,"Energy stored",16,Style.MUTED,"body_bold")
+	_power_value = _label(_top,"0.00 kWh",32,Style.PEARL,"display_bold")
 	_solar_title = _label(_bottom,"SOLAR NOW",10,Style.MUTED,"mono")
 	_solar_value = _label(_bottom,"0.00 kW",20,Style.PEARL,"display")
 	_fatigue_title = _label(_bottom,"GAME FATIGUE",10,Style.MUTED,"mono")
 	_fatigue_value = _label(_bottom,"0% · fresh",18,Style.CYAN,"display")
 	_fatigue_progress = _bar(_bottom,Style.AMBER)
 	_fatigue_progress.accessibility_name = "Game fatigue, an authored effort indicator"
-	_mission_label = _label(_bottom,"Dust Off the Solar Panel",24,Style.PEARL,"display_bold")
+	_mission_label = _label(_bottom,"Choose Ren’s cleaning pace",24,Style.PEARL,"display_bold")
 	_mission_subtitle = _label(_bottom,"Power Up the Outpost",12,Style.MUTED)
+	_effort_label = _label(_bottom,"Ren is ready.",17,Style.MUTED,"body_bold")
 	start_button = _button(_bottom,"START MISSION","TrainingStart",true)
 	start_button.pressed.connect(func():start_requested.emit())
-	notebook_button = _button(_bottom,"Science","TrainingNotebook")
+	notebook_button = _button(_top,"Science","TrainingNotebook")
 	notebook_button.tooltip_text = "Open the mission science notebook. Reading pauses the mission."
 	notebook_button.pressed.connect(func():notebook_requested.emit())
 	resized.connect(_layout)
@@ -171,6 +188,7 @@ func _bar(parent: Node, tint: Color) -> ProgressBar:
 	var bar := ProgressBar.new()
 	bar.show_percentage = false
 	bar.max_value = 1.0
+	bar.step = 0.0
 	bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var fill: StyleBoxFlat = theme.get_stylebox("fill","ProgressBar").duplicate()
 	fill.bg_color = tint
@@ -257,7 +275,7 @@ func refresh(value: Dictionary) -> void:
 	if focused in [slower_button,faster_button,start_button] and (focused.disabled or not focused.visible):
 		(speed_slider if adjustable else notebook_button).grab_focus.call_deferred()
 	_timer_label.text = format_clock(remaining)
-	_timer_caption.text = "PLAY TIME LEFT"
+	_timer_caption.text = "Storm in"
 	_timer_label.tooltip_text = "Real play time remaining while the mission is active. Reading and pause stop this clock. This scenario compresses 30 simulated minutes using a %.0f× simulation clock." % clock_scale
 	_timer_caption.tooltip_text = _timer_label.tooltip_text
 	_storm_progress.value = fraction
@@ -269,9 +287,24 @@ func refresh(value: Dictionary) -> void:
 	_rate_label.text = "Cleaning · %.3f sections/min" % (0.0 if preflight else rate)
 	_rate_label.tooltip_text = "A section is one quarter of the model panel. Rate = 0.125 × selected pace × (1 − game fatigue) sections per simulated minute."
 	_mission_subtitle.text = "One round · about %d seconds" % int(ceil(float(snapshot.get("warning_seconds",1800.0))/clock_scale)) if preflight else "Dust clears. Solar power grows."
-	_pace_value.text = "%.2f×" % _selected_multiplier if size.x < 360.0 else "%.2f× · %s" % [_selected_multiplier,"steady" if is_equal_approx(_selected_multiplier,1.0) else ("faster" if _selected_multiplier > 1.0 else "slower")]
+	var pace_index := clampi(int(round((_selected_multiplier-MIN_PACE)/PACE_STEP)),0,PACE_NAMES.size()-1)
+	_pace_value.text = PACE_NAMES[pace_index]
+	_pace_value.tooltip_text = "Selected cleaning pace %.2f×. The slider has seven quarter-step settings." % _selected_multiplier
+	_effort_label.text = "Ren is ready." if preflight else ("Ren is inside." if inside else ("Ren is getting tired." if fatigue >= 0.4 else ("Ren is recovering." if _selected_multiplier < 1.0 and fatigue > 0.02 else ("Ren is working hard." if fatigue >= 0.1 else "Ren is fresh."))))
+	_effort_label.add_theme_color_override("font_color",Style.AMBER if fatigue >= 0.4 else Style.MUTED)
+	_mission_label.text = "Choose Ren’s cleaning pace" if preflight else ("Goal reached!" if float(snapshot.get("clean_fraction",0.0)) >= float(snapshot.get("win_clean_fraction",0.8)) else ("Cleaning pace" if size.x < 600.0 else "Help Ren clear the panel."))
 	speed_slider.accessibility_description = "Selected pace %.2f times normal. Actual cleaning %.3f sections per simulated minute. Game fatigue %.0f percent. This is an authored game effort indicator, not a health reading." % [_selected_multiplier,0.0 if preflight else rate,fatigue*100.0]
-	_power_value.text = "%.2f kWh" % battery
+	_power_value.text = ("%.2f" if size.x < 600.0 else "%.2f kWh") % battery
+	_goal_fraction = clampf(float(snapshot.get("win_clean_fraction",0.8)),0.0,1.0)
+	var cleaned := clampf(float(snapshot.get("clean_fraction",1.0-dust)),0.0,1.0)
+	_clean_title.text = ("Clean to %d%%" if size.x < 600.0 else "Clean · goal %d%%") % int(round(_goal_fraction*100.0))
+	_clean_value.text = "%d%%" % int(floor(cleaned*100.0+0.00001))
+	_clean_progress.value = cleaned
+	_clean_progress.tooltip_text = "Panel %.1f%% clean. Reach at least %.0f%% for the full cleaning goal. More cleaning lets more sunlight reach the cells." % [cleaned*100.0,_goal_fraction*100.0]
+	_clean_progress.accessibility_description = _clean_progress.tooltip_text
+	_clean_value.tooltip_text = _clean_progress.tooltip_text
+	_clean_target.position.x = _clean_progress.position.x+_clean_progress.size.x*_goal_fraction-1.0
+	_clean_target.tooltip_text = "Cleaning goal %.0f%%" % (_goal_fraction*100.0)
 	_power_value.tooltip_text = "Energy stored now: %.3f kWh of %.2f kWh capacity. This is actual modeled storage, not a forecast." % [battery,float(snapshot.get("battery_capacity_kwh",0.0))]
 	_solar_value.text = "%.2f kW" % solar
 	_solar_value.tooltip_text = "Current solar power %.3f kW, habitat load %.3f kW, net %.3f kW. Power is a rate; stored energy uses kWh." % [solar,float(snapshot.get("habitat_load_kw",0.0)),float(snapshot.get("net_power_kw",0.0))]
@@ -305,172 +338,111 @@ func _place(control: Control, x: float, y: float, width: float, height: float) -
 func _layout() -> void:
 	if not is_instance_valid(_top) or _laying_out: return
 	_laying_out = true
-	var narrow := size.x < 760.0
+	var phone := size.x < 600.0
+	var compact := size.x < 1000.0 or size.y < 600.0
 	var short := size.y < 600.0
-	var compact_phone := narrow and size.y < 700.0
-	var margin := 12.0 if narrow or short else 20.0
-	var width := maxf(200.0,size.x-margin*2.0)
-	var top_height := (118.0 if compact_phone else 132.0) if narrow else (66.0 if short else 96.0)
+	var margin := 12.0 if phone or short else 20.0
+	var width := maxf(240.0,size.x-margin*2.0)
+	var top_height := 144.0 if phone else (78.0 if short else 98.0)
 	_place(_top,margin,margin,width,top_height)
-	pause_button.add_theme_font_size_override("font_size",16 if narrow or short else 18)
-	_timer_caption.add_theme_font_size_override("font_size",11 if compact_phone or short else 13)
-	_storm_label.add_theme_font_size_override("font_size",11 if compact_phone or short else 13)
-	_storm_caption.add_theme_font_size_override("font_size",11 if compact_phone or short else 14)
-	if narrow:
-		_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-		_subtitle_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-		_title_label.add_theme_font_size_override("font_size",28 if compact_phone else 34)
-		_subtitle_label.add_theme_font_size_override("font_size",13 if compact_phone else 15)
-		_place(_title_label,14,5,width-102,37)
-		_place(_subtitle_label,14,40,width-102,22)
-		_place(pause_button,width-80,9,66,48)
-		_timer_label.add_theme_font_size_override("font_size",34 if compact_phone else 42)
-		_place(_timer_label,14,58 if compact_phone else 65,132,43)
-		_place(_timer_caption,14,98 if compact_phone else 111,136,18)
-		var storm_x := 154.0
-		_place(_storm_label,storm_x,66 if compact_phone else 75,width-storm_x-14,18)
-		_place(_storm_progress,storm_x,88 if compact_phone else 99,width-storm_x-14,8)
-		_place(_storm_caption,storm_x,98 if compact_phone else 112,width-storm_x-14,18)
+	# Science is available through one named action. It opens the paused
+	# library owned by the controller; its eight concepts never crowd play.
+	_rail.hide()
+	_left_rail.hide()
+	_right_rail.hide()
+	_side_orbs = false
+	for hidden in [_storm_label,_storm_progress,_storm_caption,_rate_label,_pace_min,_pace_max,_solar_title,_solar_value,_fatigue_title,_fatigue_value,_fatigue_progress,_mission_subtitle]:
+		hidden.hide()
+	_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_subtitle_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_title_label.add_theme_font_size_override("font_size",24 if size.x < 360.0 else (29 if compact else 36))
+	_subtitle_label.add_theme_font_size_override("font_size",12 if compact else 14)
+	_subtitle_label.visible = not phone
+	notebook_button.add_theme_font_size_override("font_size",15 if phone else (17 if short else 19))
+	pause_button.add_theme_font_size_override("font_size",15 if phone else (17 if short else 19))
+	var nav_gap := 6.0 if phone else 8.0
+	var science_width := 74.0 if size.x < 360.0 else (84.0 if phone else (94.0 if compact else 108.0))
+	var pause_width := 60.0 if size.x < 360.0 else (66.0 if phone else (76.0 if compact else 88.0))
+	var nav_x := width-14.0-science_width-nav_gap-pause_width
+	_place(notebook_button,nav_x,8.0 if phone else (15.0 if short else 25.0),science_width,48)
+	_place(pause_button,width-14.0-pause_width,8.0 if phone else (15.0 if short else 25.0),pause_width,48)
+	var metrics_x := 14.0 if phone else (174.0 if compact else 242.0)
+	var metrics_width := width-28.0 if phone else nav_x-metrics_x-18.0
+	var metric_gap := 12.0 if phone else 18.0
+	var metric_width := (metrics_width-metric_gap*2.0)/3.0
+	var metrics_y := 68.0 if phone else 9.0
+	if phone:
+		_place(_title_label,14,8,nav_x-20.0,44)
 	else:
-		_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		_subtitle_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		_title_label.add_theme_font_size_override("font_size",30 if short else 42)
-		_subtitle_label.add_theme_font_size_override("font_size",14 if short else 18)
-		_timer_label.add_theme_font_size_override("font_size",36 if short else 48)
-		_place(_timer_label,16,0 if short else 7,156,49)
-		_place(_timer_caption,17,44 if short else 63,160,20)
-		var brand_x := 174.0
-		var brand_width := maxf(170,width-500.0)
-		_place(_title_label,brand_x,0 if short else 7,brand_width,44 if short else 56)
-		_place(_subtitle_label,brand_x,38 if short else 60,brand_width,24)
-		var storm_width := 206.0
-		var storm_x := width-302.0
-		_place(_storm_label,storm_x,5 if short else 16,storm_width,20)
-		_place(_storm_progress,storm_x,29 if short else 45,storm_width,8)
-		_place(_storm_caption,storm_x,41 if short else 61,storm_width,20)
-		_place(pause_button,width-82,9 if short else 24,68,48)
-	_arrange_orbs(not narrow,margin,width,top_height,short)
-	var side_width := 146.0 if short else 170.0
-	var bottom_width := width if narrow else minf(1100,width-2.0*(side_width+12.0))
-	var bottom_height := ((204.0 if compact_phone else 224.0) if preflight else (164.0 if compact_phone else 184.0)) if narrow else (136.0 if short else 176.0)
+		_place(_title_label,16,9.0 if short else 14.0,metrics_x-30.0,44)
+		_place(_subtitle_label,17,49.0 if short else 58.0,metrics_x-31.0,22)
+	for index in range(3):
+		var title: Label = [_clean_title,_power_title,_timer_caption][index]
+		var value: Label = [_clean_value,_power_value,_timer_label][index]
+		var x := metrics_x+index*(metric_width+metric_gap)
+		title.add_theme_font_size_override("font_size",12 if phone or compact else 15)
+		value.add_theme_font_size_override("font_size",(29 if index != 2 else 26) if phone else ((28 if index != 2 else 30) if compact else (32 if index == 1 else 40)))
+		_place(title,x,metrics_y,metric_width,21.0)
+		_place(value,x,metrics_y+20.0,metric_width,43.0)
+	_power_title.text = "Energy · kWh" if phone else "Energy stored"
+	_place(_clean_progress,metrics_x,metrics_y+63.0,metric_width,5.0)
+	_place(_clean_target,metrics_x+metric_width*_goal_fraction-1.0,metrics_y+60.0,2.0,11.0)
+	# One compact console: one pace choice, one plain-language effort cue.
+	# Start is a separate preflight action and disappears once the round runs.
+	var bottom_width := minf(900.0,width)
+	var bottom_height := (184.0 if preflight else 126.0) if phone else ((146.0 if preflight else 116.0) if short else (150.0 if preflight else 132.0))
 	_place(_bottom,(size.x-bottom_width)*0.5,size.y-margin-bottom_height,bottom_width,bottom_height)
 	var inner := bottom_width-28.0
-	var controls_y := (50.0 if compact_phone else 54.0) if narrow else (26.0 if short else 38.0)
-	var button_width := 78.0 if narrow else (84.0 if short else 116.0)
-	for button in [slower_button,faster_button]: button.add_theme_font_size_override("font_size",16 if narrow or short else 21)
-	_place(slower_button,14,controls_y,button_width,48)
-	_place(faster_button,bottom_width-14-button_width,controls_y,button_width,48)
-	var slider_x := 22.0+button_width
+	_mission_label.add_theme_font_size_override("font_size",18 if phone else (20 if short else 24))
+	_mission_label.visible = true
+	_mission_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER if phone and preflight else HORIZONTAL_ALIGNMENT_LEFT
+	_place(_mission_label,14,4.0 if not preflight else 8.0,(inner if preflight else inner*0.60) if phone else (inner-210.0 if preflight else inner*0.65),26.0 if not preflight else 30.0)
+	var controls_y := (40.0 if preflight else 36.0) if phone else ((60.0 if preflight else 32.0) if short else (64.0 if preflight else 42.0))
+	var button_width := 68.0 if phone else (96.0 if compact else 112.0)
+	for button in [slower_button,faster_button]:
+		button.add_theme_font_size_override("font_size",16 if phone else 20)
+	_place(slower_button,14,controls_y,button_width,48.0)
+	_place(faster_button,bottom_width-14.0-button_width,controls_y,button_width,48.0)
+	var slider_x := 24.0+button_width
 	var slider_width := bottom_width-slider_x*2.0
-	_place(speed_slider,slider_x,controls_y,slider_width,48)
-	_pace_value.add_theme_font_size_override("font_size",16 if narrow or short else 22)
-	_place(_pace_value,slider_x-4,controls_y+43,slider_width+8,25)
-	_place(_pace_min,slider_x,controls_y+47,55,22)
-	_place(_pace_max,slider_x+slider_width-55,controls_y+47,55,22)
-	_pace_min.add_theme_font_size_override("font_size",13)
-	_pace_max.add_theme_font_size_override("font_size",13)
-	_pace_min.visible = slider_width >= 330
-	_pace_max.visible = _pace_min.visible
-	_rate_label.visible = not narrow
-	_rate_label.add_theme_font_size_override("font_size",15 if short else 20)
-	_rate_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	_place(_rate_label,14,2 if short else 7,inner,25)
-	# Readings are grouped together. The mission title is only needed before
-	# Start; after that, the space belongs to the changing measured values.
-	var facts_y := (5.0 if compact_phone else 7.0) if narrow else (91.0 if short else 116.0)
-	var notebook_width := 84.0 if narrow or short else 104.0
-	var fact_area := inner if narrow else inner-notebook_width-12.0
-	var fact_width := fact_area/(2.0 if short and not narrow else 3.0)
-	for index in range(3):
-		var title: Label = [_power_title,_solar_title,_fatigue_title][index]
-		var reading: Label = [_power_value,_solar_value,_fatigue_value][index]
-		title.add_theme_font_size_override("font_size",11 if narrow else (12 if short else 13))
-		reading.add_theme_font_size_override("font_size",17 if narrow or short else 25)
-		var fact_index := index-1 if short and not narrow else index
-		_place(title,14+fact_index*fact_width,facts_y,fact_width-6,17)
-		_place(reading,14+fact_index*fact_width,facts_y+16,fact_width-6,28)
-		title.visible = narrow or not preflight
-		reading.visible = title.visible
-	_power_title.visible = _power_title.visible and not (short and not narrow)
-	_power_value.visible = _power_title.visible
-	_solar_title.text = "SOLAR NOW"
-	_fatigue_title.text = "FATIGUE" if narrow or short else "GAME FATIGUE"
-	var fatigue_x := 14+(1 if short and not narrow else 2)*fact_width
-	_place(_fatigue_progress,fatigue_x,facts_y+43,fact_width-8,4)
-	_fatigue_progress.visible = _fatigue_title.visible
-	_mission_label.visible = preflight and (narrow or not short)
-	_mission_subtitle.visible = _mission_label.visible
-	_mission_label.add_theme_font_size_override("font_size",20 if compact_phone else (23 if narrow else 24))
-	_mission_subtitle.add_theme_font_size_override("font_size",13 if compact_phone else 15)
-	if narrow:
-		_mission_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		_mission_subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		_place(_mission_label,14,117 if compact_phone else 124,inner,28)
-		_place(_mission_subtitle,14,144 if compact_phone else 153,inner,22)
-		var buttons_y := (150.0 if compact_phone else 170.0) if preflight else (110.0 if compact_phone else 130.0)
-		# On the smallest phone the subtitle is secondary; keep real controls
-		# large and the cleaning scene visible instead of stacking more rows.
-		_mission_subtitle.visible = preflight and not compact_phone
-		_place(start_button,14,buttons_y,inner-notebook_width-10,48)
-		_place(notebook_button,bottom_width-14-notebook_width,buttons_y,notebook_width,48)
+	_place(speed_slider,slider_x,controls_y,slider_width,48.0)
+	_pace_value.add_theme_font_size_override("font_size",22 if phone else 25)
+	_pace_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_place(_pace_value,bottom_width*0.60 if phone and not preflight else slider_x,4.0 if phone and not preflight else controls_y+48.0,inner*0.38 if phone and not preflight else slider_width,29.0)
+	_effort_label.add_theme_font_size_override("font_size",16 if phone else 18)
+	_effort_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER if phone else HORIZONTAL_ALIGNMENT_RIGHT
+	_place(_effort_label,14 if phone else 14.0+inner*0.65,controls_y+52.0 if phone else 5.0,inner if phone else inner*0.35,25.0)
+	# Phone labels use shorter familiar words, while accessible names keep the
+	# full action and precise selected pace. Buttons retain48px hit targets.
+	slower_button.text = "−" if phone else "− Slower"
+	faster_button.text = "+" if phone else "+ Faster"
+	slower_button.accessibility_name = "Slower cleaning pace"
+	faster_button.accessibility_name = "Faster cleaning pace"
+	if phone:
+		_effort_label.visible = not preflight
+		_place(start_button,14,bottom_height-58.0,inner,48.0)
 	else:
-		_mission_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-		_mission_subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-		var footer_y := 88.0 if short else 116.0
-		var start_width := 196.0 if short else 210.0
-		var title_width := inner-notebook_width-12.0-start_width-10.0
-		_place(_mission_label,14,footer_y,title_width,29)
-		_place(_mission_subtitle,14,footer_y+28,title_width,22)
-		_place(start_button,14 if short else bottom_width-24-notebook_width-start_width,footer_y,start_width,48)
-		_place(notebook_button,bottom_width-14-notebook_width,footer_y,notebook_width,48)
-	start_button.add_theme_font_size_override("font_size",16 if narrow or short else 21)
-	notebook_button.add_theme_font_size_override("font_size",16 if narrow or short else 19)
+		_effort_label.visible = not preflight
+		var start_width := 196.0
+		_place(start_button,bottom_width-14.0-start_width,6.0,start_width,48.0)
+	start_button.add_theme_font_size_override("font_size",19 if phone or short else 21)
 	_laying_out = false
 	refresh(snapshot)
-	_follow_rail_focus.call_deferred()
 	work_view_changed.emit()
 
 func get_work_view_rect() -> Rect2:
-	# The camera frames the same usable space as the responsive overlay. This
-	# keeps hands and the panel visible rather than guessing a screen fraction.
-	if not is_instance_valid(_top) or not is_instance_valid(_bottom): return Rect2(Vector2.ZERO,size)
-	var left := _left_rail.position.x+_left_rail.size.x+12.0 if _side_orbs else 12.0
-	var right := _right_rail.position.x-12.0 if _side_orbs else size.x-12.0
-	var upper := _top.position.y+_top.size.y+10.0 if _side_orbs else _rail.position.y+_rail.size.y+10.0
+	if not is_instance_valid(_top) or not is_instance_valid(_bottom):
+		return Rect2(Vector2.ZERO,size)
+	var edge := 12.0
+	var upper := _top.position.y+_top.size.y+10.0
 	var lower := _bottom.position.y-10.0
-	return Rect2(Vector2(left,upper),Vector2(maxf(1.0,right-left),maxf(1.0,lower-upper)))
+	return Rect2(Vector2(edge,upper),Vector2(maxf(1.0,size.x-edge*2.0),maxf(1.0,lower-upper)))
 
-func _arrange_orbs(side: bool, margin: float, width: float, top_height: float, short: bool) -> void:
-	var previous_focus := get_viewport().gui_get_focus_owner()
-	if side != _side_orbs:
-		for index in range(CONCEPT_IDS.size()):
-			var orb: Control = orbs[CONCEPT_IDS[index]]
-			orb.reparent((_left_rail if index < 4 else _right_rail) if side else _orb_row,false)
-		_side_orbs = side
-		if previous_focus in orbs.values(): previous_focus.grab_focus.call_deferred()
-	_rail.visible = not side
-	_left_rail.visible = side
-	_right_rail.visible = side
-	if side:
-		var rail_width := 146.0 if short else 170.0
-		var rail_y := margin+top_height+10.0
-		var available := size.y-rail_y-margin
-		var gap := 8.0
-		var orb_height := minf(148.0,(available-gap*3.0)/4.0)
-		_place(_left_rail,margin,rail_y,rail_width,available)
-		_place(_right_rail,size.x-margin-rail_width,rail_y,rail_width,available)
-		for index in range(CONCEPT_IDS.size()):
-			var orb: Control = orbs[CONCEPT_IDS[index]]
-			orb.custom_minimum_size = Vector2(110.0,60.0 if short else 96.0)
-			_place(orb,0,(index%4)*(orb_height+gap),rail_width,orb_height)
-	else:
-		var compact := size.y < 700.0
-		_place(_rail,margin,margin+top_height+8.0,width,96.0 if compact else 128.0)
-		for orb in orbs.values(): orb.custom_minimum_size = Vector2(132.0,88.0) if compact else Vector2(148.0,120.0)
-
-func _follow_rail_focus() -> void:
-	if not is_inside_tree(): return
-	await get_tree().process_frame
-	if not is_instance_valid(_rail) or not _rail.visible: return
-	var focused := get_viewport().gui_get_focus_owner()
-	if focused != null and _rail.is_ancestor_of(focused): _rail.ensure_control_visible(focused)
+func get_science_readings() -> Dictionary:
+	# Optional library consumers get the same current model readings as the
+	# primary HUD. This is presentation data, never another simulation.
+	var readings := {}
+	for id in CONCEPT_IDS:
+		var orb: Button = orbs[id]
+		readings[id] = {"title":orb.title,"value":orb.status_text,"detail":orb.tooltip_text,"level":orb.level}
+	return readings

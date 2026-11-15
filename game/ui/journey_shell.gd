@@ -20,9 +20,9 @@ const STORY_BACKGROUNDS := [
 	"res://assets/art/journey/story-interior.png",
 ]
 const STORY := [
-	{"eyebrow": "YEAR 2059", "title": "Planet Mars.", "body": "A small home. A wide red world.\nAnd one crew looking out for each other."},
-	{"eyebrow": "A MESSAGE FROM OUTSIDE", "title": "Ren needs you.", "body": "Dust is covering the solar panel.\nA radiation storm is on its way."},
-	{"eyebrow": "YOUR FIRST MISSION", "title": "Keep tomorrow possible.", "body": "Balance Ren’s pace and tiredness.\nAt zero, she steps straight inside."},
+	{"eyebrow": "YEAR 2059", "title": "Planet Mars.", "body": "Your crew’s home needs power."},
+	{"eyebrow": "A MESSAGE FROM OUTSIDE", "title": "Ren needs you.", "body": "Help Ren clear dust before the storm."},
+	{"eyebrow": "YOUR FIRST MISSION", "title": "You set the pace.", "body": "Balance her effort. She steps inside at zero."},
 ]
 var state := "story"
 var catalog: Array = []
@@ -55,7 +55,8 @@ var _story_background: Texture2D
 var _story_head: Label
 var _story_words: Label
 var _story_kicker: Label
-var _story_step: Label
+var _story_step: StepDots
+var _story_tween: Tween
 var _story_next: Button
 var _story_skip: Button
 var _type_count := 0.0
@@ -65,6 +66,9 @@ var _dialog_layer: Control
 var _dialog: PanelContainer
 var _dialog_scroll: ScrollContainer
 var _dialog_extra: Control
+var _dialog_data: Control
+var _dialog_more_button: Button
+var _dialog_data_button: Button
 var _dialog_done: Button
 var _dialog_id := ""
 var _previous_focus: WeakRef
@@ -79,18 +83,48 @@ var _science_details: VBoxContainer
 var _debrief_view := "results"
 var _science_button: Button
 var _equation_cards: Array[Control] = []
+var _equation_grid: GridContainer
 var _merge_time := 0.0
 var _merge_done := false
 var _merge_skip: Button
 var _merge_note: Label
 var _layout_queued := false
 var _live_mode := false
+var _live_return_label := "Back to mission"
 var _previous_state := "preparation"
 var _live_snapshot: Dictionary = {}
+
+class StepDots extends Control:
+	var step := 0
+	func _draw() -> void:
+		for index in range(3):
+			var center := Vector2(7 + index * 25, size.y * 0.5)
+			draw_circle(center, 5, Style.CYAN if index == step else Color(Style.PEARL, 0.20), true, -1.0, true)
+
+class IdeaIcon extends Orb:
+	## Reuse the same eight glyphs as the mission controls and science library.
+	func _ready() -> void:
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+		focus_mode = Control.FOCUS_NONE
+		custom_minimum_size = Vector2.ZERO
+		for state_name in ["normal", "hover", "pressed", "disabled", "focus"]:
+			add_theme_stylebox_override(state_name, StyleBoxEmpty.new())
+	func _draw() -> void:
+		_draw_glyph(size * 0.5, minf(size.x, size.y) * 0.38, Style.CYAN)
 
 class ConceptVisual extends Control:
 	## Original teaching diagrams: qualitative relationships, not measured NASA plots.
 	var concept_id := ""
+	var motion_reduced := false
+	var motion_phase := 0.0
+	func set_reduced_motion(enabled: bool) -> void:
+		motion_reduced = enabled
+		if enabled: motion_phase = 0.0
+		queue_redraw()
+	func _process(delta: float) -> void:
+		if motion_reduced or not is_visible_in_tree(): return
+		motion_phase = fposmod(motion_phase + minf(delta, 0.1) * 0.28, 1.0)
+		queue_redraw()
 	static func caption(id: String) -> String:
 		match id:
 			"radiation": return "Particles carry energy. A detector measures what is absorbed."
@@ -107,7 +141,7 @@ class ConceptVisual extends Control:
 		var direction := (b-a).normalized()
 		var sideways := Vector2(-direction.y, direction.x)
 		draw_polyline(PackedVector2Array([b-direction*7+sideways*4,b,b-direction*7-sideways*4]), tint, 2, true)
-	func _word(value: String, center: Vector2, tint: Color, pixels := 12) -> void:
+	func _word(value: String, center: Vector2, tint: Color, pixels := 14) -> void:
 		var face := Style.font("mono")
 		var width := face.get_string_size(value, HORIZONTAL_ALIGNMENT_LEFT, -1, pixels).x
 		draw_string(face, center-Vector2(width*0.5,0), value, HORIZONTAL_ALIGNMENT_LEFT, -1, pixels, tint)
@@ -125,6 +159,10 @@ class ConceptVisual extends Control:
 		var center := Vector2(size.x*0.5,42)
 		var cyan := Style.CYAN
 		var amber := Style.AMBER
+		if not motion_reduced and concept_id in ["radiation", "dust", "power", "time", "speed", "dose"]:
+			var moving := Vector2(lerpf(size.x * 0.36, size.x * 0.64, motion_phase), 6)
+			draw_line(Vector2(size.x * 0.36, 6), Vector2(size.x * 0.64, 6), Color(cyan, 0.16), 2, true)
+			draw_circle(moving, 3.5, Color(cyan, 0.9), true, -1.0, true)
 		match concept_id:
 			"radiation":
 				for index in range(7):
@@ -141,13 +179,13 @@ class ConceptVisual extends Control:
 					var level := 14.0+index*17.0
 					draw_rect(Rect2(x-18,64-level,36,level),Color(cyan,0.5))
 					draw_line(Vector2(x-22,64),Vector2(x+22,64),cyan,2)
-					_word(["LESS TIME","MORE TIME","MORE DOSE"][index],Vector2(x,89),Style.MUTED,10)
+					_word(["LESS TIME","MORE TIME","MORE DOSE"][index],Vector2(x,89),Style.MUTED,14)
 			"sievert":
 				for index in range(3):
 					var point := Vector2(size.x*(0.18+index*0.32),42)
 					draw_circle(point,27,Color(cyan,0.08))
 					draw_arc(point,27,0,TAU,40,cyan,1.5,true)
-					_word(["ENERGY","TYPE","TISSUE"][index],point+Vector2(0,4),cyan,10)
+					_word(["ENERGY","TYPE","TISSUE"][index],point+Vector2(0,4),cyan,12)
 					if index<2: _word("+",point+Vector2(size.x*0.16,4),Style.MUTED,16)
 			"power":
 				_panel(left,false)
@@ -156,8 +194,8 @@ class ConceptVisual extends Control:
 				draw_rect(battery,cyan,false,2)
 				draw_rect(Rect2(battery.position+Vector2(4,4),Vector2(35,36)),Color(cyan,0.45))
 				draw_rect(Rect2(battery.end+Vector2(0,-29),Vector2(5,14)),cyan)
-				_word("kW · RATE",left+Vector2(0,47),Style.MUTED,11)
-				_word("kWh · STORED",right+Vector2(0,47),Style.MUTED,11)
+				_word("kW · RATE",left+Vector2(0,47),Style.MUTED,12)
+				_word("kWh · STORED",right+Vector2(0,47),Style.MUTED,12)
 			"dust":
 				_panel(left,true)
 				_panel(right,false)
@@ -175,11 +213,11 @@ class ConceptVisual extends Control:
 			"speed":
 				var start := size.x * 0.26
 				var span := size.x * 0.66
-				_word("FRESH",Vector2(size.x * 0.12,29),Style.MUTED,11)
-				_word("TIRED",Vector2(size.x * 0.12,64),Style.MUTED,11)
+				_word("FRESH",Vector2(size.x * 0.12,29),Style.MUTED,12)
+				_word("TIRED",Vector2(size.x * 0.12,64),Style.MUTED,12)
 				draw_rect(Rect2(start,14,span,20),Color(cyan,0.68))
 				draw_rect(Rect2(start,49,span * 0.35,20),Color(cyan,0.32))
-				_word("SAME COMMAND · DIFFERENT RATE",center+Vector2(0,47),cyan,10)
+				_word("SAME COMMAND · DIFFERENT RATE",center+Vector2(0,47),cyan,12)
 			"shelter":
 				draw_polyline(PackedVector2Array([center+Vector2(-38,-5),center+Vector2(0,-32),center+Vector2(38,-5),center+Vector2(27,-5),center+Vector2(27,28),center+Vector2(-27,28),center+Vector2(-27,-5),center+Vector2(-38,-5)]),cyan,2,true)
 				for index in range(5):
@@ -200,8 +238,8 @@ class ResultVisual extends Control:
 		draw_circle(head, radius + 1, Style.ROSE)
 		draw_circle(head, radius - 5, Style.GLASS)
 		draw_arc(head, radius - 10, PI * 1.05, PI * 1.75, 32, Style.CYAN, 3, true)
-		draw_line(head + Vector2(-radius * 0.7, radius + 6), head + Vector2(-radius, radius + 48), Style.PEARL, 15, true)
-		draw_line(head + Vector2(radius * 0.7, radius + 6), head + Vector2(radius, radius + 48), Style.PEARL, 15, true)
+		draw_line(head + Vector2(-radius * 0.7, radius + 6), head + Vector2(-radius, radius * 2.0), Style.PEARL, 15, true)
+		draw_line(head + Vector2(radius * 0.7, radius + 6), head + Vector2(radius, radius * 2.0), Style.PEARL, 15, true)
 		draw_line(head + Vector2(-radius * 0.55, radius + 16), head + Vector2(radius * 0.55, radius + 16), Style.ROSE, 8, true)
 		var bounds := Rect2(size.x * 0.52, size.y * 0.27, size.x * 0.39, size.y * 0.48)
 		draw_rect(bounds, Color("122e42"))
@@ -278,6 +316,8 @@ func _ready() -> void:
 	else: show_story(reduced_motion)
 
 func _clear_screen() -> void:
+	if is_instance_valid(_story_tween): _story_tween.kill()
+	_body.modulate.a = 1.0
 	_close_dialog(false)
 	_header.show()
 	_body.show()
@@ -321,11 +361,13 @@ func show_story(motion_reduced := false) -> void:
 	_story_head.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_story_words = Style.label("", 28, Style.color("pearl"), "body_bold")
 	_story_words.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_story_step = Style.label("", 14, Style.color("muted"), "mono")
-	for label in [_story_brand, _story_brand_subtitle, _story_kicker, _story_head, _story_words, _story_step]:
+	_story_step = StepDots.new()
+	for label in [_story_brand, _story_brand_subtitle, _story_kicker, _story_head, _story_words]:
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		label.minimum_size_changed.connect(_schedule_layout)
 		_body.add_child(label)
+	_story_step.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_body.add_child(_story_step)
 	_story_skip = Style.button("Skip intro")
 	_story_skip.pressed.connect(_finish_story)
 	_footer.add_child(_story_skip)
@@ -342,7 +384,15 @@ func _set_story_beat() -> void:
 	_story_kicker.text = beat.eyebrow
 	_story_head.text = beat.title
 	_story_words.text = beat.body
-	_story_step.text = "%02d  /  03     A crew story" % (_story_index + 1)
+	_story_step.step = _story_index
+	_story_step.accessibility_name = "Story step %d of 3" % (_story_index + 1)
+	_story_step.queue_redraw()
+	if is_instance_valid(_story_tween): _story_tween.kill()
+	_body.modulate.a = 1.0 if reduced_motion else 0.65
+	if not reduced_motion:
+		_story_tween = create_tween()
+		_story_tween.tween_property(_body, "modulate:a", 1.0, 0.24)
+	_schedule_layout()
 	_type_count = float(_story_words.text.length()) if reduced_motion else 0.0
 	_story_words.visible_characters = -1 if reduced_motion else 0
 	_cue_elapsed = 0
@@ -379,8 +429,8 @@ func show_preparation(concepts: Array, already_reviewed: Array = []) -> void:
 	show()
 	if not _built: return
 	_clear_screen()
-	_title = Style.label("Build your mission constellation", 34, Style.color("pearl"), "display")
-	_subtitle = Style.label("Eight optional ideas. Explore at your own pace.", 18, Style.color("muted"), "body")
+	_title = Style.label("Explore science", 34, Style.color("pearl"), "display")
+	_subtitle = Style.label("Eight optional ideas. Pick one to explore.", 18, Style.color("muted"), "body")
 	_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_subtitle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_title.minimum_size_changed.connect(_schedule_layout)
@@ -438,10 +488,11 @@ func _update_readiness() -> void:
 	readiness = float(reviewed_ids.size()) / catalog.size() if not catalog.is_empty() else 0.0
 	if not is_instance_valid(_ready_button): return
 	_ready_button.disabled = concept_open
-	_ready_button.text = "Enter control room"
+	_ready_button.text = "Enter mission"
 	_progress.value = readiness * 100
-	_progress_label.text = "%d of %d explored · Reopen any idea during the mission." % [reviewed_ids.size(), catalog.size()]
-	if catalog.is_empty(): _progress_label.text = "Science ideas are unavailable. You can still enter the control room."
+	_progress_label.text = "Reopen any idea during your mission."
+	_progress.hide()
+	if catalog.is_empty(): _progress_label.text = "Science ideas are unavailable. You can still enter the mission."
 	for orb in _orbs: orb.set_reviewed(str(orb.concept_id) in reviewed_ids)
 	queue_redraw()
 
@@ -455,11 +506,12 @@ func _find_concept(id: String) -> Dictionary:
 		if str(item.get("id", "")) == id: return item
 	return {}
 
-func show_live_concept(id: String, snapshot: Dictionary) -> void:
+func show_live_concept(id: String, snapshot: Dictionary, return_label := "Back to mission") -> void:
 	if _find_concept(id).is_empty() or not _built: return
 	if concept_open: _close_dialog(false)
 	_previous_state = state
 	_live_mode = true
+	_live_return_label = return_label if not return_label.strip_edges().is_empty() else "Back to mission"
 	_live_snapshot = snapshot.duplicate(true)
 	state = "live"
 	_header.hide()
@@ -481,10 +533,25 @@ func _live_readout(id: String) -> String:
 		"power": return "Stored now: %.3f kWh.\n\nPanels make %.2f kW; the dome uses %.2f kW. Net charging power is %+.2f kW.\n\nPower is the rate. Battery energy accumulates over mission time, up to the %.2f kWh capacity." % [float(_live_snapshot.get("battery_kwh", 0)), float(_live_snapshot.get("solar_power_kw", 0)), float(_live_snapshot.get("habitat_load_kw", 0)), float(_live_snapshot.get("net_power_kw", 0)), float(_live_snapshot.get("battery_capacity_kwh", 6))]
 		"time":
 			var left := maxi(0, ceili(float(_live_snapshot.get("sim_remaining_seconds", 0.0))))
-			return "Mission time remaining: %02d:%02d. The clock is paused while you read." % [left / 60, left % 60]
+			var play_left := maxi(0, ceili(float(_live_snapshot.get("remaining_seconds", 0.0))))
+			return "Play time left: %02d:%02d. Mission time left: %02d:%02d. One second of play represents %.0f mission seconds at this setting. Both clocks pause while you read." % [play_left / 60, play_left % 60, left / 60, left % 60, float(_live_snapshot.get("effective_time_scale", 20))]
 		"speed": return "Pace command: ×%.2f. Modeled tiredness: %.0f%%. Effective rate: %.3f sections per mission minute.\n\nAbove 1×, tiredness builds. Below1×, tiredness recovers. Ren stays beside the panel." % [float(_live_snapshot.get("selected_multiplier", 1)), float(_live_snapshot.get("fatigue", 0)) * 100, float(_live_snapshot.get("effective_rate_sections_per_minute", 0.125))]
 		"shelter": return "Ren's current stage: " + str(_live_snapshot.get("phase", "outside")).capitalize() + ". At zero on the countdown, she steps straight inside. There is no walk or recall control."
 	return "The mission is paused while you explore this idea."
+
+func _live_summary(id: String) -> String:
+	match id:
+		"radiation": return "Story rate now · %.0f µGy/day" % float(_live_snapshot.get("radiation_rate_ugy_per_day", 210))
+		"dose": return "Absorbed model dose · %.2f µGy" % float(_live_snapshot.get("dose_ugy", 0))
+		"sievert": return "Sv needs more information than this model has."
+		"dust": return "Panel cleaned · %.0f%%" % (float(_live_snapshot.get("clean_fraction", 0)) * 100)
+		"power": return "Stored · %.2f kWh  |  Solar · %.2f kW" % [float(_live_snapshot.get("battery_kwh", 0)), float(_live_snapshot.get("solar_power_kw", 0))]
+		"time":
+			var play_left := maxi(0, ceili(float(_live_snapshot.get("remaining_seconds", 0.0))))
+			return "Play left · %02d:%02d  |  Clock paused" % [play_left / 60, play_left % 60]
+		"speed": return "Cleaning pace · ×%.2f  |  Tiredness · %.0f%%" % [float(_live_snapshot.get("selected_multiplier", 1)), float(_live_snapshot.get("fatigue", 0)) * 100]
+		"shelter": return "Ren is inside." if bool(_live_snapshot.get("crew_sheltered", false)) else "Ren steps inside at zero."
+	return "The mission is paused."
 
 func open_concept(id: String) -> void:
 	var concept := _find_concept(id)
@@ -526,45 +593,59 @@ func open_concept(id: String) -> void:
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.add_theme_constant_override("separation", 16)
 	_dialog_scroll.add_child(content)
-	_add_reading(content, str(concept.get("lead", "")), 22)
-	if _live_mode:
-		_add_reading(content, "Your mission, right now", 13, "cyan")
-		_add_reading(content, _live_readout(id), 19)
-		_add_reading(content, str(concept.get("dynamic_hint", "")), 16, "muted")
-	_add_reading(content, "Picture it", 13, "cyan")
-	_add_reading(content, str(concept.get("analogy", "")), 18)
+	_add_reading(content, str(concept.get("lead", "")), 23, "pearl", "body_bold")
 	var diagram := ConceptVisual.new()
 	diagram.name = "ConceptDiagram"
 	diagram.concept_id = id
-	diagram.custom_minimum_size = Vector2(0, 100)
+	diagram.custom_minimum_size = Vector2(0, 112)
 	diagram.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	diagram.accessibility_name = ConceptVisual.caption(id)
+	diagram.set_reduced_motion(reduced_motion)
 	content.add_child(diagram)
-	_add_reading(content, ConceptVisual.caption(id), 14, "muted")
+	_add_reading(content, str(concept.get("analogy", "")), 20)
+	if _live_mode:
+		var readout := _add_reading(content, _live_summary(id), 18, "cyan", "body_bold")
+		readout.name = "CurrentMissionReading"
+	_dialog_more_button = Style.button("Learn more  +")
+	_dialog_more_button.name = "LearnMore"
+	content.add_child(_dialog_more_button)
+	_dialog_extra = VBoxContainer.new()
+	_dialog_extra.name = "ConceptDetails"
+	_dialog_extra.add_theme_constant_override("separation", 14)
+	content.add_child(_dialog_extra)
+	for key in ["detail_lead", "detail_analogy", "explanation"]:
+		var detail := str(concept.get(key, ""))
+		if not detail.is_empty(): _add_reading(_dialog_extra, detail, 19)
+	_add_reading(_dialog_extra, ConceptVisual.caption(id), 18, "muted")
 	var equation := str(concept.get("equation", ""))
 	if not equation.is_empty():
 		var equation_card := PanelContainer.new()
 		equation_card.add_theme_stylebox_override("panel", Style.panel(false))
-		content.add_child(equation_card)
+		_dialog_extra.add_child(equation_card)
 		_add_reading(equation_card, equation, 19, "cyan", "mono")
-	var more := Style.button("A little more science  +")
-	content.add_child(more)
-	_dialog_extra = VBoxContainer.new()
-	_dialog_extra.add_theme_constant_override("separation", 12)
-	content.add_child(_dialog_extra)
-	_add_reading(_dialog_extra, str(concept.get("explanation", "")), 17)
-	_add_reading(_dialog_extra, "From the evidence", 13, "cyan")
-	_add_reading(_dialog_extra, str(concept.get("real_fact", "")), 17)
-	_add_reading(_dialog_extra, "In our learning mission", 13, "amber")
-	_add_reading(_dialog_extra, str(concept.get("assumption", "")), 17)
+	if _live_mode:
+		_add_reading(_dialog_extra, "Your mission, right now", 18, "cyan", "display_bold")
+		_add_reading(_dialog_extra, _live_readout(id), 19)
+		_add_reading(_dialog_extra, str(concept.get("dynamic_hint", "")), 18, "muted")
 	_dialog_extra.hide()
-	more.pressed.connect(func():
+	_dialog_more_button.pressed.connect(func():
 		_dialog_extra.visible = not _dialog_extra.visible
-		more.text = "Less detail  −" if _dialog_extra.visible else "A little more science  +"
+		_dialog_more_button.text = "Less detail  −" if _dialog_extra.visible else "Learn more  +"
 	)
+	_dialog_data_button = Style.button("Data & sources  +")
+	_dialog_data_button.name = "DataAndSources"
+	content.add_child(_dialog_data_button)
+	_dialog_data = VBoxContainer.new()
+	_dialog_data.name = "ConceptData"
+	_dialog_data.add_theme_constant_override("separation", 14)
+	content.add_child(_dialog_data)
+	_add_reading(_dialog_data, "From the evidence", 18, "cyan", "display_bold")
+	_add_reading(_dialog_data, str(concept.get("real_fact", "")), 19)
+	_add_reading(_dialog_data, "Our game settings", 18, "amber", "display_bold")
+	_add_reading(_dialog_data, str(concept.get("assumption", "")), 19)
 	var source := Style.button(str(concept.get("source_label", "Read the source")) + "  ↗")
 	source.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	content.add_child(source)
+	_dialog_data.add_child(source)
 	var url := str(concept.get("source_url", ""))
 	source.disabled = url.is_empty()
 	source.pressed.connect(func(): source_requested.emit(url))
@@ -573,12 +654,17 @@ func open_concept(id: String) -> void:
 		live_sun.name = "RadiationLiveSun"
 		live_sun.tooltip_text = "Explore the latest Sun image from NASA's Solar Dynamics Observatory."
 		live_sun.pressed.connect(func(): live_data_requested.emit())
-		content.add_child(live_sun)
-	_dialog_done = Style.button("Back to mission" if _live_mode else "I've explored this  ✓", true)
+		_dialog_data.add_child(live_sun)
+	_dialog_data.hide()
+	_dialog_data_button.pressed.connect(func():
+		_dialog_data.visible = not _dialog_data.visible
+		_dialog_data_button.text = "Hide data & sources  −" if _dialog_data.visible else "Data & sources  +"
+	)
+	_dialog_done = Style.button(_live_return_label if _live_mode else "I've explored this  ✓", true)
 	_dialog_done.name = "ConceptDone"
 	_dialog_done.pressed.connect(close_concept)
 	outer.add_child(_dialog_done)
-	_add_reading(outer, "Reviewed means explored, not a test of mastery.", 12, "muted")
+	_dialog_done.tooltip_text = "Mark this idea as explored. Exploring is not a test of mastery."
 	_layout_dialog()
 	_focus_later(_dialog_done)
 
@@ -757,15 +843,15 @@ func _outcome_heading() -> String:
 
 func _outcome_message() -> String:
 	match str(_result.get("status", "")):
-		"win": return "Ren is safely inside, and you cleared most of the panel. Great teamwork!"
-		"pass": return "Ren is safely inside. You cleared part of the panel and made a useful start."
-		_: return "Ren is safely inside. The panel needs more cleaning. You can try again."
+		"win": return "Ren is inside. The panel is mostly clear."
+		"pass": return "Ren is inside. You cleared part of the panel."
+		_: return "Ren is inside. There is more dust to clear."
 
 func _outcome_science() -> String:
 	match str(_result.get("status", "")):
-		"win": return "Less dust let more sunlight reach the solar cells. Better solar output helped charge the battery."
-		"pass": return "Cleaning let more sunlight through. Dust still on the panel reduced its power output."
-		_: return "Dust blocked some sunlight. A very slow pace cleans little; rushing can build tiredness and slow later work."
+		"win": return "Less dust → more sunlight → more solar power."
+		"pass": return "Dust left on the panel still blocked some sunlight."
+		_: return "A balanced pace can remove more dust before the storm."
 
 func _word_equations() -> Array:
 	return [
@@ -774,6 +860,30 @@ func _word_equations() -> Array:
 		["03  ENERGY STORED", "Energy stored = starting energy + energy collected − energy used", "Power collected over time changes the battery, up to its capacity.", "power"],
 		["04  ABSORBED DOSE", "Absorbed dose = average radiation rate × outside time", "Radiation rate changes in this story. Its average × outside time gives the dose.", "dose"],
 	]
+
+func _idea_token(parent: Node, id: String, words: String) -> Button:
+	var button := Style.button(words)
+	button.name = "IdeaToken_" + id
+	button.add_theme_font_size_override("font_size", 17)
+	button.custom_minimum_size = Vector2(118, 56)
+	for state_name in ["normal", "hover", "pressed", "disabled"]:
+		var token_style := Style.button_style(false, state_name)
+		token_style.content_margin_left = 46
+		token_style.content_margin_right = 10
+		token_style.content_margin_top = 6
+		token_style.content_margin_bottom = 6
+		button.add_theme_stylebox_override(state_name, token_style)
+	button.accessibility_name = Orb.short_title(id)
+	button.accessibility_description = words.replace("\n", " ") + ". Open this science idea."
+	button.tooltip_text = "Explore " + Orb.short_title(id)
+	button.pressed.connect(open_concept.bind(id))
+	parent.add_child(button)
+	var glyph := IdeaIcon.new()
+	glyph.concept_id = id
+	glyph.position = Vector2(8, 12)
+	glyph.size = Vector2(27, 30)
+	button.add_child(glyph)
+	return button
 
 func _build_debrief_content() -> void:
 	_result_content = VBoxContainer.new()
@@ -788,7 +898,7 @@ func _build_debrief_content() -> void:
 	var picture := ResultVisual.new()
 	picture.name = "ResultIllustration"
 	picture.clean_fraction = _value("clean_fraction", 0)
-	picture.custom_minimum_size = Vector2(0, 150)
+	picture.custom_minimum_size = Vector2(0, 112)
 	picture.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	picture.accessibility_name = "Ren is inside. The panel illustration shows the same cleaned fraction as the result."
@@ -808,9 +918,9 @@ func _build_debrief_content() -> void:
 	_debrief_summary.add_theme_constant_override("v_separation", 12)
 	_result_content.add_child(_debrief_summary)
 	for item in [
-		["Panel cleaned", "%.1f%%" % (100 * _value("clean_fraction", 0))],
-		["Energy stored", "%.2f kWh" % _value("battery_kwh", 0)],
-		["Absorbed model dose", "%.2f µGy" % _value("dose_ugy", 0)],
+		["Panel cleaned", "%.1f%%" % (100 * _value("clean_fraction", 0)), _value("clean_fraction", 0)],
+		["Energy stored", "%.2f kWh" % _value("battery_kwh", 0), _value("battery_kwh", 0) / maxf(0.001, _value("battery_capacity_kwh", 6))],
+		["Absorbed model dose", "%.2f µGy" % _value("dose_ugy", 0), -1.0],
 	]:
 		var card := PanelContainer.new()
 		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -819,28 +929,64 @@ func _build_debrief_content() -> void:
 		var column := VBoxContainer.new()
 		card.add_child(column)
 		_add_reading(column, item[0], 19, "pearl", "body_bold")
-		_add_reading(column, item[1], 35, "cyan", "display_bold")
-	_add_reading(_result_content, "%s · %.0f%% clean earns WIN; %.0f%% earns PASS. Every full round ends with Ren inside." % [str(_result.get("status", "")).to_upper(), 100 * _value("win_clean_fraction", 0.8), 100 * _value("pass_clean_fraction", 0.4)], 17, "muted")
+		_add_reading(column, item[1], 32, "cyan", "display_bold")
+		if float(item[2]) >= 0:
+			var meter := ProgressBar.new()
+			meter.name = "ActualLevel"
+			meter.show_percentage = false
+			meter.max_value = 1.0
+			meter.step = 0.0
+			meter.value = clampf(float(item[2]), 0, 1)
+			meter.custom_minimum_size.y = 8
+			meter.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			meter.accessibility_name = item[0] + " level"
+			column.add_child(meter)
+	_add_reading(_result_content, "%s · Cleaning goal: %.0f%%" % [str(_result.get("status", "")).to_upper(), 100 * _value("win_clean_fraction", 0.8)], 17, "muted")
 	_add_reading(_result_content, "Made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC", 15, "muted")
 
 	_science_content = VBoxContainer.new()
 	_science_content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_science_content.add_theme_constant_override("separation", 14)
 	_debrief_content.add_child(_science_content)
-	for item in _word_equations():
+	_equation_grid = GridContainer.new()
+	_equation_grid.columns = 2
+	_equation_grid.add_theme_constant_override("h_separation", 14)
+	_equation_grid.add_theme_constant_override("v_separation", 14)
+	_science_content.add_child(_equation_grid)
+	var relationships := [
+		["Clear the panel", [["speed", "Average\ncleaning rate"], "×", ["time", "Cleaning\ntime"], "→", ["dust", "Panel\ncleaned"]], "Tiredness changes the effective rate."],
+		["Let the light in", [["dust", "Less\ndust"], "→", ["power", "More solar\npower"]], "More sunlight reaches the solar cells."],
+		["Charge the battery", [["power", "Energy\ncollected"], "−", ["power", "Energy\nused"], "→", ["power", "Battery\nchange"]], "Start + change, up to the battery’s capacity."],
+		["Count the dose", [["radiation", "Average\nradiation rate"], "×", ["time", "Outside\ntime"], "→", ["dose", "Absorbed\ndose"]], "The average includes the changing story rate."],
+	]
+	for relation in relationships:
 		var card := PanelContainer.new()
-		var equation_style := Style.panel(true)
-		equation_style.content_margin_top = 12
-		equation_style.content_margin_bottom = 12
-		card.add_theme_stylebox_override("panel", equation_style)
-		_science_content.add_child(card)
+		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		card.add_theme_stylebox_override("panel", Style.panel(true))
+		_equation_grid.add_child(card)
 		_equation_cards.append(card)
 		var column := VBoxContainer.new()
-		column.add_theme_constant_override("separation", 8)
+		column.add_theme_constant_override("separation", 10)
 		card.add_child(column)
-		_add_reading(column, item[1], 26, "cyan", "display_bold")
-		_add_reading(column, item[2], 19)
-	_add_reading(_science_content, "SIEVERT (Sv) · Radiation type and body tissue also matter. This game does not calculate personal health risk.", 19, "muted")
+		_add_reading(column, relation[0], 23, "pearl", "display_bold")
+		var links := HFlowContainer.new()
+		links.add_theme_constant_override("h_separation", 6)
+		links.add_theme_constant_override("v_separation", 8)
+		column.add_child(links)
+		for token in relation[1]:
+			if token is String:
+				var symbol := Style.label(token, 25, Style.CYAN, "display_bold")
+				symbol.custom_minimum_size = Vector2(22, 56)
+				symbol.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+				links.add_child(symbol)
+			else: _idea_token(links, str(token[0]), str(token[1]))
+		_add_reading(column, relation[2], 18, "muted")
+	var context := HFlowContainer.new()
+	context.add_theme_constant_override("h_separation", 12)
+	context.add_theme_constant_override("v_separation", 8)
+	_science_content.add_child(context)
+	_idea_token(context, "shelter", "Ren is\ninside")
+	_idea_token(context, "sievert", "Why µGy\nis not Sv")
 	var details_toggle := Style.button("Explore my numbers and graphs  +")
 	details_toggle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	details_toggle.name = "ScienceDetails"
@@ -853,6 +999,11 @@ func _build_debrief_content() -> void:
 		details_toggle.text = "Hide my numbers and graphs  −" if _science_details.visible else "Explore my numbers and graphs  +"
 	)
 	_add_reading(_science_details, "Your actual mission", 26, "pearl", "display_bold")
+	for equation in _word_equations():
+		_add_reading(_science_details, equation[1], 21, "cyan", "display_bold")
+		_add_reading(_science_details, equation[2], 18)
+	_add_reading(_science_details, "WIN needs at least %.0f%% clean; PASS needs at least %.0f%%. Ren enters at zero in every full round. The energy and dose readings explain the run; they do not decide the result." % [100 * _value("win_clean_fraction", 0.8), 100 * _value("pass_clean_fraction", 0.4)], 18)
+	_add_reading(_science_details, "Sievert (Sv) also needs radiation-type and tissue information. This game does not calculate a personal health risk.", 18, "muted")
 	for item in [
 		["Pace and tiredness", _fatigue_equation() + "\n" + _rate_equation(), "These authored lesson rules describe the final rate. Changing pace never rewrites the earlier work."],
 		["Panel cleaned over time", _cleaning_work_equation(), "Effective minutes add each pace × (1−tiredness) time step. Work is capped at %.0f sections." % _value("max_sections", 4)],
@@ -940,7 +1091,12 @@ func _finish_merge() -> void:
 func set_reduced_motion(enabled: bool) -> void:
 	reduced_motion = enabled
 	for orb in _orbs: orb.set_reduced_motion(enabled)
+	if is_instance_valid(_dialog):
+		var diagram := _dialog.find_child("ConceptDiagram", true, false)
+		if diagram: diagram.set_reduced_motion(enabled)
 	if enabled:
+		if is_instance_valid(_story_tween): _story_tween.kill()
+		if is_instance_valid(_body): _body.modulate.a = 1.0
 		if state == "story" and is_instance_valid(_story_words): _story_words.visible_characters = -1
 		if state == "debrief" and _built: _finish_merge()
 	queue_redraw()
@@ -1021,7 +1177,7 @@ func _layout() -> void:
 	var footer_h := (148.0 if narrow else 88.0) if state == "debrief" else (142.0 if state == "preparation" and size.x < 360 else (92.0 if narrow else 82.0))
 	_header.position = Vector2(margin, 8)
 	_header.size = Vector2(size.x - margin * 2, header_h - 8)
-	_brand.visible = state != "story"
+	_brand.visible = state != "story" or _story_index > 0
 	_brand.position = Vector2(0, 12)
 	_brand.size = Vector2(maxf(90, _header.size.x - 228), 34)
 	_brand.add_theme_font_size_override("font_size", 21 if narrow else 24)
@@ -1050,19 +1206,22 @@ func _layout_story(narrow: bool, short: bool) -> void:
 	_story_brand_subtitle.position = Vector2(left, _story_brand.position.y + _story_brand.size.y - (4 if short else 7))
 	_story_brand_subtitle.add_theme_font_size_override("font_size", 20 if short else (23 if narrow else 28))
 	_story_brand_subtitle.size = Vector2(width, 1)
+	_story_brand.visible = _story_index == 0
+	_story_brand_subtitle.visible = _story_index == 0
 	var beat_y := _story_brand_subtitle.position.y + _story_brand_subtitle.size.y + (12 if short else 38)
+	if _story_index > 0: beat_y = maxf(12, _body.size.y * (0.22 if short else 0.28))
 	_story_kicker.position = Vector2(left, beat_y)
 	_story_kicker.add_theme_font_size_override("font_size", 15 if short else 19)
 	_story_kicker.size = Vector2(width, 1)
 	_story_head.position = Vector2(left, _story_kicker.position.y + _story_kicker.size.y + (2 if short else 8))
-	_story_head.add_theme_font_size_override("font_size", 26 if short else (32 if narrow else 40))
+	_story_head.add_theme_font_size_override("font_size", (32 if short else (38 if narrow else 62)) if _story_index > 0 else (26 if short else (32 if narrow else 40)))
 	_story_head.size = Vector2(width, 1)
 	_story_words.position = Vector2(left, _story_head.position.y + _story_head.size.y + (4 if short else 14))
 	_story_words.add_theme_font_size_override("font_size", 20 if short else (23 if narrow else 28))
 	_story_words.size = Vector2(width, 1)
 	_story_step.position = Vector2(left, _story_words.position.y + _story_words.size.y + 24)
-	_story_step.size = Vector2(width, 22)
-	_story_step.visible = not short and _story_step.position.y + 22 < _body.size.y
+	_story_step.size = Vector2(70, 22)
+	_story_step.visible = _story_step.position.y + 22 < _body.size.y
 	_story_skip.position = Vector2(0, 8)
 	_story_skip.size = Vector2(112, 52)
 	_story_next.add_theme_font_size_override("font_size", 16 if narrow else 21)
@@ -1149,6 +1308,7 @@ func _layout_debrief(narrow: bool, short: bool) -> void:
 	_result_content.move_child(_debrief_summary, 0 if narrow else 1)
 	_result_media.columns = 1 if narrow else 2
 	_debrief_charts.columns = 1 if _body.size.x < 720 else 2
+	_equation_grid.columns = 2 if _body.size.x >= 1000 else 1
 	_merge_skip.size = Vector2(minf(252, _body.size.x), 52)
 	_merge_skip.position = Vector2((_body.size.x - _merge_skip.size.x) * 0.5, _body.size.y - 56)
 	_merge_note.position = Vector2(0, maxf(top, _body.size.y - 122))

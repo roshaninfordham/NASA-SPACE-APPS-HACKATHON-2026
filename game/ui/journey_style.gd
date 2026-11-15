@@ -40,9 +40,9 @@ static func font(face: String = "body") -> Font:
 static func panel(raised: bool = false) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = RAISED if raised else GLASS
-	style.border_color = Color(CYAN, 0.24)
+	style.border_color = Color(PEARL, 0.10)
 	style.set_border_width_all(1)
-	style.set_corner_radius_all(22)
+	style.set_corner_radius_all(18)
 	style.content_margin_left = 22
 	style.content_margin_right = 22
 	style.content_margin_top = 18
@@ -57,7 +57,7 @@ static func button_style(primary: bool, state: String) -> StyleBoxFlat:
 	style.content_margin_top = 10
 	style.content_margin_bottom = 10
 	style.bg_color = CRIMSON if primary else GLASS
-	style.border_color = ROSE if primary else Color(CYAN, 0.55)
+	style.border_color = ROSE if primary else Color(PEARL, 0.18)
 	if state == "hover":
 		style.bg_color = DEEP_CRIMSON if primary else RAISED
 		style.border_color = ROSE if primary else CYAN

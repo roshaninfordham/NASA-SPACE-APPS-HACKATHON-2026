@@ -1,12 +1,24 @@
 # <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> media gallery
 
-## 0.9 candidate — closer work and a readable ending
+## 0.10 candidate — a clearer window and optional discovery
 
-Current source introduces a closer window view of Ren and the panel, larger bubbles/controls, a red pace slider, a 90-second primary countdown, three story scenes and a result-first equation reveal. The new native captures live separately under `docs/media/journey-0.9/`. Their provenance records the actual source and deterministic fixture; the screenshots are not proof of installer, updater or physical-device acceptance. The 0.8 files below remain unchanged historical evidence.
+The current view gives Ren's cleaning room to breathe: **panel cleaned, stored energy and remaining play time**, with one pace control. The eight-concept Science library pauses play; short cards offer **Learn more** and **Data & sources** separately. Real scene preparation can be cancelled to Home. The result leads to four brief science relationships, with exact equations and graphs available on request.
 
-![0.9 candidate story, large panel/astronaut view, controls and immediate result](media/journey-0.9/contact-sheet.png)
+![0.10 source captures: simple mission controls and optional science](media/journey-0.10/contact-sheet.png)
 
-[Full candidate gallery](media/journey-0.9/README.md) · [Actual cleaning animation](media/journey-0.9/cleaning-live.gif) · [Motion provenance](media/journey-0.9/CLEANING-CLIP.md) · [Bubble transition](media/journey-0.9/bubble-merge-desktop.png) · [Four equations](media/journey-0.9/science-desktop.png) · [Capture fingerprints](media/journey-0.9/capture-provenance.json).
+[Current native gallery](media/journey-0.10/README.md) · [Three readings and one pace control](media/journey-0.10/mission-desktop.png) · [Optional discovery library](media/journey-0.10/discovery-desktop.png) · [Four science relationships](media/journey-0.10/science-desktop.png) · [Source and fixture fingerprints](media/journey-0.10/capture-provenance.json).
+
+The 135-state run covers five viewport sizes with zero geometry findings and 90 unchanged source fingerprints. These are native Linux/X11 software-rendered source captures. The NASA viewer uses an explicitly offline fixture; it is not a fresh observation. Layout acceptance does not establish downloaded-installer behavior, physical-device speed, device audio or child usability. [Validation](VALIDATION.md).
+
+For a recording, start the 90-second standard round, capture the result, then choose **See how science connects**. Use **Explore my numbers and graphs** if the detailed equations are needed. [Recording guide](VIDEO-PITCH.md) · [Submission review draft](SUBMISSION-DRAFT.md).
+
+## Historical 0.9 — closer work and a readable ending
+
+The 0.9 source introduced a closer window view of Ren and the panel, larger bubbles/controls, a red pace slider, a 90-second primary countdown, three story scenes and a result-first equation reveal. The new native captures live separately under `docs/media/journey-0.9/`. Their provenance records the actual source and deterministic fixture; the screenshots are not proof of installer, updater or physical-device acceptance. The 0.8 files below remain unchanged historical evidence.
+
+![Historical 0.9 story, large panel/astronaut view, controls and immediate result](media/journey-0.9/contact-sheet.png)
+
+[Historical 0.9 gallery](media/journey-0.9/README.md) · [Actual cleaning animation](media/journey-0.9/cleaning-live.gif) · [Motion provenance](media/journey-0.9/CLEANING-CLIP.md) · [Bubble transition](media/journey-0.9/bubble-merge-desktop.png) · [Four equations](media/journey-0.9/science-desktop.png) · [Capture fingerprints](media/journey-0.9/capture-provenance.json).
 
 The story illustrations are [generated, unlettered adaptations](../game/assets/art/journey/provenance.json) of the team's inline references, not exact source-image copies or 3D gameplay screenshots. Their exterior → astronaut → interior sequence is part of the opening; runtime text is rendered separately. The [original warning-cue provenance](../game/assets/audio/journey/cue-provenance.json) records the fallback used because the Drive beep was unavailable.
 

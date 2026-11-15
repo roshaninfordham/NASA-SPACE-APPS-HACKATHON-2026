@@ -17,6 +17,7 @@ import re
 import sys
 import shlex
 import unicodedata
+from branding import macos_technical_name
 
 ROOT = Path(__file__).resolve().parents[1]
 FIELDS = {"display_name", "title", "subtitle", "package_stem", "package_slug", "legacy_product_name"}
@@ -83,7 +84,7 @@ def expected_files(root: Path = ROOT) -> dict[Path, str]:
     # Godot4.6.3 inserts its Mac binary name into Info.plist without XML
     # escaping. Keep an ampersand out of that technical filename; the running
     # game still obtains its exact visible title from the canonical brand.
-    mac_name = brand["display_name"].replace("&", "and")
+    mac_name = macos_technical_name(brand["display_name"])
     for key, value in {
         "config/name": brand["display_name"],
         # Apple's bundle verifier resolves decomposed Unicode paths. Keep the

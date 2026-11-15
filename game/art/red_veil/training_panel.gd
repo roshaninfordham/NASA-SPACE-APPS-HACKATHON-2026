@@ -3,6 +3,8 @@ extends Node3D
 ## geometry is illustrative; the mission model alone owns work and power maths.
 ## All geometry is built once. A single opaque surface shader clears dust
 ## continuously, without transparency sorting, particles or per-frame meshes.
+## A modest clearing-edge glint is driven only by newly observed model work;
+## there is no independent visual clock that can invent cleaning progress.
 const VisualStyle = preload("res://scripts/visual_style.gd")
 const DustShader = preload("res://art/red_veil/training_panel.gdshader")
 const WIDTH := 2.4
@@ -10,6 +12,9 @@ const DEPTH := 1.55
 const TILT_DEGREES := -35.0
 var clean_fraction := 0.0
 var cleaning := false
+var reduced_motion := false
+var _has_progress_sample := false
+var _work_feedback := 0.0
 var _surface: ShaderMaterial
 var _deck: Node3D
 var _materials: Dictionary = {}
@@ -49,6 +54,7 @@ func _ready() -> void:
 	# Small corner plates distinguish the working surface from the stable stand.
 	for x in [-1.08,1.08]:
 		_box(_deck,"CornerPlate",Vector3(x,0.074,-0.67),Vector3(0.13,0.016,0.11),_materials.accent)
+	_sync_surface()
 	set_process(false)
 
 func _build_base() -> void:
@@ -104,6 +110,21 @@ func refresh(snapshot: Dictionary) -> void:
 	if fraction < 0.0:
 		fraction = (float(snapshot.get("sections_cleaned",0))+float(snapshot.get("section_progress",0.0))) / maxf(1.0,float(snapshot.get("max_sections",4)))
 	if not is_finite(fraction): fraction = 0.0
+	var previous_fraction := clean_fraction
 	clean_fraction = clampf(fraction,0.0,1.0)
 	cleaning = bool(snapshot.get("cleaning",false))
-	if _surface: _surface.set_shader_parameter("clean_fraction",clean_fraction)
+	# Loading a saved/fixture value, pausing, or moving backwards never causes a
+	# false work cue. Both the flecks and glint move with genuine removed dust.
+	var advancing := _has_progress_sample and clean_fraction > previous_fraction + 0.0000001
+	_work_feedback = 1.0 if advancing and cleaning and clean_fraction < 0.9999 else 0.0
+	_has_progress_sample = true
+	_sync_surface()
+
+func set_reduced_motion(enabled: bool) -> void:
+	reduced_motion = enabled
+	_sync_surface()
+
+func _sync_surface() -> void:
+	if not _surface: return
+	_surface.set_shader_parameter("clean_fraction", clean_fraction)
+	_surface.set_shader_parameter("work_feedback", 0.0 if reduced_motion else _work_feedback)

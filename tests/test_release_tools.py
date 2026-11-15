@@ -1,10 +1,12 @@
 """Release security tests use only temporary files/keys and mocked GitHub reads."""
 from contextlib import redirect_stdout
+import configparser
 import hashlib
 import io
 import json
 import os
 import re
+import shlex
 from pathlib import Path
 import subprocess
 import sys
@@ -58,7 +60,7 @@ class ReleaseToolsTest(unittest.TestCase):
             self.assertEqual(branding.archive_name(version, "Web"), f"Red-Veil-{version}-Web.zip")
         for version in ["0.5.0-alpha.1", "0.5.0", "0.8.0-alpha.1", "0.8.99"]:
             self.assertEqual(branding.archive_name(version, "Web"), f"KOMAKU-Shield-Protocol-{version}-Web.zip")
-        for version in ["0.9.0-alpha.1", "0.9.0", "0.10.0", "1.0.0"]:
+        for version in ["0.9.0-alpha.1", "0.9.1-alpha.1", "0.9.0", "0.10.0", "1.0.0"]:
             self.assertEqual(branding.archive_name(version, "Web"), f"KOMAKU-Dust-and-Radiation-{version}-Web.zip")
         for version in ["../0.4.0", "0.04.0", "0.4.0-beta.1"]:
             with self.assertRaises(ValueError):
@@ -75,7 +77,7 @@ class ReleaseToolsTest(unittest.TestCase):
                         build_game.validate_release_manifest(manifest, self.version, self.commit)
 
     def test_native_acceptance_reads_historical_and_renamed_artifact_sets(self):
-        for version in ["0.4.0-alpha.1", "0.5.0-alpha.1", "0.7.0-alpha.1", "0.8.0-alpha.1", "0.9.0-alpha.1"]:
+        for version in ["0.4.0-alpha.1", "0.5.0-alpha.1", "0.7.0-alpha.1", "0.8.0-alpha.1", "0.9.0-alpha.1", "0.9.1-alpha.1"]:
             entries = []
             for name in sorted(build_game.expected_names(version, True)):
                 path = self.output / name
@@ -102,6 +104,66 @@ class ReleaseToolsTest(unittest.TestCase):
                 manifest["assets"] = [a for a in manifest["assets"] if not a["name"].endswith(".pdf")]
                 with patch.object(build_game, "OUT", self.output), self.assertRaisesRegex(ValueError, "exact declared"):
                     build_game.validate_release_manifest(manifest, self.version, self.commit)
+
+    def test_packaged_instructions_match_current_installers_and_include_all_three_pdfs(self):
+        """Exercise the ZIP document builder, not just source-text existence.
+
+        Old names are valid in history. Current platform instructions must name
+        the actual configured executables and Mac helper's target app instead.
+        """
+        project = (build_game.ROOT / "game/project.godot").read_text(encoding="utf-8")
+        version = re.search(r'(?m)^config/version="([^"]+)"$', project)[1]
+        exports = configparser.ConfigParser(interpolation=None)
+        exports.read(build_game.ROOT / "game/export_presets.cfg", encoding="utf-8")
+        windows = Path(json.loads(exports["preset.3"]["export_path"])).name
+        linux = Path(json.loads(exports["preset.2"]["export_path"])).name
+        helper = (build_game.ROOT / "scripts/macos-install.command").read_text(encoding="utf-8")
+        mac_app = shlex.split(re.search(r"(?m)^APP_NAME=(.*)$", helper)[1])[0]
+        self.assertEqual(windows, branding.archive_stem(version) + ".exe")
+        self.assertEqual(linux, branding.archive_stem(version) + ".x86_64")
+
+        output = self.output / "packaged-instructions.zip"
+        with zipfile.ZipFile(output, "w") as archive:
+            build_game.documents(archive, version)
+        with zipfile.ZipFile(output) as archive:
+            self.assertIsNone(archive.testzip())
+            start = archive.read("START-HERE.txt").decode("utf-8")
+            downloads = archive.read("DOWNLOADS.md").decode("utf-8")
+            self.assertEqual(archive.read("DOWNLOADS.md"), archive.read("docs/DOWNLOADS.md"))
+            self.assertIn(branding.brand()["display_name"] + " — " + version, start)
+            self.assertIn(mac_app, start)
+            self.assertIn("Install KŌMAKU.command", start)
+            self.assertIn("Windows: open " + windows + ".", start)
+            self.assertIn("Linux: run " + linux + ".", start)
+            self.assertIn("This package: " + version, downloads[:500])
+
+            sections = re.findall(r"(?ms)^## ([^\n]+)\n(.*?)(?=^## |\Z)", downloads)
+            for platform, heading, suffix, expected in [
+                ("macOS", r"\bmac(?:book|os)?\b", ".app", mac_app),
+                ("Windows", r"\bwindows\b", ".exe", windows),
+                ("Linux", r"\blinux\b", ".x86_64", linux),
+            ]:
+                current = [body for title, body in sections
+                           if re.search(heading, title, re.I)
+                           and not re.search(r"historical|earlier|previous", title, re.I)]
+                self.assertEqual(len(current), 1, platform + " needs one clear current installation section")
+                named_files = set()
+                for inline in re.findall(r"`([^`\n]+)`", current[0]):
+                    if inline.endswith(suffix):
+                        # Linux instructions may also include `chmod +x FILE`.
+                        filename = inline if suffix == ".app" else shlex.split(inline)[-1]
+                        named_files.add(Path(filename).name)
+                self.assertEqual(named_files, {expected}, platform + " instructions name a different installer's file")
+
+            for platform in ["macOS-universal", "Windows-x64", "Linux-x64", "Web"]:
+                expected_url = f"https://github.com/{build_game.REPOSITORY}/releases/download/v{version}/{branding.archive_name(version, platform)}"
+                self.assertIn(expected_url, downloads)
+            for filename in ["KOMAKU-Science-Guide.pdf", "KOMAKU-Video-Equations.pdf", "KOMAKU-Video-Equations-Simple.pdf"]:
+                pdf = (build_game.ROOT / "docs/media" / filename).read_bytes()
+                self.assertTrue(pdf.startswith(b"%PDF-"), filename)
+                self.assertEqual(archive.read(filename), pdf, filename + " bytes differ from the reviewed source")
+                if filename != "KOMAKU-Science-Guide.pdf":
+                    self.assertEqual(archive.read("docs/media/" + filename), pdf)
 
     def test_signed_manifest_verifies_and_binds_exact_bytes(self):
         manifest = sign_update.sign_pack(self.version, self.pack, self.private, self.public, self.output, self.commit)

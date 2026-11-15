@@ -2,7 +2,7 @@
 
 **Final-workflow equation handoff · November 15, 2026, America/New_York.** [Download the two-page equation sheet](media/KOMAKU-Video-Equations.pdf). This replaces the earlier recall/energy-reserve reveal. It describes the agreed pace-and-fatigue mission; release validation must verify the implementation against these equations.
 
-Use four main groups. Let **t mean simulated minutes**, with a **30-simulated-minute round (normally 90 active real seconds)**. Show the player's recorded results in the final substitutions. Do not substitute the example below for a different player's run.
+Use four main groups. The in-game overview shows short visual relationships first; **Explore my numbers and graphs** reveals the precise equations below. Let **t mean simulated minutes**, with a **30-simulated-minute round (normally 90 active real seconds)**. Show the player's recorded results in the final substitutions. Do not substitute the example below for a different player's run.
 
 ## 1. Pace + effort + time → cleaning
 

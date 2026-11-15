@@ -1,0 +1,97 @@
+{
+  "version": "0.9.0-alpha.1",
+  "source_commit": "40dbea61cc1690b3f45bce397e75aa1e582cfebd",
+  "public_assets_match_accepted_build": true,
+  "verified_utc": "2026-11-15T13:14:39.407633+00:00",
+  "manifest_sha256": "c016d1d18303881f1a814f8cffaede6e6874b815fa1a0f6609b109c73c7e9a30",
+  "assets": [
+    {
+      "name": "KOMAKU-Dust-and-Radiation-0.9.0-alpha.1-Linux-x64.zip",
+      "bytes": 44221338,
+      "sha256": "de24b077796b2fd2bbe0686a086a2777d73e03ae6f42963664621c8193af0888"
+    },
+    {
+      "name": "KOMAKU-Dust-and-Radiation-0.9.0-alpha.1-Science-Guide.pdf",
+      "bytes": 345403,
+      "sha256": "830b9a47f892491713989305bee8b5ece3ba76735f925a1facbd7c494e8048e5"
+    },
+    {
+      "name": "KOMAKU-Dust-and-Radiation-0.9.0-alpha.1-Web.zip",
+      "bytes": 26622785,
+      "sha256": "97adf39c13b93cf9fb4de89e269b51e0969e0e218da4533d8f07ebf26c4cfd7d"
+    },
+    {
+      "name": "KOMAKU-Dust-and-Radiation-0.9.0-alpha.1-Windows-x64.zip",
+      "bytes": 53058398,
+      "sha256": "1fdaff22a94f92d7b9ce0e8f9d7ccee95930df29614bf34c9987a4af2919857f"
+    },
+    {
+      "name": "KOMAKU-Dust-and-Radiation-0.9.0-alpha.1-macOS-universal.zip",
+      "bytes": 79888854,
+      "sha256": "6912d3478cbcacb7d29939b3133d9e75cd74a701cd4220f2e0ad80203e4278c8"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 866,
+      "sha256": "b88c6a295b14cf7c1c5d514b6fac71a8d416fe18024a51d1946d62cc3e8a714e"
+    },
+    {
+      "name": "red-veil-content.pck",
+      "bytes": 17471960,
+      "sha256": "9daa5b74204f5f3a3301b60239c3b1625ed45ccc00fa6ffcde1c379aaf801fb8"
+    },
+    {
+      "name": "release-manifest.json",
+      "bytes": 2424,
+      "sha256": "c016d1d18303881f1a814f8cffaede6e6874b815fa1a0f6609b109c73c7e9a30"
+    },
+    {
+      "name": "update-manifest.json",
+      "bytes": 356,
+      "sha256": "b595d869ee037f8af97ab5bba9673d2de3d601a7d0b5c6ea41f62133738f4880"
+    },
+    {
+      "name": "update-manifest.sig",
+      "bytes": 384,
+      "sha256": "4d4c2aa6b4c89d2f4ebfe163d136d9f52968a6e3c823ca3a19f9396c6fcc5dc4"
+    }
+  ],
+  "zip_checks": [
+    {
+      "archive": "KOMAKU-Dust-and-Radiation-0.9.0-alpha.1-Linux-x64.zip",
+      "crc": "passed",
+      "versioned_start_here": true,
+      "three_reviewed_pdfs_exact": true
+    },
+    {
+      "archive": "KOMAKU-Dust-and-Radiation-0.9.0-alpha.1-Web.zip",
+      "crc": "passed",
+      "versioned_start_here": true,
+      "three_reviewed_pdfs_exact": true
+    },
+    {
+      "archive": "KOMAKU-Dust-and-Radiation-0.9.0-alpha.1-Windows-x64.zip",
+      "crc": "passed",
+      "versioned_start_here": true,
+      "three_reviewed_pdfs_exact": true
+    },
+    {
+      "archive": "KOMAKU-Dust-and-Radiation-0.9.0-alpha.1-macOS-universal.zip",
+      "crc": "passed",
+      "versioned_start_here": true,
+      "three_reviewed_pdfs_exact": true,
+      "valid_plist_and_version": true,
+      "technical_executable": "KŌMAKU- Dust and Radiation"
+    }
+  ],
+  "validation_run_id": 43717187948,
+  "build_run_id": 43717188197,
+  "publication_run_id": 43717775707,
+  "native_update_run_id": 43717572322,
+  "release_url": "https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.9.0-alpha.1",
+  "web_hosting": "Not deployed; owner deferred hosting.",
+  "scope": "Hosted native launch/signature checks, unchanged-installer signed-content activation/repeat/recovery gates, and byte-for-byte public artifact comparison. Physical-device behavior and learning outcomes require separate testing.",
+  "published_at": "2026-11-15T13:12:47Z",
+  "publication_note": "Publication completed before a cancellation request took effect. Workflow conclusion is cancelled; the release is public and all ten public asset bytes were independently verified against the accepted build.",
+  "known_issue": "Bundled DOWNLOADS.md contains the previous Shield Protocol executable names in generic platform instructions. START-HERE.txt and runnable binaries are correct. The correction is included in the planned 0.10 UX release; these published artifacts remain immutable."
+}

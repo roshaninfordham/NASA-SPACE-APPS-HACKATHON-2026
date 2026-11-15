@@ -2,7 +2,7 @@
 
 [Download the landscape video sheet](media/KOMAKU-Video-Equations-Simple.pdf).
 
-This is the word-only handoff for the bubble-combining video. The technical equation sheet remains separate and explains the same model with units and numerical examples. The video page contains no numerical values, equation indices, dates, or page numbers.
+This is the word-only handoff for the bubble-combining video. In the game, four brief visual relationships lead to these full formulas through **Explore my numbers and graphs**. The technical equation sheet remains separate and explains the same model with units and numerical examples. The video page contains no numerical values, equation indices, dates, or page numbers.
 
 ## Speed + Time → less Dust
 

@@ -2,13 +2,23 @@
 
 **Reviewed November 15, 2026.** Evidence is tied to a source/build and a test scope. Passing code checks, publishing an installer, launching it on a physical device, and demonstrating learning benefit are separate outcomes. [Team status](TEAM-STATUS.md) and [the roadmap](ROADMAP.md) record the current release boundary.
 
-## 0.9 candidate — acceptance in progress
+## 0.10.0 interface and installation update — acceptance in progress
 
-The current source targets a 90-second standard round, larger/closer work view and controls, three story illustrations, original warning cues, a result-first ending and a four-group bubble/equation reveal. The model still represents 30 simulated minutes; changed real pacing must preserve numerical outcomes.
+The current source corrects the installation handoff to match the current Mac, Windows and Linux filenames, versioned URLs and package identity. The implemented interface has three main readings, one pace control, an optional eight-concept Science library, progressive detail/source disclosure, concise result/relationship screens and real loading cancellation. The core mission equations and 90-second duration remain unchanged from published 0.9.0. Historical 0.9 media keeps its actual source fingerprints; it is not relabelled as newly captured 0.10.0 evidence.
 
-Local source acceptance passed: the complete `python3 scripts/test_game.py` suite, including model 231, independent numerical audit 1,665, HUD 437, shell 327, integrated journey 117, audio 56 and all retained legacy/updater checks. The [native navigation check](evidence/journey-native-0.9.json) passed 29 assertions with unchanged source hashes. The [new gallery](media/journey-0.9/README.md) covers 57 native screens with zero layout failures; the actual-frame GIF includes a visible 1×→1.75× speed change. Browser gameplay 6, PWA 14, web deployment 13 and the JavaScript unit/build checks also passed. All three PDFs pass provenance checks. These results do not replace the pending exported-package gates below.
+The release requires its own exact-source build and native launch checks, twelve Mac/Windows content-update jobs across six public baselines including 0.9.0, the documented Linux 0.4 gate and public-file verification. Final run IDs/hashes will be added after acceptance. [Release notes](releases/0.10.0-alpha.1.md).
 
-Current acceptance must cover:
+The complete shared `python3 scripts/test_game.py` suite passed, including all three PDF provenance checks and package-document validation. [Native 0.10 navigation](evidence/journey-native-0.10.json) passed 29 assertions on its recorded unchanged source, using Linux/X11 and isolated player data. It exercises fullscreen/window restoration and focus behavior, with synthetic input dispatched through Godot; it does not test exported Mac/Windows packages or physical keyboards.
+
+The [0.10 gallery](media/journey-0.10/README.md) records **135 screens across five viewports**, with zero geometry findings and 90 unchanged source fingerprints. It includes loading, preflight, cleaning, concept overview/detail, pause/settings, result, science relationships, discovery, Home, and an explicitly offline NASA viewer fixture. These are software-rendered source captures, not live NASA fetch evidence or physical-device performance measurements. [Capture provenance](media/journey-0.10/capture-provenance.json).
+
+## 0.9.0 presentation — source acceptance record
+
+The recorded 0.9 source targeted a 90-second standard round, larger/closer work view and controls, three story illustrations, original warning cues, a result-first ending and a four-group bubble/equation reveal. The model still represents 30 simulated minutes; changed real pacing must preserve numerical outcomes.
+
+Local source acceptance passed: the complete `python3 scripts/test_game.py` suite, including model 231, independent numerical audit 1,665, HUD 437, shell 327, integrated journey 117, audio 56 and all retained legacy/updater checks. The [native navigation check](evidence/journey-native-0.9.json) passed 29 assertions with unchanged source hashes. The [new gallery](media/journey-0.9/README.md) covers 57 native screens with zero layout failures; the actual-frame GIF includes a visible 1×→1.75× speed change. Browser gameplay 6, PWA 14, web deployment 13 and the JavaScript unit/build checks also passed. All three PDFs pass provenance checks. These are source/runtime checks for the 0.9.0 presentation, not a claim of new 0.10.0 package acceptance.
+
+The presentation acceptance scope covers:
 
 - Real/simulated clock separation, pause/preflight freeze, and equivalent final work/energy/dose across clock scales.
 - Clear brush/panel visibility, speed feedback, large readable controls and keyboard navigation at desktop, portrait and short-landscape sizes.
@@ -16,7 +26,7 @@ Current acceptance must cover:
 - Source/PDF/asset provenance, including generated story adaptations and original beep fallback; no claim that the inaccessible Drive recording was used.
 - Exact frozen-source native packages and launch gates, followed by ten Mac/Windows content-update jobs (five baseline versions including 0.8), the documented Linux 0.4 gate, publication and redownloaded public-file verification.
 
-The three refreshed PDFs pass their own build, layout/glyph and fingerprint checks. Native game captures and complete release acceptance have separate scopes; final run IDs and source hashes will be added when those gates complete. [0.9 design contract](design-specs/JOURNEY-0.9.md) · [Candidate notes](releases/0.9.0-alpha.1.md).
+The three refreshed PDFs pass their own build, layout/glyph and fingerprint checks. Native game captures and release acceptance have separate scopes. The [0.9 public-file record](evidence/release-0.9.0-alpha.1.json) identifies the accepted published artifacts; the packaged guide issue is corrected in 0.10. [0.9 design contract](design-specs/JOURNEY-0.9.md) · [0.9 notes](releases/0.9.0-alpha.1.md).
 
 The 0.8 records below remain historical evidence for their recorded bytes. Passing them does not automatically accept the new presentation, assets or packages.
 

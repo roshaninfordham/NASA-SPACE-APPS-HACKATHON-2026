@@ -1,7 +1,7 @@
 {
   "kind": "original procedural project interface and warning cues",
   "generator": "game/scripts/journey_audio.gd",
-  "generator_sha256": "8e47015c2d4097e1bb828d052729fb334d5b35b928908ae05c3763396bf37740",
+  "generator_sha256": "42a0f86356f02fe0cd50ca6c70be033092b0e94580a7c9aaa4f1fdaac801c418",
   "sampled_external_recordings": false,
   "drive_recording_status": "Not supplied or accessible; these cues are an original fallback, not the mentioned Drive beep.",
   "sample_rate": 22050,
@@ -38,5 +38,46 @@
     "second_harmonic_ratio": 0.1,
     "waveform_amplitude_scale": 0.36
   },
-  "behavior": "All alerts share the previous-alert timestamp. Higher urgency may play after its shorter interval. Alerts require a user gesture and active mission; pause, focus loss, context change and mute stop them."
+  "behavior": "All alerts share the previous-alert timestamp. Higher urgency may play after its shorter interval. Pace directions share a separate cooldown. Feedback replaces previous feedback; warnings cancel and take priority over feedback. Mission alerts and feedback require a user gesture and active mission; pause, focus loss, context change and mute stop them. Calmer presentation lowers optional feedback gain and spaces pace cues farther apart without suppressing warning cues.",
+  "feedback": [
+    {
+      "cue": "pace_up",
+      "notes_hz": [440.0, 587.33],
+      "duration_seconds": 0.16,
+      "shared_pace_interval_seconds": 0.12,
+      "relative_gain": 0.2
+    },
+    {
+      "cue": "pace_down",
+      "notes_hz": [587.33, 440.0],
+      "duration_seconds": 0.16,
+      "shared_pace_interval_seconds": 0.12,
+      "relative_gain": 0.2
+    },
+    {
+      "cue": "section",
+      "notes_hz": [659.25, 783.99],
+      "duration_seconds": 0.38,
+      "minimum_real_interval_seconds": 0.6,
+      "relative_gain": 0.22
+    }
+  ],
+  "calmer_feedback": {
+    "setting": "set_reduced_motion(true)",
+    "shared_pace_interval_seconds": 0.25,
+    "feedback_gain_multiplier": 0.7,
+    "alerts_unchanged": true
+  },
+  "transitions": {
+    "open_notes_hz": [392.0, 523.25],
+    "close_notes_hz": [523.25, 392.0],
+    "success_notes_hz": [523.25, 659.25, 783.99, 523.25],
+    "success_duration_seconds": 0.58,
+    "second_harmonic_ratio": 0.08,
+    "waveform_amplitude_scale": 0.38,
+    "attack_seconds": 0.012,
+    "release_seconds": "min(0.05, half of note length)",
+    "decay": "exp(-1.6 * note time / note length)",
+    "endpoints": "first and final PCM samples are zero"
+  }
 }
