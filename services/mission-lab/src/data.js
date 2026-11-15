@@ -1,1 +1,32 @@
-export const CONTEXT = {"openspace": {"source": "OpenSpace Mars globe asset", "commit": "5ac175a7154e57909085131bcd9d9366670c2a4f", "source_url": "https://raw.githubusercontent.com/OpenSpace/OpenSpace/5ac175a7154e57909085131bcd9d9366670c2a4f/data/assets/scene/solarsystem/planets/mars/globe.asset", "source_sha256": "63193fe00325bed70f3f3ed55dc016d3dcc21b5795ae05f00e57b66813dada92", "retrieved_at": "2026-11-15T18:10:49.463623+00:00", "radii_m": [3396190.0, 3396190.0, 3396190.0], "radius_km": 3396.19, "diameter_km": 6792.38, "scope": "OpenSpace spherical rendering configuration, not mean Mars radius or live telemetry. Used for the companion Mars scale card; does not drive game physics."}, "history": {"checks": 2, "distinct_images": 1, "first_check": "2026-11-15T18:11:52.996697+00:00", "last_check": "2026-11-15T18:12:25.298937+00:00", "nasa_file_updated_at": "2026-11-15T18:03:06+00:00", "generated_at": "2026-11-15T18:12:25.298937+00:00", "engine": "TimescaleDB 2.32.0", "license_mode": "apache", "scope": "Export from local self-hosted TimescaleDB; not a live cloud database. Records retrieval checks, not new NASA observations or radiation measurements.", "buckets": [{"minute": "2026-11-15T18:11:00+00:00", "checks": 1, "distinct_images": 1}, {"minute": "2026-11-15T18:12:00+00:00", "checks": 1, "distinct_images": 1}]}};
+export const CONTEXT = {
+  openspace: {
+    source: "OpenSpace Mars globe asset",
+    commit: "5ac175a7154e57909085131bcd9d9366670c2a4f",
+    source_url:
+      "https://raw.githubusercontent.com/OpenSpace/OpenSpace/5ac175a7154e57909085131bcd9d9366670c2a4f/data/assets/scene/solarsystem/planets/mars/globe.asset",
+    source_sha256:
+      "63193fe00325bed70f3f3ed55dc016d3dcc21b5795ae05f00e57b66813dada92",
+    retrieved_at: "2026-11-15T18:10:49.463623+00:00",
+    radii_m: [3396190.0, 3396190.0, 3396190.0],
+    radius_km: 3396.19,
+    diameter_km: 6792.38,
+    scope:
+      "OpenSpace spherical rendering configuration, not mean Mars radius or live telemetry. Used for the companion Mars scale card; does not drive game physics.",
+  },
+  history: {
+    checks: 2,
+    distinct_images: 1,
+    first_check: "2026-11-15T18:11:52.996697+00:00",
+    last_check: "2026-11-15T18:12:25.298937+00:00",
+    nasa_file_updated_at: "2026-11-15T18:03:06+00:00",
+    generated_at: "2026-11-15T18:12:25.298937+00:00",
+    engine: "TimescaleDB 2.32.0",
+    license_mode: "apache",
+    scope:
+      "Export from local self-hosted TimescaleDB; not a live cloud database. Records retrieval checks, not new NASA observations or radiation measurements.",
+    buckets: [
+      { minute: "2026-11-15T18:11:00+00:00", checks: 1, distinct_images: 1 },
+      { minute: "2026-11-15T18:12:00+00:00", checks: 1, distinct_images: 1 },
+    ],
+  },
+};

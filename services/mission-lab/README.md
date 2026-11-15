@@ -15,10 +15,10 @@ A small **companion demonstration**, separate from the native game: NASA SDO ima
 
 ## Where the free tiers help
 
-| Service | Specific contribution | Limit and design response |
-|---|---|---|
+| Service                 | Specific contribution                                                                                                     | Limit and design response                                                                                                                                                                                                                                                |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Cloudflare Workers Free | Serve the companion page and cache one fixed NASA source near viewers; retain provenance and visibly label stale imagery. | Official limits list 100,000 requests/day per account and 10 ms CPU/request. Our HTML, JS, CSS and API requests run through the Worker and count. Network wait differs from CPU time. No paid plan was enabled; actual account billing must be checked in its dashboard. |
-| Gemini 2.5 Flash-Lite | Rephrase fixed NASA-derived facts into two short sentences and one investigation question. | Published pricing lists free input/output for eligible free-tier projects, but this project's generation was rejected. Actual model quotas vary by project/tier; inspect AI Studio. No promise of unlimited free calls. |
+| Gemini 2.5 Flash-Lite   | Rephrase fixed NASA-derived facts into two short sentences and one investigation question.                                | Published pricing lists free input/output for eligible free-tier projects, but this project's generation was rejected. Actual model quotas vary by project/tier; inspect AI Studio. No promise of unlimited free calls.                                                  |
 
 Sources checked: [Cloudflare limits](https://developers.cloudflare.com/workers/platform/limits/) ([official docs source](https://github.com/cloudflare/cloudflare-docs/blob/production/src/content/docs/workers/platform/limits.mdx)); [Gemini pricing](https://ai.google.dev/gemini-api/docs/pricing#gemini-2.5-flash-lite); [Gemini rate limits](https://ai.google.dev/gemini-api/docs/rate-limits).
 

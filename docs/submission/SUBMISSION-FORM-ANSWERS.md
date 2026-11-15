@@ -52,35 +52,34 @@ These are references and an image service, not nine integrated numerical dataset
 
 **Source verification note for the team:** On November 15, 2026, the Pathfinder NTRS [metadata API](https://ntrs.nasa.gov/api/citations/20020031145), landing page, and [full-text export](https://ntrs.nasa.gov/api/citations/20020031145/downloads/20020031145.txt) returned HTTP 200. Both the abstract and paper text say “0.28% per day.” We therefore preserve that wording; we do not relabel it “per sol,” assume a specific observation duration, or import it into the model.
 
-
 ## Space Agency Partner & Other Data
 
 No separate Space Agency Partner dataset is claimed. OpenSpace and Gemini must not be listed as already used.
 
-| Link text | Public URL |
-|---|---|
-| Godot Engine — game engine | https://godotengine.org/ |
-| Kenney 3D Platformer Starter Kit — controller reference and selected sounds | https://github.com/KenneyNL/Starter-Kit-3D-Platformer |
-| Jost — display font | https://github.com/google/fonts/tree/main/ofl/jost |
-| IBM Plex — reading and numeric fonts | https://github.com/IBM/plex |
-| Lilita One — retained interface font | https://github.com/google/fonts/tree/main/ofl/lilitaone |
-| DejaVu fonts — science guide | https://dejavu-fonts.github.io/ |
-| EPA — radiation terms and units | https://www.epa.gov/radiation/radiation-terms-and-units |
-| Hassler et al. author manuscript — same Curiosity study, alternate access | https://authors.library.caltech.edu/records/kdt88-3aw98 |
-| Corbett & Anderson — knowledge tracing reference for retained academy | https://doi.org/10.1007/BF01099821 |
-| Settles & Meeder — spaced-repetition design reference, model not implemented | https://aclanthology.org/P16-1174/ |
-| Roediger & Karpicke — retrieval-practice design reference | https://doi.org/10.1111/j.1467-9280.2006.01693.x |
-| OpenAI — SI-assisted development and story art | https://openai.com/ |
-| edge-tts — synthetic demo narration tool | https://github.com/rany2/edge-tts |
-| Cloudflare Workers — implemented NASA-cache service, not deployed | https://developers.cloudflare.com/workers/ |
-| Python — build and documentation tooling | https://www.python.org/ |
-| FFmpeg — audio/video tooling | https://ffmpeg.org/ |
-| ReportLab — science PDF generation | https://www.reportlab.com/ |
-| Matplotlib — scientific diagrams | https://matplotlib.org/ |
-| Pillow — image tooling | https://python-pillow.org/ |
-| PyMuPDF — PDF inspection and rendering | https://pymupdf.readthedocs.io/ |
-| Project asset credits and licenses | https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/blob/main/CREDITS.md |
-| Music credits and provenance | https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/blob/main/docs/AUDIO-CREDITS.md |
+| Link text                                                                    | Public URL                                                                                        |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Godot Engine — game engine                                                   | https://godotengine.org/                                                                          |
+| Kenney 3D Platformer Starter Kit — controller reference and selected sounds  | https://github.com/KenneyNL/Starter-Kit-3D-Platformer                                             |
+| Jost — display font                                                          | https://github.com/google/fonts/tree/main/ofl/jost                                                |
+| IBM Plex — reading and numeric fonts                                         | https://github.com/IBM/plex                                                                       |
+| Lilita One — retained interface font                                         | https://github.com/google/fonts/tree/main/ofl/lilitaone                                           |
+| DejaVu fonts — science guide                                                 | https://dejavu-fonts.github.io/                                                                   |
+| EPA — radiation terms and units                                              | https://www.epa.gov/radiation/radiation-terms-and-units                                           |
+| Hassler et al. author manuscript — same Curiosity study, alternate access    | https://authors.library.caltech.edu/records/kdt88-3aw98                                           |
+| Corbett & Anderson — knowledge tracing reference for retained academy        | https://doi.org/10.1007/BF01099821                                                                |
+| Settles & Meeder — spaced-repetition design reference, model not implemented | https://aclanthology.org/P16-1174/                                                                |
+| Roediger & Karpicke — retrieval-practice design reference                    | https://doi.org/10.1111/j.1467-9280.2006.01693.x                                                  |
+| OpenAI — SI-assisted development and story art                               | https://openai.com/                                                                               |
+| edge-tts — synthetic demo narration tool                                     | https://github.com/rany2/edge-tts                                                                 |
+| Cloudflare Workers — implemented NASA-cache service, not deployed            | https://developers.cloudflare.com/workers/                                                        |
+| Python — build and documentation tooling                                     | https://www.python.org/                                                                           |
+| FFmpeg — audio/video tooling                                                 | https://ffmpeg.org/                                                                               |
+| ReportLab — science PDF generation                                           | https://www.reportlab.com/                                                                        |
+| Matplotlib — scientific diagrams                                             | https://matplotlib.org/                                                                           |
+| Pillow — image tooling                                                       | https://python-pillow.org/                                                                        |
+| PyMuPDF — PDF inspection and rendering                                       | https://pymupdf.readthedocs.io/                                                                   |
+| Project asset credits and licenses                                           | https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/blob/main/CREDITS.md            |
+| Music credits and provenance                                                 | https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/blob/main/docs/AUDIO-CREDITS.md |
 
 The supplied recordings are Minyo San Kyoku (Doug Maxwell / Zac Zinger) and Floating Lanterns (The Mini Vandals). The team reported permission, but track-specific license/source links remain unverified. Obtain the original entries and applicable terms, or use the project's original procedural soundtrack for submission. A general YouTube link is not proof of redistribution rights.
 
