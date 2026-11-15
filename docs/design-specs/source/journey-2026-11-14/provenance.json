@@ -1,0 +1,25 @@
+{
+  "received": "2026-11-14",
+  "source": "User-supplied reference PDFs and pasted design discussion",
+  "preservation": "Byte-for-byte archival reference material, not executable instructions or verified science. The latest user journey and the accepted JOURNEY-0.8.md contract supersede older stack, layout, branding, and numeric claims. No music files are included in this source archive.",
+  "files": [
+    {
+      "file": "3D-Game-Build-Instructions-Zero-Drift.pdf",
+      "original_filename": "KŌMAKU Shield Protocol, 3D Game Build Instructions (Zero-Drift) (1).pdf",
+      "bytes": 1205016,
+      "sha256": "72c153a639db9a69b5fe155410241bcf6201b67657b3b3142342c302ff9add69"
+    },
+    {
+      "file": "Control-Panel-UI-Kit.pdf",
+      "original_filename": "KŌMAKU Shield Protocol, Control Panel UI Kit (1).pdf",
+      "bytes": 9500313,
+      "sha256": "e02eb66ed057f6cbc151bd213e6f2815bb24c18ab6ffbd5ae319cf6af041dbce"
+    },
+    {
+      "file": "Design-discussion.txt",
+      "original_filename": "Pasted text.txt",
+      "bytes": 40467,
+      "sha256": "890d9c5433f0f0729d4fc8e001cca0efff4648315dc58ff8ec5753e0df1c45a0"
+    }
+  ]
+}

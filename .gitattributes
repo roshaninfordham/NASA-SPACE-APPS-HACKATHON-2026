@@ -4,3 +4,6 @@ game/**/*.import linguist-generated
 game/**/*.uid linguist-generated
 docs/** linguist-documentation
 *.pdf binary
+# Preserve upstream notices and uploaded reference bytes, including original whitespace.
+game/licenses/** -whitespace
+docs/design-specs/source/** -whitespace

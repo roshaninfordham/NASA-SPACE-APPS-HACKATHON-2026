@@ -1,0 +1,30 @@
+KŌMAKU: Shield Protocol — journey audio provenance
+
+Default music supplied by the design team:
+  "Minyo San Kyoku" — Doug Maxwell / Zac Zinger
+    game/assets/audio/journey/minyo-san-kyoku.mp3
+  "Floating Lanterns" — The Mini Vandals
+    game/assets/audio/journey/floating-lanterns.mp3
+
+The user identified YouTube as the source and reported that their team confirmed
+these recordings were usable. Included at the user and team's direction.
+Original MP3 bytes are preserved without transcoding. Artist names are preserved
+from the supplied filenames; embedded metadata says encoder=Google only.
+
+The specific license has not been independently verified. These recordings are
+not covered by any repository code license or the Kenney CC0 asset notice.
+No Creative Commons, royalty-free or unrestricted redistribution terms are claimed.
+Hashes, durations and level adjustments:
+  game/assets/audio/journey/supplied-music-provenance.json
+Official Audio Library guidance for individual entries and exact attribution:
+  https://support.google.com/youtube/answer/3376882?hl=en
+
+Original alternative project soundtrack:
+  orbit.ogg, surface.ogg, reflection.ogg
+  Original procedural harmonic score, generated for this project without samples.
+  Reproduction source: game/assets/audio/journey/generate_ambient.py
+  Short interface cues: game/scripts/journey_audio.gd
+  No supplied music recording was sampled into these original assets.
+
+The separate Kenney asset notice covers the existing identified Kenney effects.
+See docs/AUDIO-CREDITS.md for playback behavior and testing limits.

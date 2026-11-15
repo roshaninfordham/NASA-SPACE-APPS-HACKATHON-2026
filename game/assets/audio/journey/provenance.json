@@ -1,0 +1,33 @@
+{
+  "kind": "original procedural project audio",
+  "generator": "generate_ambient.py",
+  "generator_sha256": "2d4b6dc618ffef0e3b818e46d2e776a7ed4d6cdc0f852eeb95bb4c9eaab49462",
+  "sampled_external_recordings": false,
+  "assets": [
+    {
+      "file": "orbit.ogg",
+      "sha256": "1404c443a3b27c0f9cf425bd31c74f89599302cd3e93d5fa63a686f347125c1c",
+      "bytes": 42774,
+      "duration_seconds": 16.0,
+      "sample_rate": 22050,
+      "channels": 2
+    },
+    {
+      "file": "reflection.ogg",
+      "sha256": "49effc4e46db27ad3955d4c670527544ae5f9ca79583d1049c76852220bb72df",
+      "bytes": 43101,
+      "duration_seconds": 16.0,
+      "sample_rate": 22050,
+      "channels": 2
+    },
+    {
+      "file": "surface.ogg",
+      "sha256": "4e25e1c0501eb52b7e27036c5583c7eddacc954dda24629267de8c2d6bcc8f23",
+      "bytes": 43109,
+      "duration_seconds": 16.0,
+      "sample_rate": 22050,
+      "channels": 2
+    }
+  ],
+  "encoder": "ffmpeg version 7.1.5-0+deb13u1 Copyright (c) 2000-2026 the FFmpeg developers"
+}

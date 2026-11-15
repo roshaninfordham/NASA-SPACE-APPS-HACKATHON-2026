@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "concepts": [
+    {
+      "id": "radiation",
+      "title": "Space radiation",
+      "lead": "Invisible, energetic particles reach Mars. Scientists use detectors to measure the energy they leave behind.",
+      "analogy": "Think of invisible rain: a detector counts what arrives, while a shelter changes how much gets through.",
+      "explanation": "Space radiation comes from the Sun and from beyond our solar system. Some particles reach Mars's surface. Radiation is not the red dust you can see. Ren's mission uses a steady historical measurement to explore time outside; real radiation changes and needs specialist instruments.",
+      "equation": "Radiation rate × time outside → accumulated dose",
+      "real_fact": "Curiosity's RAD measured radiation at Gale Crater during 2012–2013. These historical observations are not today's Mars weather.",
+      "source_label": "NASA: Curiosity radiation results",
+      "source_url": "https://www.nasa.gov/news-release/nasa-rover-results-include-first-age-measurement-on-mars-and-help-for-human-exploration/",
+      "assumption": "The mission holds the radiation rate constant. Its 30-minute return deadline is a story setting, not a guaranteed solar-storm warning.",
+      "dynamic_hint": "Time outside adds model dose. Dust on a panel does not tell us the radiation level."
+    },
+    {
+      "id": "dose",
+      "title": "Tiny energy",
+      "lead": "A gray measures radiation energy absorbed per kilogram. A microgray is one millionth of a gray.",
+      "analogy": "A bucket collects raindrops over time. Dose also adds up, but measures absorbed energy, not water or damage.",
+      "explanation": "The symbol µGy means microgray. Our counter adds a little model dose for every second Ren spends outside. Curiosity's detector once measured an average of 210 µGy per Earth day at one Mars location. That is a historical detector measurement, not Ren's real body dose or a danger limit.",
+      "equation": "Dose (µGy) = rate (µGy/s) × time (s)",
+      "real_fact": "Hassler and colleagues reported 210 ± 40 µGy/day in RAD's tissue-like E detector at Gale Crater, August 2012–June 2013.",
+      "source_label": "NASA research archive: Hassler et al.",
+      "source_url": "https://ntrs.nasa.gov/citations/20180007641",
+      "assumption": "The game uses 210 ÷ 86,400 µGy/s as a constant teaching baseline. It does not calculate injury or a child's radiation exposure.",
+      "dynamic_hint": "A larger total means more accumulated model energy, not a diagnosis. Pausing the game pauses this counter."
+    },
+    {
+      "id": "sievert",
+      "title": "Meet sievert",
+      "lead": "A sievert helps specialists compare radiation effects. It answers a different question from the gray.",
+      "analogy": "The same amount of rain can affect a leaf and a roof differently. The amount alone does not explain every effect.",
+      "explanation": "Gray measures absorbed energy per kilogram. Sievert is used for weighted radiation quantities: radiation type matters, and effective dose also considers organs. We cannot swap the two labels or guess someone's health from a game counter. A smartwatch does not measure space-radiation dose.",
+      "equation": "Gy and Sv describe different quantities",
+      "real_fact": "EPA defines 1 gray as 1 joule per kilogram. Effective dose adjusts absorbed dose for radiation type and relative organ sensitivity.",
+      "source_label": "EPA: radiation terms and units",
+      "source_url": "https://www.epa.gov/radiation/radiation-terms-and-units",
+      "assumption": "This mission displays absorbed model dose in µGy only. It does not estimate sieverts, personal medical risk, or health from wearable data.",
+      "dynamic_hint": "Our µGy counter stays an energy measure. There is no secret conversion into health points."
+    },
+    {
+      "id": "dust",
+      "title": "Dusty panels",
+      "lead": "Dust blocks some sunlight from a solar panel. Cleaning a section can help more light reach its cells.",
+      "analogy": "A dusty window lets less light into a room. Clearing it helps the light come through again.",
+      "explanation": "Mars dust can settle on solar panels and reduce their electrical output. Cleaning is useful, but takes time outside. In this mission, each completed section adds the same small power margin. Real panels behave differently with sunlight, temperature, dust, shadows, and their angle.",
+      "equation": "Clearer panel → more available sunlight",
+      "real_fact": "A NASA paper reports a 0.28% per day decrease in short-circuit current from Pathfinder's dust experiment. That is one historical result, not a universal dust rate.",
+      "source_label": "NASA: dust and solar-cell experiment",
+      "source_url": "https://ntrs.nasa.gov/citations/20020031145",
+      "assumption": "A section takes 6 simulated minutes and adds 2 percentage points of power margin. These are game settings, not measured cleaning performance.",
+      "dynamic_hint": "Finish a section to earn its margin. A partly cleaned section does not yet earn the full benefit."
+    },
+    {
+      "id": "power",
+      "title": "Power margin",
+      "lead": "Power margin means extra solar output above the habitat's needs. It is different from energy stored in a battery.",
+      "analogy": "If you make more sandwiches than lunch needs, you have a surplus. That does not tell you what is already in the fridge.",
+      "explanation": "Cleaning gives the habitat more spare solar output. Our simple forecast divides that margin by an assumed daily decline. It estimates how long the extra margin could last if that trend continued. It does not promise days of battery life or include real Mars weather.",
+      "equation": "Forecast sols = margin (points) ÷ decline (points/sol)",
+      "real_fact": "Mars Exploration Rover power models used sunlight, dust, temperature, shadows, battery condition, and other inputs. Real solar power needs more than one number.",
+      "source_label": "NASA: Mars rover power operations",
+      "source_url": "https://ntrs.nasa.gov/citations/20230007029",
+      "assumption": "The forecast starts with 1 margin point and assumes a decline of 0.28 points per sol. This invented trend is not the Pathfinder measurement itself.",
+      "dynamic_hint": "More completed sections increase forecast margin. Forecast sols are not stored battery energy."
+    },
+    {
+      "id": "time",
+      "title": "Plan your time",
+      "lead": "Cleaning and returning both take time. Save enough time for Ren's whole journey back.",
+      "analogy": "Before recess ends, you leave time to put equipment away and walk back to class.",
+      "explanation": "Our mission clock counts simulated minutes. At normal play speed, one real second advances six mission seconds. Reading a science card pauses the mission. A sol is a Mars day, about 24.6 Earth hours; it is much longer than this short mission.",
+      "equation": "Outside time = cleaning time + return time",
+      "real_fact": "NASA describes a Martian sol as approximately 24.6 Earth hours. Our radiation conversion uses an Earth day of 86,400 seconds, not a sol.",
+      "source_label": "NASA Science: Mars facts",
+      "source_url": "https://science.nasa.gov/mars/facts/",
+      "assumption": "The 30-minute mission deadline and six-times clock are teaching choices. Real missions do not receive a guaranteed warning of this length.",
+      "dynamic_hint": "Check the return time before starting another section. Learning pauses do not use mission time."
+    },
+    {
+      "id": "speed",
+      "title": "Journey speed",
+      "lead": "Distance and a planned travel speed tell us how long Ren's return will take.",
+      "analogy": "A longer walk to school takes more time at the same pace. Planning matters more than rushing.",
+      "explanation": "Divide the route distance by the planned speed to find the return time. This mission uses a fixed, fictional walking speed. We are practicing a plan, not testing your reflexes or fitness. Real astronauts must also consider terrain, their suit, fatigue, and their crew's instructions.",
+      "equation": "Return time (s) = distance (m) ÷ speed (m/s)",
+      "real_fact": "NASA describes Mars as rocky and dusty, with mountains, valleys, craters, and dunes. A real route cannot be reduced to distance alone.",
+      "source_label": "NASA Science: Mars surface",
+      "source_url": "https://science.nasa.gov/mars/facts/",
+      "assumption": "The route is 432 metres at 0.8 metres per simulated second: 540 seconds, or 9 minutes. These values are scenario choices.",
+      "dynamic_hint": "Ren follows the planned pace. A good decision leaves return time available; clicking faster does not change the science."
+    },
+    {
+      "id": "shelter",
+      "title": "Return together",
+      "lead": "A shelter puts material between an astronaut and the outside. Returning on time is part of a good mission plan.",
+      "analogy": "A raincoat and a building offer different protection. For space radiation, materials and particle energies matter too.",
+      "explanation": "Rock, soil, and habitat walls can change the radiation reaching an astronaut. Some energetic particles still get through. This mission finishes when Ren returns to shelter; its outside-dose counter then stops because the activity is complete. That does not mean all radiation vanishes indoors.",
+      "equation": "Return by the deadline → mission completed",
+      "real_fact": "In September 2016, Curiosity measured about 4% less overall radiation beside Murray Buttes. This observation does not certify any habitat design.",
+      "source_label": "NASA: Curiosity and natural shielding",
+      "source_url": "https://www.nasa.gov/centers-and-facilities/jpl/how-nasas-curiosity-rover-is-making-mars-safer-for-astronauts/",
+      "assumption": "Shelter is the end of this training activity. The game does not calculate a real habitat's shielding or predict injury after the deadline.",
+      "dynamic_hint": "Bringing Ren home is always an option. A missed target means you can revise the plan and try again."
+    }
+  ]
+}

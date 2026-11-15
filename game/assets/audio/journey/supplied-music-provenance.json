@@ -1,0 +1,40 @@
+{
+  "source": "User supplied MP3 recordings and said they were available on YouTube; user subsequently reported the team confirmed they were usable.",
+  "authorization_basis": "Included at the user and team's direction. The specific license has not been independently verified. No CC0 or repository-code license is asserted for these recordings.",
+  "metadata": "Both files contain encoder=Google only; no embedded artist or license tags. Artist credits are preserved from the supplied filenames.",
+  "measurement": "FFmpeg volumedetect over full decoded recording, not perceptual loudness or a listening test. Floating receives relative 9.2 dB attenuation for comparable average levels.",
+  "assets": [
+    {
+      "file": "minyo-san-kyoku.mp3",
+      "provided_filename": "Minyo San Kyoku - Doug Maxwell_ Zac Zinger.mp3",
+      "title": "Minyo San Kyoku",
+      "artist_credit_supplied_by_team": "Doug Maxwell / Zac Zinger",
+      "bytes": 6132543,
+      "sha256": "a2fbf0225b8a3362848fefc6128ef74d56b35d722f553ba60bfe645b266501c6",
+      "transcoded": false,
+      "contexts": ["story", "preparation", "home"],
+      "measured_mean_dbfs": -21.5,
+      "measured_peak_dbfs": -5.2,
+      "relative_playback_trim_db": 0.0,
+      "duration_seconds": 153.286531,
+      "sample_rate_hz": 44100,
+      "channels": 2
+    },
+    {
+      "file": "floating-lanterns.mp3",
+      "provided_filename": "Floating Lanterns - The Mini Vandals.mp3",
+      "title": "Floating Lanterns",
+      "artist_credit_supplied_by_team": "The Mini Vandals",
+      "bytes": 4651922,
+      "sha256": "b26b636a4371777dee40e98836411fc89b16c065f4b5bbdd4380d4fd4bdccf7f",
+      "transcoded": false,
+      "contexts": ["mission", "debrief"],
+      "measured_mean_dbfs": -12.3,
+      "measured_peak_dbfs": -0.2,
+      "relative_playback_trim_db": -9.2,
+      "duration_seconds": 116.27102,
+      "sample_rate_hz": 44100,
+      "channels": 2
+    }
+  ]
+}

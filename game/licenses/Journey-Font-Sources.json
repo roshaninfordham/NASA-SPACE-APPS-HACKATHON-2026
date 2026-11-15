@@ -1,0 +1,28 @@
+{
+  "fonts": [
+    {
+      "family": "jost",
+      "file": "Jost-Variable.ttf",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/jost/Jost%5Bwght%5D.ttf",
+      "sha256": "6343b70971000b04c5d401c96ae08ce371086135e999d5e1e1413039c0213076",
+      "license": "SIL Open Font License 1.1",
+      "license_source": "https://raw.githubusercontent.com/google/fonts/main/ofl/jost/OFL.txt"
+    },
+    {
+      "family": "ibmplexsans",
+      "file": "IBMPlexSans-Variable.ttf",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexsans/IBMPlexSans%5Bwdth%2Cwght%5D.ttf",
+      "sha256": "3b031aa4216174205bd8471f88a49b91f093169e9e87bd5262242bc5967fe2e3",
+      "license": "SIL Open Font License 1.1",
+      "license_source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexsans/OFL.txt"
+    },
+    {
+      "family": "ibmplexmono",
+      "file": "IBMPlexMono-Regular.ttf",
+      "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexmono/IBMPlexMono-Regular.ttf",
+      "sha256": "6a3412f058c7d8dfd9170c41e85ade48e5156ecb89356110ca57a0a27734af46",
+      "license": "SIL Open Font License 1.1",
+      "license_source": "https://raw.githubusercontent.com/google/fonts/main/ofl/ibmplexmono/OFL.txt"
+    }
+  ]
+}

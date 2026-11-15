@@ -1,0 +1,106 @@
+extends SceneTree
+const Hud = preload("res://ui/training_hud.gd")
+const Model = preload("res://scripts/training_mission.gd")
+const Style = preload("res://ui/journey_style.gd")
+var failures := 0
+func check(condition: bool, message: String) -> void:
+	if condition: print("PASS: ",message)
+	else:
+		push_error(message)
+		failures += 1
+func frames() -> void:
+	for index in range(4): await process_frame
+func target(control: Control, name: String) -> void:
+	check(Rect2(Vector2.ZERO,root.get_visible_rect().size).grow(1).encloses(control.get_global_rect()),name + " remains in viewport")
+	check(control.size.x >= 44 and control.size.y >= 44,name + " has at least 44px target")
+func press(button: Button) -> void:
+	button.grab_focus()
+	await frames()
+	for down in [true,false]:
+		var event := InputEventKey.new()
+		event.keycode = KEY_ENTER
+		event.physical_keycode = KEY_ENTER
+		event.pressed = down
+		root.push_input(event)
+	await frames()
+func _initialize() -> void: call_deferred("run")
+func run() -> void:
+	root.content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
+	var hud := Hud.new()
+	root.add_child(hud)
+	var model := Model.new()
+	var events: Array[String] = []
+	hud.clean_requested.connect(func():events.append("clean"))
+	hud.stop_clean_requested.connect(func():events.append("stop"))
+	hud.return_requested.connect(func():events.append("return"))
+	hud.pause_requested.connect(func():events.append("pause"))
+	hud.notebook_requested.connect(func():events.append("book"))
+	hud.concept_requested.connect(func(id:String):events.append(id))
+	for dimensions in [Vector2i(1280,720),Vector2i(960,540),Vector2i(390,844),Vector2i(844,390),Vector2i(1280,720)]:
+		root.size = dimensions
+		hud.refresh(model.snapshot())
+		await frames()
+		for button in [hud.clean_button,hud.return_button,hud.notebook_button,hud.pause_button]: target(button,str(button.name) + " " + str(dimensions))
+		check(not hud.clean_button.get_global_rect().intersects(hud.return_button.get_global_rect()) and not hud.return_button.get_global_rect().intersects(hud.notebook_button.get_global_rect()),"Primary controls never overlap after live resize")
+		check(hud._top.get_global_rect().end.y < hud._bottom.get_global_rect().position.y,"HUD keeps an open scene region")
+		check(hud._progress.size.y <= 8 and hud._progress.get_global_rect().end.y <= hud.clean_button.get_global_rect().position.y,"Work progress stays thin and separate from action targets")
+		check(hud._cue_label.size.y <= 64 and hud._cue_label.get_global_rect().end.y <= hud._progress.get_global_rect().position.y,"Instruction cue stays inside its visible two-line region on first layout and rotation")
+		check(hud._work_label.get_global_rect().end.y <= hud._progress.get_global_rect().position.y,"Sections count remains separate from progress in short landscape")
+		check(hud.orbs.size() == 8,"All eight science concepts remain available")
+		var last_orb: Button = hud.orbs.shelter
+		last_orb.grab_focus()
+		await frames()
+		check(hud._rail.get_global_rect().grow(1).encloses(last_orb.get_global_rect()),"Keyboard focus scrolls the last science concept into view")
+		check(last_orb.size.x >= 44 and last_orb.size.y >= 44,"Science concept target remains usable")
+	check(Style.font("display").has_char(0x014c),"Bundled display face contains the KŌMAKU macron")
+	check(Style.font("mono").has_char(0x00b5),"Bundled data face contains the microgray prefix")
+	check(Hud.format_clock(0.0) == "00:00" and Hud.format_clock(300.0) == "05:00" and Hud.format_clock(60.01) == "01:01","Clock rounds remaining partial seconds without negative display")
+	await press(hud.clean_button)
+	check(events == ["clean"],"Keyboard clean action emits one intent")
+	model.start_cleaning()
+	model.advance(10.0)
+	var source := model.snapshot()
+	hud.refresh(source)
+	check(hud._preview.cleaning and hud._preview.is_processing() and hud._progress.value > 0,"Cleaning is represented by model-bound progress and a restrained sweep")
+	check("Stop" in hud.clean_button.text,"Active cleaning has an explicit stop action")
+	await press(hud.clean_button)
+	check(events[-1] == "stop","Second cleaning action emits stop intent")
+	source.sections_cleaned = 99
+	check(hud.snapshot.sections_cleaned != 99,"HUD stores a detached snapshot")
+	var before := model.result()
+	hud.refresh(model.snapshot())
+	await frames()
+	check(model.result() == before,"UI refresh and animation never advance the model")
+	hud.set_reduced_motion(true)
+	check(not hud._preview.is_processing() and hud._progress.value > 0,"Reduced motion disables sweep while preserving progress")
+	model.advance(110.0)
+	hud.refresh(model.snapshot())
+	check("Goal met" == hud.orbs.power.status_text and "goal 15" in hud._power_value.text,"Power goal uses model outlook and explicit target text")
+	check("MODEL" in hud._power_title.text and "Mars days" in hud._power_value.text,"Outlook is visibly a model estimate, not a battery reading")
+	check("µGy" in hud.orbs.dose.status_text and hud.orbs.dose.tone == "normal","Absorbed dose is labeled and not given a medical danger color")
+	check(hud.orbs.sievert.status_text == "Other unit","Sievert remains distinct from absorbed-dose microgray")
+	await press(hud.notebook_button)
+	await press(hud.pause_button)
+	await press(hud.orbs.radiation)
+	check(events.slice(events.size()-3) == ["book","pause","radiation"],"Notebook, pause and science card actions are keyboard accessible")
+	hud.return_button.grab_focus()
+	model.request_return()
+	hud.refresh(model.snapshot())
+	await frames()
+	check(hud.clean_button.disabled and hud.return_button.disabled,"Return is one-way and closes cleaning/repeated return controls")
+	check(root.gui_get_focus_owner() == hud.notebook_button,"Focus moves to the available notebook after return closes mission actions")
+	check(hud.orbs.shelter.status_text == "Walking" and "on her way" in hud._cue_label.text,"Return progress has words as well as an orb level")
+	model.advance(90.0)
+	hud.refresh(model.snapshot())
+	check(hud.orbs.shelter.status_text == "Protected" and hud.clean_button.disabled,"Arrival is rendered protected only when the model reports it")
+	var late := Model.new()
+	late.advance(215.0)
+	hud.refresh(late.snapshot())
+	check(hud.orbs.radiation.tone == "caution" and hud._timer_caption.text == "RETURN NOW","Deadline warning uses explicit text rather than an invented dose health limit")
+	late.advance(100.0)
+	hud.refresh(late.snapshot())
+	check(hud.clean_button.disabled and hud.return_button.disabled and "try again" in hud._cue_label.text,"Missed deadline uses a recoverable mission result")
+	hud.queue_free()
+	await frames()
+	print("TRAINING HUD FAILURES: ",failures)
+	quit(1 if failures else 0)
