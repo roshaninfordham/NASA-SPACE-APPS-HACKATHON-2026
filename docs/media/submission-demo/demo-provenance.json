@@ -1,0 +1,57 @@
+{
+  "kind": "edited-submission-demo",
+  "duration_seconds": 29.5,
+  "narration": "AI-generated Indian English male narration, Microsoft en-IN-PrabhatNeural",
+  "gameplay_capture": "Actual Godot main scene, MovieWriter fixed24fps; automated normal HUD commands. Not a human playtest or device-performance recording.",
+  "edit": "Actual whole-screen captures plus original typeset NASA source card; chronological mission footage followed by research/results/science. Results use a documented later fixture, not completion in14real seconds.",
+  "music": "Original project procedural orbit.ogg; no supplied third-party track used.",
+  "inputs": [
+    {
+      "file": "/tmp/komaku-art-demo-stills/story.png",
+      "duration_seconds": 2.5,
+      "sha256": "88924a187dd80688c217fd8bf732e748d2bb4297fda4985b0a469e88bd7a241f"
+    },
+    {
+      "file": "/tmp/komaku-demo-gameplay-trimmed.mp4",
+      "duration_seconds": 14,
+      "sha256": "3e28e26e19df39d77a11157e30fc7551983e74446056940f801e3b278d0cc8be"
+    },
+    {
+      "file": "/workspace/komaku-journey/docs/media/submission-demo/nasa-research.png",
+      "duration_seconds": 5,
+      "sha256": "b58813ba037bfbcf1212f2f82c41664ff1fb4fd731cf46901d5dc3453d515bbd"
+    },
+    {
+      "file": "/tmp/komaku-art-demo-stills/debrief.png",
+      "duration_seconds": 3.5,
+      "sha256": "75813445d65454396ab6fc6b6a7d3aefcf8a519c9892b103c3e1084b22a11675"
+    },
+    {
+      "file": "/tmp/komaku-art-demo-stills/science.png",
+      "duration_seconds": 4.5,
+      "sha256": "7553bab7e88c8decf5e43a6329539ff14b787292f445fcc1bb5f3d5d167b988a"
+    }
+  ],
+  "ffprobe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080,
+        "avg_frame_rate": "24/1"
+      },
+      {
+        "codec_name": "aac",
+        "sample_rate": "48000",
+        "avg_frame_rate": "0/0"
+      }
+    ],
+    "format": {
+      "duration": "29.500000",
+      "size": "2534619"
+    }
+  },
+  "video_sha256": "6c69a5123f164f007a0cc0a2b163822340b6bdb693c8ff10be0ef29766baf8d5"
+}

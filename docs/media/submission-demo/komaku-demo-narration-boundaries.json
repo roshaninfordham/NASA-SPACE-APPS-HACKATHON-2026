@@ -1,0 +1,386 @@
+{
+  "voice": "en-IN-PrabhatNeural",
+  "rate": "+10%",
+  "credit": "AI-generated narration using Microsoft en-IN-PrabhatNeural.",
+  "script": "We’re Team Roshan Xingbo. In Koh mah koo: Dust and Radiation, young explorers guide Ren from a Mars outpost. Choose her cleaning pace. Clear dust for solar power, but rushing makes her tired. NASA’s Curiosity radiation measurements and Pathfinder dust research ground the lesson. Play, compare your missions, and discover how space science connects.",
+  "events": [
+    {
+      "type": "WordBoundary",
+      "offset": 954580,
+      "duration": 3068330,
+      "text": "We’re"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 4022910,
+      "duration": 3181660,
+      "text": "Team"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 7204580,
+      "duration": 3750000,
+      "text": "Roshan"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 11522910,
+      "duration": 5568330,
+      "text": "Xingbo"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 25340830,
+      "duration": 1136250,
+      "text": "In"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 26590830,
+      "duration": 1818330,
+      "text": "Koh"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 29090830,
+      "duration": 4431660,
+      "text": "mah"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 33750000,
+      "duration": 2840830,
+      "text": "koo"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 37727080,
+      "duration": 3636250,
+      "text": "Dust"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 42159160,
+      "duration": 2272500,
+      "text": "and"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 44431660,
+      "duration": 6363750,
+      "text": "Radiation"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 54886250,
+      "duration": 2840830,
+      "text": "young"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 58409160,
+      "duration": 6704580,
+      "text": "explorers"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 65454580,
+      "duration": 2954580,
+      "text": "guide"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 68409160,
+      "duration": 2500000,
+      "text": "Ren"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 70909160,
+      "duration": 3181660,
+      "text": "from"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 74204580,
+      "duration": 454580,
+      "text": "a"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 74659160,
+      "duration": 3750000,
+      "text": "Mars"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 78977080,
+      "duration": 5909160,
+      "text": "outpost"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 92954580,
+      "duration": 3295410,
+      "text": "Choose"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 96250000,
+      "duration": 2386250,
+      "text": "her"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 98863750,
+      "duration": 4431660,
+      "text": "cleaning"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 103295410,
+      "duration": 4204580,
+      "text": "pace"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 115681660,
+      "duration": 3295410,
+      "text": "Clear"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 118977080,
+      "duration": 3181660,
+      "text": "dust"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 122272910,
+      "duration": 2500000,
+      "text": "for"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 124772910,
+      "duration": 3636250,
+      "text": "solar"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 128409160,
+      "duration": 4431660,
+      "text": "power"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 134886250,
+      "duration": 2045410,
+      "text": "but"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 136931660,
+      "duration": 3750000,
+      "text": "rushing"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 140681660,
+      "duration": 3636250,
+      "text": "makes"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 144318330,
+      "duration": 2158750,
+      "text": "her"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 146477080,
+      "duration": 4545410,
+      "text": "tired"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 159090830,
+      "duration": 4772910,
+      "text": "NASA’s"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 163863750,
+      "duration": 6590830,
+      "text": "Curiosity"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 170454580,
+      "duration": 5568330,
+      "text": "radiation"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 176022910,
+      "duration": 6477080,
+      "text": "measurements"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 184204580,
+      "duration": 2045410,
+      "text": "and"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 186250000,
+      "duration": 7045410,
+      "text": "Pathfinder"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 193295410,
+      "duration": 3181660,
+      "text": "dust"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 197045410,
+      "duration": 4772910,
+      "text": "research"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 202159160,
+      "duration": 3181660,
+      "text": "ground"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 205340830,
+      "duration": 1590830,
+      "text": "the"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 206931660,
+      "duration": 4090830,
+      "text": "lesson"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 219318330,
+      "duration": 2500000,
+      "text": "Play"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 225113750,
+      "duration": 4431660,
+      "text": "compare"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 229545410,
+      "duration": 2613750,
+      "text": "your"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 232159160,
+      "duration": 5113750,
+      "text": "missions"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 240000000,
+      "duration": 1363750,
+      "text": "and"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 241477080,
+      "duration": 5227080,
+      "text": "discover"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 246704580,
+      "duration": 2159160,
+      "text": "how"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 248863750,
+      "duration": 4659160,
+      "text": "space"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 253977080,
+      "duration": 4431660,
+      "text": "science"
+    },
+    {
+      "type": "WordBoundary",
+      "offset": 258522910,
+      "duration": 4886250,
+      "text": "connects"
+    }
+  ],
+  "duration_seconds": 27.144,
+  "sha256": "c45501fed93d090c647315bc8c9eca7ad2581ac1c847a90466bff9c14a5176a5",
+  "subtitles": [
+    {
+      "start": 0.095458,
+      "end": 1.959124,
+      "text": "We’re Team Roshan Xingbo."
+    },
+    {
+      "start": 2.534083,
+      "end": 5.329541,
+      "text": "In KŌMAKU: Dust & Radiation,"
+    },
+    {
+      "start": 5.488625,
+      "end": 8.738624,
+      "text": "young explorers guide Ren\nfrom a Mars outpost."
+    },
+    {
+      "start": 9.295458,
+      "end": 10.999999,
+      "text": "Choose her cleaning pace."
+    },
+    {
+      "start": 11.568166,
+      "end": 13.448625000000002,
+      "text": "Clear dust for solar power,"
+    },
+    {
+      "start": 13.488625,
+      "end": 15.352249,
+      "text": "but rushing makes her tired."
+    },
+    {
+      "start": 15.909083,
+      "end": 18.380458,
+      "text": "NASA’s Curiosity radiation measurements"
+    },
+    {
+      "start": 18.420458,
+      "end": 21.352249,
+      "text": "and Pathfinder dust research\nground the lesson."
+    },
+    {
+      "start": 21.931833,
+      "end": 23.96,
+      "text": "Play, compare your missions,"
+    },
+    {
+      "start": 24.0,
+      "end": 26.590916,
+      "text": "and discover how space science connects."
+    }
+  ]
+}

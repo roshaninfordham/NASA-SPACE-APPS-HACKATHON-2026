@@ -1,0 +1,58 @@
+extends SceneTree
+## Deterministic engine movie capture, not a wall-clock performance recording.
+var output := "/tmp/komaku-art-movie"
+func _initialize(): call_deferred("run")
+func run():
+	root.size = Vector2i(960,540)
+	DirAccess.make_dir_recursive_absolute(output)
+	var game = load("res://main.tscn").instantiate()
+	game.online_sources_enabled = false
+	root.add_child(game)
+	for i in range(3): await process_frame
+	game.set_process(false)
+	game.focused = true
+	game.start_mission()
+	for i in range(180):
+		if game.stage != "loading": break
+		await process_frame
+	if game.stage != "mission" or game.mission_started:
+		push_error("Movie fixture requires loaded preflight")
+		quit(1)
+		return
+	game.focused = true
+	game.launch_mission()
+	game._process(0.0)
+	game.model.advance(18.0)
+	game.set_cleaning_speed(1.25)
+	game.model.advance(24.0)
+	game.hud.speed_slider.value = 1.0
+	AudioServer.set_bus_mute(0,true)
+	game.hud.refresh(game.model.snapshot())
+	game._sync_world(game.model.snapshot())
+	for i in range(8):
+		await process_frame
+		await RenderingServer.frame_post_draw
+	var initial: Dictionary = game.model.snapshot()
+	var start_frame := Engine.get_frames_drawn()
+	var actions: Array[Dictionary] = []
+	var samples: Array[Dictionary] = []
+	game.set_process(true)
+	for frame in range(336):
+		await process_frame
+		if frame == 48 or frame == 192:
+			game.hud.speed_slider.value = 1.75 if frame == 48 else 0.75
+			actions.append({"gameplay_frame":frame,"movie_seconds":float(frame)/24.0,"kind":"actual HUD speed slider","selected_multiplier":game.model.snapshot().selected_multiplier})
+		await RenderingServer.frame_post_draw
+		if frame in [0,48,191,192,335]:
+			var path := output.path_join("gameplay-%03d.png" % frame)
+			root.get_texture().get_image().save_png(path)
+			samples.append({"gameplay_frame":frame,"file":path.get_file(),"snapshot":game.model.snapshot()})
+	var final: Dictionary = game.model.snapshot()
+	game.set_process(false)
+	var record := {"kind":"deterministic-native-engine-movie","method":"Actual main.tscn using Godot MovieWriter at fixed24fps. Initial state uses actual18seconds at1x plus24seconds at1.25x, then normal HUD resets1x. Production process and all character/panel animations run for336fixed-timestep frames; real HUD slider selects1.75x atframe48 and0.75x atframe192. No camera, character-joint, or work-progress assignments during the recorded interval. This is engine-rendered fixed-clock footage, not wall-clock gameplay/performance evidence. Audio muted; online requests disabled.","fps":24,"gameplay_frames":336,"gameplay_duration_seconds":14.0,"trim_start_frame":start_frame,"trim_start_seconds":float(start_frame)/24.0,"final_drawn_frame":Engine.get_frames_drawn(),"source_viewport":[960,540],"initial_snapshot":initial,"final_snapshot":final,"control_actions":actions,"samples":samples}
+	var file := FileAccess.open(output.path_join("movie-provenance.json"),FileAccess.WRITE)
+	file.store_string(JSON.stringify(record,"  ")+"\n")
+	file.close()
+	var valid: bool = final.elapsed_seconds > initial.elapsed_seconds and final.cleaned_work > initial.cleaned_work and actions.size() == 2 and final.selected_multiplier == 0.75
+	print("ART_MOVIE_COMPLETE start_frame=",start_frame," frames=336 active_delta=",float(final.elapsed_seconds)-float(initial.elapsed_seconds)," clean_delta=",float(final.cleaned_work)-float(initial.cleaned_work))
+	quit(0 if valid else 1)
