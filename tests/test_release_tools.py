@@ -92,6 +92,26 @@ class ReleaseToolsTest(unittest.TestCase):
             (self.output / "SHA256SUMS.txt").write_text("".join(f"{entry['sha256']}  {entry['name']}\n" for entry in entries))
             self.assertEqual(acceptance.validate_artifacts(self.output, self.commit)["version"], version)
 
+    def test_native_acceptance_checks_the_current_notification_and_rejects_unknown_entrypoints(self):
+        scene = self.output / "main.tscn"
+        for entry, notification in [("game.gd", "update_notice.visible"), ("journey_game.gd", 'modal_kind == "update-offer"')]:
+            with self.subTest(entry=entry):
+                scene.write_text(f'[ext_resource type="Script" path="res://scripts/{entry}" id="1"]\n')
+                acceptance.write_transport(self.output, self.output, "0.10.0-alpha.1", live_release=True)
+                wrapper = (self.output / "acceptance_main.gd").read_text()
+                self.assertIn(f'extends "res://scripts/{entry}"', wrapper)
+                self.assertIn(notification, wrapper)
+                self.assertIn('path="res://acceptance_main.gd"', scene.read_text())
+                self.assertNotIn("__NOTIFICATION__", wrapper)
+                if entry == "journey_game.gd":
+                    self.assertIn("online_sources_enabled = false", wrapper)
+                    self.assertIn("show_preparation()", wrapper)
+        for content in ['[ext_resource path="res://scripts/unknown.gd"]', '[ext_resource path="res://scripts/game.gd"]\n[ext_resource path="res://scripts/journey_game.gd"]']:
+            scene.write_text(content)
+            with self.assertRaisesRegex(ValueError, "main scene contract changed"):
+                acceptance.write_transport(self.output, self.output, "0.10.0-alpha.1")
+            self.assertEqual(scene.read_text(), content)
+
     def test_science_guide_is_required_only_from_its_first_release(self):
         self.assertFalse(branding.supplemental_asset_names("0.6.1-alpha.1"))
         self.assertEqual(branding.supplemental_asset_names("0.7.0-alpha.1"), {"KOMAKU-Shield-Protocol-0.7.0-alpha.1-Science-Guide.pdf"})

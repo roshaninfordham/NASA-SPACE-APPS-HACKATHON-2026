@@ -2,7 +2,9 @@
 
 All published game versions and notable unreleased work are recorded here. The version and source commit in each release manifest identify the exact downloadable build. Documentation on `main` can be newer than an installer.
 
-## [0.10.0-alpha.1] — interface and installation update, publication pending
+## [0.10.0-alpha.1] — 2026-11-15
+
+Published at **13:53:05 UTC** from `26f19540baf330b00b0ac4a1b470d0e1439f7382`. [Source validation](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43720618321), [signed build/native startup](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43720633663), [twelve native update jobs](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43721023112) and [publication](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43721296427) passed. The documented Linux 0.4 update baseline also passed. [Public-file verification](docs/evidence/release-0.10.0-alpha.1.json) matched all ten downloads to the accepted build, passed all four ZIP integrity checks and confirmed the exact three reviewed PDFs plus current filenames/download links in each package.
 
 Correct the installation handoff bundled with 0.9.0: current download URLs, package version and Mac/Windows/Linux executable names now describe the actual 0.10.0 files. Put older-version instructions in an explicit historical section. Update the release documentation and native export version metadata; extend required update checks to the public 0.9.0 installers, for twelve Mac/Windows jobs across six baselines plus Linux 0.4. [Release notes](docs/releases/0.10.0-alpha.1.md).
 

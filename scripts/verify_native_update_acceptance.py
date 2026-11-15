@@ -148,6 +148,13 @@ def verify_signature(folder, public_key, release):
 
 
 def write_transport(project, folder, version, live_release=False):
+    scene = project / "main.tscn"
+    content = scene.read_text()
+    entries = [name for name in ("res://scripts/game.gd", "res://scripts/journey_game.gd") if f'path="{name}"' in content]
+    if len(entries) != 1:
+        raise ValueError("Source main scene contract changed; review acceptance wrapper")
+    entry = entries[0]
+    journey = entry == "res://scripts/journey_game.gd"
     metadata = [{"draft": False, "prerelease": "-alpha." in version, "tag_name": "v" + version, "assets": [{"name": name, "browser_download_url": f"https://github.com/{REPOSITORY}/releases/download/v{version}/{name}"} for name in sorted(UPDATE_NAMES)]}]
     (project / "acceptance_transport.gd").write_text('''extends "res://updater/client.gd"
 # Test transport exists only in a disposable fixture export, never in the game.
@@ -205,14 +212,15 @@ func _fetch(url: String, limit: int, download_path: String = "") -> Dictionary:
         return {"ok": true, "body": file.get_buffer(file.get_length())}
     return {"ok": false, "error": "unexpected_fixture_url"}
 '''.replace("__DIRECTORY__", json.dumps(str(folder))).replace("__VERSION__", json.dumps(version)).replace("__METADATA__", json.dumps(json.dumps(metadata))).replace("__LIVE__", "true" if live_release else "false"))
-    (project / "acceptance_main.gd").write_text('''extends "res://scripts/game.gd"
+    (project / "acceptance_main.gd").write_text('''extends "__ENTRY__"
 const FixtureClient = preload("res://acceptance_transport.gd")
 func _ready() -> void:
     var bootstrap := get_node("/root/Updates")
     print("ACCEPTANCE_FIXTURE_WRAPPER=", bootstrap.running_version)
     print("ACCEPTANCE_FIXTURE_NOTICE=", bootstrap.startup_notice)
-    await super._ready()
+__BEFORE_READY__    await super._ready()
     if "--smoke-test" in OS.get_cmdline_user_args(): return
+__SAFE_MENU__
     if is_instance_valid(update_client):
         update_client.get_parent().remove_child(update_client)
         update_client.queue_free()
@@ -221,13 +229,15 @@ func _ready() -> void:
     client.configure(bootstrap.store, bootstrap.running_version, "user://updates/acceptance-incoming")
     bootstrap.add_child(client)
     update_client = client
-    client.changed.connect(refresh_update_notice)
+    client.changed.connect(__REFRESH__)
     await client.check_for_updates(true)
     if not client.can_install() or client.available_version != FixtureClient.TARGET_VERSION:
         push_error("Fixture did not discover an installable signed update: " + client.message)
         get_tree().quit(1)
         return
-    if not update_notice.visible:
+    await get_tree().process_frame
+    await get_tree().process_frame
+    if not (__NOTIFICATION__):
         push_error("Fixture discovered an update without showing the game notification")
         get_tree().quit(1)
         return
@@ -247,12 +257,12 @@ func _ready() -> void:
         print("ACCEPTANCE_REAL_RESTART=true")
         return
     get_tree().quit()
-''')
-    scene = project / "main.tscn"
-    content = scene.read_text()
-    if 'path="res://scripts/game.gd"' not in content:
-        raise ValueError("Source main scene contract changed; review acceptance wrapper")
-    scene.write_text(content.replace('path="res://scripts/game.gd"', 'path="res://acceptance_main.gd"'))
+'''.replace("__ENTRY__", entry)
+        .replace("__BEFORE_READY__", "    online_sources_enabled = false\n" if journey else "")
+        .replace("__SAFE_MENU__", "    show_preparation()\n" if journey else "")
+        .replace("__REFRESH__", "_refresh_updates" if journey else "refresh_update_notice")
+        .replace("__NOTIFICATION__", 'is_instance_valid(modal) and modal_kind == "update-offer"' if journey else "update_notice.visible"))
+    scene.write_text(content.replace(f'path="{entry}"', 'path="res://acceptance_main.gd"'))
 
 
 @contextmanager

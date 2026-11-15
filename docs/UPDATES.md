@@ -1,12 +1,31 @@
 # Updating <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand -->
 
-**Current source/package: 0.10.0-alpha.1; publication pending.** This interface update simplifies reading and navigation and corrects the installation handoff; the mission equations remain unchanged from the published [0.9.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.9.0-alpha.1). The 0.9.0 release was published November 15, 2026 at 13:12:47 UTC, and its assets remain unchanged. [Release notes](releases/0.10.0-alpha.1.md).
+**Published [0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1) — November 15, 2026, 13:53:05 UTC.** Built from `26f19540baf330b00b0ac4a1b470d0e1439f7382`. This release simplifies the interface and corrects the installation handoff while preserving the 90-second mission and its equations. [Release notes](releases/0.10.0-alpha.1.md).
 
-The candidate's required native matrix now covers public **0.6.0, 0.6.1, 0.7.0, 0.7.1, 0.8.0 and 0.9.0** on both Mac and Windows—**twelve jobs**—plus the documented Linux 0.4 gate. Each unchanged baseline must activate the exact signed pack, repeat healthy startup and recover from same-size corruption. Configuration of these checks is not evidence that 0.10.0 has passed; final build/run IDs and exact hashes will be recorded after acceptance. [Release notes](releases/0.10.0-alpha.1.md).
+The accepted signed pack passed activation, healthy repeat startup and same-size corruption recovery using unchanged public **0.6.0, 0.6.1, 0.7.0, 0.7.1, 0.8.0 and 0.9.0** installers on both Mac and Windows—**twelve passed jobs**—plus the documented Linux 0.4 baseline. [Native matrix run](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43721023112).
 
-## Published 0.9 baseline
+| Baseline | Mac                                                | Windows                                              |
+| -------- | -------------------------------------------------- | ---------------------------------------------------- |
+| 0.6.0    | [Passed](evidence/update-0.6.0-to-0.10-macos.json) | [Passed](evidence/update-0.6.0-to-0.10-windows.json) |
+| 0.6.1    | [Passed](evidence/update-0.6.1-to-0.10-macos.json) | [Passed](evidence/update-0.6.1-to-0.10-windows.json) |
+| 0.7.0    | [Passed](evidence/update-0.7.0-to-0.10-macos.json) | [Passed](evidence/update-0.7.0-to-0.10-windows.json) |
+| 0.7.1    | [Passed](evidence/update-0.7.1-to-0.10-macos.json) | [Passed](evidence/update-0.7.1-to-0.10-windows.json) |
+| 0.8.0    | [Passed](evidence/update-0.8.0-to-0.10-macos.json) | [Passed](evidence/update-0.8.0-to-0.10-windows.json) |
+| 0.9.0    | [Passed](evidence/update-0.9.0-to-0.10-macos.json) | [Passed](evidence/update-0.9.0-to-0.10-windows.json) |
 
-[0.9.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.9.0-alpha.1) remains the latest published version while 0.10 completes acceptance. Its [public-file record](evidence/release-0.9.0-alpha.1.json) identifies the verified unchanged artifacts. The 0.10 interface and package-guide correction require a new signed pack; 0.9 assets are not replaced in place.
+[Linux 0.4 → 0.10](evidence/update-0.4-to-0.10-linux.json) also passed. [Mac](evidence/native-launch-0.10-macos.json) and [Windows](evidence/native-launch-0.10-windows.json) package startup passed in [build run 43720633663](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43720633663). These hosted update checks use local signed artifacts, so they do not independently prove HTTP delivery, notification clicks or automatic graphical relaunch. [Public-file verification](evidence/release-0.10.0-alpha.1.json) matched all ten assets to the accepted build, passed all four ZIP checks and confirmed the current instructions and three exact PDFs. The unauthenticated public manifest returned HTTP 200.
+
+Accepted manifest SHA-256: `dbf95ccd9fd266070f04e8dafa8b73b62b931244d6525fbfdc5d71d682b01657`. Existing app filenames and save locations remain stable. A broken older Mac bundle that cannot open still needs one corrected full installation.
+
+## Additional live HTTP and restart check
+
+A separate [Linux live-update test](evidence/live-update-0.10-linux.json) passed real production `HTTPRequest` discovery and download from GitHub: metadata, signed manifest, signature and the 17,485,976-byte content pack all returned HTTP 200. It exercised the actual journey update-offer dialog, signature verification, staging, healthy activation, repeat startup, tamper recovery and an `OS.create_instance` graphical restart into 0.10.0 under Xvfb. The restarted process stayed alive with a healthy activation journal for the three-second observation.
+
+This test used a disposable exact-source **0.10.0-alpha.0 fixture**, with fixture-only proxy/verified-CA configuration; it was **not an upgrade from a published installer**. The separate twelve-job native matrix supplies the historical-installer evidence. This Linux cloud result does not establish physical Mac/Windows behavior, GPU performance or device audio. The harness was updated after publication for the current journey main scene; signed production content was unchanged.
+
+## Historical 0.9 baseline
+
+The [0.9 public-file record](evidence/release-0.9.0-alpha.1.json) identifies its unchanged artifacts. The 0.10 interface and package-guide correction ship as a new signed version; old assets are not replaced in place.
 
 ## Historical 0.8 update evidence
 

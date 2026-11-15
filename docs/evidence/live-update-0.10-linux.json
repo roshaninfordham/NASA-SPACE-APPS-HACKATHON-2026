@@ -1,0 +1,69 @@
+{
+  "status": "passed",
+  "platform": "Linux x64, headless plus authenticated Xvfb",
+  "baseline_version": "0.10.0-alpha.0",
+  "baseline_kind": "disposable exact-source fixture; not a previously shipped installer",
+  "target_version": "0.10.0-alpha.1",
+  "source_commit": "26f19540baf330b00b0ac4a1b470d0e1439f7382",
+  "runtime_contract": "red-veil-desktop-v1",
+  "pack_sha256": "1369320599bb3512fde3514bd3e710eea2effca98d032bdec676be312acbdf18",
+  "transport": "production HTTPRequest against fixed public GitHub URLs; fixture-only proxy/verified CA configuration",
+  "checks": [
+    "all release artifact hashes and ZIP integrity",
+    "real signature against exact-source installer key",
+    "exported native update notification, discovery, signature verification, staging and activation",
+    "production PCK replaces fixture main scene",
+    "production startup health acknowledgment and persistent second boot",
+    "same-size installed-pack tampering restores bundled baseline",
+    "real GitHub metadata, signed manifest, signature and content download match independently verified artifacts",
+    "actual OS.create_instance relaunch into healthy production content under Xvfb"
+  ],
+  "not_verified": [
+    "physical Mac or Windows",
+    "upgrade from a previously shipped installer",
+    "physical GPU rendering and visual quality",
+    "audio device behavior"
+  ],
+  "live_http_responses": [
+    {
+      "bytes": 255496,
+      "code": 200,
+      "ok": true,
+      "url": "https://api.github.com/repos/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases?per_page=20"
+    },
+    {
+      "bytes": 357,
+      "code": 200,
+      "ok": true,
+      "url": "https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/update-manifest.json"
+    },
+    {
+      "bytes": 384,
+      "code": 200,
+      "ok": true,
+      "url": "https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/update-manifest.sig"
+    },
+    {
+      "bytes": 17485976,
+      "code": 200,
+      "ok": true,
+      "url": "https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/red-veil-content.pck"
+    }
+  ],
+  "gui_restart": {
+    "status": "passed",
+    "backend": "X11 on authenticated Xvfb",
+    "renderer": "OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)",
+    "diagnostics": [
+      "WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver."
+    ],
+    "original_pid": 191351,
+    "restarted_pid": 191504,
+    "new_version": "0.10.0-alpha.1",
+    "health": "new process remained alive with healthy activation journal for three seconds",
+    "scope": "Linux only; exact signed production pack; no production test hooks; live GitHub transfer with fixture network configuration"
+  },
+  "workspace": "/workspace/download-verification/0.10.0-alpha.1-live-http-gui-v2",
+  "harness_source_sha256": "f61044b1bb117e9bae517960c2026e1370bc700ba2637ddb0cb54a000d763c9d",
+  "harness_note": "Harness updated after publication to recognize the current journey main scene and its real update-offer modal; signed production content is unchanged. The baseline is a disposable fixture, not a previously shipped installer."
+}

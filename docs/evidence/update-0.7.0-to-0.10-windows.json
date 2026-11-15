@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "system": "Windows",
+  "os": "Windows-2025Server-10.0.26100-SP0",
+  "machine": "AMD64",
+  "baseline_version": "0.7.0-alpha.1",
+  "checks": [
+    "matching-staging-engine",
+    "inspect-original-installer",
+    "both-signatures-match-original-shipped-key",
+    "untouched-public-baseline-start",
+    "original-store-stage-and-activate",
+    "original-installer-mounts-candidate",
+    "original-installer-repeats-healthy-start",
+    "same-size-tampering-restores-original-baseline"
+  ],
+  "not_verified": [
+    "Finder/Gatekeeper/SmartScreen approval",
+    "HTTP update transport and notification UI",
+    "OS.create_instance automatic relaunch",
+    "graphics/audio or physical-device gameplay"
+  ],
+  "baseline_source_commit": "8968859e8ffdcda7b8c0c216ff0262df633400e6",
+  "baseline_archive_sha256": "068106d04e19b605377a564b3f48a90fd26481aac10a3d254903703dfeb33828",
+  "baseline_executable_sha256": "765cd4f74bbb8ecc3e61fa06675a4f3d4ea67d6ea3113f1bf7ced3c66716cf59",
+  "target_version": "0.10.0-alpha.1",
+  "source_commit": "26f19540baf330b00b0ac4a1b470d0e1439f7382",
+  "pack_sha256": "1369320599bb3512fde3514bd3e710eea2effca98d032bdec676be312acbdf18",
+  "runtime_contract": "red-veil-desktop-v1",
+  "editor": {
+    "archive": "Godot_v4.6.3-stable_win64.exe.zip",
+    "sha512": "d44ea7ef5bab754cacd49d581b6062836b2eea12a82e1d183aebfad9cd8c7db2bd82513337bd657d6d2d5c04d46239c0570b029faf1343e81e8a2fa7b85dd83b",
+    "source": "https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/"
+  },
+  "staging": "Matching editor runs original packaged store/verifier/key; no source re-export or altered trust root",
+  "scope": "Unchanged public baseline executable; local signed artifacts; native headless mounting, healthy repeat startup and corruption fallback; fresh application profile"
+}

@@ -1,0 +1,114 @@
+{
+  "version": "0.10.0-alpha.1",
+  "source_commit": "26f19540baf330b00b0ac4a1b470d0e1439f7382",
+  "public_assets_match_accepted_build": true,
+  "verified_utc": "2026-11-15T13:54:20.165772+00:00",
+  "manifest_sha256": "dbf95ccd9fd266070f04e8dafa8b73b62b931244d6525fbfdc5d71d682b01657",
+  "assets": [
+    {
+      "name": "KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Linux-x64.zip",
+      "bytes": 44228652,
+      "sha256": "5083ce7d85ac7d266e9c9ac14c535fb18e0766228cb5f8fd3bf942c7df536b01"
+    },
+    {
+      "name": "KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Science-Guide.pdf",
+      "bytes": 345647,
+      "sha256": "81a621633c34924ba527a8b60e85afc9d50ee77476c605bf528ce553d40040b4"
+    },
+    {
+      "name": "KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Web.zip",
+      "bytes": 26632694,
+      "sha256": "574047a05d865d42bfac3725981ca2ab848b6d9fc9f4f31cf800368a8ae635c3"
+    },
+    {
+      "name": "KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Windows-x64.zip",
+      "bytes": 53068294,
+      "sha256": "ae018f0ce8a13ea5a7d431393b960dc1c52fa77c056584361d8753c6d0e546be"
+    },
+    {
+      "name": "KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-macOS-universal.zip",
+      "bytes": 79898759,
+      "sha256": "7fc1e215980aa3f30d6f9ce1e5a395f115c6901c645817ff9d1d4054fbb7df95"
+    },
+    {
+      "name": "SHA256SUMS.txt",
+      "bytes": 871,
+      "sha256": "aa3196f7431021d474f0a40f6699544a932ae710c560407b72e8f2db0c0a02b1"
+    },
+    {
+      "name": "red-veil-content.pck",
+      "bytes": 17485976,
+      "sha256": "1369320599bb3512fde3514bd3e710eea2effca98d032bdec676be312acbdf18"
+    },
+    {
+      "name": "release-manifest.json",
+      "bytes": 2430,
+      "sha256": "dbf95ccd9fd266070f04e8dafa8b73b62b931244d6525fbfdc5d71d682b01657"
+    },
+    {
+      "name": "update-manifest.json",
+      "bytes": 357,
+      "sha256": "b9b967f47003775f349295598d9fe31a719bdfc4139604b162e4740af10c3995"
+    },
+    {
+      "name": "update-manifest.sig",
+      "bytes": 384,
+      "sha256": "f4d9f32e4ecf4642c5b367aca22d193d167429e0444372a9598baf4fc6a8c83c"
+    }
+  ],
+  "zip_checks": [
+    {
+      "archive": "KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Linux-x64.zip",
+      "crc": "passed",
+      "start_here_current": true,
+      "download_guide_matches_actual_names": true,
+      "four_current_download_links": true,
+      "three_reviewed_pdfs_exact": true
+    },
+    {
+      "archive": "KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Web.zip",
+      "crc": "passed",
+      "start_here_current": true,
+      "download_guide_matches_actual_names": true,
+      "four_current_download_links": true,
+      "three_reviewed_pdfs_exact": true
+    },
+    {
+      "archive": "KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Windows-x64.zip",
+      "crc": "passed",
+      "start_here_current": true,
+      "download_guide_matches_actual_names": true,
+      "four_current_download_links": true,
+      "three_reviewed_pdfs_exact": true
+    },
+    {
+      "archive": "KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-macOS-universal.zip",
+      "crc": "passed",
+      "start_here_current": true,
+      "download_guide_matches_actual_names": true,
+      "four_current_download_links": true,
+      "three_reviewed_pdfs_exact": true
+    }
+  ],
+  "release_url": "https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1",
+  "web_hosting": "Not deployed; owner deferred hosting.",
+  "scope": "Exact-source hosted native launch/signature checks, unchanged-installer signed-content activation/repeat/recovery gates, and byte-for-byte public artifact verification. Native baseline gates use local signed artifacts. Physical-device behavior and learning outcomes require separate testing.",
+  "validation_run_id": 43720618321,
+  "build_run_id": 43720633663,
+  "publication_run_id": 43721296427,
+  "native_update_run_id": 43721023112,
+  "published_utc": "2026-11-15T13:53:05Z",
+  "publication_conclusion": "success",
+  "native_update_jobs_passed": 12,
+  "native_update_baselines": [
+    "0.6.0-alpha.1",
+    "0.6.1-alpha.1",
+    "0.7.0-alpha.1",
+    "0.7.1-alpha.1",
+    "0.8.0-alpha.1",
+    "0.9.0-alpha.1"
+  ],
+  "linux_baseline": "0.4.0-alpha.1",
+  "public_manifest_unauthenticated_http_200": true,
+  "additional_live_update_evidence": "live-update-0.10-linux.json"
+}

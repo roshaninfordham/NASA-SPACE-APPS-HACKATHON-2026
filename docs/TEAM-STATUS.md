@@ -1,6 +1,6 @@
 # <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — team progress
 
-**Current source/package: 0.10.0-alpha.1; publication pending.** This interface update simplifies reading and navigation and corrects the installation handoff; the mission equations remain unchanged from the published [0.9.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.9.0-alpha.1). The 0.9.0 release was published November 15, 2026 at 13:12:47 UTC, and its assets remain unchanged. [Release notes](releases/0.10.0-alpha.1.md).
+**Published [0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1) — November 15, 2026, 13:53:05 UTC.** Built from `26f19540baf330b00b0ac4a1b470d0e1439f7382`. This release simplifies the interface and corrects the installation handoff while preserving the 90-second mission and its equations. [Release notes](releases/0.10.0-alpha.1.md).
 
 ## What the team can explain
 
@@ -23,9 +23,11 @@ WIN/PASS/TRY AGAIN is determined by cleaned fraction: at least 80%, at least 40%
 
 Historical Curiosity RAD measurements ground the starting dose rate; Pathfinder supports the dust mechanism. The correct Pathfinder wording is **0.28% per day decrease in solar-cell short-circuit current**. NASA SDO provides a separate latest-image viewer; it does not drive the Mars storm or score. [Model](TRAINING-MODEL.md) · [All sources](SOURCE-INDEX.md).
 
-## Acceptance still required for 0.10.0
+## Published 0.10.0 acceptance
 
-The shared source suite and 29-assertion native Linux navigation check have passed. The new gallery covers 135 states across five viewports with zero layout findings and unchanged recorded source hashes. Exact-source builds, package launch gates, signed-content activation/recovery on supported original installers, and public-file verification remain separate release gates. The expanded native update matrix contains six baseline versions on both Mac and Windows, including 0.9.0, plus the documented Linux 0.4 check. A configured matrix is not a passed matrix.
+The [source validation](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43720618321), [signed build/native startup](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43720633663), [twelve Mac/Windows update jobs](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43721023112) and [publication](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43721296427) passed for `26f19540baf330b00b0ac4a1b470d0e1439f7382`. Exact [Mac](evidence/native-launch-0.10-macos.json) and [Windows](evidence/native-launch-0.10-windows.json) archives passed hosted startup. Six original installer versions on each native platform, plus [Linux 0.4](evidence/update-0.4-to-0.10-linux.json), passed signed-content activation, repeated healthy startup and recovery. [Public-file verification](evidence/release-0.10.0-alpha.1.json) matched all ten downloads to the accepted build. All four ZIPs passed integrity checks and contain the current instructions and exact three reviewed PDFs. The public manifest returned HTTP 200 without authentication.
+
+The 29-assertion native Linux navigation check also passed. The gallery covers 135 states across five viewports with zero layout findings and unchanged recorded source hashes. These layout and hosted native checks do not establish physical-device performance or learning effectiveness.
 
 The [0.10 gallery](media/journey-0.10/README.md) records the new interface with source and fixture provenance. The [0.9 gallery](media/journey-0.9/README.md) remains historical evidence for its earlier interface. The 0.8 gallery and acceptance records below keep their original scope. Code tests, native runner tests, physical-device usability and learning effectiveness remain distinct. [Validation](VALIDATION.md) · [Media](MEDIA.md).
 

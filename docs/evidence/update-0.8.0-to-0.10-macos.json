@@ -1,0 +1,37 @@
+{
+  "passed": true,
+  "system": "Darwin",
+  "os": "macOS-26.7.2-arm64-arm-64bit",
+  "machine": "arm64",
+  "baseline_version": "0.8.0-alpha.1",
+  "checks": [
+    "matching-staging-engine",
+    "inspect-original-installer",
+    "both-signatures-match-original-shipped-key",
+    "untouched-public-baseline-start",
+    "original-store-stage-and-activate",
+    "original-installer-mounts-candidate",
+    "original-installer-repeats-healthy-start",
+    "same-size-tampering-restores-original-baseline"
+  ],
+  "not_verified": [
+    "Finder/Gatekeeper/SmartScreen approval",
+    "HTTP update transport and notification UI",
+    "OS.create_instance automatic relaunch",
+    "graphics/audio or physical-device gameplay"
+  ],
+  "baseline_source_commit": "8b13e027ce5e0fa941a6bbeb1e09c5873b11baee",
+  "baseline_archive_sha256": "15feed5e21cc14e12ed8176cf97b505ca71a44acca66bd0cae809a09688fe749",
+  "baseline_executable_sha256": "ea2de303b356c11302bb8698dab011496398d0942ab2ef332d2d829c3bd65cc3",
+  "target_version": "0.10.0-alpha.1",
+  "source_commit": "26f19540baf330b00b0ac4a1b470d0e1439f7382",
+  "pack_sha256": "1369320599bb3512fde3514bd3e710eea2effca98d032bdec676be312acbdf18",
+  "runtime_contract": "red-veil-desktop-v1",
+  "editor": {
+    "archive": "Godot_v4.6.3-stable_macos.universal.zip",
+    "sha512": "0155bbc8dcf179edab4ef08e3dbbd4480d7434ab1990cb3fb25517d453b1b65787c7fe6dfc8824b15ff25e1fdcec59e8584f765054106894fee00311868c3964",
+    "source": "https://github.com/godotengine/godot-builds/releases/download/4.6.3-stable/"
+  },
+  "staging": "Matching editor runs original packaged store/verifier/key; no source re-export or altered trust root",
+  "scope": "Unchanged public baseline executable; local signed artifacts; native headless mounting, healthy repeat startup and corruption fallback; fresh application profile"
+}
