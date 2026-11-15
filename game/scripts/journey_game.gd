@@ -12,6 +12,7 @@ const Orb = preload("res://ui/concept_orb.gd")
 const Audio = preload("res://scripts/journey_audio.gd")
 const Navigation = preload("res://scripts/navigation_policy.gd")
 const Progress = preload("res://scripts/journey_progress.gd")
+const TrainingLog = preload("res://ui/training_log.gd")
 const Guard = preload("res://scripts/journey_input_guard.gd")
 const UpdateClient = preload("res://updater/client.gd")
 const UpdatePanel = preload("res://updater/panel.gd")
@@ -58,6 +59,8 @@ var _dialog_margin: MarginContainer
 var _concept_return_to_library := false
 var _mission_load_serial := 0
 var _settings_return := ""
+var _coach_cues: Dictionary = {}
+var _peak_fatigue := 0.0
 
 func _ready() -> void:
 	DisplayServer.window_set_title(Branding.display_name())
@@ -134,7 +137,12 @@ func _install_guard() -> void:
 
 func _save_result() -> void:
 	if _pending_result.is_empty(): return
-	progress.record_result(_pending_result, _quiz)
+	var saved := _pending_result.duplicate(true)
+	saved["pace_changes"] = int(saved.get("command_count", 0))
+	for segment: Dictionary in saved.get("pace_segments", []):
+		_peak_fatigue = maxf(_peak_fatigue, maxf(float(segment.get("fatigue_start", 0.0)), float(segment.get("fatigue_end", 0.0))))
+	saved["max_fatigue"] = _peak_fatigue
+	progress.record_result(saved, _quiz)
 	_pending_result.clear()
 	_quiz.clear()
 
@@ -182,6 +190,8 @@ func start_mission() -> void:
 	_warning_cooldown = 0.0
 	_warned = false
 	_last_sections = 0
+	_coach_cues.clear()
+	_peak_fatigue = 0.0
 	shell.hide()
 	get_viewport().disable_3d = false
 	if not is_instance_valid(world):
@@ -229,8 +239,10 @@ func _process(delta: float) -> void:
 	# Foreground active play only; a stalled/background frame cannot skip decisions.
 	model.advance(minf(delta, 0.25))
 	var snapshot: Dictionary = model.snapshot()
+	_peak_fatigue = maxf(_peak_fatigue, float(snapshot.get("fatigue", 0.0)))
 	hud.refresh(snapshot)
 	_sync_world(snapshot)
+	_offer_coaching(snapshot)
 	if int(snapshot.sections_cleaned) > _last_sections:
 		_last_sections = int(snapshot.sections_cleaned)
 		audio.cue("section")
@@ -241,6 +253,24 @@ func _process(delta: float) -> void:
 		audio.cue("urgent" if remaining <= 8.0 else ("warning" if remaining <= 15.0 else "countdown"))
 		_warning_cooldown = 1.05 if remaining <= 8.0 else (2.6 if remaining <= 15.0 else 5.1)
 	if snapshot.status != "running": finish_mission()
+
+func _offer_coaching(snapshot: Dictionary) -> void:
+	# Short, one-time observations respond to the actual run. Player radio
+	# commands take priority; reading or pausing cannot consume coaching cues.
+	if snapshot.status != "running" or hud.get_radio_exchange().active: return
+	var id := ""
+	var words: Array = []
+	if float(snapshot.remaining_seconds) <= 15.0 and not _coach_cues.has("storm"):
+		id = "storm"; words = ["Storm soon. Stay ready.", "I’ll step inside at zero."]
+	elif float(snapshot.fatigue) >= 0.4 and not _coach_cues.has("effort"):
+		id = "effort"; words = ["Your pace is very high.", "Try slower. I’m getting tired."]
+	elif float(snapshot.clean_fraction) >= 0.25 and not _coach_cues.has("power"):
+		id = "power"; words = ["The dust is clearing.", "More light means more power."]
+	elif float(snapshot.elapsed_seconds) >= 6.0 and int(snapshot.command_count) == 0 and not _coach_cues.has("controls"):
+		id = "controls"; words = ["Try the pace slider.", "Watch my brush change speed."]
+	if not id.is_empty():
+		_coach_cues[id] = true
+		hud.show_radio_exchange(words[0], words[1])
 
 func _sync_world(snapshot: Dictionary) -> void:
 	if not is_instance_valid(world): return
@@ -481,6 +511,7 @@ func show_pause() -> void:
 	_button(box, "Resume mission", resume_mission, true)
 	_button(box, "View & accessibility", show_view)
 	_button(box, "Science", show_notebook)
+	_button(box, "Your training", show_training_log)
 	_button(box, "Sound, motion & pace", show_settings)
 	_button(box, "Restart this mission", confirm_restart)
 	_button(box, "Home", request_home)
@@ -655,12 +686,36 @@ func show_home() -> void:
 	var box := _dialog(Branding.title(), Branding.subtitle() + "\nClear dust. Discover science.", "home")
 	_button(box, "Enter the control room", start_mission, true)
 	_button(box, "Science", show_preparation)
+	_button(box, "Your training", show_training_log)
 	_button(box, "Replay the story", func(): _close_modal(); stage = "story"; shell.show_story(bool(progress.settings.reduced_motion)); audio.set_context("story"))
 	_button(box, "Updates & downloads", show_updates)
 	_button(box, "View & accessibility", show_view)
 	_button(box, "Sound, motion & pace", show_settings)
 	_button(box, "More", show_more)
 	_refresh_updates()
+
+func show_training_log() -> void:
+	if stage not in ["home", "mission"]: return
+	if stage == "mission": paused = true
+	audio.set_paused(stage == "mission")
+	var box := _dialog("", "", "training-log")
+	_button(box, "Back to menu" if stage == "mission" else "Back to Home", _back_from_training, true)
+	var journal := TrainingLog.new(progress.training_summary())
+	journal.name = "TrainingJournal"
+	box.add_child(journal)
+	if stage == "mission": journal.play_button.text = "Resume mission"
+	journal.play_requested.connect(func():
+		if stage == "mission": resume_mission()
+		else: start_mission()
+	)
+	journal.practice_requested.connect(func():
+		if stage == "mission": show_notebook()
+		else: show_preparation()
+	)
+
+func _back_from_training() -> void:
+	if stage == "mission": show_pause()
+	else: show_home()
 
 func show_more() -> void:
 	var box := _dialog("More to explore", "", "home-more")
