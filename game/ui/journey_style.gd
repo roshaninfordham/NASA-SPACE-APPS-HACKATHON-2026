@@ -17,6 +17,7 @@ const BLUSH := Color("f3e1dd")
 const DISPLAY_FONT = preload("res://assets/fonts/journey/Jost-Variable.ttf")
 const BODY_FONT = preload("res://assets/fonts/journey/IBMPlexSans-Variable.ttf")
 const MONO_FONT = preload("res://assets/fonts/journey/IBMPlexMono-Regular.ttf")
+static var _bold_fonts: Dictionary = {}
 
 static func color(token: String) -> Color:
 	return {"floor":FLOOR,"glass":GLASS,"raised":RAISED,"pearl":PEARL,
@@ -25,6 +26,13 @@ static func color(token: String) -> Color:
 		"ink":INK,"blush":BLUSH}.get(token, PEARL)
 
 static func font(face: String = "body") -> Font:
+	if face in ["display_bold", "body_bold"]:
+		if not _bold_fonts.has(face):
+			var bold := FontVariation.new()
+			bold.base_font = DISPLAY_FONT if face == "display_bold" else BODY_FONT
+			bold.variation_opentype = {TextServerManager.get_primary_interface().name_to_tag("wght"): 650.0}
+			_bold_fonts[face] = bold
+		return _bold_fonts[face]
 	if face == "display": return DISPLAY_FONT
 	if face == "mono": return MONO_FONT
 	return BODY_FONT
@@ -74,7 +82,7 @@ static func theme() -> Theme:
 	result.set_color("font_pressed_color", "Button", PEARL)
 	result.set_color("font_focus_color", "Button", PEARL)
 	result.set_color("font_disabled_color", "Button", MUTED)
-	result.set_font("font", "Button", DISPLAY_FONT)
+	result.set_font("font", "Button", font("display_bold"))
 	result.set_font_size("font_size", "Button", 18)
 	for state in ["normal", "hover", "pressed", "disabled"]:
 		result.set_stylebox(state, "Button", button_style(false, state))

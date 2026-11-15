@@ -1,8 +1,8 @@
 # The science behind the mission journey
 
-KŌMAKU: Shield Protocol is a learning game for ages 7–12. The mission connects four useful ideas: **cleaning changes panel transmission; solar power and load change stored battery energy; radiation dose accumulates with outside time**. It uses observations to explain the ideas and explicit scenario settings to make a short, playable activity.
+KŌMAKU: Dust & Radiation is a learning game for ages 7–12. The mission connects four useful ideas: **cleaning changes panel transmission; solar power and load change stored battery energy; radiation dose accumulates with outside time**. It uses observations to explain the ideas and explicit scenario settings to make a short, playable activity.
 
-This document describes the final 0.8 pace/fatigue model, superseding the earlier recall/forecast journey. It is separate from retained legacy first-person and dashboard experiments. The child-facing source of truth is [mission-concepts.json](../game/data/mission-concepts.json). The final workflow is reconciled in [FINAL-WORKFLOW.md](design-specs/FINAL-WORKFLOW.md); the earlier JOURNEY-0.8 design is historical. Historical-model sources were checked on November 14, 2026, America/New_York. The SDO live-image integration and source-use policy were checked on November 15, 2026, America/New_York.
+This document describes the current pace/fatigue model, superseding the earlier recall/forecast journey. It is separate from retained legacy first-person and dashboard experiments. The child-facing source of truth is [mission-concepts.json](../game/data/mission-concepts.json). The final workflow is reconciled in [FINAL-WORKFLOW.md](design-specs/FINAL-WORKFLOW.md); the earlier JOURNEY-0.8 design is historical. Historical-model sources were checked on November 14, 2026, America/New_York. The SDO live-image integration and source-use policy were checked on November 15, 2026, America/New_York.
 
 ## What is measured, and what is invented?
 
@@ -38,20 +38,20 @@ The story leads directly to a **preflight control room**. The player may inspect
 
 The authoritative implementation is `game/scripts/pace_mission.gd`. The earlier `training_mission.gd` model is superseded. The final workflow and its unit corrections are recorded in [FINAL-WORKFLOW.md](design-specs/FINAL-WORKFLOW.md); the four-group animation handoff is [VIDEO-EQUATIONS.md](VIDEO-EQUATIONS.md).
 
-| Quantity                               |                             Default | Evidence or purpose                                       |
-| -------------------------------------- | ----------------------------------: | --------------------------------------------------------- |
-| Round duration                         |                30 simulated minutes | Authored fixed outside duration; automatic entry          |
-| Normal clock                           | 6 simulated seconds per real second | Authored play-speed setting; pauses stop it               |
-| Pace multiplier u                      |          0.25–1.75 in steps of 0.25 | Unitless work-pace choice, not walking speed              |
-| Base cleaning rate                     |                  0.125 sections/min | Authored task throughput; total task is four sections     |
-| Initial fatigue / maximum              |                             0 / 0.9 | Dimensionless fictional slowdown, not measured physiology |
-| Fatigue growth / recovery coefficient  |    0.08 / 0.12 per simulated minute | Applied to pace excess above / shortfall below 1          |
-| Clean-panel power / dirty transmission |                         8 kW / 0.25 | Authored hardware and transmission relation               |
-| Habitat load                           |                                1 kW | Authored constant load                                    |
-| Initial battery / capacity             |                         0.5 / 6 kWh | Actual bounded energy storage, not a forecast score       |
-| Historical baseline                    |                    210 ± 40 µGy/day | Curiosity RAD reference; central value used               |
-| Radiation ramp                         |                           1 + 3t/30 | Fictional rise from one to four times baseline            |
-| WIN / PASS clean fractions             |                           0.8 / 0.4 | Authored game outcome bands                               |
+| Quantity                               |                              Default | Evidence or purpose                                       |
+| -------------------------------------- | -----------------------------------: | --------------------------------------------------------- |
+| Round duration                         |                 30 simulated minutes | Authored fixed outside duration; automatic entry          |
+| Normal clock                           | 20 simulated seconds per real second | Authored play-speed setting; pauses stop it               |
+| Pace multiplier u                      |           0.25–1.75 in steps of 0.25 | Unitless work-pace choice, not walking speed              |
+| Base cleaning rate                     |                   0.125 sections/min | Authored task throughput; total task is four sections     |
+| Initial fatigue / maximum              |                              0 / 0.9 | Dimensionless fictional slowdown, not measured physiology |
+| Fatigue growth / recovery coefficient  |     0.08 / 0.12 per simulated minute | Applied to pace excess above / shortfall below 1          |
+| Clean-panel power / dirty transmission |                          8 kW / 0.25 | Authored hardware and transmission relation               |
+| Habitat load                           |                                 1 kW | Authored constant load                                    |
+| Initial battery / capacity             |                          0.5 / 6 kWh | Actual bounded energy storage, not a forecast score       |
+| Historical baseline                    |                     210 ± 40 µGy/day | Curiosity RAD reference; central value used               |
+| Radiation ramp                         |                            1 + 3t/30 | Fictional rise from one to four times baseline            |
+| WIN / PASS clean fractions             |                            0.8 / 0.4 | Authored game outcome bands                               |
 
 ### Four connected relationships
 

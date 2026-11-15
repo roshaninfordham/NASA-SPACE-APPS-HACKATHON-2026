@@ -1,6 +1,20 @@
-# Download and play <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand -->
+# Download and play <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand -->
 
 Downloads are published as **GitHub Release assets**, not GitHub Packages. A repository containing code and export presets does not imply that an installer exists. Use the release notes to distinguish built, launch-tested, unsigned, and unsupported targets.
+
+**Current source candidate: 0.9.0-alpha.1; not yet published.** It introduces the **KŌMAKU: Dust & Radiation** name, a close view of Ren and the panel, larger controls, a 90-second standard round, three story illustrations and a result-to-equation reveal. New packages require their own launch/update/public-file acceptance; the working download links below still point to the accepted 0.8 release. [Candidate notes](releases/0.9.0-alpha.1.md).
+
+## What to expect in the 0.9 candidate
+
+After the story, choose a pace in preflight and press **START MISSION**. Use **SLOWER / 1**, **FASTER / 3**, or the red stepped slider. The large timer counts about **90 active real seconds** at standard pacing; the smaller clock explains the **30 simulated minutes**. Reading and Pause stop the whole model. At zero, Ren enters automatically and the result opens. Choose **See how science connects** for the bubble merge and four equation groups, then **Back to results**, **Try another plan**, or **Home**.
+
+The next package configuration includes all three PDFs: the science guide, technical equations, and word-only equations. New archive names use `KOMAKU-Dust-and-Radiation-0.9.0-alpha.1-<platform>.zip`; Windows/Linux executables use the same new stem. Native package acceptance and exact bytes are pending, so do not treat an expected filename as an available download.
+
+The rename preserves progress, app IDs and updater trust. Existing apps updated by a content pack keep their original OS filename and show the new title inside. This is expected; do not rename internal signed app files yourself.
+
+The 0.9 Mac candidate uses the filename **`KŌMAKU- Dust and Radiation.app`**. Its technical bundle name uses “and”; the game itself displays **KŌMAKU: Dust & Radiation**. This is an intentional export compatibility spelling. **Install KŌMAKU.command** is generated to recognize the matching app name. The candidate's Mac version metadata is `0.9.0`, and Windows file/product metadata is `0.9.0.1`; the full game and updater version is `0.9.0-alpha.1`. [Branding and packaging details](BRANDING.md). The 0.9 native launch gates are still pending; the 0.8 results below do not validate the new bundle.
+
+## Published 0.8 downloads
 
 **Published prerelease: [0.8.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.8.0-alpha.1).** Released November 15, 2026 at 06:07:25 UTC (01:07:25 America/New_York), from source `8b13e027ce5e0fa941a6bbeb1e09c5873b11baee`. All ten public assets were downloaded again and matched to the accepted build. [Release evidence](evidence/release-0.8.0-alpha.1.json).
 
@@ -18,11 +32,11 @@ The release has **ten verified assets**: four platform ZIPs, the standalone 16-p
 
 The separate [words-only equation notes](VIDEO-EQUATIONS-SIMPLE.md), [one-page simple equation PDF](media/KOMAKU-Video-Equations-Simple.pdf) and [proposed result-screen copy](RESULT-SCREEN-COPY.md) are repository follow-ups created after this build. They are not in the published ZIPs.
 
-From version 0.5 onward, ZIP names begin with `KOMAKU-Shield-Protocol-<version>`. Historical 0.4 and earlier downloads retain `Red-Veil` filenames and the previous app name; those published artifacts are not renamed. The signed content filename and local save/update identities remain unchanged for compatibility. Use the notes attached to the version you download.
+Versions 0.5 through 0.8 use ZIP names beginning `KOMAKU-Shield-Protocol-<version>`. New 0.9 packages use `KOMAKU-Dust-and-Radiation-<version>`. Historical 0.4 and earlier downloads retain `Red-Veil` filenames and the previous app name; those published artifacts are not renamed. The signed content filename and local save/update identities remain unchanged for compatibility. Use the notes attached to the version you download.
 
 Historically, version **0.7.1** preserved the indoor mission and visual framing while deferring optional scenery until requested. The first outdoor/Field Notes visit builds that content and keeps it cached afterward; see [startup measurements and tradeoffs](WINDOW-STARTUP-PERFORMANCE.md). Existing compatible desktop apps could install that signed 0.7.1 content through **Update available → Install → Restart**; actual public 0.7.0 Mac/Windows binaries passed this content-activation gate alongside older baselines. [Updater scope](UPDATES.md).
 
-## Play the 0.8 journey
+## Play the published 0.8 journey (earlier presentation)
 
 After the opening, the control room is in **preflight**. Choose Ren's starting cleaning pace, inspect any science bubbles you want, then press **START MISSION**. No time, dose, fatigue, work or battery energy advances before Start. The separate science constellation is optional.
 

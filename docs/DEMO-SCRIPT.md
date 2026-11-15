@@ -1,4 +1,4 @@
-# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> — demonstration script
+# <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — demonstration script
 
 The main mission and learning tour below use the published 0.6.1-alpha.1 baseline. The optional planner segment applies only to a build containing the later planner integration. Use the exact release version visible in the update screen and its release notes. Later source-only features must not be presented as part of an older installer. [Core proposal and judging evidence](CORE-PROPOSAL.md) · [Downloads](DOWNLOADS.md) · [Versioned media](MEDIA.md).
 
@@ -6,7 +6,7 @@ The main mission and learning tour below use the published 0.6.1-alpha.1 baselin
 
 “You are a junior explorer on Mars. Dust is dimming the sky, a separate particle warning is approaching, and two batteries must keep your crew and outpost going. A cleaner panel is not always worth the energy. What will you change first?”
 
-The audience is ages 7–12. Explain one decision at a time and let the player predict an outcome before giving the explanation. Use the product name **<!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand -->**; AEGIS is the fictional protection system inside the story.
+The audience is ages 7–12. Explain one decision at a time and let the player predict an outcome before giving the explanation. Use the product name **<!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand -->**; AEGIS is the fictional protection system inside the story.
 
 ## Preparation
 

@@ -4,21 +4,16 @@
   "orientation": "landscape",
   "page_size_points": [1200, 675],
   "sources": {
-    "docs/VIDEO-EQUATIONS-SIMPLE.md": "9613af1e17e902ee937c04e10579d800627014860b1835afed1a3fd884f4efdc",
-    "scripts/build_video_equations_simple.py": "d131fdec50c50a9efa2632c4f21ea4a904fff0746b93d17c37c02d751e91025d",
+    "game/data/brand.json": "ca53f5e7bbfedebfaaae206d304797652d82441c4b650decb975c3ab56a72b36",
+    "scripts/branding.py": "fde120b17c0affcca82426b942bfa81be77693ef78bd49ede5576cee0949d02b",
+    "docs/VIDEO-EQUATIONS-SIMPLE.md": "a4b107cd0287990a4b8e5552f97ab46c1142219fad9c83280d8e4f922ad2d80b",
+    "scripts/build_video_equations_simple.py": "048c70f0565faa3b40fb472fb3d0a3082e77b0cf2c27bd595eaadf4cc21c7e0f",
     "game/licenses/DejaVu-Font-License.txt": "810205354319c787fc9ede3ba76d03073fd0f62b00b585506e8065355e71e18d"
   },
-  "pdf_sha256": "9fbb4f5a3db8e48cf3ab62b37c10adc3de699f907c6656054b3b1212583a71af",
+  "pdf_sha256": "fed5e3f65bb7347ef37a93982c4af97079d82597c75255cce8d7ebd0c2d4fa2d",
   "number_free_visible_page": true,
   "all_eight_bubble_labels": true,
   "embedded_font_notice": "DejaVu-Font-License.txt",
   "build": "python3 scripts/build_video_equations_simple.py",
-  "network_requests": false,
-  "validation": {
-    "visual_review": "Previously rendered landscape page remains byte-identical after adding --check; four word equations and all eight labels are readable and unclipped.",
-    "visible_digits": "None; extracted page text checked by generation.",
-    "standard_library_check": "python3 -S scripts/build_video_equations_simple.py --check passed without optional libraries.",
-    "negative_checks": "Wrong page claim, changed source inventory, and stale PDF hash were rejected using isolated temporary metadata.",
-    "pdf_unchanged": "SHA256 remains 9fbb4f5a3db8e48cf3ab62b37c10adc3de699f907c6656054b3b1212583a71af."
-  }
+  "network_requests": false
 }

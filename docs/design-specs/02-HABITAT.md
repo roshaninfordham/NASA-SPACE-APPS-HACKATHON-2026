@@ -1,6 +1,6 @@
 # Habitat and refuge — implementation brief
 
-Part of **<!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand -->**. Derived from the [preserved exterior specification](source/02_Exterior_Habitat_Game_Spec.md); [decisions and status](../SPEC-IMPLEMENTATION.md) override conflicting source requirements.
+Part of **<!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand -->**. Derived from the [preserved exterior specification](source/02_Exterior_Habitat_Game_Spec.md); [decisions and status](../SPEC-IMPLEMENTATION.md) override conflicting source requirements.
 
 ## Composition to build
 

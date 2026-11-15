@@ -1,10 +1,22 @@
-# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> media gallery
+# <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> media gallery
 
-## 0.8 — cleaning, energy and the live Sun
+## 0.9 candidate — closer work and a readable ending
 
-These are actual native Godot source-project captures of the current journey. The player sees Ren clean a visible solar array from inside the habitat, chooses a starting pace, and presses Start. Slower/Faster controls change modeled tiredness and effective work. The display shows actual stored energy; Ren enters shelter automatically when the countdown ends.
+Current source introduces a closer window view of Ren and the panel, larger bubbles/controls, a red pace slider, a 90-second primary countdown, three story scenes and a result-first equation reveal. The new native captures live separately under `docs/media/journey-0.9/`. Their provenance records the actual source and deterministic fixture; the screenshots are not proof of installer, updater or physical-device acceptance. The 0.8 files below remain unchanged historical evidence.
 
-![Current journey: story, concepts, cleaning and reflection](media/journey/contact-sheet.png)
+![0.9 candidate story, large panel/astronaut view, controls and immediate result](media/journey-0.9/contact-sheet.png)
+
+[Full candidate gallery](media/journey-0.9/README.md) · [Actual cleaning animation](media/journey-0.9/cleaning-live.gif) · [Motion provenance](media/journey-0.9/CLEANING-CLIP.md) · [Bubble transition](media/journey-0.9/bubble-merge-desktop.png) · [Four equations](media/journey-0.9/science-desktop.png) · [Capture fingerprints](media/journey-0.9/capture-provenance.json).
+
+The story illustrations are [generated, unlettered adaptations](../game/assets/art/journey/provenance.json) of the team's inline references, not exact source-image copies or 3D gameplay screenshots. Their exterior → astronaut → interior sequence is part of the opening; runtime text is rendered separately. The [original warning-cue provenance](../game/assets/audio/journey/cue-provenance.json) records the fallback used because the Drive beep was unavailable.
+
+For recording the game, complete the short round, capture its result, then select **See how science connects**. Record the bubbles combining and the equation view; **Back to results** returns to the same run. The [video guide](VIDEO-PITCH.md) separates a full 90-second round from edited highlights for a 30-second pitch. [Submission text](SUBMISSION-DRAFT.md) remains a review draft.
+
+## Historical 0.8 — cleaning, energy and the live Sun
+
+These are actual native Godot source-project captures of the published 0.8 journey. The player sees Ren clean a visible solar array from inside the habitat, chooses a starting pace, and presses Start. Slower/Faster controls change modeled tiredness and effective work. The display shows actual stored energy; Ren enters shelter automatically when the countdown ends.
+
+![Historical 0.8 journey: story, concepts, cleaning and reflection](media/journey/contact-sheet.png)
 
 [Actual native cleaning animation](media/journey/cleaning-live.gif) · [Animation provenance](media/journey/CLEANING-CLIP.md)
 

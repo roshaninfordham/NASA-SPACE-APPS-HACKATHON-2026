@@ -18,7 +18,7 @@ from sign_update import REPOSITORY, RUNTIME_CONTRACT, sign_pack, valid_version, 
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "releases"
-DOCS = ["CREDITS.md", "CHANGELOG.md", "docs/DOWNLOADS.md", "docs/MACOS-LAUNCH-REPAIR.md", "docs/TRAINING-MODEL.md", "docs/SCIENCE-JOURNEY-SOURCES.md", "docs/AUDIO-CREDITS.md", "docs/LIVE-DATA.md", "docs/SOURCE-INDEX.md", "docs/VIDEO-PITCH.md", "docs/VIDEO-EQUATIONS.md", "docs/media/KOMAKU-Video-Equations.pdf", "docs/NAVIGATION.md", "docs/MISSION-PLANNER.md", "docs/PERFORMANCE.md", "docs/SCIENCE.md", "docs/LEARNING-DESIGN.md", "docs/TEAM-STATUS.md", "docs/UPDATES.md", "docs/SPEC-IMPLEMENTATION.md"]
+DOCS = ["CREDITS.md", "CHANGELOG.md", "docs/DOWNLOADS.md", "docs/MACOS-LAUNCH-REPAIR.md", "docs/TRAINING-MODEL.md", "docs/SCIENCE-JOURNEY-SOURCES.md", "docs/AUDIO-CREDITS.md", "docs/LIVE-DATA.md", "docs/SOURCE-INDEX.md", "docs/VIDEO-PITCH.md", "docs/VIDEO-EQUATIONS.md", "docs/VIDEO-EQUATIONS-SIMPLE.md", "docs/media/KOMAKU-Video-Equations-Simple.pdf", "docs/media/KOMAKU-Video-Equations.pdf", "docs/NAVIGATION.md", "docs/MISSION-PLANNER.md", "docs/PERFORMANCE.md", "docs/SCIENCE.md", "docs/LEARNING-DESIGN.md", "docs/TEAM-STATUS.md", "docs/UPDATES.md", "docs/SPEC-IMPLEMENTATION.md"]
 UPDATE_ASSETS = {"red-veil-content.pck", "update-manifest.json", "update-manifest.sig"}
 METADATA_ASSETS = {"release-manifest.json", "SHA256SUMS.txt"}
 
@@ -48,13 +48,14 @@ PLAY
 Extract this entire ZIP first. No game editor or development tools are required.
 Mac: open the .app. If blocked, read DOWNLOADS.md and use the included
      Install KŌMAKU.command only after deciding you trust this download.
-Windows: open KOMAKU-Shield-Protocol.exe.
-Linux: run KOMAKU-Shield-Protocol.x86_64.
+Windows: open {archive_stem(version)}.exe.
+Linux: run {archive_stem(version)}.x86_64.
 Web archive: serve index.html over HTTP(S), as explained in DOWNLOADS.md.
 
 FIRST MISSION
 Follow the short Mars story into the control-room window.
 Set a starting pace, then press START MISSION (or Enter).
+Standard play lasts 90 active seconds, representing 30 mission minutes.
 1: SLOWER. 3: FASTER. The slider selects the same cleaning effort.
 High effort builds game tiredness; gentler effort restores it.
 Ren steps inside automatically when the countdown ends. There is no walk.

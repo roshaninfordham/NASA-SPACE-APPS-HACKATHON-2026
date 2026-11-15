@@ -2,17 +2,35 @@
 
 **Reviewed November 15, 2026.** Evidence is tied to a source/build and a test scope. Passing code checks, publishing an installer, launching it on a physical device, and demonstrating learning benefit are separate outcomes. [Team status](TEAM-STATUS.md) and [the roadmap](ROADMAP.md) record the current release boundary.
 
+## 0.9 candidate — acceptance in progress
+
+The current source targets a 90-second standard round, larger/closer work view and controls, three story illustrations, original warning cues, a result-first ending and a four-group bubble/equation reveal. The model still represents 30 simulated minutes; changed real pacing must preserve numerical outcomes.
+
+Local source acceptance passed: the complete `python3 scripts/test_game.py` suite, including model 231, independent numerical audit 1,665, HUD 437, shell 327, integrated journey 117, audio 56 and all retained legacy/updater checks. The [native navigation check](evidence/journey-native-0.9.json) passed 29 assertions with unchanged source hashes. The [new gallery](media/journey-0.9/README.md) covers 57 native screens with zero layout failures; the actual-frame GIF includes a visible 1×→1.75× speed change. Browser gameplay 6, PWA 14, web deployment 13 and the JavaScript unit/build checks also passed. All three PDFs pass provenance checks. These results do not replace the pending exported-package gates below.
+
+Current acceptance must cover:
+
+- Real/simulated clock separation, pause/preflight freeze, and equivalent final work/energy/dose across clock scales.
+- Clear brush/panel visibility, speed feedback, large readable controls and keyboard navigation at desktop, portrait and short-landscape sizes.
+- All result bands, actual-run metrics, science merge/skip/reduced-motion, back/retry/home and focus/fullscreen recovery.
+- Source/PDF/asset provenance, including generated story adaptations and original beep fallback; no claim that the inaccessible Drive recording was used.
+- Exact frozen-source native packages and launch gates, followed by ten Mac/Windows content-update jobs (five baseline versions including 0.8), the documented Linux 0.4 gate, publication and redownloaded public-file verification.
+
+The three refreshed PDFs pass their own build, layout/glyph and fingerprint checks. Native game captures and complete release acceptance have separate scopes; final run IDs and source hashes will be added when those gates complete. [0.9 design contract](design-specs/JOURNEY-0.9.md) · [Candidate notes](releases/0.9.0-alpha.1.md).
+
+The 0.8 records below remain historical evidence for their recorded bytes. Passing them does not automatically accept the new presentation, assets or packages.
+
 ## Published 0.8 journey — source and artifact acceptance
 
 The published journey follows **opening → preflight pace selection → explicit Start → fatigue/cleaning loop → fixed-deadline automatic entry → actual-run equations**. The mandatory eight-card opening, radio/recall loop and reserve forecast were superseded. **Final source, native package, baseline-update and public-download acceptance all passed.**
 
-The [independent pace-model audit](evidence/pace-model-0.8-audit.json) records **1,665 checks with zero failures**, bound to the current model and harness SHA-256 values. It covers seven closed-form pace fixtures, fatigue recovery and work-cap handling, exact outcome thresholds, 80 independently sampled switching histories, energy conservation and clipping, clock/frame partitioning, automatic entry and equal final dose. This establishes numerical consistency of the authored teaching model, not physiological or physical-device validity.
+The [independent pace-model audit](evidence/pace-model-0.8-audit.json) records **1,665 checks with zero failures**, bound to the recorded 0.8 model and harness SHA-256 values. It covers seven closed-form pace fixtures, fatigue recovery and work-cap handling, exact outcome thresholds, 80 independently sampled switching histories, energy conservation and clipping, clock/frame partitioning, automatic entry and equal final dose. This establishes numerical consistency of the authored teaching model, not physiological or physical-device validity.
 
 The focused model suite passed 183 assertions, HUD 261, shell 233, actual-main integration 107, update interface 29, and local progress 167. These cover pace quantization, preflight freeze, fatigue and work bounds, energy integration, automatic entry, outcomes, optional readings, modal stacking and replay. The [native navigation gate](evidence/journey-native-0.8.json) passed 29 assertions against 19 unchanged source hashes, exercising real X11 fullscreen, focus and window restoration; synthetic events were routed through the actual Godot input system. Only the known Xvfb VSync warning occurred. The earlier [energy-model audit](evidence/energy-model-0.8-audit.json) remains historical evidence for the superseded recall model. The complete `python3 scripts/test_game.py` suite also passed on this final workflow, including all retained legacy/updater/release tests and both PDF provenance checks. Published-artifact acceptance passed separately on the exact frozen source.
 
 [Live NASA verification](evidence/live-nasa-sdo-0.8.json) remains a separately scoped real Godot HTTPS check: HTTP 200, verified TLS, JPEG dimensions/hash and separate fetch/publication timestamps. Cache/error/throttle checks and an exported-resource fallback check accompany it. That unchanged image-client evidence does not validate the new mission equations or browser/mobile networking.
 
-The final 16-page science guide and technical two-page equation PDF passed deterministic build, fingerprint, font/link and visual-review checks. Their exact bytes were verified inside all four public platform archives. The [current gallery](MEDIA.md) records 51 native desktop/portrait/landscape captures and an actual cleaning GIF; it includes the responsive correction that keeps Ren and the panel visible above the short-screen controls. Physical-device performance and learner usability remain separate from source rendering checks.
+The final 16-page science guide and technical two-page equation PDF passed deterministic build, fingerprint, font/link and visual-review checks. Their exact bytes were verified inside all four public platform archives. The [historical 0.8 gallery](MEDIA.md) records 51 native desktop/portrait/landscape captures and an actual cleaning GIF; it includes the responsive correction that keeps Ren and the panel visible above the short-screen controls. Physical-device performance and learner usability remain separate from source rendering checks.
 
 Published [v0.8.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.8.0-alpha.1) from `8b13e027ce5e0fa941a6bbeb1e09c5873b11baee`. [Validation](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43683254365), [signed build/native launch](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43683280236), [eight native update jobs](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43683700390), and [publication](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43683976252) succeeded. [Release evidence](evidence/release-0.8.0-alpha.1.json) records all ten public asset hashes, four ZIP integrity checks, both exact reviewed PDFs in each archive, and an unauthenticated public manifest HTTP 200.
 

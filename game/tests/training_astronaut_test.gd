@@ -30,6 +30,8 @@ func run() -> void:
 	actor.set_training_cleaning(true)
 	var allocated_nodes := ids(actor)
 	check(actor._training_rig.visible and actor._training_tools.visible, "First cleaning request creates attached articulated arms and tool")
+	var brush_min := Vector3(INF, INF, INF)
+	var brush_max := Vector3(-INF, -INF, -INF)
 	var bounded := true
 	var connected := true
 	var contacting := true
@@ -46,13 +48,16 @@ func run() -> void:
 		var handle_start: Vector3 = actor._training_wand.transform * Vector3(0, -0.5, 0)
 		connected = connected and palm.distance_to(handle_start) < 0.0001
 		var contact: Vector3 = actor._training_brush.position - actor._training_brush.basis.y * 0.0175
+		brush_min = brush_min.min(contact)
+		brush_max = brush_max.max(contact)
 		var tilt := deg_to_rad(-35.0)
 		var expected_y := 1.08 + 0.04 / cos(tilt) - tan(tilt) * contact.z
 		contacting = contacting and absf(contact.y - expected_y) < 0.0001 and contact.x > 0.63 and contact.x < 3.0
-		bounded = bounded and absf(contact.z) <= 0.181 and contact.y > 0.95 and contact.y < 1.26 and actor._training_phase >= 0 and actor._training_phase < TAU
+		bounded = bounded and absf(contact.z) <= actor.BRUSH_SWEEP_METERS + 0.001 and contact.y > 0.83 and contact.y < 1.42 and actor._training_phase >= 0 and actor._training_phase < TAU
 		planted = planted and actor.transform == Transform3D.IDENTITY and (actor._upper.transform * Vector3(0, 0.795, -0.005)).distance_to(Vector3(0, 0.795, -0.005)) < 0.0001
 	check(connected, "Shoulder/elbow lengths remain fixed and the brush handle stays in the glove")
 	check(contacting and bounded, "Brush stays on the actual tilted panel plane within a bounded sweep")
+	check(brush_max.z - brush_min.z > 0.75 and brush_max.y - brush_min.y > 0.5, "Visible brush traverses a broad panel strip instead of a tiny wrist twitch")
 	check(planted, "Training pose pivots at the hip and never translates the actor or feet")
 	check(ids(actor) == allocated_nodes, "Continuous work reuses existing geometry without node accumulation")
 	actor.set_training_cleaning(true, 1.0, true)

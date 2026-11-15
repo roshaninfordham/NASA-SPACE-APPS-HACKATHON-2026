@@ -1,8 +1,8 @@
-# KŌMAKU: Shield Protocol — equations for the reveal video
+# <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — equations for the reveal video
 
 **Final-workflow equation handoff · November 15, 2026, America/New_York.** [Download the two-page equation sheet](media/KOMAKU-Video-Equations.pdf). This replaces the earlier recall/energy-reserve reveal. It describes the agreed pace-and-fatigue mission; release validation must verify the implementation against these equations.
 
-Use four main groups. Let **t mean simulated minutes**, with a **30-minute round**. Show the player's recorded results in the final substitutions. Do not substitute the example below for a different player's run.
+Use four main groups. Let **t mean simulated minutes**, with a **30-simulated-minute round (normally 90 active real seconds)**. Show the player's recorded results in the final substitutions. Do not substitute the example below for a different player's run.
 
 ## 1. Pace + effort + time → cleaning
 
@@ -94,7 +94,7 @@ The authored outcome bands are **WIN: C ≥ 0.8; PASS: 0.4 ≤ C < 0.8; LOSE: C 
 
 ## Handoff to the animation team
 
-Move the Speed and Time bubbles into group 1, with the effort subline nearby. Connect Dust to group 2 and Energy to group 3. Connect Radiation and Dose to group 4. Keep Sievert as an explanation card; let Shelter mark automatic completion. Use a warning-progress indicator for the fictional approaching storm, not a physical distance calculation.
+Move the Speed and Time bubbles into group 1, with the effort subline nearby. Connect Dust to group 2 and Power with Time to group 3. Stored energy is a result of Power over Time, not a ninth concept bubble. Connect Radiation and Dose to group 4. Keep Sievert as an explanation card; let Shelter mark automatic completion. Use a warning-progress indicator for the fictional approaching storm, not a physical distance calculation.
 
 Keep the four child-facing lines large. Equations can appear one group at a time underneath; finish with the player's actual clean percentage, stored kWh, dose, and outcome. Label scenario values as **“Our mission settings”** and the historical radiation input as **“Published Curiosity reference”**. NASA's latest available SDO image is an optional observation, never a formula input or live Mars dosimeter.
 

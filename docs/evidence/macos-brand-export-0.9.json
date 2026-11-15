@@ -1,0 +1,37 @@
+{
+  "recorded_at_utc": "2026-11-15T13:03:21.444916+00:00",
+  "engine": "Godot4.6.3-stable",
+  "purpose": "Regression reproduction of unescaped ampersand in macOS CFBundleExecutable and verification of the technical filename workaround",
+  "method": "Isolated temporary project copies exported on Linux with official Mac templates. This is structural verification, not native macOS signature or Finder acceptance.",
+  "upstream": "https://github.com/godotengine/godot/blob/4.6.3-stable/platform/macos/export/export_plugin.cpp#L845",
+  "cases": [
+    {
+      "case": "ampersand",
+      "export_exit": 0,
+      "archive_exists": true,
+      "plist_paths": ["KŌMAKU- Dust & Radiation.app/Contents/Info.plist"],
+      "plist_valid": false,
+      "plist_error": "not well-formed (invalid token): line 8, column 24"
+    },
+    {
+      "case": "technical-and",
+      "export_exit": 0,
+      "archive_exists": true,
+      "plist_paths": ["KŌMAKU- Dust and Radiation.app/Contents/Info.plist"],
+      "plist_valid": true,
+      "executable_name": "KŌMAKU- Dust and Radiation",
+      "bundle_display_name": "KŌMAKU: Dust and Radiation",
+      "bundle_name": "KŌMAKU: Dust and Radiation",
+      "bundle_id": "io.github.roshaninfordham.redveil",
+      "executable_present": true,
+      "nfd_executable": true,
+      "signature_resource_present": true
+    }
+  ],
+  "source_sha256": {
+    "scripts/sync_brand.py": "ee0e6054db3a9d590bed12d68725b0edafdcb7ae01d3045353a2e2b154858e23",
+    "scripts/macos-install.command": "5ceb0ff75445566614e83c472d22878b18f97f1e5845f6cb3ee97c46be4c6feb",
+    "game/project.godot": "ec208c30562c4c8dc77e0f0a052b4ce5214fceb0f71eedcaa51513d4203d0994",
+    "game/export_presets.cfg": "9eb2aee66dad4b70e369177fe2e5e2b9143380d32b97d7dbaa99865f7583ec22"
+  }
+}

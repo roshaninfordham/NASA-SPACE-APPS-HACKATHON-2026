@@ -1,0 +1,42 @@
+{
+  "kind": "original procedural project interface and warning cues",
+  "generator": "game/scripts/journey_audio.gd",
+  "generator_sha256": "8e47015c2d4097e1bb828d052729fb334d5b35b928908ae05c3763396bf37740",
+  "sampled_external_recordings": false,
+  "drive_recording_status": "Not supplied or accessible; these cues are an original fallback, not the mentioned Drive beep.",
+  "sample_rate": 22050,
+  "channels": 1,
+  "format": "signed 16-bit PCM synthesized by Godot at runtime",
+  "alerts": [
+    {
+      "cue": "countdown",
+      "notes_hz": [523.25],
+      "duration_seconds": 0.18,
+      "minimum_real_interval_seconds": 5.0,
+      "relative_gain": 0.22
+    },
+    {
+      "cue": "warning",
+      "notes_hz": [440.0, 587.33],
+      "duration_seconds": 0.36,
+      "minimum_real_interval_seconds": 2.5,
+      "relative_gain": 0.28
+    },
+    {
+      "cue": "urgent",
+      "notes_hz": [622.25, 739.99, 880.0],
+      "duration_seconds": 0.54,
+      "minimum_real_interval_seconds": 1.0,
+      "relative_gain": 0.3
+    }
+  ],
+  "envelope": {
+    "tone_seconds": 0.12,
+    "slot_seconds": 0.18,
+    "attack_seconds": 0.014,
+    "release_seconds": 0.045,
+    "second_harmonic_ratio": 0.1,
+    "waveform_amplitude_scale": 0.36
+  },
+  "behavior": "All alerts share the previous-alert timestamp. Higher urgency may play after its shorter interval. Alerts require a user gesture and active mission; pause, focus loss, context change and mute stop them."
+}

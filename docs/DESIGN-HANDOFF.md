@@ -1,4 +1,4 @@
-# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> design-team handoff
+# <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> design-team handoff
 
 **Reviewed November 14, 2026 for published [0.7.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.7.0-alpha.1).** The latest user direction is an indoor, first-person operator looking through a clear panoramic window at dunes and Mira outside. The earlier ornate 0.6 specifications and the intermediate two-console redesign are historical/alternate presentation inputs. They do not override the new uncluttered forward view. Exact source `8968859e8ffdcda7b8c0c216ff0262df633400e6` is recorded in the [release evidence](evidence/release-0.7.0-alpha.1.json); [team status](TEAM-STATUS.md) records platform acceptance; [visual direction](VISUAL-DIRECTION.md) and the [implementation ledger](SPEC-IMPLEMENTATION.md) describe current source behavior and limits.
 

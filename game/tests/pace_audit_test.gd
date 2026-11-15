@@ -33,7 +33,7 @@ func run():
  for i in range(7):
   var m = Model.new()
   m.set_cleaning_speed(SPEEDS[i])
-  m.advance(300.0)
+  m.advance(90.0)
   var s = m.snapshot()
   check(near(s.cleaned_work, work[i]), "constant/work/" + str(i), {"actual": s.cleaned_work, "expected": work[i]})
   check(near(s.battery_kwh, energy[i]), "constant/energy/" + str(i))
@@ -47,16 +47,16 @@ func run():
  # 10min at.5 recovers linearly to0, adding.4375sections.
  var recovery = Model.new()
  recovery.set_cleaning_speed(1.75)
- recovery.advance(100.0)
+ recovery.advance(30.0)
  recovery.set_cleaning_speed(0.5)
- recovery.advance(100.0)
+ recovery.advance(30.0)
  check(near(recovery.snapshot().fatigue, 0.0), "switch/recovery-floor")
  check(near(recovery.snapshot().cleaned_work, 1.96875), "switch/analytic-work")
  # Uncapped work would be4.0546875. Full work freezes fatigue, not time/dose/energy.
  var capped = Model.new()
- capped.advance(250.0)
+ capped.advance(75.0)
  capped.set_cleaning_speed(1.75)
- capped.advance(50.0)
+ capped.advance(15.0)
  var cs = capped.snapshot()
  var cap_time = (1.0 - sqrt(0.52)) / 0.06
  check(near(cs.cleaned_work, 4.0), "cap/work")
@@ -66,27 +66,27 @@ func run():
  for fraction in [0.4, 0.8]:
   for delta in [0.0, -0.000001]:
    var m = Model.new({"base_cleaning_rate_sections_per_minute": (fraction + delta) * 4.0 / 30.0})
-   m.advance(300.0)
+   m.advance(90.0)
    var expected = "win" if fraction == 0.8 and delta == 0.0 else ("lose" if fraction == 0.4 and delta < 0.0 else "pass")
    check(m.snapshot().status == expected, "outcome/threshold/" + str(fraction) + "/" + str(delta))
  # Empty storage followed by a net-power sign change: independently integrate
  # max(0, -2 + .1875*t) kW over0..30min, and the negative area separately.
  var empty = Model.new({"initial_battery_kwh": 0.0, "habitat_load_kw": 4.0})
- empty.advance(300.0)
+ empty.advance(90.0)
  check(near(empty.snapshot().battery_kwh, 0.5840277777777778), "energy/empty-then-charging")
  check(near(empty.snapshot().unserved_energy_kwh, 0.17777777777777778), "energy/unserved-area")
  var full = Model.new({"battery_capacity_kwh": 0.6})
- full.advance(300.0)
+ full.advance(90.0)
  check(near(full.snapshot().battery_kwh, 0.6), "energy/capacity")
  check(near(full.snapshot().curtailed_energy_kwh, 1.80625), "energy/curtailed-area")
  for comfort in [0.5, 2.0]:
   var m = Model.new()
   m.set_pace(comfort)
-  m.advance(300.0 / comfort)
+  m.advance(90.0 / comfort)
   check(near(m.snapshot().cleaned_work, 3.75) and near(m.snapshot().dose_ugy, 10.9375), "clock/comfort-preserves-simulated-outcome/" + str(comfort))
  var micro = Model.new()
  for i in range(10000): micro.advance(0.000001)
- check(near(micro.snapshot().cleaned_work, 0.000125, 1e-12), "clock/microsecond-work-progress")
+ check(near(micro.snapshot().cleaned_work, 0.0004166666666667, 1e-12), "clock/microsecond-work-progress")
  for i in range(80):
   var cfg = Model.default_settings()
   cfg.clear_solar_power_kw = rng.randf_range(0.0, 50.0)
@@ -104,8 +104,8 @@ func run():
    commands.append({"minutes": minutes, "u": u})
    whole.set_cleaning_speed(u)
    split.set_cleaning_speed(u)
-   whole.advance(minutes * 10.0)
-   partition(split, minutes * 10.0)
+   whole.advance(minutes * 3.0)
+   partition(split, minutes * 3.0)
    left = maxf(0.0, left - minutes)
   # A final tiny overrun removes ambiguity from float summation of command lengths.
   whole.advance(0.000001)

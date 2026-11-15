@@ -1,4 +1,10 @@
-# Updating <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand -->
+# Updating <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand -->
+
+**Current source candidate: 0.9.0-alpha.1; not yet published.** The signed update path retains the same engine, bootstrap contract, trust root and local data identity. The new name and package stem do not reset saves or rename existing OS app bundles.
+
+The candidate's required native matrix now covers public **0.6.0, 0.6.1, 0.7.0, 0.7.1 and 0.8.0** on both Mac and Windows—**ten jobs**—plus the documented Linux 0.4 gate. Each unchanged baseline must activate the exact signed pack, repeat healthy startup and recover from same-size corruption. Configuration of these checks is not evidence that 0.9 has passed; final build/run IDs and exact hashes will be recorded after acceptance. [Candidate notes](releases/0.9.0-alpha.1.md).
+
+## Latest published update: 0.8
 
 **Published [0.8.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.8.0-alpha.1) — November 15, 2026.** Built from `8b13e027ce5e0fa941a6bbeb1e09c5873b11baee`. All ten public files were redownloaded and matched to the accepted build; all four ZIPs passed integrity checks and contain the reviewed science and technical equation PDFs. [Release evidence](evidence/release-0.8.0-alpha.1.json).
 
@@ -16,7 +22,7 @@ Godot initializes global script-class and resource UID registries before content
 
 A successful startup acknowledgement only means that the startup checkpoint completed. It cannot certify every mission, device, or later gameplay path. Initial app signing/notarization, backups, real-device tests, and release review remain separate from content signatures.
 
-## Accepted final journey
+## Accepted 0.8 journey — historical artifact evidence
 
 The final pace/fatigue journey retains the Godot 4.6.3 runtime and existing pinned public key. Published pack SHA-256 is `652c48d054742f2ad81c3d7b2639b5ec21ac18c6e8d4e4d7d942532cead14dab`; source is `8b13e027ce5e0fa941a6bbeb1e09c5873b11baee`. The build, native launch, supported baseline transitions, repeat startup, tamper recovery and public-file checks all passed on these exact bytes.
 
@@ -31,7 +37,7 @@ The final pace/fatigue journey retains the Godot 4.6.3 runtime and existing pinn
 
 ## Existing signing setup (already completed)
 
-The repository already has its signing setup. **Do not repeat setup or rotate the key for the 0.8 journey.** The commands below document recovery/provisioning for an owner who needs it; they are not a new action request. Use a trusted owner laptop for that work. No private signing key has been generated or provisioned by the development agents.
+The repository already has its signing setup. **Do not repeat setup or rotate the key for a routine content update or product rename.** The commands below document recovery/provisioning for an owner who needs it; they are not a new action request. Use a trusted owner laptop for that work. No private signing key has been generated or provisioned by the development agents.
 
 Prerequisites: Python 3.11+, OpenSSL, the GitHub `gh` CLI, and a local checkout of this repository. Sign in with the repository owner account:
 
@@ -68,10 +74,10 @@ The **Build downloadable game** Actions workflow has independent `signed_updates
 For local builds, use an existing key outside the checkout:
 
 ```sh
-python3 scripts/build_game.py --version 0.8.0-alpha.1 --signed-updates --private-key "$HOME/.config/red-veil/signing/update-private.pem"
+python3 scripts/build_game.py --version 0.9.0-alpha.1 --signed-updates --private-key "$HOME/.config/red-veil/signing/update-private.pem"
 ```
 
-This example targets the versioned 0.8.0-alpha.1 source snapshot and requires its project version and frozen source to match. Version 0.7.1-alpha.1 is already published and must not be overwritten. A local build is not publication or proof of baseline compatibility.
+This example targets the 0.9.0-alpha.1 candidate and requires its project version and frozen source to match. Published 0.8.0-alpha.1 and all earlier releases must not be overwritten. A local build is not publication or proof of baseline compatibility.
 
 Signed builds produce four platform ZIPs, a standalone versioned science PDF and these five fixed assets (ten total):
 

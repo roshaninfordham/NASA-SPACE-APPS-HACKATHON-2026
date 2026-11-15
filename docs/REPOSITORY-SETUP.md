@@ -10,7 +10,7 @@ The connected integration can push code and manage release metadata, but GitHub 
 
 The owner used the About gear on November 14, 2026. A subsequent API read verified the description, release-page website, and 16 topics. The intended core values were:
 
-- **Description:** <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> — a first-person Mars survival learning game for ages 7–12. Explore, protect your crew, and learn the science of energy, dust, and radiation.
+- **Description:** <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — a first-person Mars survival learning game for ages 7–12. Explore, protect your crew, and learn the science of energy, dust, and radiation.
 - **Website:** https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases
 - **Topics:** godot, mars, educational-game, space-apps, first-person, stem-education, offline-game
 

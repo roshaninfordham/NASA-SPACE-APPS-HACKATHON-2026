@@ -3,21 +3,18 @@
   "reviewed_on": "2026-11-15",
   "pages": 2,
   "sources": {
-    "docs/VIDEO-EQUATIONS.md": "a2cc6ee1f3fd19fcddd2b227d94afc6c60d2204a5efd7d206a53077c1c0b92b1",
-    "docs/design-specs/FINAL-WORKFLOW.md": "d2006155ffc8834f2e51670e642caa0671b2f0dd17e0a71b51ec1c8a9b8d8f29",
-    "scripts/build_video_equations.py": "890ec15e22183ffb1e2b14ee58808d9382e4baf29bc1fd0aa4871771d93df5ee",
-    "game/scripts/pace_mission.gd": "b1ef86e2128e1e3f0fcada91a94b09a9f496954503d542a43ea8f154286bcc8e",
+    "game/data/brand.json": "ca53f5e7bbfedebfaaae206d304797652d82441c4b650decb975c3ab56a72b36",
+    "scripts/branding.py": "fde120b17c0affcca82426b942bfa81be77693ef78bd49ede5576cee0949d02b",
+    "docs/VIDEO-EQUATIONS.md": "f218a45f7fc787e5908b90585a9d9fa2d9c64d7fb89971ae559fd806d6a7a05c",
+    "docs/design-specs/FINAL-WORKFLOW.md": "8cdec1386a1cf6b25933a00a1d70545fc5636426187969b718b190be4ef81a27",
+    "scripts/build_video_equations.py": "abf705fb32b16507eac5242c138771a9df0cd8a89f596ac94e0c55d00fda17d7",
+    "game/scripts/pace_mission.gd": "9286d861007f81a821c092fc1d983190a597d7ab509d4a6f0d810cdb120f08ef",
     "game/licenses/DejaVu-Font-License.txt": "810205354319c787fc9ede3ba76d03073fd0f62b00b585506e8065355e71e18d"
   },
-  "pdf_sha256": "fc5098c4eb9cc77d17134f70d98c661ff0eca574640bd6989af7dadab35af3fb",
-  "source_fingerprint": "438c8d780073a93f50f68439e64c27e8587708a21bede3c7ec2b5be5ed3eccd4",
+  "pdf_sha256": "cc9b0e72c49d27edacb501df49680d9681546cc7a1d78a8b48ace7d1f53f2f96",
+  "source_fingerprint": "0e0ff0d80d33a85d2ea21b78a09fe7379fc2386b5e9147b82c3aa12dd73ce225",
   "embedded_license": "DejaVu-Font-License.txt",
   "scope": "Agreed final-workflow equation handoff. Historical dose reference plus explicitly authored pace/effort/storm model.",
   "build": "python3 scripts/build_video_equations.py",
-  "network_requests": false,
-  "validation": {
-    "visual_review": "Both final pages rendered and inspected; equations, active-cleaning indicator, worked example, unit distinctions, sources, and font-license attachment checked.",
-    "deterministic_rebuild": "Repeated build produced byte-identical PDF.",
-    "https_links": 4
-  }
+  "network_requests": false
 }

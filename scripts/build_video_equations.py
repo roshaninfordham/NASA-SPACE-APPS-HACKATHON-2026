@@ -7,6 +7,8 @@ import hashlib
 import html
 import json
 from pathlib import Path
+
+from branding import brand
 import re
 import sys
 
@@ -14,6 +16,8 @@ ROOT = Path(__file__).resolve().parents[1]
 PDF = ROOT / "docs/media/KOMAKU-Video-Equations.pdf"
 PROVENANCE = ROOT / "docs/media/video-equations-provenance.json"
 SOURCES = [
+    "game/data/brand.json",
+    "scripts/branding.py",
     "docs/VIDEO-EQUATIONS.md",
     "docs/design-specs/FINAL-WORKFLOW.md",
     "scripts/build_video_equations.py",
@@ -59,7 +63,7 @@ def build() -> None:
     for face, filename in [("Video", "DejaVuSans.ttf"), ("VideoBold", "DejaVuSans-Bold.ttf"), ("VideoMono", "DejaVuSansMono.ttf")]:
         pdfmetrics.registerFont(TTFont(face, str(fonts / filename)))
     pdfmetrics.registerFontFamily("Video", normal="Video", bold="VideoBold")
-    source = (ROOT / SOURCES[0]).read_text()
+    source = (ROOT / "docs/VIDEO-EQUATIONS.md").read_text()
     sections = re.split(r"\n## ", source)
     groups = [next(s for s in sections if s.startswith(f"{n}. ")) for n in range(1, 5)]
     blocks = [re.findall(r"```text\n(.*?)\n```", group, flags=re.S) for group in groups]
@@ -74,7 +78,7 @@ def build() -> None:
     heading = ParagraphStyle("heading", parent=style, fontName="VideoBold", fontSize=12.3, leading=16.5, textColor=teal)
     PDF.parent.mkdir(parents=True, exist_ok=True)
     out = canvas.Canvas(str(PDF), pagesize=(width, height), invariant=1, pageCompression=1, pdfVersion=(1, 7))
-    out.setTitle("KŌMAKU: Shield Protocol — Video Equations")
+    out.setTitle(brand()["display_name"] + " — Video Equations")
     out.setAuthor("Team Roshan Xingbo")
 
     def text(value: str, y: float, use=style, gap=6) -> float:
@@ -102,7 +106,7 @@ def build() -> None:
     def header(number: int, title: str, subtitle: str) -> float:
         out.setFillColor(colors.HexColor(ink)); out.rect(0, height - 40, width, 40, stroke=0, fill=1)
         out.setFont("VideoBold", 10); out.setFillColor(colors.white)
-        out.drawString(margin, height - 25, "KŌMAKU: SHIELD PROTOCOL")
+        out.drawString(margin, height - 25, brand()["display_name"].upper())
         out.setFont("Video", 8); out.drawRightString(width - margin, height - 25, "EQUATION VIDEO HANDOFF")
         out.setFont("VideoBold", 20); out.setFillColor(colors.HexColor(ink))
         out.drawString(margin, height - 76, title)

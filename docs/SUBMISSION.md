@@ -1,10 +1,10 @@
-# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> submission workspace
+# <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> submission workspace
 
 ## Working pitch
 
 **You are the astronaut. Your crewmate is counting on you. The sky is disappearing.**
 
-<!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> is a first-person Mars mission for ages 7–12. Players walk through an outpost, inspect a solar array, clear a dusty visor, manage two energy stores, and reach a shielded refuge. Dust and a solar particle event create different problems. The challenge is to recognize which action helps, when it helps, and what it costs.
+<!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> is a first-person Mars mission for ages 7–12. Players walk through an outpost, inspect a solar array, clear a dusty visor, manage two energy stores, and reach a shielded refuge. Dust and a solar particle event create different problems. The challenge is to recognize which action helps, when it helps, and what it costs.
 
 Our central learning moment is that a clean panel can still produce almost no power under a dusty sky. The player experiences that distinction through equipment, environmental change, and a companion's radio guidance. A debrief compares the run with a declared fixed strategy under identical modeled weather.
 

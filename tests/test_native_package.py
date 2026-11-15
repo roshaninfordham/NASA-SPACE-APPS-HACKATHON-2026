@@ -44,20 +44,46 @@ class NativePackageTest(unittest.TestCase):
             native.validate_archive(path)
 
     def test_unicode_app_and_regular_docs_are_accepted(self):
-        native.validate_archive(self.archive(["KŌMAKU- Shield Protocol.app/Contents/MacOS/KŌMAKU- Shield Protocol", "DOWNLOADS.md"]))
+        for title in ["KŌMAKU- Shield Protocol", "KŌMAKU- Dust & Radiation"]:
+            with self.subTest(title=title):
+                native.validate_archive(self.archive([f"{title}.app/Contents/MacOS/{title}", "DOWNLOADS.md"]))
 
-    def distribution(self):
-        name = "KOMAKU-Shield-Protocol-0.6.1-alpha.1-Windows-x64.zip"
-        path = self.archive(["KOMAKU-Shield-Protocol.exe"])
+    def distribution(self, version="0.9.0-alpha.1"):
+        stem = native.archive_stem(version)
+        name = f"{stem}-{version}-Windows-x64.zip"
+        path = self.archive([f"{stem}.exe"])
         path.rename(self.folder / name)
         path = self.folder / name
         digest = native.digest(path)
-        manifest = {"version": "0.6.1-alpha.1", "commit": "a" * 40,
+        manifest = {"version": version, "commit": "a" * 40,
                     "assets": [{"name": name, "bytes": path.stat().st_size, "sha256": digest}]}
         manifest_path = self.folder / "release-manifest.json"
         manifest_path.write_text(json.dumps(manifest))
         (self.folder / "SHA256SUMS.txt").write_text(f"{digest}  {name}\n")
         return path, native.digest(manifest_path)
+
+    def test_historical_and_current_download_names_select_exact_versions(self):
+        for version, prefix in [("0.4.0-alpha.1", "Red-Veil"), ("0.6.1-alpha.1", "KOMAKU-Shield-Protocol"), ("0.8.0-alpha.1", "KOMAKU-Shield-Protocol"), ("0.9.0-alpha.1", "KOMAKU-Dust-and-Radiation")]:
+            with self.subTest(version=version):
+                path, manifest_sha = self.distribution(version)
+                selected, manifest, _ = native.select_archive(self.folder, "Windows", manifest_sha)
+                self.assertEqual(selected, path)
+                self.assertEqual(selected.name, f"{prefix}-{version}-Windows-x64.zip")
+                self.assertEqual(manifest["version"], version)
+
+    def test_manifest_brand_metadata_cannot_rebind_current_release_to_old_archive_name(self):
+        path, _ = self.distribution()
+        manifest_path = self.folder / "release-manifest.json"
+        manifest = json.loads(manifest_path.read_text())
+        manifest["package_stem"] = "KOMAKU-Shield-Protocol"
+        wrong_name = path.name.replace("KOMAKU-Dust-and-Radiation", "KOMAKU-Shield-Protocol")
+        path.rename(self.folder / wrong_name)
+        manifest["assets"][0]["name"] = wrong_name
+        manifest_path.write_text(json.dumps(manifest))
+        digest = manifest["assets"][0]["sha256"]
+        (self.folder / "SHA256SUMS.txt").write_text(f"{digest}  {wrong_name}\n")
+        with self.assertRaisesRegex(ValueError, "exactly one native archive"):
+            native.select_archive(self.folder, "Windows", native.digest(manifest_path))
 
     def test_archive_or_manifest_tampering_fails_before_launch(self):
         path, manifest_sha = self.distribution()
@@ -79,12 +105,13 @@ class NativePackageTest(unittest.TestCase):
                 native.select_archive(self.folder, "Windows")
 
     def test_scene_marker_requires_exact_version_and_no_engine_errors(self):
-        version = "0.6.1-alpha.1"
-        marker = f"RED_VEIL_SCENE_READY version={version} nodes=123 HUD=(960, 540)"
-        self.assertTrue(native.scene_ready(marker, version))
-        self.assertFalse(native.scene_ready(marker, "0.6.1-alpha.10"))
-        self.assertFalse(native.scene_ready(marker + "\nSCRIPT ERROR: missing scene", version))
-        self.assertFalse(native.scene_ready(marker + "\nERROR: shader failed", version))
+        for version in ["0.6.1-alpha.1", "0.8.0-alpha.1", "0.9.0-alpha.1"]:
+            with self.subTest(version=version):
+                marker = f"RED_VEIL_SCENE_READY version={version} nodes=123 HUD=(960, 540)"
+                self.assertTrue(native.scene_ready(marker, version))
+                self.assertFalse(native.scene_ready(marker, version + "0"))
+                self.assertFalse(native.scene_ready(marker + "\nSCRIPT ERROR: missing scene", version))
+                self.assertFalse(native.scene_ready(marker + "\nERROR: shader failed", version))
 
 
 if __name__ == "__main__":

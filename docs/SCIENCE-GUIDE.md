@@ -1,6 +1,6 @@
-# KŌMAKU: Shield Protocol — the science inside the game
+# <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — the science inside the game
 
-Readable source for [the illustrated PDF](media/KOMAKU-Science-Guide.pdf). This edition explains only the **final 0.8 pace/fatigue workflow**. Reviewed November 15, 2026, America/New_York. Build: `python3 scripts/build_science_guide.py`. Historical recall/forecast and advanced EVA models are documented separately; their rules do not belong to this mission.
+Readable source for [the illustrated PDF](media/KOMAKU-Science-Guide.pdf). This edition explains only the **current pace/fatigue workflow**. Reviewed November 15, 2026, America/New_York. Build: `python3 scripts/build_science_guide.py`. Historical recall/forecast and advanced EVA models are documented separately; their rules do not belong to this mission.
 
 ## 01 · One small mission, connected ideas
 
@@ -8,7 +8,7 @@ Readable source for [the illustrated PDF](media/KOMAKU-Science-Guide.pdf). This 
 
 It is the year 2059 in our story. You are inside a Mars habitat, looking across the dunes. Ren is outside beside a dusty solar panel and the shelter entrance. Your job is to choose a working pace and discover how work, sunlight, stored energy, and radiation dose connect. The intended learners are ages 7–12, with optional detail for curious readers.
 
-The story leads directly to the control room in **preflight**. Inspect concepts or set a starting pace if you want; nothing advances until **START MISSION**. The eight science ideas are optional support, not a reading gate. The round lasts 30 simulated minutes, normally five active real minutes at ×6. Reading and pauses add no mission time.
+The story leads directly to the control room in **preflight**. Inspect concepts or set a starting pace if you want; nothing advances until **START MISSION**. The eight science ideas are optional support, not a reading gate. The round lasts 30 simulated minutes, normally **90 active real seconds at ×20**. Reading and pauses add no mission time.
 
 ![The final mission journey](media/science-guide-journey.png)
 

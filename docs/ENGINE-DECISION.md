@@ -2,7 +2,7 @@
 
 ## Chosen: Godot 4.6.3 with typed GDScript
 
-The owner clarified that <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> is a first-person astronaut adventure, not an outpost dashboard. Godot supplies a coherent game runtime: character movement, collision, cameras, scene composition, input, UI, audio, and native exports. The compatibility renderer is the baseline to reach modest devices. Typed GDScript keeps iteration quick; native C++ extensions are reserved for a measured bottleneck, not introduced speculatively.
+The owner clarified that <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> is a first-person astronaut adventure, not an outpost dashboard. Godot supplies a coherent game runtime: character movement, collision, cameras, scene composition, input, UI, audio, and native exports. The compatibility renderer is the baseline to reach modest devices. Typed GDScript keeps iteration quick; native C++ extensions are reserved for a measured bottleneck, not introduced speculatively.
 
 | Candidate           | Relevant strength                                               | Decision for this game                                                  |
 | ------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------- |

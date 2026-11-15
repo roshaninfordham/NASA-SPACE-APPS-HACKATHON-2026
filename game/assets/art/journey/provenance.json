@@ -1,0 +1,24 @@
+{
+  "created_utc": "2026-11-15",
+  "kind": "AI-generated story illustrations adapted from the user-supplied visual direction",
+  "generator": "OpenAI image generation",
+  "not_original_attachments": true,
+  "presentation": "Original inline concept images were visible in the conversation but unavailable as filesystem image assets. These are new unlettered adaptations, not pixel-exact originals or real-time gameplay captures. Runtime titles are separate accessible UI text.",
+  "assets": [
+    {
+      "file": "story-astronaut.png",
+      "sha256": "786e733127073544b611af4cd6a4913b8ec5578bf2add1f6f976f0b5155f6e79",
+      "bytes": 2559392
+    },
+    {
+      "file": "story-exterior.png",
+      "sha256": "4bcc555fbe171e037940630c78263a8aa223643381a635aa7a0ea153c243bba5",
+      "bytes": 2156008
+    },
+    {
+      "file": "story-interior.png",
+      "sha256": "70f830b3ff04129c4a2907db8b6095ebcfed2212001d17b35c8faccbea7eb9b7",
+      "bytes": 2311380
+    }
+  ]
+}

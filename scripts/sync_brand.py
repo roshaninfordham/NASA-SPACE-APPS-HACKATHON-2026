@@ -15,6 +15,7 @@ import json
 from pathlib import Path
 import re
 import sys
+import shlex
 import unicodedata
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -79,11 +80,15 @@ def expected_files(root: Path = ROOT) -> dict[Path, str]:
     read = lambda name: (root / name).read_text(encoding="utf-8")
     description = f'{brand["display_name"]} — a first-person Mars learning adventure for young explorers.'
     project = read("game/project.godot")
+    # Godot4.6.3 inserts its Mac binary name into Info.plist without XML
+    # escaping. Keep an ampersand out of that technical filename; the running
+    # game still obtains its exact visible title from the canonical brand.
+    mac_name = brand["display_name"].replace("&", "and")
     for key, value in {
         "config/name": brand["display_name"],
         # Apple's bundle verifier resolves decomposed Unicode paths. Keep the
         # visible brand unchanged while sealing Mac filenames in that form.
-        "config/name.macos": unicodedata.normalize("NFD", brand["display_name"]),
+        "config/name.macos": unicodedata.normalize("NFD", mac_name),
         "config/description": description,
         "config/use_custom_user_dir": True,
         # Godot core/os/os.cpp get_user_data_dir joins these to platform data roots.
@@ -93,11 +98,30 @@ def expected_files(root: Path = ROOT) -> dict[Path, str]:
     }.items():
         project = setting(project, "application", key, value)
     result[root / "game/project.godot"] = project
+    installer = read("scripts/macos-install.command")
+    safe_app = re.sub(r'[\\/:*?"<>|]', "-", mac_name) + ".app"
+    installer = re.sub(r"(?m)^APP_NAME=.*$", "APP_NAME=" + shlex.quote(safe_app), installer)
+    installer = re.sub(r"(?m)^APP_NAME_NFD=.*$", "APP_NAME_NFD=" + shlex.quote(unicodedata.normalize("NFD", safe_app)), installer)
+    installer = re.sub(r"(?m)^DISPLAY_NAME=.*$", "DISPLAY_NAME=" + shlex.quote(brand["display_name"]), installer)
+    result[root / "scripts/macos-install.command"] = installer
     exports = read("game/export_presets.cfg")
+    release_match = re.search(r'(?m)^config/version="([^"]+)"$', project)
+    version_match = re.fullmatch(r'(\d+)\.(\d+)\.(\d+)(?:-alpha\.(\d+))?', release_match.group(1) if release_match else "")
+    if not version_match:
+        raise ValueError("Project version must be a supported numeric release or alpha version")
+    components = [int(value or 0) for value in version_match.groups()]
+    if any(value > 65535 for value in components):
+        raise ValueError("Project version exceeds native file-version component limits")
+    native_version = ".".join(str(value) for value in components[:3])
+    windows_version = ".".join(str(value) for value in components)
     for section, key, value in [
         ("preset.1", "export_path", f'../releases/{brand["package_stem"]}-macOS-universal.zip'),
+        ("preset.1.options", "application/short_version", native_version),
+        ("preset.1.options", "application/version", native_version),
         ("preset.2", "export_path", f'../releases/linux/{brand["package_stem"]}.x86_64'),
         ("preset.3", "export_path", f'../releases/windows/{brand["package_stem"]}.exe'),
+        ("preset.3.options", "application/file_version", windows_version),
+        ("preset.3.options", "application/product_version", windows_version),
         ("preset.3.options", "application/product_name", brand["display_name"]),
         ("preset.3.options", "application/file_description", description),
     ]:

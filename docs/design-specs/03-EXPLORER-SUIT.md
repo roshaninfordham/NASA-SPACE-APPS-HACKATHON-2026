@@ -1,6 +1,6 @@
 # Explorer suit and Suit Lab — implementation brief
 
-Part of **<!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand -->**. Derived from the [preserved explorer-suit specification](source/03_Explorer_Suit_Game_Spec.md); [decisions and status](../SPEC-IMPLEMENTATION.md) override conflicting source requirements.
+Part of **<!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand -->**. Derived from the [preserved explorer-suit specification](source/03_Explorer_Suit_Game_Spec.md); [decisions and status](../SPEC-IMPLEMENTATION.md) override conflicting source requirements.
 
 ## Character and visual direction
 

@@ -15,6 +15,10 @@ func any_effect(audio) -> bool:
 	for player in audio._effects:
 		if player.playing: return true
 	return false
+func any_alert(audio) -> bool:
+	for player in audio._effects:
+		if player.playing and audio.ALERT_INTERVAL_MS.has(str(player.get_meta("cue_kind", ""))): return true
+	return false
 func run() -> void:
 	var original_master := AudioServer.is_bus_mute(0)
 	var audio := JourneyAudio.new()
@@ -50,6 +54,22 @@ func run() -> void:
 	audio.set_music_enabled(true)
 	check(any_music(audio) and not audio.cue("confirm"), "Re-enabling music does not re-enable effects")
 	audio.set_effects_enabled(true)
+	check(audio.cue("countdown") and any_alert(audio), "Mission countdown uses the original soft alert after a user gesture")
+	check(not audio.cue("countdown") and not audio.cue("warning") and not audio.cue("urgent"), "Alert kinds share a cooldown so rapid frames cannot layer warnings")
+	audio._last_alert_ms = Time.get_ticks_msec() - 1100
+	check(not audio.cue("warning") and audio.cue("urgent"), "An urgent alert can escalate after one real second without waiting five seconds")
+	audio.set_paused(true)
+	check(not any_alert(audio) and not audio.cue("urgent") and audio.cue("open"), "Pause immediately stops alerts while keeping intentional learning-panel feedback")
+	audio.set_paused(false)
+	audio._last_alert_ms = Time.get_ticks_msec() - 2600
+	check(audio.cue("warning"), "A double warning can resume after its real-time cooldown")
+	audio.set_context("debrief")
+	check(not any_alert(audio) and not audio.cue("urgent"), "Finishing the mission cancels alerts and rejects warnings on the result page")
+	audio.set_context("mission")
+	check(audio.cue("countdown"), "A new mission starts with a fresh alert cooldown")
+	audio.set_effects_enabled(false)
+	check(not any_alert(audio) and not audio.cue("urgent"), "Effects mute cancels the new alert family as well as ordinary UI cues")
+	audio.set_effects_enabled(true)
 	var count: int = audio.snapshot().accepted_cues
 	check(audio.cue("typewriter") and not audio.cue("typewriter") and audio.snapshot().accepted_cues == count + 1, "Typewriter accepts only one cue within its 125 ms limit")
 	# Audio rate limiting follows real monotonic time, independent of game pace.
@@ -84,6 +104,18 @@ func run() -> void:
 	for kind in audio.EFFECT_KINDS:
 		var cue: AudioStreamWAV = audio._make_effect(kind)
 		check(cue.mix_rate == 22050 and cue.format == AudioStreamWAV.FORMAT_16_BITS and cue.data.size() > 0 and cue.get_length() <= 0.6, "Original cue is bounded, offline and short: " + kind)
+	for kind in audio.ALERT_INTERVAL_MS:
+		var alert: AudioStreamWAV = audio._make_effect(kind)
+		var peak := 0
+		for offset in range(0, alert.data.size(), 2): peak = maxi(peak, absi(alert.data.decode_s16(offset)))
+		check(peak > 0 and peak < 16384 and alert.data.decode_s16(0) == 0 and alert.data.decode_s16(alert.data.size() - 2) == 0, "Alert waveform has headroom and silent endpoints: " + kind)
+		var gap_start := int(0.13 * alert.mix_rate)
+		var gap_end := int(0.17 * alert.mix_rate)
+		var silent_gap := true
+		for sample_index in range(gap_start, gap_end):
+			if alert.data.decode_s16(sample_index * 2) != 0: silent_gap = false
+		check(silent_gap, "Alert has a genuine silence gap rather than a continuous alarm: " + kind)
+	check(audio._make_effect("countdown").get_length() < audio._make_effect("warning").get_length() and audio._make_effect("warning").get_length() < audio._make_effect("urgent").get_length(), "Single, double and triple beep rhythms distinguish increasing urgency")
 	stream = null
 	audio.shutdown()
 	audio.set_context("mission")

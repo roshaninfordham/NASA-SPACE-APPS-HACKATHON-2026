@@ -6,6 +6,8 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+
+from branding import brand
 import re
 import sys
 
@@ -13,6 +15,8 @@ ROOT = Path(__file__).resolve().parents[1]
 PDF = ROOT / "docs/media/KOMAKU-Video-Equations-Simple.pdf"
 PROVENANCE = ROOT / "docs/media/video-equations-simple-provenance.json"
 SOURCES = [
+    "game/data/brand.json",
+    "scripts/branding.py",
     "docs/VIDEO-EQUATIONS-SIMPLE.md",
     "scripts/build_video_equations_simple.py",
     "game/licenses/DejaVu-Font-License.txt",
@@ -71,11 +75,11 @@ def build() -> None:
     navy, teal, muted = "#173047", "#087c84", "#526776"
     PDF.parent.mkdir(parents=True, exist_ok=True)
     out = canvas.Canvas(str(PDF), pagesize=(width, height), invariant=1, pageCompression=1)
-    out.setTitle("KŌMAKU: Shield Protocol — Simple Video Equations")
+    out.setTitle(brand()["display_name"] + " — Simple Video Equations")
     out.setAuthor("Team Roshan Xingbo")
     out.setFillColor(colors.HexColor("#f7fafb")); out.rect(0, 0, width, height, stroke=0, fill=1)
     out.setFont("SimpleBold", 16); out.setFillColor(colors.HexColor(teal))
-    out.drawString(48, 631, "KŌMAKU: SHIELD PROTOCOL")
+    out.drawString(48, 631, brand()["display_name"].upper())
     out.setFont("SimpleBold", 29); out.setFillColor(colors.HexColor(navy))
     out.drawString(48, 588, "How your mission connects")
     out.setFont("Simple", 14); out.setFillColor(colors.HexColor(muted))

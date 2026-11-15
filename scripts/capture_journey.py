@@ -11,17 +11,19 @@ import json
 import os
 from pathlib import Path
 import shutil
+import shlex
 import subprocess
 import tempfile
 
 from verify_native_update_acceptance import private_display
+from branding import brand
 
 ROOT = Path(__file__).resolve().parent.parent
 SOURCE_FILES = ["game/main.tscn", "game/scripts/journey_game.gd", "game/scripts/pace_mission.gd", "game/scripts/journey_progress.gd", "game/ui/journey_shell.gd", "game/ui/training_hud.gd", "game/ui/concept_orb.gd", "game/ui/journey_style.gd", "game/data/mission-concepts.json", "game/art/red_veil/training_panel.gd", "game/art/red_veil/training_panel.gdshader", "game/art/red_veil/astronaut.gd"]
 
 
 def fingerprints():
-    sources = set(SOURCE_FILES) | {"game/project.godot"}
+    sources = set(SOURCE_FILES) | {"game/project.godot", "game/tests/capture_journey.gd", "scripts/capture_journey.py", "game/tests/capture_cleaning_clip.gd", "scripts/capture_cleaning_clip.py", "scripts/branding.py"}
     extensions = {".gd", ".gdshader", ".tscn", ".tres", ".json", ".ttf", ".otf", ".png", ".jpg", ".svg", ".webp", ".glb", ".obj"}
     for path in (ROOT / "game").rglob("*"):
         relative = path.relative_to(ROOT)
@@ -41,7 +43,7 @@ def publish_selected(output, destination, manifest):
         ("04-preflight-1280x720.png", "preflight-desktop.png", "Control room · before Start"),
         ("03-concept-1280x720.png", "concept-desktop.png", "Microgray science card"),
         ("04-cleaning-1280x720.png", "mission-desktop.png", "Cleaning pace and game fatigue"),
-        ("08-debrief-1280x720.png", "debrief-desktop.png", "Mission debrief"),
+        ("08-debrief-1280x720.png", "debrief-desktop.png", "Immediate mission result"),
         ("04-cleaning-390x844.png", "mission-portrait.png", "Portrait mission"),
     ]
     records = []
@@ -51,7 +53,7 @@ def publish_selected(output, destination, manifest):
     title_font = ImageFont.truetype(face, 32)
     label_font = ImageFont.truetype(face, 20)
     detail_font = ImageFont.truetype(face, 17)
-    draw.text((24, 14), "KŌMAKU: Shield Protocol — native journey", font=title_font, fill="#fbf1ee")
+    draw.text((24, 14), brand()["display_name"] + " — native journey", font=title_font, fill="#fbf1ee")
     draw.text((24, 54), "Actual game captures · deterministic visual fixture · Godot / Linux compatibility renderer", font=detail_font, fill="#9cc3cc")
     for index, (source, name, caption) in enumerate(selection):
         shutil.copyfile(output / source, destination / name)
@@ -70,13 +72,17 @@ def publish_selected(output, destination, manifest):
         canvas.paste(frame, (x + (448 - frame.width) // 2, y + 38 + (248 - frame.height) // 2))
     draw.text((24, 716), "Screens show a teaching simulation. Fixture actions, model values and source hashes are recorded in capture-provenance.json.", font=detail_font, fill="#9cc3cc")
     canvas.save(destination / "contact-sheet.png", optimize=True)
-    source, name, caption = "02-preparation-1280x720.png", "preparation-desktop.png", "Optional science library"
-    shutil.copyfile(output / source, destination / name)
-    record = next(item for item in manifest["captures"] if item["file"] == source).copy()
-    record.pop("visible_controls", None)
-    record.update(source_capture=source, file=name, caption=caption, sha256=hashlib.sha256((destination / name).read_bytes()).hexdigest())
-    records.append(record)
-    selection.append((source, name, caption))
+    for source, name, caption in [
+        ("02-preparation-1280x720.png", "preparation-desktop.png", "Optional science library"),
+        ("17-bubble-merge-1280x720.png", "bubble-merge-desktop.png", "Eight ideas combine"),
+        ("14-worked-equations-1280x720.png", "science-desktop.png", "Four connected word equations"),
+    ]:
+        shutil.copyfile(output / source, destination / name)
+        record = next(item for item in manifest["captures"] if item["file"] == source).copy()
+        record.pop("visible_controls", None)
+        record.update(source_capture=source, file=name, caption=caption, sha256=hashlib.sha256((destination / name).read_bytes()).hexdigest())
+        records.append(record)
+        selection.append((source, name, caption))
 
     provenance = {key: manifest[key] for key in ["kind", "engine", "method", "source_sha256", "source_changed_during_capture", "layout_failures"]}
     provenance["captures"] = records
@@ -85,24 +91,24 @@ def publish_selected(output, destination, manifest):
     links = "\n".join(f"| [{caption}]({name}) | {next(item for item in records if item['file']==name)['width']} × {next(item for item in records if item['file']==name)['height']} |" for _, name, caption in selection)
     (destination / "README.md").write_text("""# Native journey screenshots
 
-These are actual Godot screenshots of the stationary-cleaning journey in `game/main.tscn`. Ren starts cleaning only after START MISSION. The operator chooses a pace with slower/faster buttons or the stepped slider; faster work builds an authored game-fatigue indicator. At the countdown's end Ren steps directly inside. The visible panel clears dust continuously from the mission model.
+These are actual Godot screenshots of the stationary-cleaning journey in `game/main.tscn`. Ren starts cleaning only after START MISSION. The operator chooses a pace with slower/faster buttons or the stepped slider; faster work builds an authored game-fatigue indicator. The default round lasts 90 active-play seconds, compressing 30 simulated minutes; at the countdown's end Ren steps directly inside. The visible panel clears dust continuously from the mission model.
 
 ![Native game contact sheet](contact-sheet.png)
 
 | Screen | Resolution |
 | --- | --- |
-""" + links + """
+""" + links + f"""
 
-The capture fixture uses normal screen intents, then advances the actual model to repeatable points. The mission image follows explicit Start, 60 real-play seconds at steady cleaning plus 80 at 1.25×: 1.9 cleared sections and 16% game fatigue. The debrief follows 160 further active seconds at normal pace and automatic shelter entry: 3.58 cleared sections (WIN), with 10.9375 µGy accumulated model dose. There is no recall, walking mission or radio interaction in this final workflow. All values come from the model; no result summary is fabricated. The scene is illustrative and does not establish physical panel dimensions or human work-rate measurements. Battery energy stored now uses kWh; power generation and habitat load use kW. The rising radiation profile and game fatigue are authored teaching assumptions, not live NASA radiation data or personal health readings.
+The capture fixture uses normal screen intents, then advances the actual model to repeatable points. The mission image follows explicit Start, 18 active-play seconds at steady cleaning plus 24 at 1.25×: 1.9 cleared sections and 16% game fatigue. The debrief follows 48 further active seconds at normal pace and automatic shelter entry: 3.58 cleared sections (WIN), with 10.9375 µGy accumulated model dose. There is no recall, walking mission or radio interaction in this final workflow. Results appear immediately. Selecting “See how science connects” animates the eight ideas together before revealing four word equations; the transition screenshot holds the real shell animation at 0.35 seconds. Optional details reveal the exact numerical equations, history graphs and transfer question. All values come from the model; no result summary is fabricated. The scene is illustrative and does not establish physical panel dimensions or human work-rate measurements. Battery energy stored now uses kWh; power generation and habitat load use kW. The rising radiation profile and game fatigue are authored teaching assumptions, not live NASA radiation data or personal health readings.
 
 Captured with Godot's Linux compatibility renderer under authenticated Xvfb/Mesa. This checks native composition at desktop, portrait and short-landscape sizes. It does not establish Mac/Windows installation, mobile-device performance, audio quality, live update acceptance or real-time player usability. Audio output is muted only in the capture fixture, and user data is isolated.
 
-`capture-provenance.json` records the source SHA-256 hashes, image hashes, actual model snapshots and fixture actions. The contact sheet contains only scaled native screenshots with external labels. The full QA run also captures preflight, steady/faster cleaning, live concepts, pause, settings, storm countdown, automatic entry, graphs and the learning-transfer question at 1280×720, 390×844 and 844×390.
+`capture-provenance.json` records the source SHA-256 hashes, image hashes, actual model snapshots and fixture actions. The contact sheet contains only scaled native screenshots with external labels. The full QA run also captures preflight, steady/faster cleaning, live concepts, pause, settings, storm countdown, automatic entry, the immediate result, the eight-bubble transition, four word equations, optional graphs, the learning-transfer question and the return to results at 1280×720, 390×844 and 844×390.
 
 Reproduce from the repository root (Godot, Xvfb and Pillow required):
 
 ```sh
-python3 scripts/capture_journey.py --output /tmp/komaku-journey-capture --publish-to docs/media/journey
+python3 scripts/capture_journey.py --output /tmp/komaku-journey-capture --publish-to {shlex.quote(os.path.relpath(destination, ROOT))}
 ```
 
 Use `--xvfb /path/to/Xvfb` if Xvfb is not on `PATH`. Publishing rejects any run with geometry findings or source changes during capture.
@@ -145,7 +151,7 @@ def main():
         for capture in manifest["captures"]:
             name = capture["file"]
             cards.append(f'<figure><a href="{escape(name)}"><img src="{escape(name)}" loading="lazy"></a><figcaption>{escape(name)}</figcaption></figure>')
-        (output / "index.html").write_text('<!doctype html><meta charset="utf-8"><title>KŌMAKU visual QA fixture</title><style>body{background:#0b141b;color:#fbf1ee;font:16px system-ui;margin:24px}main{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}figure{margin:0}img{width:100%;max-height:600px;object-fit:contain;background:#0e1b24}p{max-width:90ch}figcaption{padding:10px}</style><h1>KŌMAKU · actual-main visual fixture</h1><p>'+escape(manifest["method"])+"</p><main>"+"".join(cards)+"</main>")
+        (output / "index.html").write_text('<!doctype html><meta charset="utf-8"><title>'+escape(brand()["display_name"])+' visual QA fixture</title><style>body{background:#0b141b;color:#fbf1ee;font:16px system-ui;margin:24px}main{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}figure{margin:0}img{width:100%;max-height:600px;object-fit:contain;background:#0e1b24}p{max-width:90ch}figcaption{padding:10px}</style><h1>'+escape(brand()["display_name"])+' · actual-main visual fixture</h1><p>'+escape(manifest["method"])+"</p><main>"+"".join(cards)+"</main>")
         print(f'Captured {len(manifest["captures"])} screens; {len(manifest["layout_failures"])} layout findings. Gallery: {output / "index.html"}')
     print(log_text[-12000:])
     if result.returncode or "SCRIPT ERROR:" in log_text or "\nERROR:" in log_text:

@@ -18,7 +18,7 @@ def brand():
 
 
 def archive_stem(version):
-    """Only historical 0.0–0.4 releases use the former public ZIP prefix.
+    """Preserve both historical public ZIP prefixes across later renames.
 
     Never derive an allowed filename from downloaded manifest brand metadata.
     Existing update pack, runtime contract and application IDs stay unchanged.
@@ -27,7 +27,11 @@ def archive_stem(version):
     if match is None:
         raise ValueError("Invalid release version")
     major, minor = map(int, match.group(1, 2))
-    return "Red-Veil" if major == 0 and minor <= 4 else brand()["package_stem"]
+    if major == 0 and minor <= 4:
+        return "Red-Veil"
+    if major == 0 and minor <= 8:
+        return "KOMAKU-Shield-Protocol"
+    return brand()["package_stem"]
 
 
 def archive_name(version, platform):

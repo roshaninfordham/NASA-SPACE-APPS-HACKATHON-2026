@@ -56,22 +56,26 @@ class ReleaseToolsTest(unittest.TestCase):
     def test_brand_archive_boundary_and_manifest_cannot_override_names(self):
         for version in ["0.1.0", "0.4.0-alpha.1", "0.4.99"]:
             self.assertEqual(branding.archive_name(version, "Web"), f"Red-Veil-{version}-Web.zip")
-        for version in ["0.5.0-alpha.1", "0.5.0", "1.0.0"]:
+        for version in ["0.5.0-alpha.1", "0.5.0", "0.8.0-alpha.1", "0.8.99"]:
             self.assertEqual(branding.archive_name(version, "Web"), f"KOMAKU-Shield-Protocol-{version}-Web.zip")
+        for version in ["0.9.0-alpha.1", "0.9.0", "0.10.0", "1.0.0"]:
+            self.assertEqual(branding.archive_name(version, "Web"), f"KOMAKU-Dust-and-Radiation-{version}-Web.zip")
         for version in ["../0.4.0", "0.04.0", "0.4.0-beta.1"]:
             with self.assertRaises(ValueError):
                 branding.archive_name(version, "Web")
-        self.version = "0.5.0-alpha.1"
-        manifest = self.unsigned_manifest()
-        with patch.object(build_game, "OUT", self.output):
-            build_game.stage_distribution(manifest)
-            manifest["package_stem"] = "Red-Veil"
-            manifest["assets"][0]["name"] = manifest["assets"][0]["name"].replace("KOMAKU-Shield-Protocol", "Red-Veil")
-            with self.assertRaisesRegex(ValueError, "exact declared"):
-                build_game.validate_release_manifest(manifest, self.version, self.commit)
+        for version, wrong_stem in [("0.5.0-alpha.1", "Red-Veil"), ("0.8.0-alpha.1", "KOMAKU-Dust-and-Radiation"), ("0.9.0-alpha.1", "KOMAKU-Shield-Protocol")]:
+            with self.subTest(version=version):
+                self.version = version
+                manifest = self.unsigned_manifest()
+                with patch.object(build_game, "OUT", self.output):
+                    build_game.stage_distribution(manifest)
+                    manifest["package_stem"] = wrong_stem
+                    manifest["assets"][0]["name"] = manifest["assets"][0]["name"].replace(branding.archive_stem(version), wrong_stem)
+                    with self.assertRaisesRegex(ValueError, "exact declared"):
+                        build_game.validate_release_manifest(manifest, self.version, self.commit)
 
     def test_native_acceptance_reads_historical_and_renamed_artifact_sets(self):
-        for version in ["0.4.0-alpha.1", "0.5.0-alpha.1", "0.7.0-alpha.1"]:
+        for version in ["0.4.0-alpha.1", "0.5.0-alpha.1", "0.7.0-alpha.1", "0.8.0-alpha.1", "0.9.0-alpha.1"]:
             entries = []
             for name in sorted(build_game.expected_names(version, True)):
                 path = self.output / name
@@ -89,11 +93,15 @@ class ReleaseToolsTest(unittest.TestCase):
     def test_science_guide_is_required_only_from_its_first_release(self):
         self.assertFalse(branding.supplemental_asset_names("0.6.1-alpha.1"))
         self.assertEqual(branding.supplemental_asset_names("0.7.0-alpha.1"), {"KOMAKU-Shield-Protocol-0.7.0-alpha.1-Science-Guide.pdf"})
-        self.version = "0.7.0-alpha.1"
-        manifest = self.unsigned_manifest()
-        manifest["assets"] = [a for a in manifest["assets"] if not a["name"].endswith(".pdf")]
-        with patch.object(build_game, "OUT", self.output), self.assertRaisesRegex(ValueError, "exact declared"):
-            build_game.validate_release_manifest(manifest, self.version, self.commit)
+        self.assertEqual(branding.supplemental_asset_names("0.8.0-alpha.1"), {"KOMAKU-Shield-Protocol-0.8.0-alpha.1-Science-Guide.pdf"})
+        self.assertEqual(branding.supplemental_asset_names("0.9.0-alpha.1"), {"KOMAKU-Dust-and-Radiation-0.9.0-alpha.1-Science-Guide.pdf"})
+        for version in ["0.7.0-alpha.1", "0.8.0-alpha.1", "0.9.0-alpha.1"]:
+            with self.subTest(version=version):
+                self.version = version
+                manifest = self.unsigned_manifest()
+                manifest["assets"] = [a for a in manifest["assets"] if not a["name"].endswith(".pdf")]
+                with patch.object(build_game, "OUT", self.output), self.assertRaisesRegex(ValueError, "exact declared"):
+                    build_game.validate_release_manifest(manifest, self.version, self.commit)
 
     def test_signed_manifest_verifies_and_binds_exact_bytes(self):
         manifest = sign_update.sign_pack(self.version, self.pack, self.private, self.public, self.output, self.commit)

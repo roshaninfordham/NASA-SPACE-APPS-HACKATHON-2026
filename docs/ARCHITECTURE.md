@@ -1,4 +1,4 @@
-# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> system architecture
+# <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> system architecture
 
 **Reviewed November 14, 2026.** This describes the primary game and current update implementation. [Team status](TEAM-STATUS.md) identifies the current published release and scoped acceptance evidence; [roadmap](ROADMAP.md) tracks browser/mobile work that is not yet a verified deployment.
 

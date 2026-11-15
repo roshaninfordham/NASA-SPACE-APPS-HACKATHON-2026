@@ -15,11 +15,15 @@ import re
 import sys
 from pathlib import Path
 
+from branding import brand
+
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "docs/SCIENCE-GUIDE.md"
 PDF = ROOT / "docs/media/KOMAKU-Science-Guide.pdf"
 PROVENANCE = ROOT / "docs/media/science-guide-provenance.json"
 SOURCES = [
+    "game/data/brand.json",
+    "scripts/branding.py",
     "docs/SCIENCE-GUIDE.md",
     "scripts/build_science_guide.py",
     "game/scripts/pace_mission.gd",
@@ -45,9 +49,10 @@ def pace_defaults() -> dict:
     block = re.search(r"const DEFAULTS := (\{.*?\n\})", source, flags=re.S)
     if not block:
         raise AssertionError("Pace-model defaults could not be found")
-    values = json.loads(re.sub(r",\s*}", "}", block.group(1)))
+    numeric_block = re.sub(r"(?m)^\s*#.*$", "", block.group(1))
+    values = json.loads(re.sub(r",\s*}", "}", numeric_block))
     expected = {
-        "warning_seconds": 1800.0, "time_scale": 6.0,
+        "warning_seconds": 1800.0, "time_scale": 20.0,
         "base_cleaning_rate_sections_per_minute": 0.125, "max_sections": 4,
         "initial_fatigue": 0.0, "fatigue_max": 0.9,
         "fatigue_growth_per_minute": 0.08, "fatigue_recovery_per_minute": 0.12,
@@ -238,9 +243,9 @@ def build() -> None:
     pages = [(pieces[i], pieces[i+1]) for i in range(1, len(pieces), 2)]
     if len(pages) != PAGE_COUNT: raise AssertionError(f"Expected {PAGE_COUNT} designed pages, found {len(pages)}")
     pdf = canvas.Canvas(str(PDF), pagesize=(width, height), invariant=1, pageCompression=1, pdfVersion=(1, 7))
-    pdf.setTitle("KŌMAKU: Shield Protocol — The science inside the game")
+    pdf.setTitle(brand()["display_name"] + " — The science inside the game")
     pdf.setAuthor("Team Roshan Xingbo")
-    pdf.setSubject("0.8 science journey with retained legacy appendix. Source fingerprint " + fingerprint + "; source hashes " + json.dumps(source_hashes, sort_keys=True))
+    pdf.setSubject("Current pace/fatigue science journey. Source fingerprint " + fingerprint + "; source hashes " + json.dumps(source_hashes, sort_keys=True))
     pdf.setKeywords("KOMAKU, Mars, science, energy, learning, teaching model")
 
     def draw(flow, y, gap=8):
@@ -254,7 +259,7 @@ def build() -> None:
         pdf.setFillColor(colors.HexColor("#fffdfb")); pdf.rect(0, 0, width, height, fill=1, stroke=0)
         pdf.setFillColor(colors.HexColor(wine)); pdf.rect(0, height-39, width, 39, fill=1, stroke=0)
         pdf.setFillColor(colors.white); pdf.setFont("GuideBold", 9.5)
-        pdf.drawString(left, height-24, "KŌMAKU: SHIELD PROTOCOL")
+        pdf.drawString(left, height-24, brand()["display_name"].upper())
         pdf.setFont("Guide", 8); pdf.drawRightString(width-right, height-24, "THE SCIENCE INSIDE THE GAME")
         heading = Paragraph(inline(title), ParagraphStyle("title", fontName="GuideBold", fontSize=20, leading=25, textColor=colors.HexColor(wine)))
         _, h = heading.wrap(available, 60); heading.drawOn(pdf, left, height-58-h)
@@ -349,7 +354,7 @@ def build() -> None:
     artifacts.update({f"docs/media/science-guide-{name}.png":sha(media/f"science-guide-{name}.png") for name in FIGURES})
     versions={name:importlib.metadata.version(name) for name in ["reportlab","matplotlib","Pillow","PyMuPDF"]}
     provenance={"schema":1,"reviewed_on":"2026-11-15","pages":PAGE_COUNT,
-        "scope":"Final 0.8 pace/fatigue workflow only, with a historical radiation baseline and authored ramp. No medical, physiological, engineering, learning-efficacy, or NASA endorsement claim.",
+        "scope":"Current pace/fatigue workflow only, with a historical radiation baseline and authored ramp. No medical, physiological, engineering, learning-efficacy, or NASA endorsement claim.",
         "source_fingerprint":fingerprint,"sources":source_hashes,"artifacts":artifacts,
         "build":{"command":"python3 scripts/build_science_guide.py","dependencies":versions,
             "fonts":"DejaVu Sans, DejaVu Sans Bold, DejaVu Sans Mono (embedded TrueType)",

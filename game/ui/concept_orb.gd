@@ -24,15 +24,15 @@ func _ready() -> void:
 	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_backdrop = Style.panel()
 	_backdrop.bg_color = Color(Style.GLASS,0.97)
-	_backdrop.border_color = Color(Style.CYAN,0.12)
+	_backdrop.border_color = Color(Style.CYAN,0.40)
 	_backdrop.set_corner_radius_all(26)
 	for state in ["normal", "hover", "pressed", "disabled", "focus"]:
 		add_theme_stylebox_override(state, StyleBoxEmpty.new())
-	_caption = Style.label(title, 15, Style.PEARL, "display")
+	_caption = Style.label(title, 20, Style.PEARL, "display_bold")
 	_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_caption.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	add_child(_caption)
-	_status = Style.label(status_text, 12, Style.MUTED, "mono")
+	_status = Style.label(status_text, 16, Style.CYAN, "body_bold")
 	_status.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_status.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	add_child(_status)
@@ -58,7 +58,7 @@ func set_level(value: float, description: String, state: String = "normal") -> v
 	tone = state
 	if is_instance_valid(_status):
 		_status.text = status_text
-		_status.add_theme_color_override("font_color", _accent() if tone != "normal" else Style.MUTED)
+		_status.add_theme_color_override("font_color", _accent() if tone != "normal" else Style.CYAN)
 	_update_accessible_description()
 	queue_redraw()
 
@@ -86,31 +86,38 @@ func _accent() -> Color:
 
 func _layout() -> void:
 	if not is_instance_valid(_caption): return
-	_caption.add_theme_font_size_override("font_size",12 if size.y < 90 else 15)
-	_status.add_theme_font_size_override("font_size",11 if size.y < 90 else 12)
-	_caption.position = Vector2(1, size.y - 38)
-	_caption.size = Vector2(maxf(1, size.x - 2), 20)
-	_status.position = Vector2(1, size.y - 18)
-	_status.size = Vector2(maxf(1, size.x - 2), 18)
+	var compact := size.y < 90.0
+	var text_x := 48.0 if compact else 6.0
+	var title_size := 15 if compact else (21 if size.x >= 155 else 18)
+	var status_size := 13 if compact else (17 if size.x >= 155 else 15)
+	_caption.add_theme_font_size_override("font_size",title_size)
+	_status.add_theme_font_size_override("font_size",status_size)
+	_caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT if compact else HORIZONTAL_ALIGNMENT_CENTER
+	_status.horizontal_alignment = _caption.horizontal_alignment
+	_caption.position = Vector2(text_x, size.y*0.5-23.0 if compact else size.y-49.0)
+	_caption.size = Vector2(maxf(1,size.x-text_x-8.0),25.0)
+	_status.position = Vector2(text_x, size.y*0.5+1.0 if compact else size.y-25.0)
+	_status.size = Vector2(maxf(1,size.x-text_x-8.0),22.0)
 	queue_redraw()
 
 func _draw() -> void:
 	if _backdrop: draw_style_box(_backdrop,Rect2(Vector2.ZERO,size))
-	var radius := maxf(12.0, minf(size.x - 14.0, size.y - 47.0) * 0.5)
-	var center := Vector2(size.x * 0.5, (size.y - 40.0) * 0.5)
+	var compact := size.y < 90.0
+	var radius := 17.0 if compact else maxf(12.0,minf(size.x-20.0,size.y-58.0)*0.5)
+	var center := Vector2(25.0,size.y*0.5) if compact else Vector2(size.x*0.5,(size.y-49.0)*0.5)
 	var accent := _accent()
 	draw_circle(center, radius, Color(Style.GLASS, 0.96), true, -1.0, true)
 	draw_circle(center, radius - 3, Color(accent, 0.07 + level * 0.10), true, -1.0, true)
-	draw_arc(center, radius, 0, TAU, 64, Color(accent, 0.23), 1.5, true)
+	draw_arc(center, radius, 0, TAU, 64, Color(accent, 0.23), 2.0, true)
 	if level > 0.0:
-		draw_arc(center, radius, -PI * 0.5, -PI * 0.5 + TAU * level, 64, accent, 2.8, true)
+		draw_arc(center, radius, -PI * 0.5, -PI * 0.5 + TAU * level, 64, accent, 4.0, true)
 	if has_focus() or is_hovered():
 		draw_arc(center, radius + 4.0, 0, TAU, 64, Style.PEARL if has_focus() else accent, 2.0, true)
 	_draw_glyph(center, radius * 0.48, accent)
-	if measurement_scale:
+	if measurement_scale and not compact:
 		var x := size.x - 8.0
 		var top := maxf(8.0,center.y-radius)
-		var bottom := minf(size.y-40.0,center.y+radius)
+		var bottom := minf(size.y-49.0,center.y+radius)
 		draw_line(Vector2(x,top),Vector2(x,bottom),Color(accent,0.28),2.0,true)
 		draw_line(Vector2(x,bottom),Vector2(x,lerpf(bottom,top,level)),accent,2.0,true)
 		for index in range(5):

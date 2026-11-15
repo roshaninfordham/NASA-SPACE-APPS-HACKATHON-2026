@@ -1,6 +1,6 @@
 # Audio credits and playback behavior
 
-The journey uses quiet, separate music and effects controls. Music begins after a player gesture, crossfades between activities, becomes quieter while reading or paused, and pauses when the application loses focus. Typewriter ticks are limited to eight per second. Effects are brief cues rather than repeated alarms. These settings do not change the scientific model or the legacy game's global audio bus.
+The journey uses quiet, separate music and effects controls. Music begins after a player gesture, crossfades between activities, becomes quieter while reading or paused, and pauses when the application loses focus. Typewriter ticks are limited to eight per second. Alerts use brief, spaced beeps instead of a continuous siren. These settings do not change the scientific model or the legacy game's global audio bus.
 
 ## Music supplied by the design team
 
@@ -23,7 +23,17 @@ An original ambient soundtrack remains available through the shared audio manage
 
 The bundled `orbit.ogg`, `surface.ogg` and `reflection.ogg` are original procedural project ambience. Their small harmonic score uses no sampled recordings or material from the supplied tracks. The complete generator is [generate_ambient.py](../game/assets/audio/journey/generate_ambient.py); it uses Python's standard library and FFmpeg/libvorbis to write three 16-second loops. Container bytes can vary by encoder version; the score and PCM synthesis are deterministic. [Original score provenance](../game/assets/audio/journey/provenance.json) records the generator and exported files.
 
-The typewriter, open/close, confirmation, readiness, warning, arrival and retry cues are generated from short sine-wave envelopes in [journey_audio.gd](../game/scripts/journey_audio.gd). No network service or microphone is used. This original project material is separate from the supplied recordings.
+The typewriter, open/close, confirmation, readiness, countdown, warning, urgent, arrival and retry cues are generated from short sine-wave envelopes in [journey_audio.gd](../game/scripts/journey_audio.gd). No network service or microphone is used. This original project material is separate from the supplied recordings.
+
+The countdown and warning design uses an **original fallback**, because the Drive beep mentioned by the team was not accessible. It does not sample or reproduce that unprovided recording. [Cue provenance](../game/assets/audio/journey/cue-provenance.json) identifies the synthesis source and alert recipes.
+
+| Alert     | Rhythm             | Duration | Minimum interval between alerts |
+| --------- | ------------------ | -------: | ------------------------------: |
+| Countdown | One soft beep      |   0.18 s |                             5 s |
+| Warning   | Two rising beeps   |   0.36 s |                           2.5 s |
+| Urgent    | Three rising beeps |   0.54 s |                             1 s |
+
+The intervals use real monotonic time, so faster simulation settings cannot cause a burst of overlapping alerts. An urgent cue replaces a preceding alert; pause, reading, focus loss, effects mute and leaving the mission stop alerts immediately. A new mission resets the cooldown. Soft attacks, silent gaps and tones below 1 kHz distinguish the rhythms without a continuous alarm. The displayed countdown and warning text remain available when sound is off.
 
 ## Existing game effects
 
@@ -31,6 +41,6 @@ Earlier footsteps and action sounds remain subject to the [Kenney asset notice](
 
 ## Verification scope
 
-Automated checks cover the gesture gate, independent controls, focus/pause behavior, rate limiting, context reuse, supplied/original selection, relative track levels and bounded cue generation using Godot's Dummy audio driver. They do not establish comfortable volume on every speaker/headphone or actual device audio output. Listening and learner comfort remain physical-device review tasks.
+Automated checks cover the gesture gate, independent controls, focus/pause behavior, shared alert cooldowns, warning escalation, context reuse, supplied/original selection, relative track levels and bounded cue generation using Godot's Dummy audio driver. Alert checks also verify waveform headroom, silent endpoints, genuine silence gaps and distinct single/double/triple durations. They do not establish comfortable volume on every speaker/headphone or actual device audio output. Listening and learner comfort remain physical-device review tasks.
 
 made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC

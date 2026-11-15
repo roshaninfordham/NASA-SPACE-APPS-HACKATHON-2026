@@ -20,7 +20,13 @@ jobs:
       matrix:
         os: [macos-latest, windows-latest]
         baseline:
-          ["0.6.0-alpha.1", "0.6.1-alpha.1", "0.7.0-alpha.1", "0.7.1-alpha.1"]
+          [
+            "0.6.0-alpha.1",
+            "0.6.1-alpha.1",
+            "0.7.0-alpha.1",
+            "0.7.1-alpha.1",
+            "0.8.0-alpha.1",
+          ]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     steps:

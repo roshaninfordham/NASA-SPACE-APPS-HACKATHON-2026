@@ -4,14 +4,14 @@
 
 ## Accepted interaction
 
-1. The separately supplied opening video introduces Mars, the habitat, and Ren. The control room is the main playable screen, looking through a window at Ren beside a visible solar panel and shelter entrance.
+1. The opening story introduces Mars, the habitat, and Ren. The current visual sequence is exterior habitat, astronaut, then control-room interior. The control room is the main playable screen, looking through a window at Ren beside a visible solar panel and shelter entrance.
 2. Before **START MISSION**, the player may inspect the concepts and choose a pace. The story leads directly to this preflight screen; the eight-concept constellation is optional and no review percentage gates Start. The mission clock, brushing, cleaning, energy integration, and dose do not advance before Start.
 3. During the round, a slider and **SLOWER / FASTER** controls choose a bounded work-pace multiplier. Ren stays at the panel. An authored tiredness mechanic makes sustained high pace reduce subsequent effective cleaning rate.
-4. One 30-minute simulated countdown drives the warning progress, work, stored energy, and model dose. Reading, explicit pause, focus loss, and supporting views must pause the same clock.
+4. One 30-minute simulated countdown drives the warning progress, work, stored energy, and model dose. At the current standard clock scale of 20, this takes 90 active real seconds. The primary countdown shows play time; the secondary clock explains simulated time. Reading, explicit pause, focus loss, and supporting views must pause the same clock.
 5. At zero, Ren automatically enters shelter. There is no return walk, recall button, early-entry trade-off, or extra entry duration in this final workflow.
-6. The result reports the actual panel cleaning, actual stored battery energy, and accumulated model dose. The four-group equation reveal uses that run's history and explains its WIN/PASS/LOSE band.
+6. The result appears at the end and reports actual panel cleaning, stored battery energy, and accumulated model dose. **See how science connects** opens the bubble-combining animation and four-group equation explanation. **Back to results** returns to the outcome; **Try another plan** begins fresh preflight. The explanation uses that run's history and WIN/PASS/LOSE band.
 
-This document specifies the accepted workflow; source integration, UI checks, and release evidence determine implementation acceptance. It does not claim that a referenced opening-video asset has already been supplied or finalized.
+This document specifies the accepted workflow; source integration, UI checks, and release evidence determine implementation acceptance. The uploaded source PDF remains unchanged; current story artwork and recording assets have their own provenance and acceptance records.
 
 ## Scientific corrections retained in the interface
 

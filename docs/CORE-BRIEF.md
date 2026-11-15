@@ -1,6 +1,6 @@
-# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> — core brief
+# <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — core brief
 
-<!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> is the product name. AEGIS is the fictional adaptive environmental protection system inside the story. “The Shape of Survival” is an earlier brainstorming title, not the product name.
+<!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> is the product name. AEGIS is the fictional adaptive environmental protection system inside the story. “The Shape of Survival” is an earlier brainstorming title, not the product name.
 
 ## Source of truth
 

@@ -1,13 +1,13 @@
 config_version=5
 
 [application]
-config/name.macos="KŌMAKU: Shield Protocol"
+config/name.macos="KŌMAKU: Dust and Radiation"
 config/custom_user_dir_name.linux="godot/app_userdata/Red Veil"
 config/custom_user_dir_name="Godot/app_userdata/Red Veil"
 config/use_custom_user_dir=true
-config/name="KŌMAKU: Shield Protocol"
-config/version="0.8.0-alpha.1"
-config/description="KŌMAKU: Shield Protocol — a first-person Mars learning adventure for young explorers."
+config/name="KŌMAKU: Dust & Radiation"
+config/version="0.9.0-alpha.1"
+config/description="KŌMAKU: Dust & Radiation — a first-person Mars learning adventure for young explorers."
 run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"

@@ -2,6 +2,21 @@
 
 All published game versions and notable unreleased work are recorded here. The version and source commit in each release manifest identify the exact downloadable build. Documentation on `main` can be newer than an installer.
 
+## [0.9.0-alpha.1] — candidate, not yet published
+
+The current source prepares **KŌMAKU: Dust & Radiation**. The latest published build remains 0.8.0-alpha.1 until the new source, native packages, baseline updates and public downloads pass their own acceptance. [Candidate notes](docs/releases/0.9.0-alpha.1.md) · [Design contract](docs/design-specs/JOURNEY-0.9.md).
+
+- Rename the current display title and new package stem from shared brand metadata. Preserve app IDs, saved progress, signing trust, runtime contract and historical release filenames. Existing apps updated through content keep their original OS filename.
+- Shorten the standard round from five active real minutes to **90 active real seconds**, retaining 30 simulated minutes and the same work, fatigue, energy and dose equations. Make real play time the primary countdown and simulated time the secondary explanation.
+- Bring Ren and the panel closer in the window, make brushing cadence changes easier to see, and enlarge science bubbles, labels and controls. Add a red, stepped pace slider with visible increments; clearing still follows modeled work.
+- Use three unlettered story illustrations—exterior, astronaut, interior—with larger separately rendered titles. These are generated adaptations of the team's references, not recovered originals or gameplay captures.
+- Show the result immediately at the deadline. Add **See how science connects**, an eight-bubble merge into four equation groups, **Back to results**, **Try another plan** and **Home**. Use actual readings and average effective rates; correct the reference artwork's dust/power equation.
+- Add original synthesized countdown, warning and urgent beeps, with a shared rate limit, pause/focus/mute behavior and visual warning support. The inaccessible Drive recording is not claimed as bundled.
+- Refresh all three science/equation PDFs from the canonical brand and current clock settings; include the simple one-page sheet in the next package alongside the guide and technical sheet. Add submission-writing and recording drafts for team review.
+- Extend the required native content-update matrix to public 0.8 Mac/Windows installers, alongside 0.6.0, 0.6.1, 0.7.0 and 0.7.1. Ten native jobs and the Linux 0.4 baseline must pass on the exact signed candidate bytes before compatibility is claimed.
+
+Candidate source checks, captures, signed build IDs and publication evidence will be recorded against the frozen source. Historical release evidence below remains unchanged. Mac notarization, Windows publisher signing, public hosting, production native mobile packages and physical-device acceptance remain separate work.
+
 ## [0.8.0-alpha.1] — 2026-11-15
 
 Published [v0.8.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.8.0-alpha.1) from `8b13e027ce5e0fa941a6bbeb1e09c5873b11baee`. Validation **43683254365**, signed build/native launch **43683280236**, eight Mac/Windows update jobs **43683700390**, and publication **43683976252** passed. The unchanged public Linux 0.4 installer also passed activation/recovery. [Release evidence](docs/evidence/release-0.8.0-alpha.1.json) records all ten public files redownloaded and matched to the accepted build, all four ZIP integrity checks and exact inclusion of both reviewed PDFs. Publication did not rebuild artifacts.

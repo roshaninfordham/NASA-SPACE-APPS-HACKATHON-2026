@@ -2,7 +2,7 @@
 
 **Reviewed November 14, 2026 for published [0.7.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.7.0-alpha.1).** The latest user direction takes precedence over the three historical [design-team specifications](design-specs/README.md): the player starts indoors, close to a clear window, looking at dunes and the stranded astronaut. The forward view no longer displays the exterior outpost, large control-room objects or dense ornament. Exact source `8968859e8ffdcda7b8c0c216ff0262df633400e6` passed validation/build/native-update gates and was published in run `43655466167`. The [release evidence](evidence/release-0.7.0-alpha.1.json), [team status](TEAM-STATUS.md), [downloads](DOWNLOADS.md) and [validation](VALIDATION.md) record the accepted files and test scopes.
 
-The current product name is **<!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand -->**. The 0.6 release established earlier reference-led architecture, displays and learning interfaces. Those assets/specifications remain history or retained alternate presentation where useful; their exact counts and photographic appearance are not the acceptance target for the latest pivot.
+The current product name is **<!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand -->**. The 0.6 release established earlier reference-led architecture, displays and learning interfaces. Those assets/specifications remain history or retained alternate presentation where useful; their exact counts and photographic appearance are not the acceptance target for the latest pivot.
 
 ## Decisions that supersede earlier inputs
 

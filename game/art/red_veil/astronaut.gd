@@ -35,6 +35,11 @@ var _training_active := false
 var _training_multiplier := 1.0
 var _training_reduced_motion := false
 var _training_phase := 0.0
+# Cosmetic cadence: about one full back-and-forth brush cycle every 1.3 s at
+# steady work. The model still owns how much dust is actually removed.
+const WORK_SWEEP_RADIANS_PER_SECOND := 4.8
+const BRUSH_SWEEP_METERS := 0.40
+const HAND_SWEEP_METERS := 0.105
 const WORK_SHOULDER := Vector3(0.211, 1.155, 0)
 const WORK_ELBOW := Vector3(0.286, 0.987, 0.025)
 const WORK_WRIST := Vector3(0.164, 0.925, 0.182)
@@ -436,7 +441,7 @@ func _process(delta: float) -> void:
 	if _training_active:
 		if not _training_reduced_motion:
 			# A stalled render frame cannot produce an unbounded visual jump.
-			_training_phase = fposmod(_training_phase + minf(delta, 0.25) * 2.4 * _training_multiplier, TAU)
+			_training_phase = fposmod(_training_phase + minf(delta, 0.25) * WORK_SWEEP_RADIANS_PER_SECOND * _training_multiplier, TAU)
 		_apply_training_pose()
 		return
 	_apply_idle_pose()
@@ -518,10 +523,18 @@ func _ensure_training_rig() -> void:
 	_training_brush = MeshInstance3D.new()
 	_training_brush.name = "SoftPanelBrush"
 	var brush := BoxMesh.new()
-	brush.size = Vector3(0.22, 0.035, 0.08)
+	brush.size = Vector3(0.30, 0.024, 0.14)
 	_training_brush.mesh = brush
-	_training_brush.material_override = _joint
+	_training_brush.material_override = _red
 	_training_tools.add_child(_training_brush)
+	var bristles := MeshInstance3D.new()
+	bristles.name = "SoftBrushBristles"
+	var fibers := BoxMesh.new()
+	fibers.size = Vector3(0.284, 0.011, 0.124)
+	bristles.mesh = fibers
+	bristles.material_override = _shell
+	bristles.position.y = -0.012
+	_training_brush.add_child(bristles)
 
 func _apply_training_pose() -> void:
 	var sweep := 0.0 if _training_reduced_motion else sin(_training_phase)
@@ -529,9 +542,10 @@ func _apply_training_pose() -> void:
 	var lean := Basis(Vector3.FORWARD, 0.085)
 	var hip := Vector3(0, 0.795, -0.005)
 	_upper.transform = Transform3D(lean, hip - lean * hip)
-	_head.rotation = Vector3(0.12, 0.45, -0.04)
+	# Look toward the +X work surface so the close view shows a focused profile.
+	_head.rotation = Vector3(0.12, 1.40, -0.04)
 	_glow.emission_energy_multiplier = 0.78
-	var wrist_target := _upper.transform.affine_inverse() * Vector3(0.48, 1.055, 0.085 + sweep * 0.035)
+	var wrist_target := _upper.transform.affine_inverse() * Vector3(0.48, 1.055, 0.085 + sweep * HAND_SWEEP_METERS)
 	var upper_length := WORK_SHOULDER.distance_to(WORK_ELBOW)
 	var fore_length := WORK_ELBOW.distance_to(WORK_WRIST)
 	var direction := (wrist_target - WORK_SHOULDER).normalized()
@@ -546,7 +560,7 @@ func _apply_training_pose() -> void:
 	_training_elbow.basis = upper_basis.inverse() * fore_basis
 	var palm := _upper.transform * (wrist + (wrist - elbow).normalized() * 0.045)
 	# Match the companion panel's actual top plane, including its 4cm skin.
-	var z := sweep * 0.18
+	var z := sweep * BRUSH_SWEEP_METERS
 	var tilt := deg_to_rad(-35.0)
 	var plane_y := 1.08 + 0.04 / cos(tilt) - tan(tilt) * z
 	_training_brush.basis = Basis(Vector3.RIGHT, tilt)

@@ -1,4 +1,4 @@
-# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> playtest protocol
+# <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> playtest protocol
 
 Status: proposed protocol; no participants or results yet.
 

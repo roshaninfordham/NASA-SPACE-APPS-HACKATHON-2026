@@ -13,7 +13,11 @@ const SUPPLIED_CONTEXT_TRACKS := {"story": "minyo", "preparation": "minyo", "mis
 # The supplied Floating recording has a 9.2 dB higher measured average level.
 # Apply this trim per player, so outgoing and incoming tracks crossfade evenly.
 const TRACK_GAINS := {"floating": 0.34673685}
-const EFFECT_KINDS := ["typewriter", "open", "close", "confirm", "ready", "warning", "arrival", "success", "retry"]
+const EFFECT_KINDS := ["typewriter", "open", "close", "confirm", "ready", "countdown", "warning", "urgent", "arrival", "success", "retry"]
+# Original, offline alert cues. These are not the inaccessible Drive recording.
+# Cooldowns use real time: increasing simulation pace cannot create an audio burst.
+const ALERT_INTERVAL_MS := {"countdown": 5000, "warning": 2500, "urgent": 1000}
+const ALERT_GAIN := {"countdown": 0.22, "warning": 0.28, "urgent": 0.30}
 const TYPEWRITER_INTERVAL_MS := 125
 const EFFECT_RATE := 22050
 const MUSIC_LEVEL := 0.42
@@ -36,6 +40,7 @@ var _active_slot := -1
 var _active_track := ""
 var _next_effect := 0
 var _last_typewriter_ms := -1000000
+var _last_alert_ms := -1000000
 var _accepted_cues := 0
 var _shutdown := false
 
@@ -61,6 +66,9 @@ func on_user_gesture() -> void:
 
 func set_context(value: String) -> bool:
 	if not CONTEXT_TRACKS.has(value): return false
+	if value != _context:
+		_stop_alerts()
+		_last_alert_ms = -1000000
 	_context = value
 	_sync_music()
 	return true
@@ -93,6 +101,7 @@ func set_effects_volume(value: float) -> void:
 
 func set_paused(value: bool) -> void:
 	_paused = value
+	if value: _stop_alerts()
 	# Reading a concept may have UI cues, but quieter music supports attention.
 	_update_levels()
 
@@ -158,12 +167,18 @@ func cue(kind: String) -> bool:
 	if kind == "typewriter":
 		if now - _last_typewriter_ms < TYPEWRITER_INTERVAL_MS: return false
 		_last_typewriter_ms = now
+	if ALERT_INTERVAL_MS.has(kind):
+		if _paused or _context != "mission" or now - _last_alert_ms < int(ALERT_INTERVAL_MS[kind]): return false
+		_last_alert_ms = now
+		# An urgent cue replaces a previous alert instead of layering over it.
+		_stop_alerts()
 	if not _effect_cache.has(kind): _effect_cache[kind] = _make_effect(kind)
 	var player := _effects[_next_effect]
 	_next_effect = (_next_effect + 1) % _effects.size()
 	player.stop()
 	player.stream = _effect_cache[kind]
-	var gain := 0.12 if kind == "typewriter" else (0.32 if kind == "warning" else 0.25)
+	var gain := 0.12 if kind == "typewriter" else float(ALERT_GAIN.get(kind, 0.25))
+	player.set_meta("cue_kind", kind)
 	player.set_meta("cue_gain", gain)
 	player.volume_db = linear_to_db(maxf(0.0001, effects_volume * gain))
 	player.play()
@@ -171,6 +186,7 @@ func cue(kind: String) -> bool:
 	return true
 
 func _make_effect(kind: String) -> AudioStreamWAV:
+	if ALERT_INTERVAL_MS.has(kind): return _make_alert(kind)
 	var duration := 0.035 if kind == "typewriter" else 0.24
 	if kind in ["arrival", "success", "ready"]: duration = 0.58
 	var notes: Array[float] = [440.0]
@@ -180,7 +196,6 @@ func _make_effect(kind: String) -> AudioStreamWAV:
 		"close": notes = [440.0, 330.0]
 		"confirm": notes = [440.0, 587.33]
 		"ready": notes = [440.0, 587.33, 659.25]
-		"warning": notes = [330.0, 330.0]
 		"arrival", "success": notes = [392.0, 523.25, 659.25]
 		"retry": notes = [392.0, 440.0]
 	var count := int(duration * EFFECT_RATE)
@@ -201,6 +216,35 @@ func _make_effect(kind: String) -> AudioStreamWAV:
 	stream.data = data
 	return stream
 
+func _make_alert(kind: String) -> AudioStreamWAV:
+	# Soft attacks, real gaps and distinct rhythms make urgency readable without
+	# a continuous siren. The highest tone remains below 1 kHz.
+	var notes: Array[float] = [523.25]
+	if kind == "warning": notes = [440.0, 587.33]
+	elif kind == "urgent": notes = [622.25, 739.99, 880.0]
+	var slot_seconds := 0.18
+	var tone_seconds := 0.12
+	var count := int(slot_seconds * notes.size() * EFFECT_RATE)
+	var data := PackedByteArray()
+	data.resize(count * 2)
+	for index in range(count):
+		var time := float(index) / EFFECT_RATE
+		var note_index := mini(notes.size() - 1, int(time / slot_seconds))
+		var local_time := fmod(time, slot_seconds)
+		var sample := 0.0
+		if local_time < tone_seconds:
+			var attack := sin(minf(1.0, local_time / 0.014) * PI * 0.5)
+			var release := sin(minf(1.0, (tone_seconds - local_time) / 0.045) * PI * 0.5)
+			var phase := TAU * notes[note_index] * local_time
+			sample = (sin(phase) + 0.10 * sin(phase * 2.0)) * attack * release * 0.36
+		data.encode_s16(index * 2, int(sample * 32767))
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = EFFECT_RATE
+	stream.stereo = false
+	stream.data = data
+	return stream
+
 func _stop_music() -> void:
 	for player in _music: player.stop()
 	_active_slot = -1
@@ -210,6 +254,10 @@ func _stop_music() -> void:
 
 func _stop_effects() -> void:
 	for player in _effects: player.stop()
+
+func _stop_alerts() -> void:
+	for player in _effects:
+		if ALERT_INTERVAL_MS.has(str(player.get_meta("cue_kind", ""))): player.stop()
 
 func snapshot() -> Dictionary:
 	return {"context": _context, "unlocked": _unlocked, "focused": _focused, "paused": _paused, "music_enabled": music_enabled, "effects_enabled": effects_enabled, "music_volume": music_volume, "effects_volume": effects_volume, "soundtrack": soundtrack, "active_track": _active_track, "accepted_cues": _accepted_cues}

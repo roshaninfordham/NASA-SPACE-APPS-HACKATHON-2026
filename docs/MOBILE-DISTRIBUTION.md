@@ -51,7 +51,7 @@ python3 scripts/build_android.py --sdk-root /path/outside/repository/android-sdk
 
 The SDK installer is Linux-only. A Mac/Windows developer can use an official Android Studio SDK locally; the build helper still needs platform-specific validation there. Android SDK licenses apply to the build tools. Players do not install this toolchain.
 
-The default build generates a temporary debug identity, labels the app **<!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> Internal Test**, and deletes its private key with the temporary workspace. Repeated internal builds should not be assumed to upgrade each other. Keep test installs separate from production player data.
+The default build generates a temporary debug identity, labels the app **<!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> Internal Test**, and deletes its private key with the temporary workspace. Repeated internal builds should not be assumed to upgrade each other. Keep test installs separate from production player data.
 
 ## Stable Android app signing — not configured yet
 

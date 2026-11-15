@@ -3,6 +3,7 @@ extends Node3D
 const Branding = preload("res://scripts/branding.gd")
 const Model = preload("res://scripts/pace_mission.gd")
 const World = preload("res://scripts/world.gd")
+const WindowWorkView = preload("res://scripts/window_work_view.gd")
 const TrainingPanel = preload("res://art/red_veil/training_panel.gd")
 const Shell = preload("res://ui/journey_shell.gd")
 const Hud = preload("res://ui/training_hud.gd")
@@ -15,7 +16,7 @@ const UpdateClient = preload("res://updater/client.gd")
 const UpdatePanel = preload("res://updater/panel.gd")
 const SolarFeed = preload("res://live/solar_feed.gd")
 const SolarPanel = preload("res://live/solar_panel.gd")
-const CREW_WORK_POSITION := Vector3(-0.7, 0, 3)
+const CREW_WORK_POSITION := Vector3(-0.7, 0, -8.8)
 @export var online_sources_enabled := true
 var model = Model.new()
 var progress = Progress.new()
@@ -98,6 +99,7 @@ func _ready() -> void:
 	hud.concept_requested.connect(open_concept)
 	hud.notebook_requested.connect(show_notebook)
 	hud.pause_requested.connect(show_pause)
+	hud.work_view_changed.connect(_frame_work_view)
 	_apply_preferences()
 	shell.show_story(bool(progress.settings.reduced_motion))
 	audio.set_context("story")
@@ -181,6 +183,7 @@ func start_mission() -> void:
 	hud.show()
 	hud.set_preflight(true)
 	hud.refresh(model.snapshot())
+	_frame_work_view.call_deferred()
 	_sync_world(model.snapshot())
 	audio.set_context("mission")
 	audio.set_paused(false)
@@ -207,11 +210,12 @@ func _process(delta: float) -> void:
 	if int(snapshot.sections_cleaned) > _last_sections:
 		_last_sections = int(snapshot.sections_cleaned)
 		audio.cue("confirm")
-	var remaining := float(snapshot.get("sim_remaining_seconds", 1800.0))
+	var remaining := float(snapshot.get("remaining_seconds", 90.0))
 	_warning_cooldown -= minf(delta, 0.25)
-	if remaining <= 180.0 and remaining > 0.0 and _warning_cooldown <= 0.0:
-		audio.cue("warning")
-		_warning_cooldown = lerpf(0.75, 4.0, clampf(remaining / 180.0, 0.0, 1.0))
+	if remaining <= 30.0 and remaining > 0.0 and _warning_cooldown <= 0.0:
+		# Real-time cadence remains understandable at every simulation setting.
+		audio.cue("urgent" if remaining <= 8.0 else ("warning" if remaining <= 15.0 else "countdown"))
+		_warning_cooldown = 1.05 if remaining <= 8.0 else (2.6 if remaining <= 15.0 else 5.1)
 	if snapshot.status != "running": finish_mission()
 
 func _sync_world(snapshot: Dictionary) -> void:
@@ -496,7 +500,7 @@ func show_settings() -> void:
 		box.add_child(slider)
 	var pace := OptionButton.new()
 	pace.custom_minimum_size.y = 48
-	for title in ["Relaxed · up to 10 minutes", "Standard · up to 5 minutes", "Quick practice · up to 2½ minutes"]: pace.add_item(title)
+	for title in ["Relaxed · 3 minutes", "Standard · 90 seconds", "Quick practice · 45 seconds"]: pace.add_item(title)
 	pace.select([0.5, 1.0, 2.0].find(float(progress.settings.pace)))
 	pace.item_selected.connect(func(index: int):
 		var value: float = [0.5, 1.0, 2.0][index]
@@ -680,3 +684,7 @@ func show_live_sun() -> void:
 	solar_data_panel.layer = 31
 	if online_sources_enabled and DisplayServer.get_name() != "headless": solar_feed.refresh(false)
 	_refresh_updates()
+
+func _frame_work_view() -> void:
+	if is_instance_valid(camera) and is_instance_valid(hud):
+		WindowWorkView.frame(camera, CREW_WORK_POSITION, get_viewport().get_visible_rect().size, hud.get_work_view_rect())

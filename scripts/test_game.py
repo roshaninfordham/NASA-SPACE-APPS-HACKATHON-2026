@@ -8,7 +8,7 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parent.parent
 GODOT_SUITES = (
-    "pace_mission_test", "pace_audit_test", "training_mission_test", "energy_audit_test", "live_solar_feed_test", "solar_panel_test", "training_panel_test", "training_astronaut_test", "journey_audio_test", "journey_progress_test",
+    "pace_mission_test", "pace_audit_test", "training_mission_test", "energy_audit_test", "live_solar_feed_test", "solar_panel_test", "training_panel_test", "window_work_view_test", "training_astronaut_test", "journey_audio_test", "journey_progress_test",
     "navigation_policy_test", "journey_input_guard_test", "training_hud_test",
     "journey_shell_test", "journey_integration_test", "journey_update_ui_test",
     "mission_test", "learning_test", "gameplay_test", "art_contract_test",

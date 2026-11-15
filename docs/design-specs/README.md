@@ -1,4 +1,4 @@
-# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> design specifications
+# <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> design specifications
 
 These briefs translate the design team's three November 14, 2026 specifications into one first-person game for ages **7–12**. The original documents describe visual targets and several proposed game modes. They do not establish that those modes are shipped, that the structures are feasible, or that the stated performance has been measured.
 

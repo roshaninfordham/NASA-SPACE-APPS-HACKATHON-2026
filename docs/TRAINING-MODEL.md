@@ -10,30 +10,30 @@ The control room opens in **preflight**. The player can inspect science bubbles 
 
 During play, SLOWER, FASTER and the stepped slider choose one of seven dimensionless multipliers: **0.25, 0.50, 0.75, 1.00, 1.25, 1.50, 1.75**. Ren remains at the panel. There is no recall, walking route, manual work hold or early-entry command. Reading and Pause freeze the whole model, so pausing cannot recover fatigue while other quantities advance.
 
-The duration is **T = 1,800 simulated seconds = 30 simulated minutes**. Standard play advances six simulated seconds per active real second, giving a five-minute round. Accessibility clock pacing, if offered, changes real duration rather than the equations at a given simulated time.
+The duration is **T = 1,800 simulated seconds = 30 simulated minutes**. Standard play advances 20 simulated seconds per active real second, giving a **90-second round**. The primary countdown shows active real play time; the smaller mission clock shows simulated time. Accessibility clock pacing, if offered, changes real duration rather than the equations at a given simulated time.
 
 At T, Ren steps directly inside and the round ends. If all four section equivalents are cleaned earlier, cleaning and fatigue stop changing; solar generation, battery energy, the clock and outside dose continue until T.
 
 ## Parameters and provenance
 
-| Quantity                             |                       Default | Meaning                                               |
-| ------------------------------------ | ----------------------------: | ----------------------------------------------------- |
-| Mission duration                     |              30 simulated min | Authored task duration, not real storm warning.       |
-| Standard clock scale                 | 6 simulated s / active real s | Presentation pacing.                                  |
-| Requested pace u                     |          0.25–1.75, step 0.25 | Dimensionless player choice.                          |
-| Initial fatigue F                    |                             0 | Fictional game state.                                 |
-| Fatigue limits                       |                         0–0.9 | Authored balancing bounds.                            |
-| Fatigue growth/recovery coefficients | 0.08 / 0.12 per simulated min | Authored, not physiological measurements.             |
-| Base cleaning rate                   |            0.125 sections/min | Eight minutes per section at pace 1 without fatigue.  |
-| Work capacity                        |         4 section equivalents | Continuous work, including partial sections.          |
-| Clear-array output                   |                          8 kW | Authored fixed-sunlight rating.                       |
-| Initially dirty transmission         |                          0.25 | Authored output fraction.                             |
-| Habitat load                         |                          1 kW | Authored constant demand.                             |
-| Initial battery energy / capacity    |                   0.5 / 6 kWh | Authored ideal storage.                               |
-| Historical absorbed-dose reference   |                   210 µGy/day | Central tissue-like RAD E detector result.            |
-| Reference day                        |                      86,400 s | Earth-day conversion.                                 |
-| Radiation multiplier                 |                      1 + 3t/T | Authored ramp from 1× to 4× the historical reference. |
-| Outcome thresholds                   |           40% and 80% cleaned | Authored learning-game categories.                    |
+| Quantity                             |                        Default | Meaning                                               |
+| ------------------------------------ | -----------------------------: | ----------------------------------------------------- |
+| Mission duration                     |               30 simulated min | Authored task duration, not real storm warning.       |
+| Standard clock scale                 | 20 simulated s / active real s | Presentation pacing.                                  |
+| Requested pace u                     |           0.25–1.75, step 0.25 | Dimensionless player choice.                          |
+| Initial fatigue F                    |                              0 | Fictional game state.                                 |
+| Fatigue limits                       |                          0–0.9 | Authored balancing bounds.                            |
+| Fatigue growth/recovery coefficients |  0.08 / 0.12 per simulated min | Authored, not physiological measurements.             |
+| Base cleaning rate                   |             0.125 sections/min | Eight minutes per section at pace 1 without fatigue.  |
+| Work capacity                        |          4 section equivalents | Continuous work, including partial sections.          |
+| Clear-array output                   |                           8 kW | Authored fixed-sunlight rating.                       |
+| Initially dirty transmission         |                           0.25 | Authored output fraction.                             |
+| Habitat load                         |                           1 kW | Authored constant demand.                             |
+| Initial battery energy / capacity    |                    0.5 / 6 kWh | Authored ideal storage.                               |
+| Historical absorbed-dose reference   |                    210 µGy/day | Central tissue-like RAD E detector result.            |
+| Reference day                        |                       86,400 s | Earth-day conversion.                                 |
+| Radiation multiplier                 |                       1 + 3t/T | Authored ramp from 1× to 4× the historical reference. |
+| Outcome thresholds                   |            40% and 80% cleaned | Authored learning-game categories.                    |
 
 Hassler et al., _Mars' Surface Radiation Environment Measured with the Mars Science Laboratory's Curiosity Rover_ (2014), DOI [10.1126/science.1244797](https://doi.org/10.1126/science.1244797), reports approximately **210 ±40 µGy/day** in the tissue-like RAD E detector during the first roughly 300 sols at Gale Crater, August 2012–June 2013. See Table 1 in the [primary author manuscript](https://authors.library.caltech.edu/records/kdt88-3aw98) and the [NASA NTRS record](https://ntrs.nasa.gov/citations/20180007641). The paper does not supply this game's increasing radiation curve.
 
@@ -134,7 +134,7 @@ At T, status becomes `win`, `pass` or `lose`, phase becomes `sheltered`, and ter
 
 Local progress retains preferences, explored concepts and bounded completed summaries. Older lessons and quizzes keep their original identities; walking or recall answers must not be relabeled as evidence about fatigue. Reviewing a card records exploration, not mastery. No names, ages, health data or cloud learner profile are needed.
 
-The [independent numerical audit](evidence/pace-model-0.8-audit.json) records 1,665 checks against the exact model/harness hashes, covering constant-pace examples, fatigue bounds/recovery, mixed pace, work cap, automatic entry, energy conservation, frame partitioning and equal final dose. Preflight and paused-reading tests must show no changes to mission quantities. **Final pace-workflow integration and release acceptance are pending until the corresponding new evidence is recorded.** Earlier radio/recall results verify their own source snapshots, not this model.
+The [independent numerical audit](evidence/pace-model-0.8-audit.json) records 1,665 checks against the exact model/harness hashes, covering constant-pace examples, fatigue bounds/recovery, mixed pace, work cap, automatic entry, energy conservation, frame partitioning and equal final dose. Preflight and paused-reading tests must show no changes to mission quantities. That audit and the published 0.8 release verify their recorded source snapshots. The current presentation changes the standard real duration from five minutes to 90 seconds while retaining the same 30 simulated minutes and equations. New acceptance evidence must identify this model revision; a prior source hash must not be relabeled as a current check. Earlier radio/recall results verify their own source snapshots.
 
 Run the focused model checks with `godot --headless --path game --script res://tests/pace_mission_test.gd`; the shared runner and release evidence determine accepted scope.
 

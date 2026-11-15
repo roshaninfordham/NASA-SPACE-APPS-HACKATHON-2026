@@ -3,7 +3,9 @@
 # macOS download. This never signs an app or changes system Gatekeeper policy.
 set -euo pipefail
 
-APP_NAME='KŌMAKU- Shield Protocol.app'
+APP_NAME='KŌMAKU- Dust and Radiation.app'
+APP_NAME_NFD='KŌMAKU- Dust and Radiation.app'
+DISPLAY_NAME='KŌMAKU: Dust & Radiation'
 EXPECTED_IDENTIFIER='io.github.roshaninfordham.redveil'
 SCRIPT_DIRECTORY="$(cd -P -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 SOURCE_APP="$SCRIPT_DIRECTORY/$APP_NAME"
@@ -59,7 +61,7 @@ check_not_running() {
     local pid executable
     while read -r pid executable; do
         case "$executable" in
-            "$DESTINATION/"*|"$SOURCE_APP/"*|*"Shield Protocol.app/Contents/MacOS/"*)
+            "$DESTINATION/"*|"$SOURCE_APP/"*|*"$APP_NAME/Contents/MacOS/"*|*"$APP_NAME_NFD/Contents/MacOS/"*|*"Shield Protocol.app/Contents/MacOS/"*)
                 fail 'KŌMAKU is running. Quit the game, then run this installer again.'
                 ;;
         esac
@@ -68,7 +70,7 @@ check_not_running() {
 
 [ "$(/usr/bin/uname -s)" = Darwin ] || fail 'This installer runs on macOS only.'
 [ ! -L "${BASH_SOURCE[0]}" ] || fail 'Run the installer directly from the extracted download, not a symbolic link.'
-printf 'KŌMAKU: Shield Protocol — verified local installation\n\n'
+printf '%s — verified local installation\n\n' "$DISPLAY_NAME"
 printf 'Checking the app beside this installer…\n'
 verify_app "$SOURCE_APP"
 check_not_running
@@ -80,10 +82,11 @@ fi
 
 # A local ad-hoc signature proves that the bundle is internally consistent,
 # not that Apple or this installer has authenticated the publisher.
-if ! /usr/bin/osascript - "$DESTINATION" <<'APPLESCRIPT'
+if ! /usr/bin/osascript - "$DESTINATION" "$DISPLAY_NAME" <<'APPLESCRIPT'
 on run arguments
     set targetPath to item 1 of arguments
-    display dialog "Install KŌMAKU: Shield Protocol?" & return & return & "This build is not Apple-notarized. Its local signature verifies file integrity, not publisher identity. Continue only if you trust the source of this download." & return & return & "This will copy the verified app to:" & return & targetPath & return & return & "It will remove the download quarantine flag only from that copied app, allowing it to open without Apple's downloaded-app approval. Your Mac's global security settings remain unchanged. An existing app will be kept as a backup." buttons {"Cancel", "Install trusted download"} default button "Cancel" cancel button "Cancel" with icon caution
+    set gameName to item 2 of arguments
+    display dialog ("Install " & gameName & "?") & return & return & "This build is not Apple-notarized. Its local signature verifies file integrity, not publisher identity. Continue only if you trust the source of this download." & return & return & "This will copy the verified app to:" & return & targetPath & return & return & "It will remove the download quarantine flag only from that copied app, allowing it to open without Apple's downloaded-app approval. Your Mac's global security settings remain unchanged. An existing app will be kept as a backup." buttons {"Cancel", "Install trusted download"} default button "Cancel" cancel button "Cancel" with icon caution
 end run
 APPLESCRIPT
 then

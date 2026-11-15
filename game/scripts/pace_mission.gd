@@ -9,7 +9,9 @@ const MAX_SEGMENTS := 128
 const CLEANING_MULTIPLIERS := [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75]
 const DEFAULTS := {
 	"warning_seconds": 1800.0,
-	"time_scale": 6.0,
+	# Thirty simulated minutes fit into ninety active play seconds.
+	# Accessibility pacing changes display duration, never the simulated physics.
+	"time_scale": 20.0,
 	"base_cleaning_rate_sections_per_minute": 0.125,
 	"max_sections": 4,
 	"initial_fatigue": 0.0,

@@ -1,4 +1,4 @@
-# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> visual direction
+# <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> visual direction
 
 **Current direction — published [0.7.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.7.0-alpha.1), November 14, 2026.** The owner's latest pivot starts the player **inside the dome, close to a clear panoramic window**, looking out at warm dunes and the stranded astronaut. The initial forward view contains no exterior dome, array, kiosks, path lamps, scanner or console clutter. This is the active brief. The ornate 0.6 images and [three supplied specifications](design-specs/README.md) remain historical design inputs; their exact ring, tablet, screen and decoration counts are no longer current acceptance criteria.
 

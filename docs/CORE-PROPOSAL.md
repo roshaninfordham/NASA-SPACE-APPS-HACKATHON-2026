@@ -1,4 +1,4 @@
-# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> — core proposal and evidence
+# <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — core proposal and evidence
 
 **The engineering question is still the original one:** can a player coordinate habitat, suit and visor protection through independent dust and radiation hazards without exhausting the energy needed to recover?
 
@@ -6,7 +6,7 @@ This document connects the original brainstorming to the current playable produc
 
 ## Accepted scope
 
-The product name is **<!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand -->**. AEGIS is the fictional environmental decision-support system; “The Shape of Survival” is an earlier working title. The intended learners are ages 7–12, with adult assistance where reading or controls require it. The player is the first-person explorer and Mira is the companion; the current mission does not simulate independent inventories, movement or radiation histories for two crew members.
+The product name is **<!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand -->**. AEGIS is the fictional environmental decision-support system; “The Shape of Survival” is an earlier working title. The intended learners are ages 7–12, with adult assistance where reading or controls require it. The player is the first-person explorer and Mira is the companion; the current mission does not simulate independent inventories, movement or radiation histories for two crew members.
 
 One mission takes four real minutes and represents twelve simulated hours. It has two electrical stores and three linked intervention scales:
 

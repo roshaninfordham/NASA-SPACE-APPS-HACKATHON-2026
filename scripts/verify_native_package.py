@@ -23,6 +23,8 @@ import time
 import unicodedata
 import zipfile
 
+from branding import archive_name, archive_stem
+
 MARKER = "RED_VEIL_SCENE_READY"
 
 
@@ -45,7 +47,7 @@ def select_archive(distribution: Path, system: str, expected_manifest: str | Non
     if not re.fullmatch(r"[0-9a-f]{40}", manifest.get("commit", "")):
         raise ValueError("Manifest must identify an exact source commit")
     suffix = {"Darwin": "macOS-universal", "Windows": "Windows-x64"}[system]
-    name = f"KOMAKU-Shield-Protocol-{version}-{suffix}.zip"
+    name = archive_name(version, suffix)
     entries = [entry for entry in manifest.get("assets", []) if entry.get("name") == name]
     if len(entries) != 1:
         raise ValueError("Manifest must declare exactly one native archive")
@@ -195,7 +197,7 @@ def main() -> int:
             else:
                 with zipfile.ZipFile(archive) as zipped:
                     zipped.extractall(extracted)
-                executable = extracted / "KOMAKU-Shield-Protocol.exe"
+                executable = extracted / (archive_stem(manifest["version"]) + ".exe")
             if not executable.is_file() or executable.is_symlink():
                 raise ValueError("Expected native executable is missing")
             for graphical in (False, True):

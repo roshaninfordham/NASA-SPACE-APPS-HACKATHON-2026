@@ -1,6 +1,6 @@
-# KŌMAKU: Shield Protocol — result-screen copy
+# <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — result-screen copy
 
-**Design-copy handoff for the team's next visual themes.** This document proposes presentation for the existing final pace-workflow outcomes. It does not change the model, claim new implementation, or modify assets in an already built or published release.
+**Result-screen copy contract for the 0.9 presentation.** The result should appear when the short round ends, with a separate action for the animated equation reveal. This document fixes the meaning and words behind the visual design; it does not change the model or modify previously published releases.
 
 Every completed round ends with Ren inside the shelter. The outcome comes from the actual fraction of the solar panel cleaned. Keep each screen encouraging, readable, and focused on one useful scientific connection.
 
@@ -60,11 +60,13 @@ All completed default rounds share the same outside duration and radiation curve
 - **Try another plan** — return to a fresh preflight state so the player can choose a starting pace.
 - **Home** — return to the game's main navigation.
 
-Keep these labels and their order consistent across WIN, PASS, and LOSE. The team's visual theme can change colours, illustrations, motion, and layout without changing the outcome rules or the meaning of the readings. Do not rely on colour or sound alone to communicate the result.
+Keep these labels and their order consistent across WIN, PASS, and LOSE. The equation view includes **Back to results**. The bubble animation may be skipped or reduced without hiding the equations or trapping navigation. The team's visual theme can change colours, illustrations, motion, and layout without changing the outcome rules or the meaning of the readings. Do not rely on colour or sound alone to communicate the result.
 
 ## Equation reveal and factual boundaries
 
 Use the [simple video equations](VIDEO-EQUATIONS-SIMPLE.md) for the short explanation and the [technical handoff](VIDEO-EQUATIONS.md) for exact formulas. Speed and Time explain cleaning; Dust changes solar Power; power over Time changes stored energy; Radiation over outside Time accumulates Dose. Shelter ends the outside-time count. Sievert stays a separate explanation about radiation type and body tissue, not a computed health score.
+
+For a changing cleaning pace, show **average effective cleaning rate × cleaning time**, not the final slider value multiplied by the whole round. For the increasing radiation curve, use **average radiation dose rate × outside time**. Solar power is **clear-panel power × sunlight transmission**; do not multiply by dust again. Use actual result readings rather than the design image’s example values.
 
 The default battery receives more solar power than the habitat load throughout the round. A lower cleaning result therefore must not be described as a battery failure. The real NASA solar-image view is educational observation, not an input that determined this outcome.
 

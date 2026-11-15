@@ -71,13 +71,13 @@
       "title": "Mission time",
       "lead": "The countdown gives Ren 30 mission minutes to clean. When it ends, she steps straight into shelter.",
       "analogy": "Like a timed art activity, you choose a comfortable pace until the bell rings. Pauses for learning stop the clock.",
-      "explanation": "At standard play speed, one real second advances six mission seconds. Nothing advances before START MISSION. Reading cards and taking a break pause the clock. Every completed round has the same outside duration; there is no walk or recall button.",
+      "explanation": "At standard play speed, one real second advances twenty mission seconds: a full round takes 90 seconds of active play. The large countdown shows real play time; the smaller Mars clock shows simulated mission time. Nothing advances before START MISSION. Reading cards and taking a break pause both clocks. Every completed round has the same outside duration; there is no walk or recall button.",
       "equation": "Time remaining = mission duration − elapsed time",
       "real_fact": "NASA describes a Martian sol as approximately 24.6 Earth hours. Our radiation conversion uses an Earth day of 86,400 seconds, not a sol.",
       "source_label": "NASA Science: Mars facts",
       "source_url": "https://science.nasa.gov/mars/facts/",
       "assumption": "The 30-minute mission, accelerated clock and automatic shelter entry are story choices. The radiation conversion uses an Earth day of 86,400 seconds, not a Martian sol.",
-      "dynamic_hint": "Mission Time and this bubble share one clock. When the countdown reaches zero, Ren enters immediately and the result appears."
+      "dynamic_hint": "The large clock and Time bubble show real play time left. The smaller Mars clock shows the simulated duration used in the science equations. Both pause together and reach zero when Ren enters."
     },
     {
       "id": "speed",

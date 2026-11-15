@@ -11,3 +11,7 @@ __pycache__/
 # Production update private keys must live outside this repository.
 *private*.pem
 *.key
+
+# Release notes are source documentation, not build output.
+!docs/releases/
+!docs/releases/*.md

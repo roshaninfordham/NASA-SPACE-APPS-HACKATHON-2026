@@ -14,6 +14,11 @@ signal quiz_answered(record: Dictionary)
 const Style = preload("res://ui/journey_style.gd")
 const Branding = preload("res://scripts/branding.gd")
 const Orb = preload("res://ui/concept_orb.gd")
+const STORY_BACKGROUNDS := [
+	"res://assets/art/journey/story-exterior.png",
+	"res://assets/art/journey/story-astronaut.png",
+	"res://assets/art/journey/story-interior.png",
+]
 const STORY := [
 	{"eyebrow": "YEAR 2059", "title": "Planet Mars.", "body": "A small home. A wide red world.\nAnd one crew looking out for each other."},
 	{"eyebrow": "A MESSAGE FROM OUTSIDE", "title": "Ren needs you.", "body": "Dust is covering the solar panel.\nA radiation storm is on its way."},
@@ -44,6 +49,9 @@ var _orb_area: Control
 var _orbs: Array[Button] = []
 var _scroll: ScrollContainer
 var _story_index := 0
+var _story_brand: Label
+var _story_brand_subtitle: Label
+var _story_background: Texture2D
 var _story_head: Label
 var _story_words: Label
 var _story_kicker: Label
@@ -64,6 +72,13 @@ var _debrief_content: VBoxContainer
 var _debrief_summary: GridContainer
 var _debrief_charts: GridContainer
 var _debrief_quiz_feedback: Label
+var _result_content: VBoxContainer
+var _science_content: VBoxContainer
+var _result_media: GridContainer
+var _science_details: VBoxContainer
+var _debrief_view := "results"
+var _science_button: Button
+var _equation_cards: Array[Control] = []
 var _merge_time := 0.0
 var _merge_done := false
 var _merge_skip: Button
@@ -172,6 +187,36 @@ class ConceptVisual extends Control:
 				draw_circle(center+Vector2(5,8),2,Color(amber,0.5))
 				_word("SHIELDING",center+Vector2(0,47),Style.MUTED)
 
+class ResultVisual extends Control:
+	var clean_fraction := 0.0
+	func _draw() -> void:
+		var panel_style := Style.panel(true)
+		panel_style.bg_color = Color("142b37")
+		draw_style_box(panel_style, Rect2(Vector2.ZERO, size))
+		var head := Vector2(size.x * 0.25, size.y * 0.40)
+		var radius := minf(37, size.y * 0.25)
+		# An original, simple helmet illustration; no fabricated health reading.
+		draw_circle(head, radius + 6, Style.PEARL)
+		draw_circle(head, radius + 1, Style.ROSE)
+		draw_circle(head, radius - 5, Style.GLASS)
+		draw_arc(head, radius - 10, PI * 1.05, PI * 1.75, 32, Style.CYAN, 3, true)
+		draw_line(head + Vector2(-radius * 0.7, radius + 6), head + Vector2(-radius, radius + 48), Style.PEARL, 15, true)
+		draw_line(head + Vector2(radius * 0.7, radius + 6), head + Vector2(radius, radius + 48), Style.PEARL, 15, true)
+		draw_line(head + Vector2(-radius * 0.55, radius + 16), head + Vector2(radius * 0.55, radius + 16), Style.ROSE, 8, true)
+		var bounds := Rect2(size.x * 0.52, size.y * 0.27, size.x * 0.39, size.y * 0.48)
+		draw_rect(bounds, Color("122e42"))
+		draw_rect(bounds, Style.CYAN, false, 2)
+		for index in range(1,4):
+			var x := bounds.position.x + bounds.size.x * index / 4
+			draw_line(Vector2(x, bounds.position.y), Vector2(x, bounds.end.y), Color(Style.CYAN, 0.6), 1.5)
+		draw_line(Vector2(bounds.position.x, bounds.get_center().y), Vector2(bounds.end.x, bounds.get_center().y), Color(Style.CYAN, 0.6), 1.5)
+		var dust_count := ceili(42 * (1 - clampf(clean_fraction, 0, 1)))
+		for index in range(dust_count):
+			var point := bounds.position + Vector2(6 + fposmod(index * 19.7, maxf(1,bounds.size.x - 12)), 6 + fposmod(index * 13.7, maxf(1,bounds.size.y - 12)))
+			draw_circle(point, 3, Style.AMBER)
+		var font := Style.font("display_bold")
+		draw_string(font, Vector2(size.x * 0.52, size.y * 0.91), "CREW INSIDE", HORIZONTAL_ALIGNMENT_LEFT, size.x * 0.43, 18, Style.CYAN)
+
 class RunChart extends Control:
 	var samples: Array = []
 	var channel := "dose_ugy"
@@ -255,6 +300,12 @@ func _clear_screen() -> void:
 	_debrief_content = null
 	_debrief_summary = null
 	_debrief_charts = null
+	_result_content = null
+	_science_content = null
+	_result_media = null
+	_science_details = null
+	_science_button = null
+	_equation_cards.clear()
 
 func show_story(motion_reduced := false) -> void:
 	state = "story"
@@ -263,13 +314,15 @@ func show_story(motion_reduced := false) -> void:
 	if not _built: return
 	_clear_screen()
 	_story_index = 0
-	_story_kicker = Style.label("", 16, Style.color("cyan"), "mono")
-	_story_head = Style.label("", 62, Style.color("pearl"), "display")
+	_story_brand = Style.label(Branding.title(), 88, Style.color("pearl"), "display_bold")
+	_story_brand_subtitle = Style.label(Branding.subtitle(), 28, Style.color("cyan"), "display_bold")
+	_story_kicker = Style.label("", 20, Style.color("cyan"), "mono")
+	_story_head = Style.label("", 38, Style.color("pearl"), "display_bold")
 	_story_head.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_story_words = Style.label("", 25, Style.color("pearl"), "body")
+	_story_words = Style.label("", 28, Style.color("pearl"), "body_bold")
 	_story_words.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_story_step = Style.label("", 14, Style.color("muted"), "mono")
-	for label in [_story_kicker, _story_head, _story_words, _story_step]:
+	for label in [_story_brand, _story_brand_subtitle, _story_kicker, _story_head, _story_words, _story_step]:
 		label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		label.minimum_size_changed.connect(_schedule_layout)
 		_body.add_child(label)
@@ -285,6 +338,7 @@ func show_story(motion_reduced := false) -> void:
 
 func _set_story_beat() -> void:
 	var beat: Dictionary = STORY[_story_index]
+	_story_background = load(STORY_BACKGROUNDS[_story_index]) as Texture2D if ResourceLoader.exists(STORY_BACKGROUNDS[_story_index]) else null
 	_story_kicker.text = beat.eyebrow
 	_story_head.text = beat.title
 	_story_words.text = beat.body
@@ -563,11 +617,12 @@ func show_debrief(result: Dictionary, concepts: Array) -> void:
 	_result = result.duplicate(true)
 	catalog = concepts.duplicate(true)
 	quiz_first_answer = -1
+	_debrief_view = "results"
 	show()
 	if not _built: return
 	_clear_screen()
-	_title = Style.label("Your ideas connect.", 36, Style.color("pearl"), "display")
-	_subtitle = Style.label("Your choices left a trail. Let's see what they mean.", 18, Style.color("muted"), "body")
+	_title = Style.label(_outcome_heading(), 40, Style.color("pearl"), "display_bold")
+	_subtitle = Style.label(_outcome_message(), 22, Style.color("pearl"), "body_bold")
 	_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_subtitle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_title.minimum_size_changed.connect(_schedule_layout)
@@ -581,29 +636,76 @@ func show_debrief(result: Dictionary, concepts: Array) -> void:
 	_body.add_child(_scroll)
 	_debrief_content = VBoxContainer.new()
 	_debrief_content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_debrief_content.add_theme_constant_override("separation", 20)
+	_debrief_content.add_theme_constant_override("separation", 18)
 	_scroll.add_child(_debrief_content)
 	_build_debrief_content()
-	_merge_skip = Style.button("Show my mission  →")
+	_merge_skip = Style.button("Show equations  →")
 	_merge_skip.pressed.connect(_finish_merge)
 	_body.add_child(_merge_skip)
-	_merge_note = Style.label("Time. Dust. Power. A path home.", 23, Style.color("cyan"), "display")
+	_merge_note = Style.label("Eight ideas. One connected mission.", 25, Style.color("cyan"), "display_bold")
 	_merge_note.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_body.add_child(_merge_note)
-	var retry := Style.button("Try another plan", true)
+	_science_button = Style.button("See how science connects", true)
+	_science_button.name = "ScienceConnections"
+	_science_button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_science_button.pressed.connect(func():
+		if _debrief_view == "results": show_science_connections()
+		else: show_results()
+	)
+	_footer.add_child(_science_button)
+	var retry := Style.button("Try another plan")
 	retry.name = "Retry"
+	retry.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	retry.pressed.connect(func(): retry_requested.emit())
 	_footer.add_child(retry)
-	var finish := Style.button("Finish  ·  Home")
+	var finish := Style.button("Home")
 	finish.name = "Finish"
 	finish.pressed.connect(func(): home_requested.emit())
 	_footer.add_child(finish)
+	# The player always sees their result immediately. The merge is an optional,
+	# replayable transition into the science page, never a gate to the ending.
+	_merge_done = true
+	_merge_skip.hide()
+	_merge_note.hide()
+	_science_content.hide()
+	_scroll.show()
+	_schedule_layout()
+	_focus_later(_science_button)
+
+func show_science_connections() -> void:
+	if state != "debrief" or concept_open or not _built: return
+	_debrief_view = "science"
+	_title.text = "How the science connects"
+	_subtitle.text = "Your actions changed the results. Here is how."
+	_result_content.hide()
+	_science_content.show()
+	_science_button.text = "← Back to results"
 	_merge_time = 0.0
 	_merge_done = false
+	_merge_skip.show()
+	_merge_note.show()
 	_scroll.hide()
 	_schedule_layout()
+	audio_cue.emit("open")
 	if reduced_motion: _finish_merge()
 	else: _focus_later(_merge_skip)
+
+func show_results() -> void:
+	if state != "debrief" or not _built: return
+	_debrief_view = "results"
+	_title.text = _outcome_heading()
+	_subtitle.text = _outcome_message()
+	_result_content.show()
+	_science_content.hide()
+	_science_button.text = "See how science connects"
+	_merge_done = true
+	_merge_skip.hide()
+	_merge_note.hide()
+	_scroll.show()
+	_scroll.scroll_vertical = 0
+	_schedule_layout()
+	_focus_later(_science_button)
+	queue_redraw()
 
 func _add_reading(parent: Node, value: String, pixels: int, color_key := "pearl", face := "body") -> Label:
 	var label := Style.label(value, pixels, Style.color(color_key), face)
@@ -649,23 +751,66 @@ func _dose_equation() -> String:
 
 func _outcome_heading() -> String:
 	match str(_result.get("status", "")):
-		"win": return "WIN · A bright result."
-		"pass": return "PASS · A useful amount cleaned."
-		_: return "LOSE · A new plan to try."
+		"win": return "You powered up the outpost!"
+		"pass": return "Good progress, astronaut!"
+		_: return "Try a new cleaning plan!"
+
+func _outcome_message() -> String:
+	match str(_result.get("status", "")):
+		"win": return "Ren is safely inside, and you cleared most of the panel. Great teamwork!"
+		"pass": return "Ren is safely inside. You cleared part of the panel and made a useful start."
+		_: return "Ren is safely inside. The panel needs more cleaning. You can try again."
+
+func _outcome_science() -> String:
+	match str(_result.get("status", "")):
+		"win": return "Less dust let more sunlight reach the solar cells. Better solar output helped charge the battery."
+		"pass": return "Cleaning let more sunlight through. Dust still on the panel reduced its power output."
+		_: return "Dust blocked some sunlight. A very slow pace cleans little; rushing can build tiredness and slow later work."
+
+func _word_equations() -> Array:
+	return [
+		["01  PANEL CLEANED", "Panel cleaned = average effective cleaning rate × cleaning time", "More effective cleaning over time → less dust. Tiredness reduces the rate.", "speed"],
+		["02  SOLAR POWER", "Solar power = clear-panel power × sunlight getting through dust", "Less dust → a larger fraction of sunlight reaches the solar cells → more power.", "dust"],
+		["03  ENERGY STORED", "Energy stored = starting energy + energy collected − energy used", "Power collected over time changes the battery, up to its capacity.", "power"],
+		["04  ABSORBED DOSE", "Absorbed dose = average radiation rate × outside time", "Radiation rate changes in this story. Its average × outside time gives the dose.", "dose"],
+	]
 
 func _build_debrief_content() -> void:
-	var outcome := str(_result.get("status", ""))
-	_add_reading(_debrief_content, _outcome_heading(), 27, "pearl", "display")
-	_add_reading(_debrief_content, "Ren is inside. You balanced pace and tiredness." if outcome == "win" else ("Ren is inside. Try a different balance of pace and recovery." if outcome == "pass" else "Ren is inside. Try easing a very fast pace, or raising a very slow one."), 18)
+	_result_content = VBoxContainer.new()
+	_result_content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_result_content.add_theme_constant_override("separation", 16)
+	_debrief_content.add_child(_result_content)
+	_result_media = GridContainer.new()
+	_result_media.columns = 2
+	_result_media.add_theme_constant_override("h_separation", 18)
+	_result_media.add_theme_constant_override("v_separation", 14)
+	_result_content.add_child(_result_media)
+	var picture := ResultVisual.new()
+	picture.name = "ResultIllustration"
+	picture.clean_fraction = _value("clean_fraction", 0)
+	picture.custom_minimum_size = Vector2(0, 150)
+	picture.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	picture.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	picture.accessibility_name = "Ren is inside. The panel illustration shows the same cleaned fraction as the result."
+	_result_media.add_child(picture)
+	var science_card := PanelContainer.new()
+	science_card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	science_card.add_theme_stylebox_override("panel", Style.panel(true))
+	_result_media.add_child(science_card)
+	var science_note := VBoxContainer.new()
+	science_note.add_theme_constant_override("separation", 8)
+	science_card.add_child(science_note)
+	_add_reading(science_note, "SCIENCE CONNECTION", 18, "cyan", "display_bold")
+	_add_reading(science_note, _outcome_science(), 22, "pearl", "body_bold")
 	_debrief_summary = GridContainer.new()
 	_debrief_summary.columns = 3
 	_debrief_summary.add_theme_constant_override("h_separation", 12)
 	_debrief_summary.add_theme_constant_override("v_separation", 12)
-	_debrief_content.add_child(_debrief_summary)
+	_result_content.add_child(_debrief_summary)
 	for item in [
-		["PANEL CLEANED", "%.1f%%" % (100 * _value("clean_fraction", 0))],
-		["ENERGY STORED · MODEL", "%.3f kWh" % _value("battery_kwh", 0)],
-		["MODEL EXPOSURE", "%.2f µGy" % float(_result.get("dose_ugy", 0.0))],
+		["Panel cleaned", "%.1f%%" % (100 * _value("clean_fraction", 0))],
+		["Energy stored", "%.2f kWh" % _value("battery_kwh", 0)],
+		["Absorbed model dose", "%.2f µGy" % _value("dose_ugy", 0)],
 	]:
 		var card := PanelContainer.new()
 		card.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -673,35 +818,62 @@ func _build_debrief_content() -> void:
 		_debrief_summary.add_child(card)
 		var column := VBoxContainer.new()
 		card.add_child(column)
-		_add_reading(column, item[0], 12, "muted", "mono")
-		_add_reading(column, item[1], 24, "cyan", "mono")
-	_add_reading(_debrief_content, "Every full round lasts %.0f mission minutes and uses the same authored radiation curve. There is no lower-dose bonus. WIN needs at least %.0f%% clean; PASS needs at least %.0f%%; below that is LOSE." % [_value("warning_seconds", 1800) / 60, 100 * _value("win_clean_fraction", 0.8), 100 * _value("pass_clean_fraction", 0.4)], 16, "muted")
-	_add_reading(_debrief_content, "How the ideas join", 24, "pearl", "display")
-	var equations := [
-		["01  Pace changes tiredness", _fatigue_equation(), "u is your pace command; F is modeled tiredness. Above 1× builds tiredness; below 1× allows recovery. F stays between 0 and %.2f. These are authored lesson rules." % _value("fatigue_max", 0.9)],
-		["02  Pace + tiredness → effective cleaning rate", _rate_equation(), "This is the rate at the end of the run. The same fast command can produce less work when Ren is tired."],
-		["03  Add the changing rate over time → panel cleaned", _cleaning_work_equation(), "Effective minutes add u × (1−F) × each time step across your actual choices. Work stops increasing when all %.0f sections are clean; the %.0f-minute countdown still runs." % [_value("max_sections", 4), _value("warning_seconds", 1800)/60]],
-		["04  Less dust → more solar power", _solar_equation(), "Clean fraction is work ÷ %.0f. Light transmission is %.2f + %.2f × clean fraction. kW measures the current production rate." % [_value("max_sections", 4), _value("minimum_solar_transmission", 0.25), 1 - _value("minimum_solar_transmission", 0.25)]],
-		["05  Energy made − energy supplied → stored energy", _energy_equation(), "Solar power is integrated over hours; the dome's use is subtracted. kWh measures accumulated energy. Capacity is %.2f kWh; unmet demand was %.3f kWh." % [_value("battery_capacity_kwh", 6), _value("unserved_energy_kwh", 0)]],
-		["06  Add the rising radiation rate over outside time", _dose_equation(), "The authored curve is r(t)=210×(1+3t/T) µGy/day. It is integrated over time, not treated as a constant final rate. Every complete run receives 10.9375 µGy."],
-		["07  Absorbed dose does not supply all sievert inputs", "Sv: needs radiation/tissue weighting", "Radiation type weighting is needed for equivalent dose; effective dose also needs tissue weighting. This game has no valid personal Sv or health estimate."],
-		["08  Cleaned fraction determines the outcome", "%.1f%% clean → %s" % [100 * _value("clean_fraction", 0), outcome.to_upper()], "At least %.0f%% is WIN; at least %.0f%% is PASS; otherwise LOSE. Ren enters automatically at zero. There is no lower-dose bonus." % [100 * _value("win_clean_fraction", 0.8), 100 * _value("pass_clean_fraction", 0.4)]],
-	]
-	for item in equations:
+		_add_reading(column, item[0], 19, "pearl", "body_bold")
+		_add_reading(column, item[1], 35, "cyan", "display_bold")
+	_add_reading(_result_content, "%s · %.0f%% clean earns WIN; %.0f%% earns PASS. Every full round ends with Ren inside." % [str(_result.get("status", "")).to_upper(), 100 * _value("win_clean_fraction", 0.8), 100 * _value("pass_clean_fraction", 0.4)], 17, "muted")
+	_add_reading(_result_content, "Made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC", 15, "muted")
+
+	_science_content = VBoxContainer.new()
+	_science_content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_science_content.add_theme_constant_override("separation", 14)
+	_debrief_content.add_child(_science_content)
+	for item in _word_equations():
 		var card := PanelContainer.new()
-		card.add_theme_stylebox_override("panel", Style.panel(true))
-		_debrief_content.add_child(card)
+		var equation_style := Style.panel(true)
+		equation_style.content_margin_top = 12
+		equation_style.content_margin_bottom = 12
+		card.add_theme_stylebox_override("panel", equation_style)
+		_science_content.add_child(card)
+		_equation_cards.append(card)
 		var column := VBoxContainer.new()
 		column.add_theme_constant_override("separation", 8)
 		card.add_child(column)
-		_add_reading(column, item[0], 16, "muted", "display")
-		_add_reading(column, item[1], 21, "cyan", "mono")
-		_add_reading(column, item[2], 16)
+		_add_reading(column, item[1], 26, "cyan", "display_bold")
+		_add_reading(column, item[2], 19)
+	_add_reading(_science_content, "SIEVERT (Sv) · Radiation type and body tissue also matter. This game does not calculate personal health risk.", 19, "muted")
+	var details_toggle := Style.button("Explore my numbers and graphs  +")
+	details_toggle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	details_toggle.name = "ScienceDetails"
+	_science_content.add_child(details_toggle)
+	_science_details = VBoxContainer.new()
+	_science_details.add_theme_constant_override("separation", 16)
+	_science_content.add_child(_science_details)
+	details_toggle.pressed.connect(func():
+		_science_details.visible = not _science_details.visible
+		details_toggle.text = "Hide my numbers and graphs  −" if _science_details.visible else "Explore my numbers and graphs  +"
+	)
+	_add_reading(_science_details, "Your actual mission", 26, "pearl", "display_bold")
+	for item in [
+		["Pace and tiredness", _fatigue_equation() + "\n" + _rate_equation(), "These authored lesson rules describe the final rate. Changing pace never rewrites the earlier work."],
+		["Panel cleaned over time", _cleaning_work_equation(), "Effective minutes add each pace × (1−tiredness) time step. Work is capped at %.0f sections." % _value("max_sections", 4)],
+		["Solar output now", _solar_equation(), "Light transmission is %.2f + %.2f × clean fraction." % [_value("minimum_solar_transmission", 0.25), 1 - _value("minimum_solar_transmission", 0.25)]],
+		["Battery energy balance", _energy_equation(), "Capacity is %.2f kWh. Unmet demand was %.3f kWh; overflow and unsupplied demand are kept separate." % [_value("battery_capacity_kwh", 6), _value("unserved_energy_kwh", 0)]],
+		["Accumulated model dose", _dose_equation(), "Every full round has the same %.0f mission-minute outside time and authored radiation curve. There is no lower-dose bonus." % (_value("warning_seconds", 1800) / 60)],
+	]:
+		var card := PanelContainer.new()
+		card.add_theme_stylebox_override("panel", Style.panel(true))
+		_science_details.add_child(card)
+		var column := VBoxContainer.new()
+		column.add_theme_constant_override("separation", 8)
+		card.add_child(column)
+		_add_reading(column, item[0], 20, "pearl", "display_bold")
+		_add_reading(column, item[1], 18, "cyan", "mono")
+		_add_reading(column, item[2], 18)
 	_debrief_charts = GridContainer.new()
 	_debrief_charts.columns = 2
 	_debrief_charts.add_theme_constant_override("h_separation", 14)
 	_debrief_charts.add_theme_constant_override("v_separation", 14)
-	_debrief_content.add_child(_debrief_charts)
+	_science_details.add_child(_debrief_charts)
 	var history: Array = _result.get("history", [])
 	for config in [["battery_kwh", "Energy actually stored", "kWh", "cyan"], ["dose_ugy", "Your accumulated exposure", "µGy", "amber"]]:
 		var chart := RunChart.new()
@@ -713,15 +885,15 @@ func _build_debrief_content() -> void:
 		chart.unit = config[2]
 		chart.tint = Style.color(config[3])
 		_debrief_charts.add_child(chart)
-	_add_reading(_debrief_content, "These lines show your actual simulated run through the full countdown. Hardware, fatigue and storm settings are authored for this lesson; they are not live NASA predictions.", 14, "muted")
+	_add_reading(_science_details, "These lines show your actual simulated run. Hardware, fatigue and storm settings are authored for this lesson; they are not live NASA predictions.", 17, "muted")
 	var quiz_card := PanelContainer.new()
 	quiz_card.add_theme_stylebox_override("panel", Style.panel(true))
-	_debrief_content.add_child(quiz_card)
+	_science_details.add_child(quiz_card)
 	var quiz := VBoxContainer.new()
 	quiz.add_theme_constant_override("separation", 12)
 	quiz_card.add_child(quiz)
-	_add_reading(quiz, "Try the idea somewhere new", 24, "pearl", "display")
-	_add_reading(quiz, "What can happen if Ren stays at the fastest pace for the whole mission?", 19)
+	_add_reading(quiz, "Try the idea somewhere new", 25, "pearl", "display_bold")
+	_add_reading(quiz, "What can happen if Ren stays at the fastest pace for the whole mission?", 21)
 	for index in range(3):
 		var answer := Style.button(["Tiredness can reduce her later cleaning rate", "The fastest command always cleans the most", "The faster pace blocks radiation"][index])
 		answer.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
@@ -729,17 +901,18 @@ func _build_debrief_content() -> void:
 		answer.name = "TransferAnswer" + str(index)
 		answer.pressed.connect(answer_quiz.bind(index))
 		quiz.add_child(answer)
-	_debrief_quiz_feedback = _add_reading(quiz, "Optional practice. Your first answer is recorded before the explanation.", 15, "muted")
-	_add_reading(_debrief_content, "Explore any mission idea again", 23, "pearl", "display")
+	_debrief_quiz_feedback = _add_reading(quiz, "Optional practice. Your first answer is recorded before the explanation.", 17, "muted")
+	_add_reading(_science_details, "Explore any mission idea again", 23, "pearl", "display_bold")
 	var review := HFlowContainer.new()
 	review.add_theme_constant_override("h_separation", 10)
 	review.add_theme_constant_override("v_separation", 10)
-	_debrief_content.add_child(review)
+	_science_details.add_child(review)
 	for concept: Dictionary in catalog:
 		var button := Style.button(str(concept.get("title", "Idea")))
 		button.pressed.connect(open_concept.bind(str(concept.get("id", ""))))
 		review.add_child(button)
-	_add_reading(_debrief_content, "Mission targets are practice goals, not medical limits or a NASA safety rating. You can finish here and come back another day.", 14, "muted")
+	_add_reading(_science_details, "Mission targets are practice goals, not medical limits or a NASA safety rating. You can finish here and come back another day.", 17, "muted")
+	_science_details.hide()
 
 func answer_quiz(index: int) -> void:
 	if state != "debrief" or index < 0 or index > 2: return
@@ -753,7 +926,7 @@ func quiz_record() -> Dictionary:
 	return {"question_id": "pace-fatigue-transfer-1", "first_answer": quiz_first_answer, "answered": quiz_first_answer >= 0, "correct": quiz_first_answer == 0, "assisted": false}
 
 func _finish_merge() -> void:
-	if state != "debrief" or _merge_done: return
+	if state != "debrief" or _debrief_view != "science" or _merge_done: return
 	_merge_done = true
 	_scroll.show()
 	_merge_skip.hide()
@@ -761,7 +934,7 @@ func _finish_merge() -> void:
 	audio_cue.emit("success" if str(_result.get("status", "")) == "win" else "confirm")
 	# Keep the actual run summary at the top instead of scrolling straight to the quiz.
 	_scroll.scroll_vertical = 0
-	_focus_later(_footer.get_node("Retry") as Button)
+	_focus_later(_science_button)
 	queue_redraw()
 
 func set_reduced_motion(enabled: bool) -> void:
@@ -802,8 +975,8 @@ func handle_back() -> bool:
 	if state == "story":
 		_finish_story()
 		return true
-	if state == "debrief" and not _merge_done:
-		_finish_merge()
+	if state == "debrief" and _debrief_view == "science":
+		show_results()
 		return true
 	home_requested.emit()
 	return true
@@ -830,7 +1003,7 @@ func _process(delta: float) -> void:
 		if _type_count >= _story_words.text.length(): _story_words.visible_characters = -1
 	if state == "debrief" and not _merge_done:
 		_merge_time += delta
-		if _merge_time >= 1.5: _finish_merge()
+		if _merge_time >= 2.0: _finish_merge()
 	queue_redraw()
 
 func _schedule_layout() -> void:
@@ -845,13 +1018,14 @@ func _layout() -> void:
 	var short := size.y < 470
 	var margin := 20.0 if narrow else 32.0
 	var header_h := 64.0 if short else 80.0
-	var footer_h := 92.0 if narrow else 82.0
+	var footer_h := (148.0 if narrow else 88.0) if state == "debrief" else (142.0 if state == "preparation" and size.x < 360 else (92.0 if narrow else 82.0))
 	_header.position = Vector2(margin, 8)
 	_header.size = Vector2(size.x - margin * 2, header_h - 8)
-	_brand.position = Vector2(0, 17)
+	_brand.visible = state != "story"
+	_brand.position = Vector2(0, 12)
 	_brand.size = Vector2(maxf(90, _header.size.x - 228), 34)
-	_brand.add_theme_font_size_override("font_size", 12 if narrow else 15)
-	_brand.text = Branding.title() if narrow else Branding.title() + "  /  " + Branding.subtitle()
+	_brand.add_theme_font_size_override("font_size", 21 if narrow else 24)
+	_brand.text = Branding.title() if size.x < 1000 else Branding.title() + "  /  " + Branding.subtitle()
 	_home.position = Vector2(_header.size.x - 202, 4)
 	_home.size = Vector2(88, 48)
 	_settings.position = Vector2(_header.size.x - 106, 4)
@@ -867,24 +1041,34 @@ func _layout() -> void:
 	queue_redraw()
 
 func _layout_story(narrow: bool, short: bool) -> void:
-	var left := 10.0 if narrow else minf(90, _body.size.x * 0.08)
-	var top := maxf(4, _body.size.y * (0.12 if short else 0.22))
+	var left := 4.0 if narrow else minf(70, _body.size.x * 0.06)
+	var top := 0.0 if short else maxf(8, _body.size.y * 0.08)
 	var width := _body.size.x - left * 2
-	_story_kicker.position = Vector2(left, top)
-	_story_kicker.size = Vector2(width, 26)
-	_story_head.position = Vector2(left, top + 38)
-	_story_head.add_theme_font_size_override("font_size", 37 if short or narrow else 62)
+	_story_brand.position = Vector2(left, top)
+	_story_brand.add_theme_font_size_override("font_size", 48 if short else (53 if narrow else 88))
+	_story_brand.size = Vector2(width, 1)
+	_story_brand_subtitle.position = Vector2(left, _story_brand.position.y + _story_brand.size.y - (4 if short else 7))
+	_story_brand_subtitle.add_theme_font_size_override("font_size", 20 if short else (23 if narrow else 28))
+	_story_brand_subtitle.size = Vector2(width, 1)
+	var beat_y := _story_brand_subtitle.position.y + _story_brand_subtitle.size.y + (12 if short else 38)
+	_story_kicker.position = Vector2(left, beat_y)
+	_story_kicker.add_theme_font_size_override("font_size", 15 if short else 19)
+	_story_kicker.size = Vector2(width, 1)
+	_story_head.position = Vector2(left, _story_kicker.position.y + _story_kicker.size.y + (2 if short else 8))
+	_story_head.add_theme_font_size_override("font_size", 26 if short else (32 if narrow else 40))
 	_story_head.size = Vector2(width, 1)
-	_story_words.position = Vector2(left, maxf(top + (154 if narrow else (116 if short else 128)), _story_head.position.y + _story_head.size.y + 14))
-	_story_words.add_theme_font_size_override("font_size", 18 if short else (21 if narrow else 25))
+	_story_words.position = Vector2(left, _story_head.position.y + _story_head.size.y + (4 if short else 14))
+	_story_words.add_theme_font_size_override("font_size", 20 if short else (23 if narrow else 28))
 	_story_words.size = Vector2(width, 1)
-	_story_step.position = Vector2(left, minf(_body.size.y - 20, maxf(_story_words.position.y + _story_words.size.y + 24, top + (310 if narrow else (260 if not short else 190)))))
+	_story_step.position = Vector2(left, _story_words.position.y + _story_words.size.y + 24)
 	_story_step.size = Vector2(width, 22)
-	_story_step.visible = not short
+	_story_step.visible = not short and _story_step.position.y + 22 < _body.size.y
 	_story_skip.position = Vector2(0, 8)
 	_story_skip.size = Vector2(112, 52)
-	_story_next.add_theme_font_size_override("font_size", 16 if narrow else 18)
-	_story_next.size = Vector2(minf(230, _footer.size.x - 124), 52)
+	_story_next.add_theme_font_size_override("font_size", 16 if narrow else 21)
+	_story_next.text = ("Enter room  →" if narrow else "Enter control room  →") if _story_index == STORY.size() - 1 else "Continue  →"
+	_story_next.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_story_next.size = Vector2(minf(280, _footer.size.x - 124), 52)
 	_story_next.position = Vector2(_footer.size.x - _story_next.size.x, 8)
 
 func _layout_preparation(narrow: bool, short: bool) -> void:
@@ -894,8 +1078,8 @@ func _layout_preparation(narrow: bool, short: bool) -> void:
 	_title.size = Vector2(_body.size.x - (202 if header_action else 0), 48 if not narrow else 64)
 	_title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_title.add_theme_font_size_override("font_size", 25 if narrow or short else 34)
-	_subtitle.position = Vector2(0, 50 if not narrow else 67)
-	_subtitle.size = Vector2(_body.size.x - (202 if wide_action else 0), 30)
+	_subtitle.position = Vector2(0, maxf(50 if not narrow else 67, _title.size.y + 6))
+	_subtitle.size = Vector2(_body.size.x - (202 if wide_action else 0), 1)
 	_subtitle.add_theme_font_size_override("font_size", 15 if short or narrow else 18)
 	_subtitle.visible = not short
 	_live_sun_button.size = Vector2(minf(186, _body.size.x), 48)
@@ -907,7 +1091,8 @@ func _layout_preparation(narrow: bool, short: bool) -> void:
 		_live_sun_button.position = Vector2(_body.size.x - 186, 52)
 		top = 110.0
 	else:
-		_live_sun_button.position = Vector2(0, 110 if narrow else 90)
+		_live_sun_button.position = Vector2(0, maxf(110 if narrow else 90, _subtitle.position.y + _subtitle.size.y + 12))
+		top = _live_sun_button.position.y + 60
 	_scroll.position = Vector2(0, top)
 	_scroll.size = Vector2(_body.size.x, maxf(60, _body.size.y - top))
 	var ellipse := not narrow and not short and _scroll.size.y >= 220
@@ -940,32 +1125,56 @@ func _layout_preparation(narrow: bool, short: bool) -> void:
 	_ready_button.add_theme_font_size_override("font_size", 16)
 	_ready_button.position = Vector2(_footer.size.x - 190, 4)
 	_ready_button.size = Vector2(190, 56)
+	if size.x < 360:
+		_progress_label.size.x = _footer.size.x
+		_progress.size.x = _footer.size.x
+		_ready_button.position = Vector2(0, 65)
+		_ready_button.size = Vector2(_footer.size.x, 56)
 
 func _layout_debrief(narrow: bool, short: bool) -> void:
 	_title.position = Vector2.ZERO
-	_title.size = Vector2(_body.size.x, 44)
-	_title.add_theme_font_size_override("font_size", 27 if narrow or short else 36)
-	_subtitle.position = Vector2(0, 48)
-	_subtitle.size = Vector2(_body.size.x, 50)
+	_title.add_theme_font_size_override("font_size", 28 if narrow or short else 40)
+	_title.size = Vector2(_body.size.x, 1)
+	_subtitle.position = Vector2(0, _title.size.y + 6)
+	_subtitle.add_theme_font_size_override("font_size", 19 if narrow or short else 22)
+	_subtitle.size = Vector2(_body.size.x, 1)
 	_subtitle.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	_subtitle.visible = not short
-	var top := 100.0 if not short else 54.0
+	var top := (_subtitle.position.y + _subtitle.size.y + 16) if not short else (_title.size.y + 10)
 	_scroll.position = Vector2(0, top)
-	_scroll.size = Vector2(_body.size.x, maxf(50, _body.size.y - top))
+	_scroll.size = Vector2(_body.size.x, maxf(40, _body.size.y - top))
 	_debrief_content.custom_minimum_size.x = maxf(120, _scroll.size.x - 20)
 	_debrief_summary.columns = 1 if narrow else 3
+	# Small screens put the three actual readings first; illustration stays below.
+	_result_content.move_child(_debrief_summary, 0 if narrow else 1)
+	_result_media.columns = 1 if narrow else 2
 	_debrief_charts.columns = 1 if _body.size.x < 720 else 2
-	_merge_skip.position = Vector2((_body.size.x - 230) * 0.5, _body.size.y - 68)
-	_merge_skip.size = Vector2(230, 52)
-	_merge_note.position = Vector2(0, _body.size.y * 0.5 + 30)
+	_merge_skip.size = Vector2(minf(252, _body.size.x), 52)
+	_merge_skip.position = Vector2((_body.size.x - _merge_skip.size.x) * 0.5, _body.size.y - 56)
+	_merge_note.position = Vector2(0, maxf(top, _body.size.y - 122))
 	_merge_note.size = Vector2(_body.size.x, 60)
+	_merge_note.add_theme_font_size_override("font_size", 18 if short or narrow else 25)
 	_merge_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	var retry := _footer.get_node("Retry") as Button
 	var finish := _footer.get_node("Finish") as Button
-	retry.position = Vector2(0, 8)
-	retry.size = Vector2(minf(230, _footer.size.x * 0.52), 52)
-	finish.size = Vector2(minf(190, _footer.size.x * 0.45), 52)
-	finish.position = Vector2(_footer.size.x - finish.size.x, 8)
+	if narrow:
+		_science_button.position = Vector2(0, 0)
+		_science_button.size = Vector2(_footer.size.x, 58)
+		retry.position = Vector2(0, 68)
+		retry.size = Vector2((_footer.size.x - 10) * 0.66, 52)
+		finish.position = Vector2(retry.size.x + 10, 68)
+		finish.size = Vector2(_footer.size.x - retry.size.x - 10, 52)
+	else:
+		var gap := 14.0
+		var available := _footer.size.x - gap * 2
+		_science_button.position = Vector2.ZERO
+		_science_button.size = Vector2(available * 0.45, 60)
+		retry.position = Vector2(_science_button.size.x + gap, 0)
+		retry.size = Vector2(available * 0.35, 60)
+		finish.position = Vector2(retry.position.x + retry.size.x + gap, 0)
+		finish.size = Vector2(available * 0.20, 60)
+	for button in [_science_button, retry, finish]:
+		button.add_theme_font_size_override("font_size", 18 if narrow or short else 22)
 
 func _layout_dialog() -> void:
 	if not is_instance_valid(_dialog): return
@@ -978,6 +1187,12 @@ func _layout_dialog() -> void:
 func _draw() -> void:
 	if not _built or state == "live": return
 	draw_rect(Rect2(Vector2.ZERO, size), Style.color("floor"))
+	if state == "story" and is_instance_valid(_story_background):
+		var image_size := _story_background.get_size()
+		var scale_factor := maxf(size.x / image_size.x, size.y / image_size.y)
+		var region_size := size / scale_factor
+		draw_texture_rect_region(_story_background, Rect2(Vector2.ZERO, size), Rect2((image_size - region_size) * 0.5, region_size))
+		draw_rect(Rect2(Vector2.ZERO, size), Color(Style.FLOOR, 0.68))
 	var glow_center := size * Vector2(0.74, 0.58)
 	for index in range(22, 0, -1):
 		var radius := float(index) * maxf(size.x, size.y) * 0.024
@@ -1001,13 +1216,33 @@ func _draw() -> void:
 			var clip := _scroll.get_global_rect()
 			if clip.has_point(a + global_position) and clip.has_point(b + global_position):
 				draw_line(a, b, Color(Style.color("cyan"), 0.11), 1.0, true)
-	if state == "debrief" and not _merge_done:
-		var center := _body.position + _body.size * Vector2(0.5, 0.46)
-		var progress := smoothstep(0.0, 1.5, _merge_time)
-		var radius := minf(160, _body.size.x * 0.34) * (1.0 - progress)
-		for index in range(maxi(1, catalog.size())):
-			var angle := TAU * index / maxi(1, catalog.size()) - PI * 0.5
-			var point := center + Vector2(cos(angle), sin(angle)) * radius
-			draw_circle(point, 16.0 - 6.0 * progress, Color(Style.color("cyan"), 0.12))
-			draw_arc(point, 16.0 - 6.0 * progress, 0, TAU, 32, Style.color("cyan"), 1.5, true)
-			draw_line(point, center, Color(Style.color("cyan"), 0.12), 1.0, true)
+	if state == "debrief" and _debrief_view == "science" and not _merge_done:
+		var center := _body.position + _body.size * Vector2(0.5, 0.48)
+		var progress := smoothstep(0.25, 1.65, _merge_time)
+		var short := size.y < 470
+		var narrow := size.x < 600
+		var columns := 2 if narrow else 4
+		var cell := Vector2(minf(200, (_body.size.x - 12) / columns), 56 if short else 68)
+		var rows := ceili(float(catalog.size()) / columns)
+		var origin := center - Vector2(cell.x * columns, cell.y * rows) * 0.5
+		for index in range(catalog.size()):
+			var id := str(catalog[index].get("id", ""))
+			var title := Orb.short_title(id, str(catalog[index].get("title", "Idea")))
+			var start := origin + Vector2(index % columns + 0.5, floorf(float(index) / columns) + 0.5) * cell
+			var point := start.lerp(center, progress)
+			var alpha := 1.0 - progress
+			var pill := Style.panel(true)
+			pill.bg_color = Color(Style.GLASS, alpha)
+			pill.border_color = Color(Style.CYAN, alpha)
+			pill.set_border_width_all(2)
+			pill.set_corner_radius_all(25)
+			var dimensions := Vector2(cell.x - 12, cell.y - 12) * (1.0 - progress * 0.55)
+			draw_style_box(pill, Rect2(point - dimensions * 0.5, dimensions))
+			var font := Style.font("display_bold")
+			var pixels := 17 if narrow or short else 22
+			var text_width := font.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, pixels).x
+			draw_string(font, point + Vector2(-text_width * 0.5, pixels * 0.32), title, HORIZONTAL_ALIGNMENT_LEFT, -1, pixels, Color(Style.PEARL, alpha))
+		if progress > 0.55:
+			var spread := (progress - 0.55) / 0.45
+			draw_circle(center, 10 + spread * 55, Color(Style.CYAN, (1 - spread) * 0.26))
+			draw_arc(center, 12 + spread * 85, 0, TAU, 64, Color(Style.CYAN, 1 - spread), 3, true)

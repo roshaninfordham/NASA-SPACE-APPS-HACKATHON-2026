@@ -1,6 +1,6 @@
 # Mission Control — implementation brief
 
-Part of **<!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand -->**. Derived from the [preserved control-room specification](source/01_Mission_Control_Room_Game_Spec.md); [decisions and status](../SPEC-IMPLEMENTATION.md) override conflicting source requirements.
+Part of **<!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand -->**. Derived from the [preserved control-room specification](source/01_Mission_Control_Room_Game_Spec.md); [decisions and status](../SPEC-IMPLEMENTATION.md) override conflicting source requirements.
 
 ## Composition to build
 

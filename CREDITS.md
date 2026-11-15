@@ -1,6 +1,6 @@
-# <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> credits and asset provenance
+# <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> credits and asset provenance
 
-This file covers the current source, including the **0.8.0-alpha.1 source snapshot**. Published releases contain the notices for their own assets. Reviewed November 15, 2026, America/New_York.
+This file covers the current source, including the **0.9.0-alpha.1 candidate source snapshot**. Published releases contain the notices for their own assets. Reviewed November 15, 2026, America/New_York.
 
 ## Runtime
 
@@ -36,9 +36,15 @@ Controller patterns informed the independently adapted first-person controller. 
 
 ## Science and reference material
 
-The [journey source ledger](docs/SCIENCE-JOURNEY-SOURCES.md) identifies NASA/primary research, EPA unit definitions, the historical Curiosity detector result, and explicit game assumptions. Stationary cleaning rates, partial-work transmission, panel/load/battery settings, and the configurable recall-entry transition are authored teaching choices; no source is claimed to certify astronaut cleaning speed. The [16-page guide](docs/media/KOMAKU-Science-Guide.pdf) separates the short mission from the retained advanced model. NASA does not endorse this project; its insignia is not the product logo. Publication summaries are not raw instrument time-series datasets.
+The [journey source ledger](docs/SCIENCE-JOURNEY-SOURCES.md) identifies NASA/primary research, EPA unit definitions, the historical Curiosity detector result, and explicit game assumptions. Stationary cleaning rates, partial-work transmission, panel/load/battery settings, and the fixed-deadline automatic shelter entry are authored teaching choices; no source is claimed to certify astronaut cleaning speed. The [16-page guide](docs/media/KOMAKU-Science-Guide.pdf) explains the current pace-and-fatigue mission separately from the retained advanced model. NASA does not endorse this project; its insignia is not the product logo. Publication summaries are not raw instrument time-series datasets.
 
 The team's concept references inform the procedural environment and Asian-inspired wave, blossom, lattice, lantern, and textile motifs. These are original interpretations, not claims of pixel-identical or photoreal reproduction. The new journey emphasizes quiet window framing and shared typography rather than restoring every earlier ornament. User-supplied design PDFs and discussion are preserved byte-for-byte with [source hashes](docs/design-specs/source/journey-2026-11-14/provenance.json); their unverified claims are not implementation authority.
+
+## Story illustrations
+
+The three unlettered opening backgrounds are new AI-generated illustrations adapted from the team’s supplied exterior, astronaut, and interior concepts using OpenAI image generation. They are illustrative story art, not screenshots of the playable 3D scene or pixel-identical copies of the inline reference images. Shared runtime text supplies the current product name and accessible story copy. [Asset provenance and exact hashes](game/assets/art/journey/provenance.json).
+
+The new countdown, warning, and urgent beeps are original procedural cues; the requested Drive recording was not accessible and is not included. [Cue provenance](game/assets/audio/journey/cue-provenance.json).
 
 ## Live NASA imagery
 

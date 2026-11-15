@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "recorded_at_utc": "2026-11-15T13:00:02.170995+00:00",
+  "result": "passed",
+  "command": "godot --headless --path game --script res://tests/pace_audit_test.gd",
+  "engine_version": "4.6.3.stable.official.7d41c59c4",
+  "source": {
+    "path": "game/scripts/pace_mission.gd",
+    "sha256": "9286d861007f81a821c092fc1d983190a597d7ab509d4a6f0d810cdb120f08ef"
+  },
+  "harness": {
+    "path": "game/tests/pace_audit_test.gd",
+    "sha256": "6a9c3a3c1bc1dbed9bd1b8e515a41f9903adad1176ec95613501664ecab6537c"
+  },
+  "summary": {
+    "checks": 1665,
+    "constant_pace_fixtures": 7,
+    "failures": 0,
+    "independent_numerical_oracles": 80,
+    "oracle_step_sim_minutes": 0.002,
+    "random_switching_cases": 80,
+    "seed": 202611150804
+  },
+  "coverage": [
+    "All seven constant-pace controls checked against independent closed-form work, fatigue, energy, outcome and dose calculations.",
+    "Analytic high-to-low pace switch checks fatigue recovery and accumulated work; late acceleration checks exact full-work clipping and fatigue stopping at completion.",
+    "Exact win/pass thresholds and distinguishable values just below each threshold; terminal states remain immutable.",
+    "80 seeded switching histories with independently sampled midpoint numerical oracles, using 0.002 simulated-minute steps.",
+    "Randomized solar output, transmission, habitat load, battery capacity and initial energy; repeated histories compared across random frame partitions.",
+    "Stored-energy conservation including unserved load and curtailed generation; exact empty-then-charging and capacity-clipping fixtures.",
+    "Half-speed and double-speed comfort clocks preserve simulated outcomes; microsecond frame increments preserve progress.",
+    "Every full default round ends with automatic shelter entry at 1800 simulated seconds and the same 10.9375 microgray integrated authored dose.",
+    "Standard real duration is 90 active seconds at 20\u00d7; modelunitchecks independently compare old 6\u00d7 and new 20\u00d7 clocks at matched simulated boundaries."
+  ],
+  "closed_form_constant_pace_results": [
+    {
+      "selected_multiplier": 0.25,
+      "cleaned_work": 0.9375,
+      "battery_kwh": 1.3515625,
+      "fatigue": 0,
+      "status": "lose"
+    },
+    {
+      "selected_multiplier": 0.5,
+      "cleaned_work": 1.875,
+      "battery_kwh": 1.703125,
+      "fatigue": 0,
+      "status": "pass"
+    },
+    {
+      "selected_multiplier": 0.75,
+      "cleaned_work": 2.8125,
+      "battery_kwh": 2.0546875,
+      "fatigue": 0,
+      "status": "pass"
+    },
+    {
+      "selected_multiplier": 1,
+      "cleaned_work": 3.75,
+      "battery_kwh": 2.40625,
+      "fatigue": 0,
+      "status": "win"
+    },
+    {
+      "selected_multiplier": 1.25,
+      "cleaned_work": 3.28125,
+      "battery_kwh": 2.40625,
+      "fatigue": 0.6,
+      "status": "win"
+    },
+    {
+      "selected_multiplier": 1.5,
+      "cleaned_work": 2.4609375,
+      "battery_kwh": 2.27880859375,
+      "fatigue": 0.9,
+      "status": "pass"
+    },
+    {
+      "selected_multiplier": 1.75,
+      "cleaned_work": 2.1328125,
+      "battery_kwh": 2.1689453125,
+      "fatigue": 0.9,
+      "status": "pass"
+    }
+  ],
+  "limitations": [
+    "Fatigue coefficients and the rising radiation profile are authored lesson assumptions, not validated astronaut physiology or live NASA radiation observations.",
+    "The 210 microgray/day historical reference is converted using 86,400 seconds; this audit checks the implemented mathematics, not a new measurement or primary-source validation.",
+    "No medical inference, microgray-to-sievert conversion, dose bonus, hardware validation or learning-outcome claim follows from these tests.",
+    "Randomized coverage is finite. The independent numerical oracle allows 0.00015 fatigue and 0.00002 work/energy/dose absolute error for finite-step clipping; closed-form and frame-partition checks use much tighter tolerances.",
+    "The numerical oracle varies electrical parameters and control histories while keeping default fatigue coefficients, four-section work capacity and 30-minute duration."
+  ],
+  "log": "docs/evidence/pace-model-0.9-audit.txt"
+}

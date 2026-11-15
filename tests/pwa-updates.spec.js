@@ -195,9 +195,9 @@ test.describe("Godot browser updates", () => {
       };
     });
     expect(state.scope).toBe(origin + prefix);
-    expect(state.manifest.name).toBe("KŌMAKU: Shield Protocol");
+    expect(state.manifest.name).toBe("KŌMAKU: Dust & Radiation");
     expect(state.manifest.short_name).toBe("KŌMAKU");
-    await expect(page).toHaveTitle("KŌMAKU: Shield Protocol");
+    await expect(page).toHaveTitle("KŌMAKU: Dust & Radiation");
     expect(state.manifest.id).toBe("./");
     expect(state.manifest.scope).toBe("./");
     expect(state.manifest.start_url).toBe("./");
@@ -303,7 +303,7 @@ test.describe("Godot browser updates", () => {
       .getByRole("button", { name: "Update and restart", exact: true })
       .click();
     await expect(page.locator("#red-veil-web-update-status")).toContainText(
-      "Close the other KŌMAKU: Shield Protocol tabs",
+      "Close the other KŌMAKU: Dust & Radiation tabs",
     );
     await expect(other.locator("#game-version")).toHaveText("0.4.0-alpha.1");
     expect(await other.evaluate(() => window.gameSession)).toBe(otherSession);
