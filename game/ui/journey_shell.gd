@@ -11,6 +11,7 @@ signal preferences_requested
 signal concept_visibility_changed(open: bool)
 signal quiz_answered(record: Dictionary)
 
+const OfflineCoach = preload("res://scripts/offline_coach.gd")
 const Style = preload("res://ui/journey_style.gd")
 const Branding = preload("res://scripts/branding.gd")
 const Orb = preload("res://ui/concept_orb.gd")
@@ -699,6 +700,42 @@ func open_concept(id: String) -> void:
 	if _live_mode:
 		var readout := _add_reading(content, _live_summary(id), 18, "cyan", "body_bold")
 		readout.name = "CurrentMissionReading"
+	var coach_info := OfflineCoach.explain(id, _live_snapshot if _live_mode else {})
+	var coach_button := Style.button("Mission coach · offline  +")
+	coach_button.name = "OfflineCoachToggle"
+	coach_button.toggle_mode = true
+	content.add_child(coach_button)
+	var coach_box := VBoxContainer.new()
+	coach_box.name = "OfflineCoachContent"
+	coach_box.add_theme_constant_override("separation", 12)
+	content.add_child(coach_box)
+	# Lead with the new learning action instead of repeating the card's analogy.
+	_add_reading(coach_box, "Try predicting", 18, "amber", "body_bold")
+	var coach_question := _add_reading(coach_box, str(coach_info.get("question", "")), 22, "pearl", "body_bold")
+	coach_question.name = "OfflineCoachQuestion"
+	_add_reading(coach_box, "Source-based guide · works offline", 15, "cyan", "body_bold")
+	var coach_why := Style.button("Check the explanation  +")
+	coach_why.name = "OfflineCoachExplanationToggle"
+	coach_why.toggle_mode = true
+	coach_box.add_child(coach_why)
+	var coach_details := VBoxContainer.new()
+	coach_details.name = "OfflineCoachExplanation"
+	coach_details.add_theme_constant_override("separation", 12)
+	coach_box.add_child(coach_details)
+	_add_reading(coach_details, str(coach_info.get("explanation", "")), 20)
+	# The current readings already appear above and under Learn more.
+	_add_reading(coach_details, str(coach_info.get("boundary", "")), 16, "muted")
+	coach_details.hide()
+	coach_why.toggled.connect(func(open: bool):
+		coach_details.visible = open
+		coach_why.text = "Hide explanation  −" if open else "Check the explanation  +"
+	)
+	coach_box.hide()
+	coach_button.toggled.connect(func(open: bool):
+		coach_box.visible = open
+		coach_button.text = "Mission coach · offline  −" if open else "Mission coach · offline  +"
+		if open: _reveal_coach_question(coach_question)
+	)
 	_dialog_more_button = Style.button("Learn more  +")
 	_dialog_more_button.name = "LearnMore"
 	content.add_child(_dialog_more_button)
@@ -886,6 +923,13 @@ func show_results() -> void:
 	_schedule_layout()
 	_focus_later(_science_button)
 	queue_redraw()
+
+func _reveal_coach_question(question: Control) -> void:
+	# Wait for wrapped text and the expanded container to receive their new sizes.
+	# An instant scroll keeps this usable with reduced motion and on narrow screens.
+	await get_tree().process_frame
+	if is_instance_valid(question) and question.is_visible_in_tree() and is_instance_valid(_dialog_scroll):
+		_dialog_scroll.ensure_control_visible(question)
 
 func _add_reading(parent: Node, value: String, pixels: int, color_key := "pearl", face := "body") -> Label:
 	var label := Style.label(value, pixels, Style.color(color_key), face)

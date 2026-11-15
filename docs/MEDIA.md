@@ -1,6 +1,12 @@
 # <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> media gallery
 
-## 0.10 candidate — a clearer window and optional discovery
+## Latest offline polish — unreleased
+
+[Actual mission](media/offline-polish/mission-desktop.png) · [Portrait mission](media/offline-polish/mission-mobile.png) · [Offline coach](media/offline-polish/coach-mobile.png) · [Graphics and connection settings](media/offline-polish/offline-settings.png) · [Provenance](media/offline-polish/provenance.json).
+
+These captures show the newer outpost frame, eight live bubbles, panel/character polish and optional local science guide. They use the real Godot main scene, Balanced graphics and a repeatable 36-second model fixture. They do not represent a published installer or a hardware benchmark. [Implementation and scope](OFFLINE-POLISH-MILESTONE.md).
+
+## Published 0.10 — a clearer window and optional discovery
 
 The current view gives Ren's cleaning room to breathe: **panel cleaned, stored energy and remaining play time**, with one pace control. The eight-concept Science library pauses play; short cards offer **Learn more** and **Data & sources** separately. Real scene preparation can be cancelled to Home. The result leads to four brief science relationships, with exact equations and graphs available on request.
 

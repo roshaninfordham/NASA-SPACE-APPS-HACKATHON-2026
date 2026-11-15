@@ -3,7 +3,7 @@
   "reviewed_on": "2026-11-15",
   "pages": 16,
   "scope": "Current pace/fatigue workflow only, with a historical radiation baseline and authored ramp. No medical, physiological, engineering, learning-efficacy, or NASA endorsement claim.",
-  "source_fingerprint": "aa30983295d6e421097704b96c44e4b1aa947c7445a9c0e87891faa2bff6cc65",
+  "source_fingerprint": "101039762bc71230be433135faa8ea77affdea35dd82caf537fc60a71cd8ec55",
   "sources": {
     "game/data/brand.json": "ca53f5e7bbfedebfaaae206d304797652d82441c4b650decb975c3ab56a72b36",
     "scripts/branding.py": "8f9bba7d71196f6e9c2a110c507ac3e8e3f8a3ef76e9bf1a0a93fae1bf46a754",
@@ -17,12 +17,12 @@
     "docs/VIDEO-EQUATIONS.md": "9abcc24bb588f54c5367b56b9a87a51bd668790075a2754c232cd17619e7ea29",
     "docs/SOURCE-INDEX.md": "53d25e6a6ee8289720014fee9e9cadd90a5692b5df46dd9b9b4e201760df42a5",
     "docs/LIVE-DATA.md": "fbb973cd390af31dccf1cd26ec6cd77fd951181b731d36d4dab81bf3f5ccddd2",
-    "game/live/solar_feed.gd": "d19d6b54fbf31f204a58b711d813dfa8a60ece161c563df8a1c96fd263b147c0",
+    "game/live/solar_feed.gd": "6f7a920d1c759baf4c1f668116ffd35e919db4259477cf269f0c0d78f2f0fc50",
     "game/assets/nasa/sdo-aia-193-provenance.json": "24c613d31236c812542c89194f2ded177415e5695f3c16dbce295677b7ce099d",
     "game/licenses/DejaVu-Font-License.txt": "810205354319c787fc9ede3ba76d03073fd0f62b00b585506e8065355e71e18d"
   },
   "artifacts": {
-    "docs/media/KOMAKU-Science-Guide.pdf": "63d65bf3946a7d13933a5f62da91e7724859196fb655dd634110d61d7d72a469",
+    "docs/media/KOMAKU-Science-Guide.pdf": "932b06615a005a39437855fc049ba0694f21fe6118cb5b9fe085d44b01fea4e7",
     "docs/media/science-guide-journey.png": "5fa288bac1bb84a44e9a9932688c44f856df6e9cb7978616e531cb06fec2a841",
     "docs/media/science-guide-dose.png": "e71764f41b698d757047af13dca6a48f524ad7048c1f36151222afde3fcd3065",
     "docs/media/science-guide-energy.png": "60f5463134e742353939f11d883352e72476cdf4b9ad2369225b16cabb2c638e",

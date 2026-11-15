@@ -9,6 +9,7 @@ const RELEASE_PAGE := "https://github.com/" + Verifier.REPOSITORY + "/releases"
 const MAX_RELEASE_BYTES := 1024 * 1024
 const MANUAL_COOLDOWN_MS := 15000
 
+var network_enabled := true
 var store: Object
 var current_version := ""
 var available_version := ""
@@ -51,7 +52,7 @@ func _desktop_supported() -> bool:
 	return OS.get_name() in ["Windows", "macOS", "Linux"] and not OS.has_feature("editor")
 
 func can_install() -> bool:
-	return not busy and not ready_to_restart and not repair_available and not _manifest.is_empty() and _configured() and _desktop_supported()
+	return network_enabled and not busy and not ready_to_restart and not repair_available and not _manifest.is_empty() and _configured() and _desktop_supported()
 
 func release_url() -> String:
 	return RELEASE_PAGE if available_version.is_empty() else RELEASE_PAGE + "/tag/v" + available_version
@@ -80,7 +81,26 @@ static func select_release(raw: PackedByteArray, version: String) -> Dictionary:
 		has_pack = "update-manifest.json" in names and "update-manifest.sig" in names and "red-veil-content.pck" in names
 	return {"ok": true, "version": newest, "has_pack": has_pack}
 
+func set_network_enabled(enabled: bool) -> void:
+	network_enabled = enabled
+	if not enabled:
+		if is_instance_valid(_request):
+			var callback := _on_request_completed.bind(_request, _request_generation)
+			if _request.request_completed.is_connected(callback): _request.request_completed.disconnect(callback)
+			_request.cancel_request()
+			_request.queue_free()
+			_request = null
+			_request_generation += 1
+			_download_cancelled = true
+			transport_finished.emit({"ok": false, "error": "offline"})
+		busy = false
+		message = "Offline mode · enable online sources in Settings to check or download updates."
+		changed.emit()
+
 func check_for_updates(force: bool = false) -> void:
+	if not network_enabled:
+		set_network_enabled(false)
+		return
 	if busy or ready_to_restart: return
 	# Each fresh launch checks once. A failed/offline launch must not suppress
 	# discovery on tomorrow's (or the next minute's) launch via persisted state.
@@ -184,6 +204,7 @@ func repair_interrupted_update() -> void:
 	changed.emit()
 
 func install_update() -> void:
+	if not network_enabled: return
 	if not can_install(): return
 	if DirAccess.make_dir_recursive_absolute(working_directory) != OK:
 		_fail("There isn’t a writable place to save the update. Your game has not changed.")
@@ -257,6 +278,7 @@ func _remove_download(path: String) -> void:
 	if FileAccess.file_exists(path): DirAccess.remove_absolute(path)
 
 func _fetch(url: String, limit: int, download_path: String = "") -> Dictionary:
+	if not network_enabled: return {"ok": false, "error": "offline"}
 	_request_generation += 1
 	_request = HTTPRequest.new()
 	_request.timeout = 30.0 if download_path.is_empty() else 300.0

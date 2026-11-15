@@ -2,7 +2,13 @@
 
 **Reviewed November 15, 2026.** Evidence is tied to a source/build and a test scope. Passing code checks, publishing an installer, launching it on a physical device, and demonstrating learning benefit are separate outcomes. [Team status](TEAM-STATUS.md) and [the roadmap](ROADMAP.md) record the current release boundary.
 
-## Unpublished 0.11 candidate — source acceptance
+## Latest offline and presentation milestone — unreleased
+
+The complete `python3 scripts/test_game.py` runner passed: **46 Godot suites**, three PDF freshness checks and the shared Python update/release/package checks. New focused coverage includes **19 graphics**, **71 offline-coach** and **15 offline-connection/UI** checks. A fresh whole-journey capture produced **170 states at five viewports**, with **zero layout findings** and unchanged runtime fingerprints during capture. The first capture found a narrow-screen Settings overflow; shortening its connection label fixed the cause before the clean rerun.
+
+[Machine-readable evidence and runtime hashes](evidence/offline-polish-validation.json) · [Implemented behavior and limits](OFFLINE-POLISH-MILESTONE.md) · [New focused screenshots](media/offline-polish/provenance.json). The actual main-scene flow still verifies offline mission completion and saved results. No new installer/update acceptance, physical Mac/mobile performance, photorealism or learning-effectiveness claim follows from these source checks. Local neural-model experiments have their own evidence and are not integrated game behavior.
+
+## Earlier unpublished 0.11 C1 candidate — historical source acceptance
 
 Candidate source: `20e361a2099f7bc67aacb0e7eedb65c7eab9d0a0`. Runtime sources are frozen for this candidate, and the complete shared source suite passed. The [0.11 capture record](media/journey-0.11/capture-provenance.json) covers **170 states across five viewports**. [Native Linux navigation](evidence/journey-native-0.11.json) passed **39 assertions**, with zero failures; the 41-screen review gallery passed **22 browser tests**. These counts describe separate checks, not physical-device or learning coverage.
 

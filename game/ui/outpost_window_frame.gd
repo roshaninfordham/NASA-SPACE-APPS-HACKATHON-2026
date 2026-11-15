@@ -9,8 +9,8 @@ var _window := Rect2()
 var _radius := 24.0
 var _wall_polygons: Array[PackedVector2Array] = []
 var _inner_edge := PackedVector2Array()
-const PEARL_METAL := Color("ebd9ca")
-const ROSE_GOLD := Color("c9957e")
+const PEARL_METAL := Color("eadbcb")
+const ROSE_GOLD := Color("c39d7a")
 
 func _init() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -78,12 +78,12 @@ func _rebuild() -> void:
 	queue_redraw()
 
 func _wall_tint(point: Vector2) -> Color:
-	# A warm, opaque room enclosure. Specular variation is drawn, not animated,
+	# A calm, opaque room enclosure. Specular variation is drawn, not animated,
 	# so the glass instruments stay legible with reduced motion or while paused.
 	var vertical := clampf(point.y / maxf(1.0,size.y),0.0,1.0)
 	# A linear field interpolates identically across overlapping convex wall
 	# faces, so it cannot leave accidental triangle-shaped lighting seams.
-	return Color("422b35").lerp(Color("24141f"),vertical)
+	return Color("26363d").lerp(Color("101b24"),vertical)
 
 func _metal_tint(point: Vector2, light: Color, shade: Color) -> Color:
 	var height := clampf((point.y-_window.position.y)/maxf(1.0,_window.size.y),0.0,1.0)
@@ -111,20 +111,23 @@ func _draw() -> void:
 		var colors := PackedColorArray()
 		for point in polygon: colors.append(_wall_tint(point))
 		draw_polygon(polygon,colors)
-	# Broad structural pearl rim, wine recess, rose-gold seam, then a black
-	# pressure gasket. These layers give the observation window real depth.
-	_band(26.0,45.0,Color("f3e6d8"),Color("9c8176"))
-	_band(22.0,26.0,Color("bd846c"),Color("6a4141"))
-	_band(12.0,22.0,Color("5c2539"),Color("260f20"))
-	_band(7.0,12.0,Color("e6c2ae"),Color("9b6c61"))
-	_band(0.0,7.0,Color("132631"),Color("0a131e"))
-	_contour(44.0,Color(PEARL_METAL,0.65),1.0)
-	_contour(25.0,Color(ROSE_GOLD,0.8),1.0)
-	_contour(11.0,Color("ffe1ca"),1.3)
-	# A restrained fixed halo, never a flashing warning or decorative loop.
-	_contour(2.0,Color(Style.CYAN,0.10),7.0)
-	_contour(2.0,Color(Style.CYAN,0.20),3.0)
-	_contour(2.0,Color("a2e4e4"),0.9)
+	# A ceramic shell, bronze edge, recessed pressure channel and black gasket.
+	# Brightness falls away from the top edge: the work view stays the focal point
+	# instead of competing with a uniformly bright decorative picture frame.
+	_band(26.0,45.0,Color("b6b9ae"),Color("53656b"))
+	_band(22.0,26.0,Color("c59b72"),Color("584637"))
+	_band(12.0,22.0,Color("1e333e"),Color("101923"))
+	_band(7.0,12.0,Color("7d999d"),Color("364951"))
+	_band(0.0,7.0,Color("101d28"),Color("071017"))
+	_contour(44.0,Color(PEARL_METAL,0.38),1.0)
+	_contour(25.0,Color(ROSE_GOLD,0.65),1.0)
+	_contour(11.0,Color("bcc7bd"),0.9)
+	# A warm fixed cove light suggests the interior pressure seal; cyan remains
+	# reserved for interactive instruments, values and keyboard focus.
+	_contour(2.0,Color("e9bf8c",0.08),6.0)
+	_contour(2.0,Color("e9bf8c",0.18),2.5)
+	_contour(2.0,Color("efcfa6",0.8),0.8)
+	_draw_joinery()
 	# The sill uses a warm chamfer with inset joinery. Dense layouts omit its
 	# secondary seams rather than consuming any part of the actor's safe view.
 	var sill_y := _window.end.y+27.0
@@ -139,3 +142,23 @@ func _draw() -> void:
 	# ornaments or reflections are drawn across the actual game scene.
 	for x in [8.0,size.x-8.0]:
 		draw_line(Vector2(x,24.0),Vector2(x,maxf(24.0,size.y-24.0)),Color(ROSE_GOLD,0.28),1.0,true)
+
+func _draw_joinery() -> void:
+	# Small recessed fasteners and a repeated wave engraving are static vector
+	# geometry outside the safe camera aperture, not extra labels or overlays.
+	# Compact layouts omit these details entirely to retain a clean silhouette.
+	if size.x < 720.0 or size.y < 480.0: return
+	var y_top := _window.position.y - 34.0
+	var y_bottom := _window.end.y + 34.0
+	for x in [_window.position.x + _radius + 22.0, _window.end.x - _radius - 22.0]:
+		for y in [y_top, y_bottom]:
+			draw_circle(Vector2(x, y), 3.2, Color("263943"), true, -1.0, true)
+			draw_arc(Vector2(x, y), 3.2, PI, TAU, 8, Color(PEARL_METAL, 0.42), 0.8, true)
+			draw_line(Vector2(x-1.3,y),Vector2(x+1.3,y),Color("8f9d9d",0.55),0.7,true)
+	var center := _window.get_center().x
+	if y_top > 8.0:
+		# Three concentric half-waves echo the team's seigaiha motif without
+		# decorating the viewing glass or increasing text/interaction density.
+		for offset in [-14.0,0.0,14.0]:
+			for radius in [3.0,5.5,8.0]:
+				draw_arc(Vector2(center+offset,y_top+4.0),radius,PI,TAU,10,Color("56676a",0.65),0.7,true)

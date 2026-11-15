@@ -1,5 +1,7 @@
 extends Node3D
 ## Coordinates screens, input and a deterministic model. Presentation never owns science.
+const Connections = preload("res://scripts/connection_policy.gd")
+const Graphics = preload("res://scripts/graphics_preferences.gd")
 const Branding = preload("res://scripts/branding.gd")
 const Model = preload("res://scripts/pace_mission.gd")
 const World = preload("res://scripts/world.gd")
@@ -61,6 +63,8 @@ var _mission_load_serial := 0
 var _settings_return := ""
 var _coach_cues: Dictionary = {}
 var _peak_fatigue := 0.0
+var graphics_mode := "auto"
+var graphics_hints: Dictionary = {}
 
 func _ready() -> void:
 	DisplayServer.window_set_title(Branding.display_name())
@@ -69,6 +73,9 @@ func _ready() -> void:
 	get_tree().auto_accept_quit = false
 	Engine.max_fps = 60
 	progress.load_data()
+	graphics_mode = Graphics.load_mode()
+	graphics_hints = Graphics.device_hints()
+	online_sources_enabled = online_sources_enabled and Connections.load_enabled()
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string("res://data/mission-concepts.json"))
 	if parsed is Dictionary and parsed.get("concepts") is Array: catalog = parsed.concepts
 	audio = Audio.new()
@@ -114,6 +121,7 @@ func _ready() -> void:
 	get_viewport().disable_3d = true
 	_install_guard.call_deferred()
 	_setup_updates()
+	_apply_connection_policy()
 	await get_tree().process_frame
 	await get_tree().process_frame
 	var bootstrap := get_node_or_null("/root/Updates")
@@ -128,6 +136,26 @@ func _ready() -> void:
 		update_client.check_for_updates.call_deferred(false)
 	if online_sources_enabled and DisplayServer.get_name() != "headless" and not "--smoke-test" in OS.get_cmdline_user_args():
 		solar_feed.refresh.call_deferred(false)
+
+func _apply_connection_policy() -> void:
+	if is_instance_valid(solar_feed): solar_feed.set_network_enabled(online_sources_enabled)
+	if is_instance_valid(update_client): update_client.set_network_enabled(online_sources_enabled)
+
+func set_online_sources(enabled: bool) -> void:
+	online_sources_enabled = enabled and not "--offline" in OS.get_cmdline_user_args()
+	_apply_connection_policy()
+	if Connections.save_enabled(online_sources_enabled) != OK:
+		push_warning("Connection preference could not be saved; this session still uses the selected mode.")
+
+func set_graphics_mode(mode: String) -> void:
+	if not mode in Graphics.MODES: return
+	graphics_mode = mode
+	_apply_graphics()
+	if Graphics.save_mode(mode) != OK:
+		push_warning("Graphics preference could not be saved; this session still uses the selected mode.")
+
+func _apply_graphics() -> void:
+	Graphics.apply(get_viewport(), world, Graphics.resolve(graphics_mode, graphics_hints), bool(progress.settings.reduced_motion))
 
 func _install_guard() -> void:
 	_guard = Guard.new()
@@ -209,7 +237,7 @@ func start_mission() -> void:
 		camera.look_at(camera.position + Vector3(0, 0, 10))
 	world.show()
 	world.process_mode = Node.PROCESS_MODE_DISABLED
-	if is_instance_valid(world.dust_particles): world.dust_particles.emitting = not bool(progress.settings.reduced_motion)
+	_apply_graphics()
 	camera.current = true
 	hud.show()
 	hud.set_preflight(true)
@@ -566,7 +594,7 @@ func _apply_preferences() -> void:
 	shell.set_reduced_motion(bool(progress.settings.reduced_motion))
 	hud.set_reduced_motion(bool(progress.settings.reduced_motion))
 	hud.set_mission_view(str(progress.settings.get("mission_view", "science")))
-	if is_instance_valid(world) and is_instance_valid(world.dust_particles): world.dust_particles.emitting = not bool(progress.settings.reduced_motion)
+	_apply_graphics()
 
 func show_view() -> void:
 	if stage == "mission": paused = true
@@ -612,8 +640,38 @@ func show_settings() -> void:
 	if modal_kind != "settings": _settings_return = modal_kind
 	if stage == "mission": paused = true
 	audio.set_paused(stage == "mission")
-	var box := _dialog("Settings", "Sound, motion and play time.", "settings")
+	var box := _dialog("Settings", "Graphics, sound, motion and optional connections.", "settings")
 	_button(box, "Back", _back_from_settings, true)
+	box.add_child(Style.label("Graphics", 18, Style.PEARL, "body_bold"))
+	var quality := OptionButton.new()
+	quality.name = "GraphicsQuality"
+	quality.accessibility_name = "Graphics quality"
+	quality.custom_minimum_size.y = 48
+	quality.clip_text = true
+	for title in Graphics.TITLES: quality.add_item(title)
+	quality.select(Graphics.MODES.find(graphics_mode))
+	box.add_child(quality)
+	var quality_note := Style.label(Graphics.description(graphics_mode, graphics_hints), 17, Style.MUTED)
+	quality_note.name = "GraphicsDescription"
+	quality_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	box.add_child(quality_note)
+	quality.item_selected.connect(func(index: int):
+		set_graphics_mode(Graphics.MODES[index])
+		quality_note.text = Graphics.description(graphics_mode, graphics_hints)
+	)
+	var connection_toggle := CheckButton.new()
+	connection_toggle.name = "OnlineSources"
+	connection_toggle.text = "Online sources"
+	connection_toggle.accessibility_name = "Online NASA images and update checks"
+	connection_toggle.tooltip_text = "Allow NASA image requests and game update checks."
+	connection_toggle.button_pressed = online_sources_enabled
+	connection_toggle.disabled = "--offline" in OS.get_cmdline_user_args()
+	connection_toggle.custom_minimum_size.y = 48
+	connection_toggle.toggled.connect(set_online_sources)
+	box.add_child(connection_toggle)
+	var local_note := Style.label("NASA images and update checks use a connection. The game, coach and progress work offline.", 17, Style.MUTED)
+	local_note.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	box.add_child(local_note)
 	for setting in ["music_enabled", "effects_enabled", "reduced_motion"]:
 		var toggle := CheckButton.new()
 		toggle.text = {"music_enabled": "Background music", "effects_enabled": "Sound effects", "reduced_motion": "Reduce motion"}[setting]

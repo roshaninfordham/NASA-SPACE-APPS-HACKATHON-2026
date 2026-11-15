@@ -11,6 +11,7 @@ const MAX_BYTES := 2 * 1024 * 1024
 const AUTO_INTERVAL_MS := 15 * 60 * 1000
 const MANUAL_INTERVAL_MS := 60 * 1000
 const STALE_SECONDS := 24 * 60 * 60
+var network_enabled := true
 var _cache_root := "user://nasa-sdo"
 var _status := "fallback"
 var _source_kind := "bundled"
@@ -106,7 +107,22 @@ func snapshot() -> Dictionary:
 func _now_ticks() -> int:
 	return Time.get_ticks_msec()
 
+func set_network_enabled(enabled: bool) -> void:
+	network_enabled = enabled
+	if not enabled:
+		if is_instance_valid(_request):
+			_request.cancel_request()
+			_request.queue_free()
+			_request = null
+		_connected = false
+		_status = "fallback" if _source_kind == "bundled" else "cached"
+		_message = "Offline mode · showing a saved NASA image. Enable online sources in Settings to refresh."
+		changed.emit()
+
 func refresh(force := false) -> void:
+	if not network_enabled:
+		set_network_enabled(false)
+		return
 	if is_instance_valid(_request): return
 	var ticks := _now_ticks()
 	var interval := MANUAL_INTERVAL_MS if force else AUTO_INTERVAL_MS

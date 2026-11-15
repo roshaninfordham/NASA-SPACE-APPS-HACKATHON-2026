@@ -1,16 +1,16 @@
 extends RefCounted
 ## Shared native UI tokens adapted from the supplied KŌMAKU kit.
 ## Fonts are local, licensed assets; no network font or platform fallback dependency.
-const FLOOR := Color("0b141b")
-const GLASS := Color("0e1b24")
-const RAISED := Color("14283a")
-const PEARL := Color("fbf1ee")
-const MUTED := Color("9cc3cc")
-const CYAN := Color("4fe8f5")
-const ROSE := Color("ff5c74")
-const AMBER := Color("ffb547")
-const CRIMSON := Color("b01030")
-const DEEP_CRIMSON := Color("7d0a22")
+const FLOOR := Color("0b151d")
+const GLASS := Color("10232c")
+const RAISED := Color("1a3440")
+const PEARL := Color("fff4e8")
+const MUTED := Color("b3cdd2")
+const CYAN := Color("8de4dc")
+const ROSE := Color("f37a8b")
+const AMBER := Color("efbd7b")
+const CRIMSON := Color("94283f")
+const DEEP_CRIMSON := Color("701b31")
 const CORAL := Color("ff6b80")
 const INK := Color("2a1218")
 const BLUSH := Color("f3e1dd")
@@ -40,15 +40,15 @@ static func font(face: String = "body") -> Font:
 static func panel(raised: bool = false) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = RAISED if raised else GLASS
-	style.border_color = Color(MUTED, 0.20)
+	style.border_color = Color(MUTED, 0.18)
 	style.set_border_width_all(1)
 	style.set_corner_radius_all(18)
 	# A restrained physical edge and soft shadow tie cards to the glass console.
 	# Values and focus rings remain opaque; decorative depth never carries meaning.
-	style.border_width_top = 2
+	style.border_width_top = 1
 	style.shadow_color = Color("030a11", 0.24)
-	style.shadow_size = 9
-	style.shadow_offset = Vector2(0, 4)
+	style.shadow_size = 5
+	style.shadow_offset = Vector2(0, 3)
 	style.content_margin_left = 22
 	style.content_margin_right = 22
 	style.content_margin_top = 18
@@ -65,14 +65,15 @@ static func button_style(primary: bool, state: String) -> StyleBoxFlat:
 	style.bg_color = CRIMSON if primary else GLASS
 	style.border_color = ROSE if primary else Color(PEARL, 0.18)
 	style.shadow_color = Color(CRIMSON, 0.24) if primary else Color("030a11", 0.25)
-	style.shadow_size = 10 if primary else 5
+	style.shadow_size = 6 if primary else 3
 	if state == "hover":
-		style.bg_color = DEEP_CRIMSON if primary else RAISED
+		style.bg_color = CRIMSON.lightened(0.10) if primary else RAISED
 		style.border_color = ROSE if primary else CYAN
 	elif state == "pressed":
 		style.bg_color = DEEP_CRIMSON if primary else Color("183a47")
 		style.set_border_width_all(2)
-		style.shadow_size = 2
+		style.shadow_size = 0
+		style.shadow_offset = Vector2.ZERO
 	elif state == "disabled":
 		style.bg_color = Color(GLASS, 0.85)
 		style.border_color = Color(MUTED, 0.28)
@@ -111,6 +112,8 @@ static func theme() -> Theme:
 	progress_track.bg_color = RAISED
 	progress_track.set_corner_radius_all(8)
 	progress_track.set_border_width_all(0)
+	progress_track.shadow_size = 0
+	progress_track.shadow_offset = Vector2.ZERO
 	progress_track.content_margin_left = 0
 	progress_track.content_margin_right = 0
 	progress_track.content_margin_top = 0
@@ -119,14 +122,17 @@ static func theme() -> Theme:
 	progress_fill.bg_color = CYAN
 	result.set_stylebox("background", "ProgressBar", progress_track)
 	result.set_stylebox("fill", "ProgressBar", progress_fill)
+	# Preserve the established scroll-track minimum geometry; changing it can
+	# change responsive container layout. Only grip state colours differ.
 	var scroll_track := progress_track.duplicate() as StyleBoxFlat
-	scroll_track.bg_color = Color(GLASS,0.72)
+	scroll_track.bg_color = Color(GLASS, 0.72)
 	scroll_track.content_margin_top = 4
 	scroll_track.content_margin_bottom = 4
-	var scroll_grab := scroll_track.duplicate() as StyleBoxFlat
-	scroll_grab.bg_color = Color(CYAN,0.62)
 	result.set_stylebox("scroll", "HScrollBar", scroll_track)
-	for state in ["grabber","grabber_highlight","grabber_pressed"]:
+	for state in ["grabber", "grabber_highlight", "grabber_pressed"]:
+		var scroll_grab := scroll_track.duplicate() as StyleBoxFlat
+		scroll_grab.bg_color = Color(MUTED, 0.65) if state == "grabber" else CYAN
+		if state == "grabber_pressed": scroll_grab.bg_color = PEARL
 		result.set_stylebox(state, "HScrollBar", scroll_grab)
 	return result
 

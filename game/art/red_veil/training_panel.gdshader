@@ -51,7 +51,10 @@ void fragment() {
 
 	float broad = soft_noise(UV * vec2(7.0, 5.0));
 	float grain = soft_noise(UV * vec2(95.0, 65.0));
-	float fine = soft_noise(UV * vec2(410.0, 270.0));
+	// Fade subpixel grain at distance; a stable material is preferable to
+	// sparkling pixels on mobile and integrated-GPU screens.
+	float grain_coverage = 1.0 - smoothstep(0.35, 1.0, max(fwidth(UV.x * 410.0), fwidth(UV.y * 270.0)));
+	float fine = mix(0.5, soft_noise(UV * vec2(410.0, 270.0)), grain_coverage);
 	vec3 regolith = dust_color.rgb * (0.91 + broad * 0.11 + grain * 0.045 + fine * 0.025);
 	// A small irregular, feathered edge is a material detail. It is anchored
 	// to clean_fraction and cannot advance independently or change the model.
@@ -60,14 +63,22 @@ void fragment() {
 	float dust = smoothstep(front - 0.006, front + 0.006, UV.x);
 	if (clean_fraction <= 0.0001) { dust = 1.0; }
 	if (clean_fraction >= 0.9999) { dust = 0.0; }
+	// Thin brushed streaks behind the clearing front are material finish only:
+	// they do not advance or invent work, and are invisible under untouched dust.
+	float brushed_finish = sin(UV.y * 235.0) * 0.006 * grain_coverage;
+	glass *= 1.0 + brushed_finish;
 	ALBEDO = mix(glass, regolith, dust);
+	// A shallow tangent-space grain normal differentiates rough regolith from
+	// flat photovoltaic glass without textures, transparency or extra geometry.
+	vec2 grain_normal = vec2(cos(UV.x * 126.0), sin(UV.y * 133.0));
+	NORMAL_MAP = normalize(vec3(grain_normal * 0.055 * dust * grain_coverage, 1.0)) * 0.5 + 0.5;
 	// Dust stays fully opaque. No cell lines leak through untouched regolith.
 	ROUGHNESS = mix(0.22 + cell_tint * 0.035, 0.92 + grain * 0.06, dust);
 	METALLIC = 0.22 * (1.0 - dust);
 	SPECULAR = mix(0.72, 0.30, dust);
 	CLEARCOAT = 0.78 * (1.0 - dust);
 	CLEARCOAT_ROUGHNESS = 0.22;
-	EMISSION = glass * (1.0 - dust) * 0.10;
+	EMISSION = glass * (1.0 - dust) * 0.025;
 
 	// A quiet freshly brushed highlight and fine lifted-looking grains are
 	// driven by observed work, never TIME. Reduced motion disables both.

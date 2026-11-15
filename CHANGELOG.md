@@ -4,6 +4,11 @@ All published game versions and notable unreleased work are recorded here. The v
 
 ## Unreleased — visual and learning update
 
+- Add saved Auto / Battery saver / Balanced / High presentation budgets, preserving mission values and reduced-motion preference; conservative Auto uses platform, memory and adapter hints, not a performance benchmark.
+- Default optional NASA/update transport to offline with an explicit Settings opt-in and `--offline` session override; retain bundled references, local progress and gameplay. External source links remain explicit browser actions.
+- Add an offline source-based guide to all eight concept cards, with investigation questions first and explanations on demand. This is rules-based support, not a shipped neural model.
+- Refine close-range shadows, terrain shadow artifacts, brushing posture, panel dust filtering and window/control styling. Correct narrow Settings overflow. [Offline milestone, screenshots and modular-download direction](docs/OFFLINE-POLISH-MILESTONE.md).
+
 The [finished 29.5-second submission video](docs/media/submission-demo/KOMAKU-30-second-demo.mp4) is available with [credits and provenance](docs/media/submission-demo/README.md): actual engine footage, 1080p/24 fps presentation, burned-in captions and an AI-generated Indian English male narration. The edited preview is not a new game publication or a recording of a child playtest.
 
 - Refine Ren’s face visibility and brushing, layered Martian terrain/light/reflections, continuous panel dust and beveled panel geometry, and the window glass/frame/control rail. Add story gradient treatment and result illustration.
@@ -12,7 +17,7 @@ The [finished 29.5-second submission video](docs/media/submission-demo/KOMAKU-30
 - Move local profiles to schema 3: up to 30 detailed recent runs plus cumulative counters. Migrated older histories retain their available records and explicitly identify incomplete totals; unseen older runs are not reconstructed.
 - Add a standalone optional NASA context cache for Cloudflare Workers. Its 17 tests, Wrangler dry run and NASA access probe are separate service evidence. It is neither deployed nor wired into the client; deployment requires account access, not a NASA API key.
 
-**The shared native game suite passed after integration**, including 401 training-journal and 377 progress assertions; the supplemental actual-main training flow passed 53 assertions. Final targeted navigation-label checking is in progress. Updated visual review, new package/update evidence and publication acceptance remain required. The following C1 candidate records remain historical; their passes do not transfer to these changed files. Published downloads remain 0.10. [Update details](docs/VISUAL-LEARNING-UPDATE.md).
+**The shared native game suite passed after offline/graphics integration:** 46 Godot suites plus the shared Python and PDF checks. The new 170-state capture across five viewport sizes has zero layout findings. [Current evidence](docs/evidence/offline-polish-validation.json). Design-team review, new package/update evidence and publication acceptance remain required. The following C1 candidate records remain historical; their passes do not transfer to these changed files. Published downloads remain 0.10. [Update details](docs/VISUAL-LEARNING-UPDATE.md).
 
 ## [0.11.0-alpha.1] — Earlier C1 candidate record
 

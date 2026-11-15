@@ -29,6 +29,8 @@ var _working_body_meshes: Dictionary = {}
 var _training_rig: Node3D
 var _training_shoulder: Node3D
 var _training_elbow: Node3D
+var _support_shoulder: Node3D
+var _support_elbow: Node3D
 var _training_tools: Node3D
 var _training_wand: MeshInstance3D
 var _training_brush: MeshInstance3D
@@ -517,6 +519,9 @@ func _ensure_training_rig() -> void:
 		if side < 0:
 			_training_shoulder = shoulder
 			_training_elbow = elbow
+		else:
+			_support_shoulder = shoulder
+			_support_elbow = elbow
 	_flush_batches()
 	_training_tools = Node3D.new()
 	_training_tools.name = "TrainingCleaningTool"
@@ -568,11 +573,17 @@ func _apply_training_pose() -> void:
 	# target is transformed back through this pose before solving the arm.
 	var turn := Basis(Vector3.UP, 2.2)
 	_lower.basis = turn
-	var lean := turn * Basis(Vector3.FORWARD, 0.065)
+	# A small counterbalance follows the sweep while the planted hip remains
+	# exact. Both arms use the existing rig; no extra skeleton or meshes.
+	var counterbalance := sweep * 0.012
+	var lean := turn * Basis(Vector3.FORWARD, 0.065 + counterbalance)
 	var hip := Vector3(0, 0.795, -0.005)
 	_upper.transform = Transform3D(lean, hip - lean * hip)
 	# Look toward the +X work surface so the close view shows a focused profile.
-	_head.rotation = Vector3(0.10, 0.20, -0.025)
+	_head.rotation = Vector3(0.10 + sweep * 0.012, 0.20 + sweep * 0.035, -0.025)
+	# The free arm braces the torso instead of hanging in a rigid rest pose.
+	_support_shoulder.rotation = Vector3(-0.16, 0.08, -0.20 - counterbalance)
+	_support_elbow.rotation = Vector3(-0.26, 0.0, -0.12)
 	_glow.emission_energy_multiplier = 0.78
 	var wrist_target := _upper.transform.affine_inverse() * Vector3(0.48, 1.055, 0.085 + sweep * HAND_SWEEP_METERS)
 	var upper_length := WORK_SHOULDER.distance_to(WORK_ELBOW)

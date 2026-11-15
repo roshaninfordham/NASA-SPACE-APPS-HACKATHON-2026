@@ -1,5 +1,7 @@
 # <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> delivery roadmap
 
+**Latest direction:** [Offline presentation milestone](OFFLINE-POLISH-MILESTONE.md) and [modular offline roadmap](OFFLINE-POLISH-ROADMAP.md). Auto/manual graphics and a source-based local coach are implemented; selectable high-resolution/model packs and physical-device performance acceptance remain separate work. The base must remain complete without them.
+
 **Published [0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1) — November 15, 2026, 13:53:05 UTC.** Built from `26f19540baf330b00b0ac4a1b470d0e1439f7382`. This release simplifies the interface and corrects the installation handoff while preserving the 90-second mission and its equations. [Release notes](releases/0.10.0-alpha.1.md).
 
 ## Next delivery: 0.11 candidate

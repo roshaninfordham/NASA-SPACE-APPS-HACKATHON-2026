@@ -138,8 +138,18 @@ func _ready() -> void:
 	sun.light_color = Color("ffdbb8")
 	sun.light_energy = 0.82
 	sun.shadow_enabled = art.shadows_enabled
+	# Match a low warm key with softer cool ambient fill; concentrate the same
+	# shadow atlas on the close working area in window mode instead of spending
+	# most texels on unseen terrain hundreds of metres away.
+	sun.shadow_bias = 0.035
+	sun.shadow_normal_bias = 0.45
 	add_child(sun)
-	box(Vector3(180, 1, 180), sand, Vector3(0, -0.5, 0), self, true)
+	var floor_base := box(Vector3(180, 1, 180), sand, Vector3(0, -0.5, 0), self, true)
+	# The procedural terrain skin sits 6mm above this collider. Its co-planar
+	# base must not cast striped self-shadows onto that skin; crew/equipment
+	# continue to cast real shadows and the floor still receives them.
+	floor_base.name = "MissionFloor"
+	floor_base.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	# Named anchors stay stable for consumers while their expensive contents wait.
 	_ensure_slot_anchor("habitat", art.habitat_origin)
 	_ensure_slot_anchor("refuge", SHELTER_POSITION)
@@ -473,6 +483,12 @@ func set_window_presentation(enabled: bool) -> void:
 	for adapter in _presentation_adapters:
 		if is_instance_valid(adapter) and adapter.has_method("set_window_presentation"):
 			adapter.set_window_presentation(enabled)
+	# No extra lights, shadow maps or screen-space passes: only redistribute the
+	# existing directional atlas. EVA restores the broader original coverage.
+	if is_instance_valid(sun):
+		sun.directional_shadow_mode = DirectionalLight3D.SHADOW_PARALLEL_2_SPLITS if enabled else DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS
+		sun.directional_shadow_max_distance = 22.0 if enabled else 100.0
+		sun.directional_shadow_split_1 = 0.22 if enabled else 0.1
 	_deliver_visual_snapshots()
 
 func _suspend_presentation_tree(root_node: Node) -> void:
