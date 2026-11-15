@@ -1,5 +1,16 @@
 # KŌMAKU demo package — November 15, 2026
 
+## Latest: one-file presenter deck
+
+- [Presenter PowerPoint](KOMAKU-Presenter-Deck.pptx): five slides, one headline sentence per slide, numeric evidence, clickable sources, complete speaker notes, an embedded 29.5-second MP4 and the team’s YouTube link. Use desktop PowerPoint and Presenter View; embedded-video behavior in Keynote/browser viewers is not verified.
+- [Presenter PDF](KOMAKU-Presenter-Deck.pdf): five pages with clickable video thumbnail and sources. The yellow note icons hold narration and evidence; a text attachment also contains those notes. PDF viewers differ in support for annotations/attachments. The video opens YouTube externally; no unreliable iframe playback is claimed.
+
+This deck supersedes the earlier text-heavy five-slide draft below. Use the PPTX as the single file for presenting, narrating and playing the embedded clip. The spoken notes are about 60 seconds; playing the clip adds 29.5 seconds. Numbers distinguish historical observations, configured game values, software checks and intended learning goals. No best-in-class or measured educational-impact claim is made.
+
+Rebuild the latest deck with `python scripts/build_concise_deck.py`, export its PPTX to PDF with LibreOffice, then run `python scripts/finalize_presenter_pdf.py`.
+
+## Earlier demo package
+
 - [Five-slide PowerPoint with speaker notes](KOMAKU-5-Slide-Demo.pptx)
 - [Five-page PDF](KOMAKU-5-Slide-Demo.pdf)
 - [29.5-second H.264/AAC gameplay MP4](KOMAKU-Hackathon-Demo-29s.mp4)
