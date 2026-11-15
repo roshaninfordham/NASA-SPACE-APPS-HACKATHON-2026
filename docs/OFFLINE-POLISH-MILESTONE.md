@@ -40,6 +40,8 @@ The selected product direction is a **complete small base game**, with separatel
 
 Per-child model training is unnecessary for the current adaptation: local practice history can select the next concept or hint, while one shared optional model can rephrase approved facts. Do not claim that the prototype has demonstrated long-term learning gains or a validated adaptive curriculum.
 
+An actual [Qwen3-1.7B / llama.cpp experiment](LOCAL-MODEL-EVALUATION.md) ran in the cloud with verified public weights: 11 initial cases plus six stricter repeats. Local inference worked, but incorrect science and some responses over the proposed 12-second limit prevented approval. The reports and reproduction harness are in the repository; model/runtime files remain outside it. No neural model is silently substituted for the game's accurate source-based explanations.
+
 ## Review and reproduce
 
 [Mission](media/offline-polish/mission-desktop.png) · [Coach on desktop](media/offline-polish/coach-desktop.png) · [Coach on portrait](media/offline-polish/coach-mobile.png) · [Settings](media/offline-polish/offline-settings.png) · [Capture hashes](media/offline-polish/provenance.json).

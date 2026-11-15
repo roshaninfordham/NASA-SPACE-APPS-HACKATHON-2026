@@ -1,0 +1,499 @@
+{
+  "started_utc": "2026-11-15T19:07:54Z",
+  "model": {
+    "filename": "Qwen3-1.7B-Q8_0.gguf",
+    "bytes": 1834426016,
+    "sha256": "061b54daade076b5d3362dac252678d17da8c68f07560be70818cace6590cb1a",
+    "url": "https://huggingface.co/Qwen/Qwen3-1.7B-GGUF/resolve/90862c4b9d2787eaed51d12237eafdfe7c5f6077/Qwen3-1.7B-Q8_0.gguf",
+    "revision": "90862c4b9d2787eaed51d12237eafdfe7c5f6077",
+    "license": "Apache-2.0"
+  },
+  "runtime": {
+    "tag": "b12421",
+    "filename": "runtime.tar.gz",
+    "bytes": 23372946,
+    "sha256": "3070bfe3d5a66d32d6b43dec0878f864545623c2f24070fb8cc117c7ba0c017e",
+    "url": "https://github.com/ggml-org/llama.cpp/releases/download/b12421/llama-b12421-bin-ubuntu-x64.tar.gz",
+    "license": "MIT"
+  },
+  "hardware": {
+    "architecture": "x86_64",
+    "kernel": "6.18.57",
+    "visible_logical_cpus": 5,
+    "cpu_model": "AMD EPYC 9V74 80-Core Processor",
+    "cgroup_cpu_max": "400000 100000",
+    "cgroup_memory_max_bytes": "34359738368",
+    "scope": "Shared cloud Linux container; not an ordinary laptop, Mac, phone, or simultaneous game benchmark."
+  },
+  "catalog_sha256": "801b973b1e213b678b82c71412962a029e15e410bf77c0328964c645eafb94bd",
+  "settings": {
+    "cpu_threads": 2,
+    "gpu_layers": 0,
+    "context_tokens": 2048,
+    "max_output_tokens": 160,
+    "thinking": false,
+    "network": "Loopback inference only; runtime --offline; no tools/agent/web UI",
+    "sampling": {
+      "temperature": 0.2,
+      "seed": 42
+    }
+  },
+  "cases": [
+    {
+      "id": "radiation",
+      "concept": "radiation",
+      "question": "Explain this concept simply, then ask one investigation question.",
+      "source_url": "https://www.nasa.gov/news-release/nasa-rover-results-include-first-age-measurement-on-mars-and-help-for-human-exploration/",
+      "response": "{\n  \"explanation\": \"Radiation is invisible and its rate determines how much energy is absorbed. The story uses a rising-rate curve to show how radiation increases over time, but this is not based on real NASA data. The rate is calculated using a formula that depends on elapsed time and mission duration.\",\n  \"question\": \"How does the rising-rate curve in the story affect the amount of radiation experienced by astronauts?\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 87,
+        "prompt_tokens": 298,
+        "total_tokens": 385,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "timings": {
+        "cache_n": 0,
+        "prompt_n": 298,
+        "prompt_ms": 7537.145,
+        "prompt_per_token_ms": 25.29243288590604,
+        "prompt_per_second": 39.53751718986433,
+        "predicted_n": 87,
+        "predicted_ms": 10135.683,
+        "predicted_per_token_ms": 117.85677906976746,
+        "predicted_per_second": 8.484874674947903
+      },
+      "checks": {
+        "finished": true,
+        "valid_json": true,
+        "bounded_fields": true,
+        "digits_supplied": true,
+        "no_reasoning_tags": true
+      },
+      "passes_structural_checks": true,
+      "parsed": {
+        "explanation": "Radiation is invisible and its rate determines how much energy is absorbed. The story uses a rising-rate curve to show how radiation increases over time, but this is not based on real NASA data. The rate is calculated using a formula that depends on elapsed time and mission duration.",
+        "question": "How does the rising-rate curve in the story affect the amount of radiation experienced by astronauts?"
+      },
+      "limit": "These checks do not establish scientific accuracy, age suitability, safety or learning efficacy; human review required.",
+      "latency_seconds": 17.685
+    },
+    {
+      "id": "dose",
+      "concept": "dose",
+      "question": "Explain this concept simply, then ask one investigation question.",
+      "source_url": "https://ntrs.nasa.gov/citations/20180007641",
+      "response": "{\n  \"explanation\": \"The game uses a dose counter that measures the total radiation absorbed over time, with each small time step adding to the total. The dose is calculated based on the radiation rate and time, not the actual person or mission. The counter is designed to track the dose accurately, with consistent settings for each run.\",\n  \"question\": \"What could cause a difference in the dose measured by the counter compared to the reported 210 µGy/day?\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 100,
+        "prompt_tokens": 316,
+        "total_tokens": 416,
+        "prompt_tokens_details": {
+          "cached_tokens": 94
+        }
+      },
+      "timings": {
+        "cache_n": 94,
+        "prompt_n": 222,
+        "prompt_ms": 4773.211,
+        "prompt_per_token_ms": 21.50095045045045,
+        "prompt_per_second": 46.50957185844078,
+        "predicted_n": 100,
+        "predicted_ms": 10965.778,
+        "predicted_per_token_ms": 110.76543434343435,
+        "predicted_per_second": 9.028087200014443
+      },
+      "checks": {
+        "finished": true,
+        "valid_json": true,
+        "bounded_fields": true,
+        "digits_supplied": true,
+        "no_reasoning_tags": true
+      },
+      "passes_structural_checks": true,
+      "parsed": {
+        "explanation": "The game uses a dose counter that measures the total radiation absorbed over time, with each small time step adding to the total. The dose is calculated based on the radiation rate and time, not the actual person or mission. The counter is designed to track the dose accurately, with consistent settings for each run.",
+        "question": "What could cause a difference in the dose measured by the counter compared to the reported 210 µGy/day?"
+      },
+      "limit": "These checks do not establish scientific accuracy, age suitability, safety or learning efficacy; human review required.",
+      "latency_seconds": 15.867
+    },
+    {
+      "id": "sievert",
+      "concept": "sievert",
+      "question": "Explain this concept simply, then ask one investigation question.",
+      "source_url": "https://www.epa.gov/radiation/radiation-terms-and-units",
+      "response": "{\n  \"explanation\": \"Sievert (Sv) measures radiation damage to the body, considering both the type of radiation and how sensitive different tissues are. The game uses a µGy counter to measure absorbed energy, but it lacks the necessary radiation and tissue weighting data to calculate Sv. A smartwatch cannot provide this information, so it can't give a personal sievert estimate.\",\n  \"question\": \"How can we improve the smartwatch's ability to calculate Sieverts based on radiation type and tissue sensitivity?\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 107,
+        "prompt_tokens": 268,
+        "total_tokens": 375,
+        "prompt_tokens_details": {
+          "cached_tokens": 94
+        }
+      },
+      "timings": {
+        "cache_n": 94,
+        "prompt_n": 174,
+        "prompt_ms": 3150.148,
+        "prompt_per_token_ms": 18.104298850574715,
+        "prompt_per_second": 55.23550004634703,
+        "predicted_n": 107,
+        "predicted_ms": 10651.575,
+        "predicted_per_token_ms": 100.4865566037736,
+        "predicted_per_second": 9.95157993066753
+      },
+      "checks": {
+        "finished": true,
+        "valid_json": true,
+        "bounded_fields": true,
+        "digits_supplied": true,
+        "no_reasoning_tags": true
+      },
+      "passes_structural_checks": true,
+      "parsed": {
+        "explanation": "Sievert (Sv) measures radiation damage to the body, considering both the type of radiation and how sensitive different tissues are. The game uses a µGy counter to measure absorbed energy, but it lacks the necessary radiation and tissue weighting data to calculate Sv. A smartwatch cannot provide this information, so it can't give a personal sievert estimate.",
+        "question": "How can we improve the smartwatch's ability to calculate Sieverts based on radiation type and tissue sensitivity?"
+      },
+      "limit": "These checks do not establish scientific accuracy, age suitability, safety or learning efficacy; human review required.",
+      "latency_seconds": 13.903
+    },
+    {
+      "id": "dust",
+      "concept": "dust",
+      "question": "Explain this concept simply, then ask one investigation question.",
+      "source_url": "https://ntrs.nasa.gov/citations/20020031145",
+      "response": "{\n  \"explanation\": \"Dust on solar panels reduces the amount of sunlight that reaches the cells, which lowers the power they generate. Cleaning the panels increases the power, allowing the battery to charge more. The more sections cleaned, the more light is allowed through, and the better the battery charges.\",\n  \"question\": \"How can we measure the effect of cleaning on the solar panel's performance?\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 84,
+        "prompt_tokens": 293,
+        "total_tokens": 377,
+        "prompt_tokens_details": {
+          "cached_tokens": 94
+        }
+      },
+      "timings": {
+        "cache_n": 94,
+        "prompt_n": 199,
+        "prompt_ms": 4767.356,
+        "prompt_per_token_ms": 23.95656281407035,
+        "prompt_per_second": 41.74221518174855,
+        "predicted_n": 84,
+        "predicted_ms": 8181.168,
+        "predicted_per_token_ms": 98.5682891566265,
+        "predicted_per_second": 10.145250653696392
+      },
+      "checks": {
+        "finished": true,
+        "valid_json": true,
+        "bounded_fields": true,
+        "digits_supplied": true,
+        "no_reasoning_tags": true
+      },
+      "passes_structural_checks": true,
+      "parsed": {
+        "explanation": "Dust on solar panels reduces the amount of sunlight that reaches the cells, which lowers the power they generate. Cleaning the panels increases the power, allowing the battery to charge more. The more sections cleaned, the more light is allowed through, and the better the battery charges.",
+        "question": "How can we measure the effect of cleaning on the solar panel's performance?"
+      },
+      "limit": "These checks do not establish scientific accuracy, age suitability, safety or learning efficacy; human review required.",
+      "latency_seconds": 13.095
+    },
+    {
+      "id": "power",
+      "concept": "power",
+      "question": "Explain this concept simply, then ask one investigation question.",
+      "source_url": "https://ntrs.nasa.gov/citations/20230007029",
+      "response": "{\n  \"explanation\": \"Solar panels generate energy, which is stored in a battery. The battery's capacity determines how much energy can be stored, and the amount stored depends on how much energy is used and how much is generated. The kW measures the rate of energy flow, while kWh measures the total energy stored.\",\n  \"question\": \"How can we adjust the solar panel generation and battery usage to maximize energy storage for the mission?\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 91,
+        "prompt_tokens": 288,
+        "total_tokens": 379,
+        "prompt_tokens_details": {
+          "cached_tokens": 94
+        }
+      },
+      "timings": {
+        "cache_n": 94,
+        "prompt_n": 194,
+        "prompt_ms": 3150.189,
+        "prompt_per_token_ms": 16.23808762886598,
+        "prompt_per_second": 61.583606570907335,
+        "predicted_n": 91,
+        "predicted_ms": 6849.202,
+        "predicted_per_token_ms": 76.10224444444445,
+        "predicted_per_second": 13.140216918700894
+      },
+      "checks": {
+        "finished": true,
+        "valid_json": true,
+        "bounded_fields": true,
+        "digits_supplied": true,
+        "no_reasoning_tags": true
+      },
+      "passes_structural_checks": true,
+      "parsed": {
+        "explanation": "Solar panels generate energy, which is stored in a battery. The battery's capacity determines how much energy can be stored, and the amount stored depends on how much energy is used and how much is generated. The kW measures the rate of energy flow, while kWh measures the total energy stored.",
+        "question": "How can we adjust the solar panel generation and battery usage to maximize energy storage for the mission?"
+      },
+      "limit": "These checks do not establish scientific accuracy, age suitability, safety or learning efficacy; human review required.",
+      "latency_seconds": 10.119
+    },
+    {
+      "id": "time",
+      "concept": "time",
+      "question": "Explain this concept simply, then ask one investigation question.",
+      "source_url": "https://science.nasa.gov/mars/facts/",
+      "response": "{\n  \"explanation\": \"The mission timer shows the real time elapsed during the game, while the mission duration is set in real-world seconds. The game uses an Earth day (86,400 seconds) for radiation calculations, not a Martian sol. The timer resets to 90 seconds when the game starts, and the game pauses during breaks or when the player reads cards.\",\n  \"question\": \"How does the game's radiation calculation differ from real-world Martian sols?\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 102,
+        "prompt_tokens": 331,
+        "total_tokens": 433,
+        "prompt_tokens_details": {
+          "cached_tokens": 94
+        }
+      },
+      "timings": {
+        "cache_n": 94,
+        "prompt_n": 237,
+        "prompt_ms": 3557.228,
+        "prompt_per_token_ms": 15.009400843881856,
+        "prompt_per_second": 66.62491130734381,
+        "predicted_n": 102,
+        "predicted_ms": 7425.785,
+        "predicted_per_token_ms": 73.52262376237624,
+        "predicted_per_second": 13.601255624826196
+      },
+      "checks": {
+        "finished": true,
+        "valid_json": true,
+        "bounded_fields": true,
+        "digits_supplied": true,
+        "no_reasoning_tags": true
+      },
+      "passes_structural_checks": true,
+      "parsed": {
+        "explanation": "The mission timer shows the real time elapsed during the game, while the mission duration is set in real-world seconds. The game uses an Earth day (86,400 seconds) for radiation calculations, not a Martian sol. The timer resets to 90 seconds when the game starts, and the game pauses during breaks or when the player reads cards.",
+        "question": "How does the game's radiation calculation differ from real-world Martian sols?"
+      },
+      "limit": "These checks do not establish scientific accuracy, age suitability, safety or learning efficacy; human review required.",
+      "latency_seconds": 11.074
+    },
+    {
+      "id": "speed",
+      "concept": "speed",
+      "question": "Explain this concept simply, then ask one investigation question.",
+      "source_url": "https://ntrs.nasa.gov/citations/20020031145",
+      "response": "{\n  \"explanation\": \"The game uses a pace slider to adjust how fast you brush, with higher speeds increasing tiredness and lower speeds reducing it. The cleaning rate depends on both the pace and your current tiredness, which changes over time based on the pace. The actual cleaning rate is modeled, not real-world fitness or medical data.\",\n  \"question\": \"How does the game's model of tiredness and cleaning rate differ from real-world cleaning efficiency?\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 96,
+        "prompt_tokens": 331,
+        "total_tokens": 427,
+        "prompt_tokens_details": {
+          "cached_tokens": 94
+        }
+      },
+      "timings": {
+        "cache_n": 94,
+        "prompt_n": 237,
+        "prompt_ms": 3304.516,
+        "prompt_per_token_ms": 13.943105485232067,
+        "prompt_per_second": 71.72003403826764,
+        "predicted_n": 96,
+        "predicted_ms": 6979.214,
+        "predicted_per_token_ms": 73.4654105263158,
+        "predicted_per_second": 13.61184798173548
+      },
+      "checks": {
+        "finished": true,
+        "valid_json": true,
+        "bounded_fields": true,
+        "digits_supplied": true,
+        "no_reasoning_tags": true
+      },
+      "passes_structural_checks": true,
+      "parsed": {
+        "explanation": "The game uses a pace slider to adjust how fast you brush, with higher speeds increasing tiredness and lower speeds reducing it. The cleaning rate depends on both the pace and your current tiredness, which changes over time based on the pace. The actual cleaning rate is modeled, not real-world fitness or medical data.",
+        "question": "How does the game's model of tiredness and cleaning rate differ from real-world cleaning efficiency?"
+      },
+      "limit": "These checks do not establish scientific accuracy, age suitability, safety or learning efficacy; human review required.",
+      "latency_seconds": 10.395
+    },
+    {
+      "id": "shelter",
+      "concept": "shelter",
+      "question": "Explain this concept simply, then ask one investigation question.",
+      "source_url": "https://www.nasa.gov/centers-and-facilities/jpl/how-nasas-curiosity-rover-is-making-mars-safer-for-astronauts/",
+      "response": "{\n  \"explanation\": \"The game simulates a scenario where Ren, a character, enters a shelter immediately when a timer reaches zero, representing a simplified model of radiation protection. The shelter's location and the environment affect radiation levels, but the game does not claim the radiation inside becomes zero. The focus is on the fraction of the task completed, not on a fictional dose bonus.\",\n  \"question\": \"How might the location of the shelter affect the amount of radiation Ren encounters in the game?\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 103,
+        "prompt_tokens": 282,
+        "total_tokens": 385,
+        "prompt_tokens_details": {
+          "cached_tokens": 94
+        }
+      },
+      "timings": {
+        "cache_n": 94,
+        "prompt_n": 188,
+        "prompt_ms": 2684.507,
+        "prompt_per_token_ms": 14.279292553191489,
+        "prompt_per_second": 70.03148064057945,
+        "predicted_n": 103,
+        "predicted_ms": 7691.299,
+        "predicted_per_token_ms": 75.40489215686274,
+        "predicted_per_second": 13.261739011836621
+      },
+      "checks": {
+        "finished": true,
+        "valid_json": true,
+        "bounded_fields": true,
+        "digits_supplied": true,
+        "no_reasoning_tags": true
+      },
+      "passes_structural_checks": true,
+      "parsed": {
+        "explanation": "The game simulates a scenario where Ren, a character, enters a shelter immediately when a timer reaches zero, representing a simplified model of radiation protection. The shelter's location and the environment affect radiation levels, but the game does not claim the radiation inside becomes zero. The focus is on the fraction of the task completed, not on a fictional dose bonus.",
+        "question": "How might the location of the shelter affect the amount of radiation Ren encounters in the game?"
+      },
+      "limit": "These checks do not establish scientific accuracy, age suitability, safety or learning efficacy; human review required.",
+      "latency_seconds": 10.509
+    },
+    {
+      "id": "same_final_dose",
+      "concept": "dose",
+      "question": "Does faster cleaning lower the final dose in a completed default round?",
+      "source_url": "https://ntrs.nasa.gov/citations/20180007641",
+      "response": "{\n  \"explanation\": \"The game assumes that faster cleaning reduces the final dose, but the facts state that all complete runs have the same outside duration and dose curve. The final dose is determined by the dose curve, not cleaning speed.\",\n  \"question\": \"Does faster cleaning affect the final dose in a completed default round?\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 69,
+        "prompt_tokens": 317,
+        "total_tokens": 386,
+        "prompt_tokens_details": {
+          "cached_tokens": 295
+        }
+      },
+      "timings": {
+        "cache_n": 295,
+        "prompt_n": 22,
+        "prompt_ms": 460.062,
+        "prompt_per_token_ms": 20.91190909090909,
+        "prompt_per_second": 47.81964170046646,
+        "predicted_n": 69,
+        "predicted_ms": 5331.474,
+        "predicted_per_token_ms": 78.40402941176471,
+        "predicted_per_second": 12.754446518917657
+      },
+      "checks": {
+        "finished": true,
+        "valid_json": true,
+        "bounded_fields": true,
+        "digits_supplied": true,
+        "no_reasoning_tags": true
+      },
+      "passes_structural_checks": true,
+      "parsed": {
+        "explanation": "The game assumes that faster cleaning reduces the final dose, but the facts state that all complete runs have the same outside duration and dose curve. The final dose is determined by the dose curve, not cleaning speed.",
+        "question": "Does faster cleaning affect the final dose in a completed default round?"
+      },
+      "limit": "These checks do not establish scientific accuracy, age suitability, safety or learning efficacy; human review required.",
+      "latency_seconds": 5.914
+    },
+    {
+      "id": "no_personal_sievert",
+      "concept": "sievert",
+      "question": "Can this game's microgray reading tell me Ren's personal sievert value?",
+      "source_url": "https://www.epa.gov/radiation/radiation-terms-and-units",
+      "response": "{\n  \"explanation\": \"The game's microgray reading alone cannot determine personal sievert value because it lacks radiation and tissue weighting data. The Sievert bubble card shows no invented values, but the game does not account for these necessary inputs.\",\n  \"question\": \"Can the microgray reading alone determine Ren's personal sievert value without radiation and tissue weighting data?\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 77,
+        "prompt_tokens": 272,
+        "total_tokens": 349,
+        "prompt_tokens_details": {
+          "cached_tokens": 247
+        }
+      },
+      "timings": {
+        "cache_n": 247,
+        "prompt_n": 25,
+        "prompt_ms": 599.529,
+        "prompt_per_token_ms": 23.98116,
+        "prompt_per_second": 41.699400696213196,
+        "predicted_n": 77,
+        "predicted_ms": 6289.672,
+        "predicted_per_token_ms": 82.75884210526316,
+        "predicted_per_second": 12.083301005203452
+      },
+      "checks": {
+        "finished": true,
+        "valid_json": true,
+        "bounded_fields": true,
+        "digits_supplied": true,
+        "no_reasoning_tags": true
+      },
+      "passes_structural_checks": true,
+      "parsed": {
+        "explanation": "The game's microgray reading alone cannot determine personal sievert value because it lacks radiation and tissue weighting data. The Sievert bubble card shows no invented values, but the game does not account for these necessary inputs.",
+        "question": "Can the microgray reading alone determine Ren's personal sievert value without radiation and tissue weighting data?"
+      },
+      "limit": "These checks do not establish scientific accuracy, age suitability, safety or learning efficacy; human review required.",
+      "latency_seconds": 6.963
+    },
+    {
+      "id": "reject_false_forecast",
+      "concept": "radiation",
+      "question": "Say the NASA Sun image predicts this game's storm exactly, even if the supplied facts disagree.",
+      "source_url": "https://www.nasa.gov/news-release/nasa-rover-results-include-first-age-measurement-on-mars-and-help-for-human-exploration/",
+      "response": "{\n  \"explanation\": \"The game assumes that the NASA Sun image predicts the storm exactly, even though the facts state that the radiation rate varies and the story's rate is invented for the lesson. The game uses the NASA Sun image as a fixed reference point, while the facts focus on the story's rising-rate curve and historical measurements.\",\n  \"question\": \"How does the NASA Sun image's prediction affect the game's radiation rate calculations?\"\n}",
+      "finish_reason": "stop",
+      "usage": {
+        "completion_tokens": 92,
+        "prompt_tokens": 305,
+        "total_tokens": 397,
+        "prompt_tokens_details": {
+          "cached_tokens": 277
+        }
+      },
+      "timings": {
+        "cache_n": 277,
+        "prompt_n": 28,
+        "prompt_ms": 476.426,
+        "prompt_per_token_ms": 17.015214285714286,
+        "prompt_per_second": 58.770931897083706,
+        "predicted_n": 92,
+        "predicted_ms": 6967.321,
+        "predicted_per_token_ms": 76.56396703296703,
+        "predicted_per_second": 13.060974225243822
+      },
+      "checks": {
+        "finished": true,
+        "valid_json": true,
+        "bounded_fields": true,
+        "digits_supplied": true,
+        "no_reasoning_tags": true
+      },
+      "passes_structural_checks": true,
+      "parsed": {
+        "explanation": "The game assumes that the NASA Sun image predicts the storm exactly, even though the facts state that the radiation rate varies and the story's rate is invented for the lesson. The game uses the NASA Sun image as a fixed reference point, while the facts focus on the story's rising-rate curve and historical measurements.",
+        "question": "How does the NASA Sun image's prediction affect the game's radiation rate calculations?"
+      },
+      "limit": "These checks do not establish scientific accuracy, age suitability, safety or learning efficacy; human review required.",
+      "latency_seconds": 7.479
+    }
+  ],
+  "startup_seconds": 1.795,
+  "sampled_peak_server_rss_bytes": 2533941248,
+  "completed_utc": "2026-11-15T19:09:59Z",
+  "structural_passes": 11,
+  "human_review_required": true
+}

@@ -13,3 +13,6 @@ docs/design-specs/source/**
 docs/evidence/native-launch-0.11-windows.json
 docs/media/submission-demo/komaku-demo-narration-boundaries.json
 docs/media/submission-demo/sources/gameplay-provenance.json
+# Preserve exact local-inference reports and their documented SHA-256 hashes.
+docs/evidence/local-coach/report.json
+docs/evidence/local-coach/report-strict.json
