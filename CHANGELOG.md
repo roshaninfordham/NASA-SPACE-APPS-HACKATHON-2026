@@ -2,6 +2,17 @@
 
 All published game versions and notable unreleased work are recorded here. The version and source commit in each release manifest identify the exact downloadable build. Documentation on `main` can be newer than an installer.
 
+## [0.7.1-alpha.1] — unreleased candidate
+
+A startup-performance patch for the indoor operator view. The latest published release remains **0.7.0-alpha.1**; this candidate has not been published or accepted as a release artifact. [Startup changes and measurement scope](docs/WINDOW-STARTUP-PERFORMANCE.md).
+
+- Defer construction of the hidden exterior habitat, refuge, solar-array equipment, route props and legacy control-room artwork until an optional activity needs them. Keep the default clear-window view of dunes and Mira, bounded operator room and rescue behavior.
+- Load the exterior on demand when opening **Habitat Field Notes**, then restore the prior world presentation when the lesson closes. Optional outdoor EVA can still construct and use the original outpost.
+- Restore the exact previous active camera, transform, projection settings and field of view after the architecture overview, together with the prior menu/pause state and keyboard focus. Closing the lesson must return to the same indoor framing instead of leaving the borrowed camera outside.
+- Extend the native signed-content update gate to the actual public **0.7.0-alpha.1** Mac and Windows baselines, alongside 0.6.0 and 0.6.1. The gate checks original-executable activation, repeated healthy startup and tamper recovery; configuring this expanded gate is not a claim that candidate artifact acceptance has already passed.
+- Measure initial-window RSS at 348.43 → 306.64 MiB and synchronous construction at 843 → 436 ms in three fresh Linux llvmpipe processes per version, after warmup. This shifts work to the first optional exterior visit; both versions retain about 429 MiB afterward. These are hosted startup measurements, not physical-device FPS or memory guarantees.
+- Keep mission equations, Mira's suit/dose ownership, the 12-hour survival requirement, existing save identity and signing trust unchanged. Refresh the 16-page science guide's source fingerprint; its scientific content is unchanged.
+
 ## [0.7.0-alpha.1] — 2026-11-14
 
 Published from `8968859e8ffdcda7b8c0c216ff0262df633400e6` with ten assets. [Validation 43654885534](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43654885534), [signed build 43654898929](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43654898929) and [publication 43655466167](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43655466167) passed. The release adds an indoor operator guiding Mira home, simpler controls and an illustrated science guide. [Release evidence](docs/evidence/release-0.7.0-alpha.1.json).

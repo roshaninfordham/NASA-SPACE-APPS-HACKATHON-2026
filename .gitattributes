@@ -3,3 +3,4 @@ game/assets/** linguist-vendored
 game/**/*.import linguist-generated
 game/**/*.uid linguist-generated
 docs/** linguist-documentation
+*.pdf binary

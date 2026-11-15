@@ -931,23 +931,51 @@ func show_suit_lab() -> void:
 
 func show_habitat_inspector() -> void:
 	if is_instance_valid(exhibit) or is_instance_valid(academy) or is_instance_valid(update_panel): return
-	var anchor := world.get_node_or_null("HabitatAnchor")
-	if anchor == null or anchor.get_child_count() == 0: return
-	var habitat := anchor.get_child(0)
-	if not habitat.has_method("get_inspection_points"): return
 	var restore_window := world.is_window_presentation()
+	# Leaving the window presentation synchronously constructs optional exterior
+	# assets. Inspect their capabilities only after that demand-load completes.
 	world.set_window_presentation(false)
+	var anchor := world.get_node_or_null("HabitatAnchor") as Node3D
+	if anchor == null or anchor.get_child_count() == 0:
+		world.set_window_presentation(restore_window)
+		return
+	var habitat := anchor.get_child(0)
+	if not habitat.has_method("get_inspection_points"):
+		world.set_window_presentation(restore_window)
+		return
+	var points: Variant = habitat.get_inspection_points()
+	var inspection_camera := title_camera if is_instance_valid(title_camera) else get_viewport().get_camera_3d()
+	if not points is Array or points.is_empty() or not is_instance_valid(inspection_camera):
+		world.set_window_presentation(restore_window)
+		return
 	var inspector := HabitatInspector.new()
 	inspector.closed.connect(func(): world.set_window_presentation(restore_window))
-	inspector.points = habitat.get_inspection_points()
-	inspector.camera = title_camera
-	_open_exhibit(inspector, true)
+	inspector.points = points
+	inspector.camera = inspection_camera
+	_open_exhibit(inspector, true, {
+		"position": anchor.to_global(Vector3(-6, 3.4, 26)),
+		"target": anchor.to_global(Vector3(0, 3, 0)),
+		"up": anchor.global_basis.y.normalized(),
+		"fov": 45.0,
+	})
 
-func _open_exhibit(view: Control, overview: bool) -> void:
+func _open_exhibit(view: Control, overview: bool, overview_frame: Dictionary = {}) -> void:
 	var was_paused := paused
 	var was_menu := menu.visible
 	var was_hud := hud.visible
 	var previous_camera := get_viewport().get_camera_3d()
+	var overview_camera: Camera3D = view.get("camera") as Camera3D if overview else null
+	# The overview borrows the title camera even when the player camera is active.
+	# Restoring only current=true would leave its pose/FOV outside the window.
+	var camera_states: Array[Dictionary] = []
+	var saved_cameras: Array[Camera3D] = []
+	for camera in [previous_camera, overview_camera]:
+		if not is_instance_valid(camera) or saved_cameras.has(camera): continue
+		saved_cameras.append(camera)
+		var state := {"camera": camera}
+		for property in ["global_transform", "projection", "fov", "size", "near", "far", "keep_aspect", "h_offset", "v_offset", "frustum_offset"]:
+			state[property] = camera.get(property)
+		camera_states.append(state)
 	var focused := get_viewport().gui_get_focus_owner()
 	var previous_focus: WeakRef = weakref(focused) if focused else null
 	paused = true
@@ -958,7 +986,16 @@ func _open_exhibit(view: Control, overview: bool) -> void:
 	menu.hide()
 	hud.hide()
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	if overview and is_instance_valid(title_camera): title_camera.make_current()
+	if overview and is_instance_valid(overview_camera):
+		if not overview_frame.is_empty():
+			overview_camera.global_position = overview_frame.position
+			overview_camera.look_at(overview_frame.target, overview_frame.up)
+			overview_camera.projection = Camera3D.PROJECTION_PERSPECTIVE
+			overview_camera.fov = overview_frame.fov
+			overview_camera.h_offset = 0
+			overview_camera.v_offset = 0
+			overview_camera.frustum_offset = Vector2.ZERO
+		overview_camera.make_current()
 	exhibit = view
 	# Opaque exhibits own their presentation. Skip the fully obscured world.
 	var host_viewport := get_viewport()
@@ -970,7 +1007,12 @@ func _open_exhibit(view: Control, overview: bool) -> void:
 		exhibit = null
 		menu.visible = was_menu
 		hud.visible = was_hud
+		for state in camera_states:
+			if not is_instance_valid(state.camera): continue
+			for property in state:
+				if property != "camera": state.camera.set(property, state[property])
 		if is_instance_valid(previous_camera): previous_camera.make_current()
+		elif is_instance_valid(overview_camera): overview_camera.clear_current(false)
 		if running and not ended:
 			if not was_paused: resume()
 			else:

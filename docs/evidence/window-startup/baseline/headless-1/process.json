@@ -1,0 +1,157 @@
+{
+  "purpose": "memory",
+  "backend": "headless",
+  "wall_seconds": 2.1135203139965597,
+  "rss_poll_peak_bytes": 127975424,
+  "rss_poll_samples": 185,
+  "host_load_start": [0.10791015625, 0.40771484375, 0.37060546875],
+  "checkpoints": {
+    "window": {
+      "construction_us": 800539,
+      "display": "headless",
+      "engine": "4.6.3-stable (official)",
+      "objects": 2997.0,
+      "phase": "window",
+      "ready_us": 1101454,
+      "tree_nodes": 649,
+      "viewport": [1280, 720],
+      "proc_samples": [
+        {
+          "VmHWM_bytes": 127868928,
+          "VmRSS_bytes": 127868928,
+          "RssAnon_bytes": 91607040,
+          "RssFile_bytes": 36261888,
+          "RssShmem_bytes": 0
+        },
+        {
+          "VmHWM_bytes": 127868928,
+          "VmRSS_bytes": 127868928,
+          "RssAnon_bytes": 91607040,
+          "RssFile_bytes": 36261888,
+          "RssShmem_bytes": 0
+        },
+        {
+          "VmHWM_bytes": 127868928,
+          "VmRSS_bytes": 127868928,
+          "RssAnon_bytes": 91607040,
+          "RssFile_bytes": 36261888,
+          "RssShmem_bytes": 0
+        },
+        {
+          "VmHWM_bytes": 127868928,
+          "VmRSS_bytes": 127868928,
+          "RssAnon_bytes": 91607040,
+          "RssFile_bytes": 36261888,
+          "RssShmem_bytes": 0
+        },
+        {
+          "VmHWM_bytes": 127868928,
+          "VmRSS_bytes": 127868928,
+          "RssAnon_bytes": 91607040,
+          "RssFile_bytes": 36261888,
+          "RssShmem_bytes": 0
+        }
+      ],
+      "rss_median_bytes": 127868928,
+      "proc_hwm_bytes": 127868928,
+      "process_wall_seconds_at_checkpoint": 1.5969580349992611
+    },
+    "full_world": {
+      "display": "headless",
+      "engine": "4.6.3-stable (official)",
+      "objects": 2998.0,
+      "phase": "full_world",
+      "reveal_us": 1012,
+      "tree_nodes": 649,
+      "viewport": [1280, 720],
+      "proc_samples": [
+        {
+          "VmHWM_bytes": 127868928,
+          "VmRSS_bytes": 127868928,
+          "RssAnon_bytes": 91607040,
+          "RssFile_bytes": 36261888,
+          "RssShmem_bytes": 0
+        },
+        {
+          "VmHWM_bytes": 127868928,
+          "VmRSS_bytes": 127868928,
+          "RssAnon_bytes": 91607040,
+          "RssFile_bytes": 36261888,
+          "RssShmem_bytes": 0
+        },
+        {
+          "VmHWM_bytes": 127868928,
+          "VmRSS_bytes": 127868928,
+          "RssAnon_bytes": 91607040,
+          "RssFile_bytes": 36261888,
+          "RssShmem_bytes": 0
+        },
+        {
+          "VmHWM_bytes": 127868928,
+          "VmRSS_bytes": 127868928,
+          "RssAnon_bytes": 91607040,
+          "RssFile_bytes": 36261888,
+          "RssShmem_bytes": 0
+        },
+        {
+          "VmHWM_bytes": 127868928,
+          "VmRSS_bytes": 127868928,
+          "RssAnon_bytes": 91607040,
+          "RssFile_bytes": 36261888,
+          "RssShmem_bytes": 0
+        }
+      ],
+      "rss_median_bytes": 127868928,
+      "proc_hwm_bytes": 127868928,
+      "process_wall_seconds_at_checkpoint": 1.8018128309995518
+    },
+    "window_return": {
+      "display": "headless",
+      "engine": "4.6.3-stable (official)",
+      "objects": 2998.0,
+      "phase": "window_return",
+      "tree_nodes": 649,
+      "viewport": [1280, 720],
+      "proc_samples": [
+        {
+          "VmHWM_bytes": 127868928,
+          "VmRSS_bytes": 127868928,
+          "RssAnon_bytes": 91607040,
+          "RssFile_bytes": 36261888,
+          "RssShmem_bytes": 0
+        },
+        {
+          "VmHWM_bytes": 127868928,
+          "VmRSS_bytes": 127868928,
+          "RssAnon_bytes": 91607040,
+          "RssFile_bytes": 36261888,
+          "RssShmem_bytes": 0
+        },
+        {
+          "VmHWM_bytes": 127868928,
+          "VmRSS_bytes": 127868928,
+          "RssAnon_bytes": 91607040,
+          "RssFile_bytes": 36261888,
+          "RssShmem_bytes": 0
+        },
+        {
+          "VmHWM_bytes": 127868928,
+          "VmRSS_bytes": 127868928,
+          "RssAnon_bytes": 91607040,
+          "RssFile_bytes": 36261888,
+          "RssShmem_bytes": 0
+        },
+        {
+          "VmHWM_bytes": 127868928,
+          "VmRSS_bytes": 127868928,
+          "RssAnon_bytes": 91607040,
+          "RssFile_bytes": 36261888,
+          "RssShmem_bytes": 0
+        }
+      ],
+      "rss_median_bytes": 127868928,
+      "proc_hwm_bytes": 127868928,
+      "process_wall_seconds_at_checkpoint": 1.9959849299993948
+    }
+  }
+}

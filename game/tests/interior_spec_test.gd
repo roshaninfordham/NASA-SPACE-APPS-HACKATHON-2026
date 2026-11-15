@@ -9,10 +9,60 @@ func check(value: bool, message: String) -> void:
 		push_error(message)
 		failures += 1
 func _initialize() -> void: call_deferred("run")
+func subtree_ids(node: Node) -> Array[int]:
+	var ids: Array[int] = [node.get_instance_id()]
+	for child in node.get_children(): ids.append_array(subtree_ids(child))
+	ids.sort()
+	return ids
+
+func lazy_window_construction() -> void:
+	var room := Interior.new()
+	room.prepare_presentation(true, PackedStringArray(["habitat", "route"]))
+	room.set_airlock_phase("complete")
+	var before_tree := {"solar_kw": 2.8, "habitat_kwh": 7.4, "suit_kwh": 0.6, "dose_msv": 0.3}
+	room.apply_mission_visuals(before_tree)
+	before_tree.solar_kw = 999.0
+	check(room.get_child_count() == 0, "Pre-tree presentation, airlock and telemetry requests allocate no scene nodes")
+	root.add_child(room)
+	await process_frame
+	check(room.has_node("OperatorWindowRoom") and not room._legacy_built and room.find_children("HeroPanel_*", "Node3D", true, false).is_empty(), "Prepared window startup builds only the required enclosure, with no legacy furniture")
+	check(not is_instance_valid(room._mars) and not room._materials.has("leaf") and not room._materials.has("panel"), "Window startup defers legacy globe and legacy-only materials")
+	check(not room.is_processing(), "Window-only room has no idle globe animation callback")
+	check(room._outer_airlock_door.visible and not room._inner_airlock_door.visible, "Airlock state requested before construction is replayed on the first window")
+	var original_window_ids := subtree_ids(room._window_enclosure)
+	var original_pane_id := room._window_enclosure.get_node("ClearPanoramicWindow").get_instance_id()
+	room.set_window_presentation(false)
+	await process_frame
+	check("2.8 kW" in room._power_label.text and "7.4 kWh" in room._power_label.text, "First late-built telemetry uses the detached pre-tree snapshot, not mutated caller data or defaults")
+	check(subtree_ids(room._window_enclosure) == original_window_ids, "Late EVA batching preserves every already-created window and door node")
+	check(room.is_processing() and room._legacy_built, "First EVA activation enables its newly built teaching-model animation")
+	room.set_window_presentation(true)
+	var later := {"solar_kw": 6.2, "habitat_kwh": 4.1, "suit_kwh": 0.22, "dose_msv": 1.7, "sheltered": true, "time_hours": 8.0}
+	room.apply_mission_visuals(later)
+	later.habitat_kwh = 999.0
+	var complete_ids := subtree_ids(room)
+	for i in range(4):
+		room.set_window_presentation(true)
+		room.set_window_presentation(false)
+		room.set_window_presentation(false)
+		room.set_window_presentation(true)
+	await process_frame
+	check(subtree_ids(room) == complete_ids, "Repeated same-mode and alternating switches reuse both branches without allocating or leaking nodes")
+	check(room._window_enclosure.get_node("ClearPanoramicWindow").get_instance_id() == original_pane_id and subtree_ids(room._window_enclosure) == original_window_ids, "Window identity remains stable across all legacy switches")
+	await physics_frame
+	var space := room.get_world_3d().direct_space_state
+	check(not space.intersect_ray(PhysicsRayQueryParameters3D.create(Vector3(0,1,8), Vector3(0,1,4))).is_empty(), "Lazily restored glazing keeps its real crossing barrier after EVA batching")
+	check(room._outer_airlock_door.get_node("Barrier").collision_layer != 0 and room._inner_airlock_door.get_node("Barrier").collision_layer == 0, "Restored window retains completed-cycle door collision state")
+	room.set_window_presentation(false)
+	check("6.2 kW" in room._power_label.text and "4.1 kWh" in room._power_label.text and "1.70 mSv" in room._crew_label.text and "EVENT PASSED" in room._forecast_label.text, "Later window-mode snapshots update all telemetry correctly on EVA return")
+	room.queue_free()
+	await process_frame
+
 func run() -> void:
 	var room := Interior.new()
 	root.add_child(room)
 	await process_frame
+	check(not is_instance_valid(room._window_enclosure) and not room.has_node("OperatorWindowRoom"), "Standalone no-hook EVA startup preserves legacy behavior without constructing an unused enclosure")
 	var hero_panels := room.find_children("HeroPanel_*", "Node3D", true, false)
 	var tablets := room.find_children("ConsoleTablet_*", "Node3D", true, false)
 	check(hero_panels.size() == 2 and tablets.is_empty(), "Two focused workstations replace overlapping panels and miniature tablets")
@@ -83,4 +133,5 @@ func run() -> void:
 	check(not room._window_enclosure.visible and room._outer_airlock_door.get_node("Barrier").collision_layer == 0, "Inactive window enclosure leaves no door barriers in EVA mode")
 	room.queue_free()
 	await process_frame
+	await lazy_window_construction()
 	quit(1 if failures else 0)

@@ -15,16 +15,40 @@ var _rng := RandomNumberGenerator.new()
 var _path: PackedVector3Array = PackedVector3Array()
 var _presentation_categories: Dictionary = {}
 
+var _initial_window_mode := false
+var _initial_hidden_categories := PackedStringArray()
+var _terrain_ready := false
+var _built_categories: Dictionary = {}
+
+func prepare_presentation(window_mode: bool, hidden_categories: PackedStringArray) -> void:
+	_initial_window_mode = window_mode
+	_initial_hidden_categories = hidden_categories.duplicate()
+
 func _ready() -> void:
 	_rng.seed = landscape_seed
 	_build_ground()
 	_build_horizon()
-	var route_start := get_child_count()
-	_build_approach()
-	_presentation_categories["route"] = get_children().slice(route_start)
-	var rocks_start := get_child_count()
-	_scatter_stones()
-	_presentation_categories["rocks"] = get_children().slice(rocks_start)
+	_prepare_route_path()
+	_terrain_ready = true
+	ensure_presentation(_initial_window_mode, _initial_hidden_categories)
+
+func _prepare_route_path() -> void:
+	if not _path.is_empty(): return
+	# Clearance samples are cheap and must exist even when route meshes do not.
+	for index in range(97): _path.append(_approach_point(float(index) / 96.0))
+
+func ensure_presentation(window_mode: bool, hidden_categories: PackedStringArray) -> void:
+	if not _terrain_ready:
+		prepare_presentation(window_mode, hidden_categories)
+		return
+	for category in ["route", "rocks"]:
+		if _built_categories.get(category, false): continue
+		if window_mode and category in hidden_categories: continue
+		_built_categories[category] = true
+		var start := get_child_count()
+		if category == "route": _build_approach()
+		else: _scatter_stones()
+		_presentation_categories[category] = get_children().slice(start)
 
 func get_presentation_categories() -> Dictionary:
 	# The world coordinates reversible visibility, lights and physics together.
@@ -148,8 +172,7 @@ func _box(size: Vector3, pos: Vector3, mat: Material, label: String) -> MeshInst
 	return node
 
 func _build_approach() -> void:
-	for i in range(97):
-		_path.append(_approach_point(float(i) / 96.0))
+	_prepare_route_path()
 	var rim := _material(Color("514149"), 0.34, 0.65)
 	var paving := _material(Color("ab9997"), 0.19, 0.68)
 	var joint := _material(Color("65545b"), 0.6, 0.4)

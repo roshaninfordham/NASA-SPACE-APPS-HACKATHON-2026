@@ -1,0 +1,8 @@
+{
+  "measurement_checkout_commit": "b3c7d2c1081fcee7fc0dd845596ac4f0617f0bcd",
+  "published_0_7_source_commit": "8968859e8ffdcda7b8c0c216ff0262df633400e6",
+  "game_git_tree_sha1": "ca07a16fc69af9a95bb8f7acfb1e8d70a9cd6c3b",
+  "verification": "git diff published-source measurement-checkout -- game is empty; both commit:game tree IDs are identical. The measurement checkout is a post-release documentation HEAD with the same game tree.",
+  "measurement_label_note": "The original run label released-0.7-b3c7d2c identifies the equivalent runtime baseline checkout; it is not the published release source commit.",
+  "curation": "Empty acknowledgements and embedded checkpoint duplicates removed. Raw .log files renamed .txt without changing contents so repository ignore rules do not omit them."
+}

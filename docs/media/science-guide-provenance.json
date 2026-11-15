@@ -3,14 +3,14 @@
   "reviewed_on": "2026-11-14",
   "pages": 16,
   "scope": "Native indoor operator/EVA teaching model and planner source; not NASA endorsement or validated engineering/learning outcomes.",
-  "source_fingerprint": "619f5b933fa1606b389a87892946a23085cf2c8f64876344713e43158d58c52d",
+  "source_fingerprint": "c06f4c553c5459ab87f96d54d2ca705ea36be324743dadb3053aa9ca0a39e6f2",
   "sources": {
     "docs/SCIENCE-GUIDE.md": "441f31fda15fdf2de4396c1b21fde5fb5f07d37390fcfb49c3b82c45c7217a5f",
     "scripts/build_science_guide.py": "31d5a07b5a386520626afd4f03016364b0216d9ca58b051f613941ea8da36169",
     "game/scripts/mission.gd": "8f483e340c38d196507022575fa74f510143d0c31d173ad807e7463a58746726",
     "game/scripts/companion_rescue.gd": "848517bd7a0a510b47fe96fc5e2da5eb5c2cc428dc6fe1ac0d1b4d27f8c5c163",
     "game/scripts/player.gd": "425a9598e9c71bdc9ea57836e51d4218a1b5fb20840e71ac1be26f73d7f547ac",
-    "game/scripts/game.gd": "7b022d8e079525d4d033db975e48b7590d350a1d2c6add36f938fddffd0fe4bb",
+    "game/scripts/game.gd": "054020893cea2a28fc53e259d888db27bc0a99fc0033aac5d9bb88ded1c39a61",
     "game/scripts/suit_experiments.gd": "f1b678d3a8fa3e8007bf10a7b42d9aa2d3610f5ecc5ae9b3377f277acf43c585",
     "game/scripts/suit_lab.gd": "fcbc6ded02cace6120523dec881a040715243b6c848c01ddaadf7b3786e0a056",
     "game/scripts/learning.gd": "50b35a132d485c2846dd4327e6518fc8084f37cbd74835362b8cbfa25158dd0c",
@@ -24,7 +24,7 @@
     "docs/evidence/challenge-source-check.json": "efe5abdb00a63c12462e370b4a450ff7e8ee31fb2ada2d7f1e4d8d78814c8c04"
   },
   "artifacts": {
-    "docs/media/KOMAKU-Science-Guide.pdf": "c5e99ff3965ed259e85303cfda49647757fb0f6f4d4ecf85d3fc30de63e5609b",
+    "docs/media/KOMAKU-Science-Guide.pdf": "58592c32b3ef1ef4c21d463fe74a998a718ac6822f4a05251f4a0098c03c81f4",
     "docs/media/science-guide-systems.png": "2123893a852cfca6ebf880f67a9e9bce0b6f3bf059e63bc9e59c0d4682809cc3",
     "docs/media/science-guide-dust.png": "5277d34ef933b240fd2bf45679bae061a528fbee9479f8ed6a39c12e7d0b05c9",
     "docs/media/science-guide-loads.png": "941c332837d50fd78e76085fb94567bbff56c71cfc2090c2f7a21a9369233534",
@@ -48,13 +48,17 @@
     "searchable_macron_each_page": "passed",
     "font_notice_attachment": "DejaVu-Font-License.txt extracted and matched byte-for-byte to the source notice.",
     "visual_review": {
-      "reviewed_on": "2026-11-14",
-      "pages": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
-      "method": "All operator-mode pages visually reviewed; the changed sources page was re-rendered and inspected at 1.5x after attaching the font notice. Scientific body content and layouts remain unchanged.",
-      "pdf_sha256": "c5e99ff3965ed259e85303cfda49647757fb0f6f4d4ecf85d3fc30de63e5609b"
+      "reviewed_on": "2026-11-15",
+      "body_text_compared_pages": [
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16
+      ],
+      "rendered_pages": [16],
+      "method": "All 16 page bodies match the previous committed PDF exactly after ignoring the shared source-fingerprint footer. The updated sources page and shared footer were rendered at 1.3x and visually inspected.",
+      "pdf_sha256": "58592c32b3ef1ef4c21d463fe74a998a718ac6822f4a05251f4a0098c03c81f4"
     },
-    "searchable_math_glyphs": "Ō τ μ Δ ² ≤ ≥ − verified",
     "citation_links": 7,
-    "repeat_build": "Two consecutive final builds, including the attachment, produced byte-identical PDFs."
-  }
+    "repeat_build": "Two consecutive builds with the performance-patch sources produced byte-identical PDFs, including the exact embedded font notice.",
+    "source_changes_since_previous_guide": ["game/scripts/game.gd"]
+  },
+  "regenerated_on": "2026-11-15"
 }

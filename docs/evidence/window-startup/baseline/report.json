@@ -1,0 +1,2052 @@
+{
+  "label": "released-0.7-b3c7d2c",
+  "utc": "2026-11-15T00:17:11.399010+00:00",
+  "scope": "Linux warm-cache fresh processes. Not cold-disk, target-device FPS, Apple Silicon, total-system/GPU memory or child-playtest evidence.",
+  "project": "/workspace/NASA-SPACE-APPS-HACKATHON-2026",
+  "executable": "/opt/godot/4.6.3/Godot_v4.6.3-stable_linux.x86_64",
+  "executable_sha256": "f64d4ed19fc9df9440321653fcc80df8c6e365ba7b6de0a29e2cfa9fa71bfeb3",
+  "engine": "4.6.3.stable.official.7d41c59c4",
+  "harness_sha256": "cf5b8afc4c4f06cded282a0bfa43ea5cf834db7e892dd7e8b912211c088f2bca",
+  "runner_sha256": "0a60d5eddd1dacc543415b960f31748f057b2bd6be70bb6ecf304c758c8dea6b",
+  "source": {
+    "tree_sha256": "5da92c797b811d261f78d07ac60527950efc4e32a7db403f224a49983a6b19b8",
+    "files": {
+      "game/README.md": "8c44df9ab1196e41b69867ddf2244d737e86520f29bfba6b7216ade381c3d456",
+      "game/art/default_art.tres": "e740e2c9bde7bfa842f0a23a53bea30175e266143ffe40907ccca36f2e978c65",
+      "game/art/red_veil/astronaut.gd": "e06c49df872b2c407ec44d5f94e01e9fd97412a5b2f89da7ddcb85cf86dd77ec",
+      "game/art/red_veil/astronaut.gd.uid": "3c9f44fb1a5e4cc9c1549f2959939074dfd506c401c35208c769521b84f837d9",
+      "game/art/red_veil/astronaut.tscn": "cd04c0b44626b3845ffea40b40b239e3f66b291f7750ac85ef9d81b901686ea6",
+      "game/art/red_veil/exterior.gd": "cbf93e211d3d7fc484120ad3605b4c8bcd7303d87fd040a8cb21186696ec6f76",
+      "game/art/red_veil/exterior.gd.uid": "ba19f30b447497ed1303b80494103debf501eaab48c8587615590b3c39d082d3",
+      "game/art/red_veil/exterior.tscn": "eaecc17df3e22536bfc5a536caab8807118bcb1cc8045597a3d409b5d04ebdc8",
+      "game/art/red_veil/exterior_details.gd": "8fd18ed96efe6fa4b1a8fa659cf6ed35ef219d5321aaccd0beef8cda44608504",
+      "game/art/red_veil/exterior_details.gd.uid": "29f2e98f3071927a2550ffdaea19e47bb44327138ebc76bbf0a816982e93c141",
+      "game/art/red_veil/exterior_geometry.gd": "5d406459b906f5864c2140f66b5a79f65f9835b76bc8cc1b3009d3926100fd74",
+      "game/art/red_veil/exterior_geometry.gd.uid": "824024c4bf46c39b69f138f265296f21377f8bb084730dc84830e3c961b4317f",
+      "game/art/red_veil/exterior_ornaments.gd": "8f81b1c2a79ffed4c3bec077ffd4e33ae22a1ef301d9b7ccf9c88c880d230ba3",
+      "game/art/red_veil/exterior_ornaments.gd.uid": "fa70722bb6b1776417240180a1d03d5aa36b04691d691e16e5f91d2aec257a39",
+      "game/art/red_veil/exterior_shell.gdshader": "fa7899e17e00246a46550e2c23a1db0926bcbd0224e17c5541a5f74ab610274f",
+      "game/art/red_veil/exterior_shell.gdshader.uid": "3625ab3a9020bedd14645a43ff73f63c91f68e754809d25269d3e6dcf3084045",
+      "game/art/red_veil/interface.gd": "69597193defa21e7aaccf32124d2d54a9e7280b01f659b8878a947a66bc826f1",
+      "game/art/red_veil/interface.gd.uid": "cc56449fb9c7cec14543a7b7c451ba80cb97947df6043c8712d744e2920e7c6b",
+      "game/art/red_veil/interface.tscn": "ac344bd1ed2a89922cb5ef7d6d490877055d8646bbd6794f9f4a31246b517331",
+      "game/art/red_veil/interior.gd": "987a5f4f3463dd6e465686458b2c24aa64202b55b4cc89dbd2b835cde061e99f",
+      "game/art/red_veil/interior.gd.uid": "a135fe9bb1e67bc8daf42ea0c798075486ad63faf55aba34c1044890518c4332",
+      "game/art/red_veil/interior.tscn": "106350b435ff24c76ee81d51b9db934617c08ccef5718a3a081dfda031da7189",
+      "game/art/red_veil/interior_column.gdshader": "cdbb1d77a90985bfcc5b21925aed2c666512776eaf894b5ec5bbbb8acf68463e",
+      "game/art/red_veil/interior_column.gdshader.uid": "da5fc5c74b48e03fd472f88431f0f71a2f42ae5c1a068e3bae6413388313cd5f",
+      "game/art/red_veil/interior_hologram.gd": "b9e4fb49b275cbb2dfc5dae23cd2505c5bb7959d9ac184f7663a6ff4a4f24e67",
+      "game/art/red_veil/interior_hologram.gd.uid": "94f1a89aafbe143b990ecc3a8812a57d646191823e1e1833e15c5827df70db43",
+      "game/art/red_veil/interior_mars.gdshader": "ca6a67e7fc3ec026dc7254b83471a70240f4f5b98aeb38a7f8cfd77f67e9caa6",
+      "game/art/red_veil/interior_mars.gdshader.uid": "c9e06ba85ead9950e04565877261a60d5e0dda3b980b787cb457dc4ef7ff2046",
+      "game/art/red_veil/landscape.gd": "b18515d7663e3ed8c469ce2bae248d1dbde8e502eae8b98ed9823f4db0ab2416",
+      "game/art/red_veil/landscape.gd.uid": "b19d5edb0b1e505690712b801620b3e5a70f0cd1d0c57568e8a1a35de443d085",
+      "game/art/red_veil/landscape.tscn": "6924c4729536355188723265d48092169686580e19f217ca0fd071e5f5fe5a71",
+      "game/art/red_veil/landscape_regolith.gdshader": "71b4f315cdb3a7710e1362c47ea51d6cfd93f3bb2ef6752fd464613460a347fe",
+      "game/art/red_veil/landscape_regolith.gdshader.uid": "40726805c1269cff84a7fb1d0259b792cef4c62dbd01f4e8b42ca2101fb68aa7",
+      "game/art/red_veil/landscape_rock.gdshader": "15a01bb7b75feb4784676b38e35bb53aacc796cb92b790d08dcf94c6c0a5ebdc",
+      "game/art/red_veil/landscape_rock.gdshader.uid": "2157895d7f9327c8cf91e8165d532a523d8cba3c3a5899ca1a56ae80613bbd80",
+      "game/art/red_veil/mars_sky.gdshader": "723d5259e64cc33695a63aad39e94a1118f9d3b8ddf0e3ce74f8a647686f46c3",
+      "game/art/red_veil/mars_sky.gdshader.uid": "6be2afa7641f34a1bf536117fd05c5db9d0e2659fb7a9aca9bedb10de737564b",
+      "game/art/red_veil/refuge.gd": "4bcc7bcd7f48aa07f53183d052e7403a8d0a53fc3cdd6734b9685ef75bd71d95",
+      "game/art/red_veil/refuge.gd.uid": "f8de134b5c3147141037b71e83098dbb0111f4a94ef63224084ac6952078bfb7",
+      "game/art/red_veil/refuge.tscn": "457112ad0afb30f2ae2547242f9a2792d5972d46a36ab48ee7b020e597f6053e",
+      "game/art/red_veil/scanner.gd": "5eecf0a166e197df2037475f58b5cb9ea071fd422973ea3f545aa2d48ba9295d",
+      "game/art/red_veil/scanner.gd.uid": "df05e048cd7bc37d9fbfe8b83fad0f3ada9dd5bd52e7ef2dfd2c6d80ff940920",
+      "game/art/red_veil/scanner.tscn": "1df124bcf5d80e60ad72526edc976385ce0fa5769fcf003f0c2817cb08761191",
+      "game/art/red_veil/suit_fabric.gdshader": "dda4bce24be42c27aeaf4f5619392ed5cc63645061d98efbedf83da95a53eeae",
+      "game/art/red_veil/suit_fabric.gdshader.uid": "774083ec4432caf4b25db9e586467055bf0012e5bff56aac74f8fd08b908beff",
+      "game/assets/audio/coin.ogg": "df55e931e6b78e5aecc015922e873a0e8bfa4e97cfb19abc64149d54afe89216",
+      "game/assets/audio/coin.ogg.import": "da4938c32acca09997b9047723644e33402f20ed002a1ca909349731ba1ef390",
+      "game/assets/audio/jump.ogg": "f090c16689e9ec04c4bef80bfcbf68bc4b63ab4ce29f7fbb5cee05a5641d5694",
+      "game/assets/audio/jump.ogg.import": "bc0723cdf6bd5d7a7ff941c1f9be1e1e785fa3678af7570b62f69dfb3cad82c9",
+      "game/assets/audio/land.ogg": "145a1c17125dc4d344ac135bc5073e35ea12e19700ca30ee6e1e477010b4dca0",
+      "game/assets/audio/land.ogg.import": "bcf4e8d08c2fc4fa9be108a6830cd59947186889520e4214cf4f8f69940976d0",
+      "game/assets/audio/walking.ogg": "e4043660b7bc15bd1ec208c4193838da5a2618bde6f35e3d76654557268aa221",
+      "game/assets/audio/walking.ogg.import": "0b76d7917cca6b5f71bc6b776d328f2e2a860a17aefed7afcedcfddf8f3e4d81",
+      "game/assets/fonts/lilita_one_regular.ttf": "4444c23631884f411aa7f2fee35061b1756a9927940c62d2a5572acf470b3ffa",
+      "game/assets/fonts/lilita_one_regular.ttf.import": "c5110bd44d73ce057cd1b9a76879617d1e028be4ccbfb89a95b24470ccb307e9",
+      "game/data/brand.json": "3a142cc1525aa3404e1765e8858281bd210e4ca35f7feac61c4cd3d957f05e7c",
+      "game/data/lessons.json": "6a2818e7cf8d0f5ed9f80e3feb545bc7cd1079e99a337a8f47ba7c47309f26df",
+      "game/data/nasa-observations.json": "3cba43b6dd1c723a7d0e686bb205934d7c69c6a3222490e442f5d16873fbca2e",
+      "game/data/visual_style.json": "4d63feb585e08d390e55eebab280c7c593b2412fb867dfbd78c3bc4629245164",
+      "game/export_presets.android.cfg": "9c3e2fad99a013318bc897e01627c1de8d7e39ac8f3b5efee2723db3d196b649",
+      "game/export_presets.cfg": "6ac6913305eb05ca515fb39f6623beb00787e46533e0cba087067fd26c7dcb3f",
+      "game/icon.svg": "980dbd99b7386a783303ec20f7bce9038a02e013c8a3482bd73d014b1f21bb12",
+      "game/icon.svg.import": "be197e881f1e4739ae321396de2d6118ca9fe771868352d6b2731db71099ab40",
+      "game/licenses/DejaVu-Font-License.txt": "810205354319c787fc9ede3ba76d03073fd0f62b00b585506e8065355e71e18d",
+      "game/licenses/Godot-MIT.txt": "b0435e3b3e4e55238f05f4b306f30524a1b2e20147810d436eaa554fa6855c80",
+      "game/licenses/Godot-THIRDPARTY.txt": "b3330849267d56ddd3d62a513817506606c2195034411fe05859f0140bff9d8a",
+      "game/licenses/Kenney-ASSETS.md": "14b13884025923bdc1bf033063e9fdd0b83e01b838a26920e4dff7959fe44924",
+      "game/licenses/Kenney-MIT.txt": "f755bf8f21002f8d5baedaf75564141d363971f3f7bc8c4062956b0b15a6f04f",
+      "game/licenses/Lilita-OFL.txt": "31d45880a38de46bc81835329c0c7d964609751e65add92769ea0095ad92c05b",
+      "game/main.tscn": "029ddf7bf09ea93545251b6ca0c81b1a4b55cfc080105a88b06fd36a62ea5fb7",
+      "game/project.godot": "5544d24aaf6a5aadd0b8a74be8794ae366ebd3d0ab7ed4869d99bdcb9a34cb55",
+      "game/scripts/academy.gd": "a6964ac5d1a0d26f6d820bda9051f83b3cedb328fa61372402d7e9556162bdc4",
+      "game/scripts/academy.gd.uid": "20c2f59b04274c1f4a910155d9874e9daec7e5b6e777188abba6345dec43c743",
+      "game/scripts/art_profile.gd": "52f49a5f5df3f560889cd6cf393ca9b797a3450d79fcdb1db50e283732a2a508",
+      "game/scripts/art_profile.gd.uid": "c4f125d831397bb7914ebf53cd402c7f1cd3b4ebfef5d4445aa0e15784886d9e",
+      "game/scripts/branding.gd": "1fb7745f091ffae744ef8d622cc9047ac6603395e87addb159f46ae29381694a",
+      "game/scripts/branding.gd.uid": "308d51ddc1fc4b9b4ebdc93db723099222a19a95549a74bd5e26ad032e9d8dcb",
+      "game/scripts/companion_rescue.gd": "848517bd7a0a510b47fe96fc5e2da5eb5c2cc428dc6fe1ac0d1b4d27f8c5c163",
+      "game/scripts/companion_rescue.gd.uid": "4856349fa876de70f5651d6518d1d8a0ee5a3b661ff52700041217fa7981c343",
+      "game/scripts/game.gd": "7b022d8e079525d4d033db975e48b7590d350a1d2c6add36f938fddffd0fe4bb",
+      "game/scripts/game.gd.uid": "d9e66d1fe6581167c1dce6874e71f3ffb749d089d66dbed32a9aedf8f9ef8b4b",
+      "game/scripts/habitat_inspector.gd": "66088385799f503239bba69040791a8fb3c1fe9b20d8ac1f3b6941dc3814617a",
+      "game/scripts/habitat_inspector.gd.uid": "806e38d5b87e55eec2806074c90e457f4d1ccc5689651686e30d280c352f7463",
+      "game/scripts/learning.gd": "50b35a132d485c2846dd4327e6518fc8084f37cbd74835362b8cbfa25158dd0c",
+      "game/scripts/learning.gd.uid": "321d5fe4dc4ca92926fc49f0bc0c391bb3184639d43a4653fa25d2bd5b285980",
+      "game/scripts/mission.gd": "8f483e340c38d196507022575fa74f510143d0c31d173ad807e7463a58746726",
+      "game/scripts/mission.gd.uid": "558239fdede7a7741e21b6900537ce99935a27fc483dd577978403c54ea8714d",
+      "game/scripts/mission_adviser.gd": "4c9a0bb51f8b6adb58f0ba61c8fa5c2f8d44335c8c890c7629d67b6d772b774a",
+      "game/scripts/mission_adviser.gd.uid": "ea5132307801577b664a5de265d8fc0ad8e6259b41f14b113b947d66f1f2c389",
+      "game/scripts/mission_planner.gd": "42d195928567dccbb3b993fb91c71d05dd83359043842193df5d63e3cf857c27",
+      "game/scripts/mission_planner.gd.uid": "1fa66e0eed540f4d72c4afe053d307264f0f2deef4af99dc05513d4ffb69b66a",
+      "game/scripts/player.gd": "425a9598e9c71bdc9ea57836e51d4218a1b5fb20840e71ac1be26f73d7f547ac",
+      "game/scripts/player.gd.uid": "c10f36c17be22836bb07390ba053ca5b9d2c9a0d3835138a58f0b7690082e0bc",
+      "game/scripts/suit_experiments.gd": "f1b678d3a8fa3e8007bf10a7b42d9aa2d3610f5ecc5ae9b3377f277acf43c585",
+      "game/scripts/suit_experiments.gd.uid": "7b9346f9187c77170d7baeff0053eb9e87c6023f871787a35e7b2822cf88f344",
+      "game/scripts/suit_lab.gd": "fcbc6ded02cace6120523dec881a040715243b6c848c01ddaadf7b3786e0a056",
+      "game/scripts/suit_lab.gd.uid": "6efdfde77bd2613fbd420fbe010a0e2ab9aea2bb5f8cdb87d746b067d9f67bf4",
+      "game/scripts/visual_style.gd": "4bbee355ab475e7d02a6d2d30003ef20f992d13d3ae50ca0403c91eb2e9fd66e",
+      "game/scripts/visual_style.gd.uid": "eb6e0a770d8f1bf46aee1039053b1e4dce4230ebd7ce6e1a00fcf40aa0b046ed",
+      "game/scripts/world.gd": "3e6f9205f62183289d38ec9b47c85d8ac6864381e4d87d3ea4dc3020c192eb4b",
+      "game/scripts/world.gd.uid": "7035d6e69c012e1ded4d69b5560310344d3d9488058e9a4e21ca1ed1bb4e1b65",
+      "game/updater/README.md": "018b6eaaaaceb10bc90c8e9d2f502fbb5836c8d236d7d1c547eee49e504f27b1",
+      "game/updater/bootstrap.gd": "07459b62c1970684b2b36a75f869e7a5deaccbe2c65bbf62b326eb0cf0fe2eaf",
+      "game/updater/bootstrap.gd.uid": "507a0d40c7ab7c2d3b197cea53a83c3c5ffd5452425a87930b20975d1eee2e0f",
+      "game/updater/client.gd": "ffaff77bd675e45b80dae7fbe3b4824bba0b8ae8f13fc2b271272f97e496052f",
+      "game/updater/client.gd.uid": "d1374fdd03b9f7890158b4adb4714070f6abb68eb48bb439fe2527f96cb73234",
+      "game/updater/panel.gd": "f409e1e50d8b9a717e65c9c0eb4ec6b9ac434ca08b6023e212deda59a6404888",
+      "game/updater/panel.gd.uid": "ca72706585c706041b9883ea482b56745415b5aae88f45bfe0bfda1beb1efc15",
+      "game/updater/public_key.pem": "208708dba7602b7ab044ff64b0cb6ca7955e7ddd11b3040af1cf1d43dca9cbe8",
+      "game/updater/store.gd": "9b669fbda828be783f2d8d09b619f2b219933e2fd1c3855d8d5a4feaf6f50712",
+      "game/updater/store.gd.uid": "449bc4213ba9382ed4b48333d42784820bf0cb50736c361fbd6c23657226ae47",
+      "game/updater/verifier.gd": "626ba4df9c9973103cb996809ca6f1abf0be725a7f42fa70813774316c2a6fb9",
+      "game/updater/verifier.gd.uid": "d3ce0ebcf03ba3e31c316eb88ed5942d8954d2ee6323d9e7e853b0fc452970c3",
+      "game/web/browser-updates.css": "0608eb3cfb9b4cf9d642d05a29963efe35087d8e9709f6c7abc141344ea2dc59",
+      "game/web/browser-updates.js": "9131273bd3370d7e0581e09a00341d36724d1a23cbb37097b857f6a3bc3ce4d6",
+      "game/web/service-worker.js": "113c58f76af02e6c0248b54020abacd3e493f3150c0e5cd81a4a0c99139d289b"
+    }
+  },
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "driver_files_sha256": {
+    "/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0": "9abdae7df51fef149a1d343ae6f1c6c8e4afb8984b9fa0ef540a3d1010f19072",
+    "/usr/lib/x86_64-linux-gnu/dri/libdril_dri.so": "0d8044a389ab67ef838b1bf13a6b6ce34547a45540a8a994b46f7fdd5e7292d0"
+  },
+  "cpu_affinity_count": 5,
+  "cpu_model": "INTEL(R) XEON(R) PLATINUM 8573C",
+  "cpu_quota": "400000 100000",
+  "viewport": [1280, 720],
+  "runs": [
+    {
+      "purpose": "memory",
+      "backend": "headless",
+      "wall_seconds": 2.0008056389997364,
+      "rss_poll_peak_bytes": 128094208,
+      "rss_poll_samples": 179,
+      "host_load_start": [0.10791015625, 0.40771484375, 0.37060546875],
+      "checkpoints": {
+        "window": {
+          "construction_us": 780314,
+          "display": "headless",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2997.0,
+          "phase": "window",
+          "ready_us": 1104326,
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 127881216,
+              "VmRSS_bytes": 127881216,
+              "RssAnon_bytes": 91619328,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127881216,
+              "VmRSS_bytes": 127881216,
+              "RssAnon_bytes": 91619328,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127881216,
+              "VmRSS_bytes": 127881216,
+              "RssAnon_bytes": 91619328,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127881216,
+              "VmRSS_bytes": 127881216,
+              "RssAnon_bytes": 91619328,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127881216,
+              "VmRSS_bytes": 127881216,
+              "RssAnon_bytes": 91619328,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            }
+          ],
+          "rss_median_bytes": 127881216,
+          "proc_hwm_bytes": 127881216,
+          "process_wall_seconds_at_checkpoint": 1.3890199970010144
+        },
+        "full_world": {
+          "display": "headless",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2998.0,
+          "phase": "full_world",
+          "reveal_us": 1186,
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 127881216,
+              "VmRSS_bytes": 127881216,
+              "RssAnon_bytes": 91619328,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127881216,
+              "VmRSS_bytes": 127881216,
+              "RssAnon_bytes": 91619328,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127881216,
+              "VmRSS_bytes": 127881216,
+              "RssAnon_bytes": 91619328,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127881216,
+              "VmRSS_bytes": 127881216,
+              "RssAnon_bytes": 91619328,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127881216,
+              "VmRSS_bytes": 127881216,
+              "RssAnon_bytes": 91619328,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            }
+          ],
+          "rss_median_bytes": 127881216,
+          "proc_hwm_bytes": 127881216,
+          "process_wall_seconds_at_checkpoint": 1.5882655019995582
+        },
+        "window_return": {
+          "display": "headless",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2998.0,
+          "phase": "window_return",
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 127881216,
+              "VmRSS_bytes": 127881216,
+              "RssAnon_bytes": 91619328,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127881216,
+              "VmRSS_bytes": 127881216,
+              "RssAnon_bytes": 91619328,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127881216,
+              "VmRSS_bytes": 127881216,
+              "RssAnon_bytes": 91619328,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127881216,
+              "VmRSS_bytes": 127881216,
+              "RssAnon_bytes": 91619328,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127881216,
+              "VmRSS_bytes": 127881216,
+              "RssAnon_bytes": 91619328,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            }
+          ],
+          "rss_median_bytes": 127881216,
+          "proc_hwm_bytes": 127881216,
+          "process_wall_seconds_at_checkpoint": 1.7953455800015945
+        }
+      },
+      "warmup": true
+    },
+    {
+      "purpose": "memory",
+      "backend": "headless",
+      "wall_seconds": 2.1135203139965597,
+      "rss_poll_peak_bytes": 127975424,
+      "rss_poll_samples": 185,
+      "host_load_start": [0.10791015625, 0.40771484375, 0.37060546875],
+      "checkpoints": {
+        "window": {
+          "construction_us": 800539,
+          "display": "headless",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2997.0,
+          "phase": "window",
+          "ready_us": 1101454,
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 127868928,
+              "VmRSS_bytes": 127868928,
+              "RssAnon_bytes": 91607040,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127868928,
+              "VmRSS_bytes": 127868928,
+              "RssAnon_bytes": 91607040,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127868928,
+              "VmRSS_bytes": 127868928,
+              "RssAnon_bytes": 91607040,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127868928,
+              "VmRSS_bytes": 127868928,
+              "RssAnon_bytes": 91607040,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127868928,
+              "VmRSS_bytes": 127868928,
+              "RssAnon_bytes": 91607040,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            }
+          ],
+          "rss_median_bytes": 127868928,
+          "proc_hwm_bytes": 127868928,
+          "process_wall_seconds_at_checkpoint": 1.5969580349992611
+        },
+        "full_world": {
+          "display": "headless",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2998.0,
+          "phase": "full_world",
+          "reveal_us": 1012,
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 127868928,
+              "VmRSS_bytes": 127868928,
+              "RssAnon_bytes": 91607040,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127868928,
+              "VmRSS_bytes": 127868928,
+              "RssAnon_bytes": 91607040,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127868928,
+              "VmRSS_bytes": 127868928,
+              "RssAnon_bytes": 91607040,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127868928,
+              "VmRSS_bytes": 127868928,
+              "RssAnon_bytes": 91607040,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127868928,
+              "VmRSS_bytes": 127868928,
+              "RssAnon_bytes": 91607040,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            }
+          ],
+          "rss_median_bytes": 127868928,
+          "proc_hwm_bytes": 127868928,
+          "process_wall_seconds_at_checkpoint": 1.8018128309995518
+        },
+        "window_return": {
+          "display": "headless",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2998.0,
+          "phase": "window_return",
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 127868928,
+              "VmRSS_bytes": 127868928,
+              "RssAnon_bytes": 91607040,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127868928,
+              "VmRSS_bytes": 127868928,
+              "RssAnon_bytes": 91607040,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127868928,
+              "VmRSS_bytes": 127868928,
+              "RssAnon_bytes": 91607040,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127868928,
+              "VmRSS_bytes": 127868928,
+              "RssAnon_bytes": 91607040,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127868928,
+              "VmRSS_bytes": 127868928,
+              "RssAnon_bytes": 91607040,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            }
+          ],
+          "rss_median_bytes": 127868928,
+          "proc_hwm_bytes": 127868928,
+          "process_wall_seconds_at_checkpoint": 1.9959849299993948
+        }
+      },
+      "warmup": false
+    },
+    {
+      "purpose": "memory",
+      "backend": "headless",
+      "wall_seconds": 1.7767481209994003,
+      "rss_poll_peak_bytes": 127991808,
+      "rss_poll_samples": 156,
+      "host_load_start": [0.1796875, 0.41796875, 0.3740234375],
+      "checkpoints": {
+        "window": {
+          "construction_us": 795041,
+          "display": "headless",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2997.0,
+          "phase": "window",
+          "ready_us": 1005343,
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            }
+          ],
+          "rss_median_bytes": 127885312,
+          "proc_hwm_bytes": 127885312,
+          "process_wall_seconds_at_checkpoint": 1.263919335000537
+        },
+        "full_world": {
+          "display": "headless",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2998.0,
+          "phase": "full_world",
+          "reveal_us": 1027,
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            }
+          ],
+          "rss_median_bytes": 127885312,
+          "proc_hwm_bytes": 127885312,
+          "process_wall_seconds_at_checkpoint": 1.4585717699992529
+        },
+        "window_return": {
+          "display": "headless",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2998.0,
+          "phase": "window_return",
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            }
+          ],
+          "rss_median_bytes": 127885312,
+          "proc_hwm_bytes": 127885312,
+          "process_wall_seconds_at_checkpoint": 1.6636974700013525
+        }
+      },
+      "warmup": false
+    },
+    {
+      "purpose": "memory",
+      "backend": "headless",
+      "wall_seconds": 1.755008870997699,
+      "rss_poll_peak_bytes": 127991808,
+      "rss_poll_samples": 155,
+      "host_load_start": [0.1796875, 0.41796875, 0.3740234375],
+      "checkpoints": {
+        "window": {
+          "construction_us": 772750,
+          "display": "headless",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2997.0,
+          "phase": "window",
+          "ready_us": 974840,
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            }
+          ],
+          "rss_median_bytes": 127885312,
+          "proc_hwm_bytes": 127885312,
+          "process_wall_seconds_at_checkpoint": 1.1802801300000283
+        },
+        "full_world": {
+          "display": "headless",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2998.0,
+          "phase": "full_world",
+          "reveal_us": 1037,
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            }
+          ],
+          "rss_median_bytes": 127885312,
+          "proc_hwm_bytes": 127885312,
+          "process_wall_seconds_at_checkpoint": 1.386165545998665
+        },
+        "window_return": {
+          "display": "headless",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2998.0,
+          "phase": "window_return",
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            },
+            {
+              "VmHWM_bytes": 127885312,
+              "VmRSS_bytes": 127885312,
+              "RssAnon_bytes": 91623424,
+              "RssFile_bytes": 36261888,
+              "RssShmem_bytes": 0
+            }
+          ],
+          "rss_median_bytes": 127885312,
+          "proc_hwm_bytes": 127885312,
+          "process_wall_seconds_at_checkpoint": 1.5810455909995653
+        }
+      },
+      "warmup": false
+    },
+    {
+      "purpose": "memory",
+      "backend": "native",
+      "wall_seconds": 9.170564722000563,
+      "rss_poll_peak_bytes": 448557056,
+      "rss_poll_samples": 793,
+      "host_load_start": [0.1650390625, 0.41064453125, 0.37158203125],
+      "checkpoints": {
+        "window": {
+          "construction_us": 921580,
+          "display": "X11",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2958.0,
+          "phase": "window",
+          "ready_us": 3166984,
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 371691520,
+              "VmRSS_bytes": 365416448,
+              "RssAnon_bytes": 283451392,
+              "RssFile_bytes": 78278656,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 371691520,
+              "VmRSS_bytes": 365416448,
+              "RssAnon_bytes": 283451392,
+              "RssFile_bytes": 78278656,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 371691520,
+              "VmRSS_bytes": 365416448,
+              "RssAnon_bytes": 283451392,
+              "RssFile_bytes": 78278656,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 371691520,
+              "VmRSS_bytes": 365416448,
+              "RssAnon_bytes": 283451392,
+              "RssFile_bytes": 78278656,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 371691520,
+              "VmRSS_bytes": 365416448,
+              "RssAnon_bytes": 283451392,
+              "RssFile_bytes": 78278656,
+              "RssShmem_bytes": 3686400
+            }
+          ],
+          "rss_median_bytes": 365416448,
+          "proc_hwm_bytes": 371691520,
+          "process_wall_seconds_at_checkpoint": 3.7377907870031777
+        },
+        "full_world": {
+          "display": "X11",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2959.0,
+          "phase": "full_world",
+          "reveal_us": 1406,
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 448446464,
+              "VmRSS_bytes": 448446464,
+              "RssAnon_bytes": 366469120,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 448446464,
+              "VmRSS_bytes": 448446464,
+              "RssAnon_bytes": 366469120,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 448446464,
+              "VmRSS_bytes": 448446464,
+              "RssAnon_bytes": 366469120,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 448446464,
+              "VmRSS_bytes": 448446464,
+              "RssAnon_bytes": 366469120,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 448446464,
+              "VmRSS_bytes": 448446464,
+              "RssAnon_bytes": 366469120,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            }
+          ],
+          "rss_median_bytes": 448446464,
+          "proc_hwm_bytes": 448446464,
+          "process_wall_seconds_at_checkpoint": 7.120309024001472
+        },
+        "window_return": {
+          "display": "X11",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2959.0,
+          "phase": "window_return",
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 448479232,
+              "VmRSS_bytes": 448479232,
+              "RssAnon_bytes": 366501888,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 448491520,
+              "VmRSS_bytes": 448491520,
+              "RssAnon_bytes": 366514176,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 448491520,
+              "VmRSS_bytes": 448491520,
+              "RssAnon_bytes": 366514176,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 448491520,
+              "VmRSS_bytes": 448491520,
+              "RssAnon_bytes": 366514176,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 448491520,
+              "VmRSS_bytes": 448491520,
+              "RssAnon_bytes": 366514176,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            }
+          ],
+          "rss_median_bytes": 448491520,
+          "proc_hwm_bytes": 448491520,
+          "process_wall_seconds_at_checkpoint": 8.847097421003127
+        }
+      },
+      "warmup": true
+    },
+    {
+      "purpose": "memory",
+      "backend": "native",
+      "wall_seconds": 9.499324185002479,
+      "rss_poll_peak_bytes": 452952064,
+      "rss_poll_samples": 808,
+      "host_load_start": [0.1513671875, 0.40380859375, 0.369140625],
+      "checkpoints": {
+        "window": {
+          "construction_us": 1119850,
+          "display": "X11",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2958.0,
+          "phase": "window",
+          "ready_us": 2987498,
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 371789824,
+              "VmRSS_bytes": 368582656,
+              "RssAnon_bytes": 286617600,
+              "RssFile_bytes": 78278656,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 371789824,
+              "VmRSS_bytes": 365072384,
+              "RssAnon_bytes": 283107328,
+              "RssFile_bytes": 78278656,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 371789824,
+              "VmRSS_bytes": 365072384,
+              "RssAnon_bytes": 283107328,
+              "RssFile_bytes": 78278656,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 371789824,
+              "VmRSS_bytes": 365072384,
+              "RssAnon_bytes": 283107328,
+              "RssFile_bytes": 78278656,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 371789824,
+              "VmRSS_bytes": 365072384,
+              "RssAnon_bytes": 283107328,
+              "RssFile_bytes": 78278656,
+              "RssShmem_bytes": 3686400
+            }
+          ],
+          "rss_median_bytes": 365072384,
+          "proc_hwm_bytes": 371789824,
+          "process_wall_seconds_at_checkpoint": 3.526665926001442
+        },
+        "full_world": {
+          "display": "X11",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2959.0,
+          "phase": "full_world",
+          "reveal_us": 1436,
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 452210688,
+              "VmRSS_bytes": 449634304,
+              "RssAnon_bytes": 367656960,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 452210688,
+              "VmRSS_bytes": 449634304,
+              "RssAnon_bytes": 367656960,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 452210688,
+              "VmRSS_bytes": 449634304,
+              "RssAnon_bytes": 367656960,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 452210688,
+              "VmRSS_bytes": 449634304,
+              "RssAnon_bytes": 367656960,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 452210688,
+              "VmRSS_bytes": 449634304,
+              "RssAnon_bytes": 367656960,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            }
+          ],
+          "rss_median_bytes": 449634304,
+          "proc_hwm_bytes": 452210688,
+          "process_wall_seconds_at_checkpoint": 7.105981352000526
+        },
+        "window_return": {
+          "display": "X11",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2959.0,
+          "phase": "window_return",
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 452227072,
+              "VmRSS_bytes": 449634304,
+              "RssAnon_bytes": 367656960,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 452227072,
+              "VmRSS_bytes": 449634304,
+              "RssAnon_bytes": 367656960,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 452227072,
+              "VmRSS_bytes": 449634304,
+              "RssAnon_bytes": 367656960,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 452227072,
+              "VmRSS_bytes": 449634304,
+              "RssAnon_bytes": 367656960,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 452227072,
+              "VmRSS_bytes": 449634304,
+              "RssAnon_bytes": 367656960,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            }
+          ],
+          "rss_median_bytes": 449634304,
+          "proc_hwm_bytes": 452227072,
+          "process_wall_seconds_at_checkpoint": 9.175030143000185
+        }
+      },
+      "warmup": false
+    },
+    {
+      "purpose": "memory",
+      "backend": "native",
+      "wall_seconds": 9.318078876000072,
+      "rss_poll_peak_bytes": 453120000,
+      "rss_poll_samples": 800,
+      "host_load_start": [0.6025390625, 0.490234375, 0.3974609375],
+      "checkpoints": {
+        "window": {
+          "construction_us": 735365,
+          "display": "X11",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2958.0,
+          "phase": "window",
+          "ready_us": 2453239,
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 372084736,
+              "VmRSS_bytes": 365522944,
+              "RssAnon_bytes": 283557888,
+              "RssFile_bytes": 78278656,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 372084736,
+              "VmRSS_bytes": 366518272,
+              "RssAnon_bytes": 284553216,
+              "RssFile_bytes": 78278656,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 372719616,
+              "VmRSS_bytes": 372719616,
+              "RssAnon_bytes": 290754560,
+              "RssFile_bytes": 78278656,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 372719616,
+              "VmRSS_bytes": 372719616,
+              "RssAnon_bytes": 290754560,
+              "RssFile_bytes": 78278656,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 372719616,
+              "VmRSS_bytes": 372719616,
+              "RssAnon_bytes": 290754560,
+              "RssFile_bytes": 78278656,
+              "RssShmem_bytes": 3686400
+            }
+          ],
+          "rss_median_bytes": 372719616,
+          "proc_hwm_bytes": 372719616,
+          "process_wall_seconds_at_checkpoint": 3.16768594700261
+        },
+        "full_world": {
+          "display": "X11",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2959.0,
+          "phase": "full_world",
+          "reveal_us": 1573,
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 452300800,
+              "VmRSS_bytes": 449802240,
+              "RssAnon_bytes": 367824896,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 452300800,
+              "VmRSS_bytes": 449802240,
+              "RssAnon_bytes": 367824896,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 452300800,
+              "VmRSS_bytes": 449802240,
+              "RssAnon_bytes": 367824896,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 452300800,
+              "VmRSS_bytes": 449802240,
+              "RssAnon_bytes": 367824896,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 452300800,
+              "VmRSS_bytes": 449802240,
+              "RssAnon_bytes": 367824896,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            }
+          ],
+          "rss_median_bytes": 449802240,
+          "proc_hwm_bytes": 452300800,
+          "process_wall_seconds_at_checkpoint": 6.744424808002805
+        },
+        "window_return": {
+          "display": "X11",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2959.0,
+          "phase": "window_return",
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 452300800,
+              "VmRSS_bytes": 449822720,
+              "RssAnon_bytes": 367845376,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 452300800,
+              "VmRSS_bytes": 449822720,
+              "RssAnon_bytes": 367845376,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 452300800,
+              "VmRSS_bytes": 449822720,
+              "RssAnon_bytes": 367845376,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 452300800,
+              "VmRSS_bytes": 449822720,
+              "RssAnon_bytes": 367845376,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 452300800,
+              "VmRSS_bytes": 449822720,
+              "RssAnon_bytes": 367845376,
+              "RssFile_bytes": 78290944,
+              "RssShmem_bytes": 3686400
+            }
+          ],
+          "rss_median_bytes": 449822720,
+          "proc_hwm_bytes": 452300800,
+          "process_wall_seconds_at_checkpoint": 9.01320762800242
+        }
+      },
+      "warmup": false
+    },
+    {
+      "purpose": "memory",
+      "backend": "native",
+      "wall_seconds": 9.277626086000964,
+      "rss_poll_peak_bytes": 448233472,
+      "rss_poll_samples": 780,
+      "host_load_start": [1.37841796875, 0.65673828125, 0.45263671875],
+      "checkpoints": {
+        "window": {
+          "construction_us": 843219,
+          "display": "X11",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2958.0,
+          "phase": "window",
+          "ready_us": 3138083,
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 371888128,
+              "VmRSS_bytes": 365355008,
+              "RssAnon_bytes": 283398144,
+              "RssFile_bytes": 78270464,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 371888128,
+              "VmRSS_bytes": 365355008,
+              "RssAnon_bytes": 283398144,
+              "RssFile_bytes": 78270464,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 371888128,
+              "VmRSS_bytes": 365355008,
+              "RssAnon_bytes": 283398144,
+              "RssFile_bytes": 78270464,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 371888128,
+              "VmRSS_bytes": 365355008,
+              "RssAnon_bytes": 283398144,
+              "RssFile_bytes": 78270464,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 371888128,
+              "VmRSS_bytes": 365355008,
+              "RssAnon_bytes": 283398144,
+              "RssFile_bytes": 78270464,
+              "RssShmem_bytes": 3686400
+            }
+          ],
+          "rss_median_bytes": 365355008,
+          "proc_hwm_bytes": 371888128,
+          "process_wall_seconds_at_checkpoint": 3.668835893000505
+        },
+        "full_world": {
+          "display": "X11",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2959.0,
+          "phase": "full_world",
+          "reveal_us": 1790,
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 448053248,
+              "VmRSS_bytes": 448053248,
+              "RssAnon_bytes": 366084096,
+              "RssFile_bytes": 78282752,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 448053248,
+              "VmRSS_bytes": 448053248,
+              "RssAnon_bytes": 366084096,
+              "RssFile_bytes": 78282752,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 448053248,
+              "VmRSS_bytes": 448053248,
+              "RssAnon_bytes": 366084096,
+              "RssFile_bytes": 78282752,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 448053248,
+              "VmRSS_bytes": 448053248,
+              "RssAnon_bytes": 366084096,
+              "RssFile_bytes": 78282752,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 448053248,
+              "VmRSS_bytes": 448053248,
+              "RssAnon_bytes": 366084096,
+              "RssFile_bytes": 78282752,
+              "RssShmem_bytes": 3686400
+            }
+          ],
+          "rss_median_bytes": 448053248,
+          "proc_hwm_bytes": 448053248,
+          "process_wall_seconds_at_checkpoint": 7.154989773000125
+        },
+        "window_return": {
+          "display": "X11",
+          "engine": "4.6.3-stable (official)",
+          "objects": 2959.0,
+          "phase": "window_return",
+          "tree_nodes": 649,
+          "viewport": [1280, 720],
+          "proc_samples": [
+            {
+              "VmHWM_bytes": 448167936,
+              "VmRSS_bytes": 448167936,
+              "RssAnon_bytes": 366198784,
+              "RssFile_bytes": 78282752,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 448167936,
+              "VmRSS_bytes": 448167936,
+              "RssAnon_bytes": 366198784,
+              "RssFile_bytes": 78282752,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 448167936,
+              "VmRSS_bytes": 448167936,
+              "RssAnon_bytes": 366198784,
+              "RssFile_bytes": 78282752,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 448167936,
+              "VmRSS_bytes": 448167936,
+              "RssAnon_bytes": 366198784,
+              "RssFile_bytes": 78282752,
+              "RssShmem_bytes": 3686400
+            },
+            {
+              "VmHWM_bytes": 448167936,
+              "VmRSS_bytes": 448167936,
+              "RssAnon_bytes": 366198784,
+              "RssFile_bytes": 78282752,
+              "RssShmem_bytes": 3686400
+            }
+          ],
+          "rss_median_bytes": 448167936,
+          "proc_hwm_bytes": 448167936,
+          "process_wall_seconds_at_checkpoint": 8.974204072001157
+        }
+      },
+      "warmup": false
+    }
+  ],
+  "measurement_notes": [
+    "RSS sampled directly from /proc before any mesh-array or image readback.",
+    "Checkpoints use five RSS samples separated by 10ms. Startup readiness is eight process frames; construction is synchronous scene load/instantiate/add-child.",
+    "One excluded warmup per backend; repeated fresh processes share warm OS/import/shader caches.",
+    "External update query suppressed while its client node remains allocated. RNG fixed and ambient time scale zero for comparable scenes.",
+    "Optional geometry builds on first reveal and may remain cached when returning to window. Inventory and captures run in separate fresh processes.",
+    "Geometry channel bytes are estimates, not RSS. No headless MultiMesh transform or bounds readback."
+  ],
+  "summary": {
+    "headless": {
+      "window": {
+        "rss_bytes": {
+          "n": 3,
+          "median": 127885312,
+          "min": 127868928,
+          "max": 127885312,
+          "values": [127868928, 127885312, 127885312]
+        },
+        "tree_nodes": {
+          "n": 3,
+          "median": 649,
+          "min": 649,
+          "max": 649,
+          "values": [649, 649, 649]
+        },
+        "construction_us": {
+          "n": 3,
+          "median": 795041,
+          "min": 772750,
+          "max": 800539,
+          "values": [800539, 795041, 772750]
+        },
+        "ready_us": {
+          "n": 3,
+          "median": 1005343,
+          "min": 974840,
+          "max": 1101454,
+          "values": [1101454, 1005343, 974840]
+        }
+      },
+      "full_world": {
+        "rss_bytes": {
+          "n": 3,
+          "median": 127885312,
+          "min": 127868928,
+          "max": 127885312,
+          "values": [127868928, 127885312, 127885312]
+        },
+        "tree_nodes": {
+          "n": 3,
+          "median": 649,
+          "min": 649,
+          "max": 649,
+          "values": [649, 649, 649]
+        },
+        "reveal_us": {
+          "n": 3,
+          "median": 1027,
+          "min": 1012,
+          "max": 1037,
+          "values": [1012, 1027, 1037]
+        }
+      },
+      "window_return": {
+        "rss_bytes": {
+          "n": 3,
+          "median": 127885312,
+          "min": 127868928,
+          "max": 127885312,
+          "values": [127868928, 127885312, 127885312]
+        },
+        "tree_nodes": {
+          "n": 3,
+          "median": 649,
+          "min": 649,
+          "max": 649,
+          "values": [649, 649, 649]
+        }
+      }
+    },
+    "native": {
+      "window": {
+        "rss_bytes": {
+          "n": 3,
+          "median": 365355008,
+          "min": 365072384,
+          "max": 372719616,
+          "values": [365072384, 372719616, 365355008]
+        },
+        "tree_nodes": {
+          "n": 3,
+          "median": 649,
+          "min": 649,
+          "max": 649,
+          "values": [649, 649, 649]
+        },
+        "construction_us": {
+          "n": 3,
+          "median": 843219,
+          "min": 735365,
+          "max": 1119850,
+          "values": [1119850, 735365, 843219]
+        },
+        "ready_us": {
+          "n": 3,
+          "median": 2987498,
+          "min": 2453239,
+          "max": 3138083,
+          "values": [2987498, 2453239, 3138083]
+        }
+      },
+      "full_world": {
+        "rss_bytes": {
+          "n": 3,
+          "median": 449634304,
+          "min": 448053248,
+          "max": 449802240,
+          "values": [449634304, 449802240, 448053248]
+        },
+        "tree_nodes": {
+          "n": 3,
+          "median": 649,
+          "min": 649,
+          "max": 649,
+          "values": [649, 649, 649]
+        },
+        "reveal_us": {
+          "n": 3,
+          "median": 1573,
+          "min": 1436,
+          "max": 1790,
+          "values": [1436, 1573, 1790]
+        }
+      },
+      "window_return": {
+        "rss_bytes": {
+          "n": 3,
+          "median": 449634304,
+          "min": 448167936,
+          "max": 449822720,
+          "values": [449634304, 449822720, 448167936]
+        },
+        "tree_nodes": {
+          "n": 3,
+          "median": 649,
+          "min": 649,
+          "max": 649,
+          "values": [649, 649, 649]
+        }
+      }
+    }
+  },
+  "inventory": {
+    "full_world": {
+      "game_nodes": 636,
+      "geometry_nodes": 277,
+      "largest_geometry": [
+        {
+          "instances": 1,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993049463093_1",
+          "potential_triangles": 42696,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976809117257_1",
+          "potential_triangles": 13600,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993032685876_1",
+          "potential_triangles": 13416,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976775562823_1",
+          "potential_triangles": 12924,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993015908659_1",
+          "potential_triangles": 7728,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371992982354225_1",
+          "potential_triangles": 6352,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976121251360_0",
+          "potential_triangles": 5872,
+          "visible": true
+        },
+        {
+          "instances": 72,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/AirlockFastenerInstances",
+          "potential_triangles": 5760,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/RecessedInteriorLiner",
+          "potential_triangles": 5112,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial4",
+          "potential_triangles": 4312,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/PearlArmor",
+          "potential_triangles": 3872,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt0",
+          "potential_triangles": 3840,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt1",
+          "potential_triangles": 3840,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt2",
+          "potential_triangles": 3840,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial8",
+          "potential_triangles": 3648,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/WarmGold",
+          "potential_triangles": 3560,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/WarmGold",
+          "potential_triangles": 3088,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976792340040_1",
+          "potential_triangles": 3076,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/PartialRegolithBerm",
+          "potential_triangles": 3072,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/CrimsonHarness",
+          "potential_triangles": 2260,
+          "visible": true
+        }
+      ],
+      "potential_instanced_triangles": 220746,
+      "scope": "Separate inventory process. Mesh channel payload estimates exclude allocator, textures, materials, driver and MultiMesh instance-buffer overhead. Triangle multiplicity is not rendered work. No MultiMesh transform/bounds readback.",
+      "unique_mesh_channel_bytes": 8187944,
+      "unique_meshes": 277,
+      "visible_instanced_triangles": 202858
+    },
+    "window": {
+      "game_nodes": 636,
+      "geometry_nodes": 277,
+      "largest_geometry": [
+        {
+          "instances": 1,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993049463093_1",
+          "potential_triangles": 42696,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976809117257_1",
+          "potential_triangles": 13600,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993032685876_1",
+          "potential_triangles": 13416,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976775562823_1",
+          "potential_triangles": 12924,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993015908659_1",
+          "potential_triangles": 7728,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371992982354225_1",
+          "potential_triangles": 6352,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976121251360_0",
+          "potential_triangles": 5872,
+          "visible": false
+        },
+        {
+          "instances": 72,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/AirlockFastenerInstances",
+          "potential_triangles": 5760,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/RecessedInteriorLiner",
+          "potential_triangles": 5112,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial4",
+          "potential_triangles": 4312,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/PearlArmor",
+          "potential_triangles": 3872,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt0",
+          "potential_triangles": 3840,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt1",
+          "potential_triangles": 3840,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt2",
+          "potential_triangles": 3840,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial8",
+          "potential_triangles": 3648,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/WarmGold",
+          "potential_triangles": 3560,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/WarmGold",
+          "potential_triangles": 3088,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976792340040_1",
+          "potential_triangles": 3076,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/PartialRegolithBerm",
+          "potential_triangles": 3072,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/CrimsonHarness",
+          "potential_triangles": 2260,
+          "visible": true
+        }
+      ],
+      "potential_instanced_triangles": 220746,
+      "scope": "Separate inventory process. Mesh channel payload estimates exclude allocator, textures, materials, driver and MultiMesh instance-buffer overhead. Triangle multiplicity is not rendered work. No MultiMesh transform/bounds readback.",
+      "unique_mesh_channel_bytes": 8187944,
+      "unique_meshes": 277,
+      "visible_instanced_triangles": 40008
+    },
+    "window_return": {
+      "game_nodes": 636,
+      "geometry_nodes": 277,
+      "largest_geometry": [
+        {
+          "instances": 1,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993049463093_1",
+          "potential_triangles": 42696,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976809117257_1",
+          "potential_triangles": 13600,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993032685876_1",
+          "potential_triangles": 13416,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976775562823_1",
+          "potential_triangles": 12924,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993015908659_1",
+          "potential_triangles": 7728,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371992982354225_1",
+          "potential_triangles": 6352,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976121251360_0",
+          "potential_triangles": 5872,
+          "visible": false
+        },
+        {
+          "instances": 72,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/AirlockFastenerInstances",
+          "potential_triangles": 5760,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/RecessedInteriorLiner",
+          "potential_triangles": 5112,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial4",
+          "potential_triangles": 4312,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/PearlArmor",
+          "potential_triangles": 3872,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt0",
+          "potential_triangles": 3840,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt1",
+          "potential_triangles": 3840,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt2",
+          "potential_triangles": 3840,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial8",
+          "potential_triangles": 3648,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/WarmGold",
+          "potential_triangles": 3560,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/WarmGold",
+          "potential_triangles": 3088,
+          "visible": true
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976792340040_1",
+          "potential_triangles": 3076,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/PartialRegolithBerm",
+          "potential_triangles": 3072,
+          "visible": false
+        },
+        {
+          "instances": 1,
+          "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/CrimsonHarness",
+          "potential_triangles": 2260,
+          "visible": true
+        }
+      ],
+      "potential_instanced_triangles": 220746,
+      "scope": "Separate inventory process. Mesh channel payload estimates exclude allocator, textures, materials, driver and MultiMesh instance-buffer overhead. Triangle multiplicity is not rendered work. No MultiMesh transform/bounds readback.",
+      "unique_mesh_channel_bytes": 8187944,
+      "unique_meshes": 277,
+      "visible_instanced_triangles": 40008
+    }
+  },
+  "route": {
+    "phases": [
+      {
+        "mission": {
+          "consumed_kwh": 0.00558333333333333,
+          "dose_msv": 0.000232638888888889,
+          "generated_kwh": 0.0147033878037851,
+          "habitat_kwh": 8.00912005447045,
+          "inspection": 0.0,
+          "status": "running",
+          "suit_kwh": 0.899,
+          "time_hours": 0.00833333333333333
+        },
+        "phase": "walking",
+        "rescue": {
+          "cycle_hours": 0.0,
+          "elapsed_hours": 0.00833333333333333,
+          "phase": "walking",
+          "position_metres": [-0.248256415128708, 0.0, 6.56598520278931],
+          "remaining_metres": 19.8004331588745,
+          "stop_reason": ""
+        }
+      },
+      {
+        "mission": {
+          "consumed_kwh": 0.2345,
+          "dose_msv": 0.00977083333333333,
+          "generated_kwh": 0.621555436070837,
+          "habitat_kwh": 8.38705543607084,
+          "inspection": 0.0,
+          "status": "running",
+          "suit_kwh": 0.858,
+          "time_hours": 0.35
+        },
+        "phase": "cycling",
+        "rescue": {
+          "cycle_hours": 0.0116594632466634,
+          "elapsed_hours": 0.35,
+          "phase": "cycling",
+          "position_metres": [-7.15000009536743, 0.0, -11.3999996185303],
+          "remaining_metres": 0.0,
+          "stop_reason": ""
+        }
+      },
+      {
+        "mission": {
+          "consumed_kwh": 0.335,
+          "dose_msv": 0.0139583333333333,
+          "generated_kwh": 0.890304863709673,
+          "habitat_kwh": 8.55530486370967,
+          "inspection": 0.0,
+          "status": "running",
+          "suit_kwh": 0.84,
+          "time_hours": 0.500000000000001
+        },
+        "phase": "entering",
+        "rescue": {
+          "cycle_hours": 0.15,
+          "elapsed_hours": 0.500000000000001,
+          "phase": "entering",
+          "position_metres": [-7.15000009536743, 0.0, -12.0995674133301],
+          "remaining_metres": 0.900432586669922,
+          "stop_reason": ""
+        }
+      },
+      {
+        "mission": {
+          "consumed_kwh": 0.35175,
+          "dose_msv": 0.0144585069444444,
+          "generated_kwh": 0.935225468579751,
+          "habitat_kwh": 8.58347546857975,
+          "inspection": 0.0,
+          "status": "running",
+          "suit_kwh": 0.838,
+          "time_hours": 0.525000000000001
+        },
+        "phase": "protected",
+        "rescue": {
+          "cycle_hours": 0.15,
+          "elapsed_hours": 0.515007209777833,
+          "phase": "protected",
+          "position_metres": [-7.15000009536743, 0.0, -13.0],
+          "remaining_metres": 0.0,
+          "stop_reason": ""
+        }
+      }
+    ],
+    "protected": true,
+    "scope": "Regular production controller steps after full-world reveal and return. Fixed time scale freezes ambient animation, not explicit controller steps; no actor position or shelter assignments.",
+    "visual_matches_model": true
+  },
+  "field_notes": {
+    "camera_exactly_restored": true,
+    "opened": true,
+    "scope": "Field Notes opened from a fresh title scene after other visual evidence; no manual camera restoration.",
+    "title_visible": true,
+    "window_restored": true
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "phases": [
+    {
+      "mission": {
+        "consumed_kwh": 0.00558333333333333,
+        "dose_msv": 0.000232638888888889,
+        "generated_kwh": 0.0147033878037851,
+        "habitat_kwh": 8.00912005447045,
+        "inspection": 0.0,
+        "status": "running",
+        "suit_kwh": 0.899,
+        "time_hours": 0.00833333333333333
+      },
+      "phase": "walking",
+      "rescue": {
+        "cycle_hours": 0.0,
+        "elapsed_hours": 0.00833333333333333,
+        "phase": "walking",
+        "position_metres": [-0.248256415128708, 0.0, 6.56598520278931],
+        "remaining_metres": 19.8004331588745,
+        "stop_reason": ""
+      }
+    },
+    {
+      "mission": {
+        "consumed_kwh": 0.2345,
+        "dose_msv": 0.00977083333333333,
+        "generated_kwh": 0.621555436070837,
+        "habitat_kwh": 8.38705543607084,
+        "inspection": 0.0,
+        "status": "running",
+        "suit_kwh": 0.858,
+        "time_hours": 0.35
+      },
+      "phase": "cycling",
+      "rescue": {
+        "cycle_hours": 0.0116594632466634,
+        "elapsed_hours": 0.35,
+        "phase": "cycling",
+        "position_metres": [-7.15000009536743, 0.0, -11.3999996185303],
+        "remaining_metres": 0.0,
+        "stop_reason": ""
+      }
+    },
+    {
+      "mission": {
+        "consumed_kwh": 0.335,
+        "dose_msv": 0.0139583333333333,
+        "generated_kwh": 0.890304863709673,
+        "habitat_kwh": 8.55530486370967,
+        "inspection": 0.0,
+        "status": "running",
+        "suit_kwh": 0.84,
+        "time_hours": 0.500000000000001
+      },
+      "phase": "entering",
+      "rescue": {
+        "cycle_hours": 0.15,
+        "elapsed_hours": 0.500000000000001,
+        "phase": "entering",
+        "position_metres": [-7.15000009536743, 0.0, -12.0995674133301],
+        "remaining_metres": 0.900432586669922,
+        "stop_reason": ""
+      }
+    },
+    {
+      "mission": {
+        "consumed_kwh": 0.35175,
+        "dose_msv": 0.0144585069444444,
+        "generated_kwh": 0.935225468579751,
+        "habitat_kwh": 8.58347546857975,
+        "inspection": 0.0,
+        "status": "running",
+        "suit_kwh": 0.838,
+        "time_hours": 0.525000000000001
+      },
+      "phase": "protected",
+      "rescue": {
+        "cycle_hours": 0.15,
+        "elapsed_hours": 0.515007209777833,
+        "phase": "protected",
+        "position_metres": [-7.15000009536743, 0.0, -13.0],
+        "remaining_metres": 0.0,
+        "stop_reason": ""
+      }
+    }
+  ],
+  "protected": true,
+  "scope": "Regular production controller steps after full-world reveal and return. Fixed time scale freezes ambient animation, not explicit controller steps; no actor position or shelter assignments.",
+  "visual_matches_model": true
+}

@@ -1,0 +1,9 @@
+{
+  "purpose": "visual",
+  "backend": "native",
+  "wall_seconds": 22.83946873000241,
+  "rss_poll_peak_bytes": 523710464,
+  "rss_poll_samples": 1936,
+  "host_load_start": [3.51025390625, 1.54150390625, 0.78564453125],
+  "checkpoints": {}
+}

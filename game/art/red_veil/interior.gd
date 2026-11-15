@@ -23,14 +23,30 @@ var _inner_airlock_door: Node3D
 var _airlock_status: Label3D
 var _airlock_phase := "idle"
 var _collision_settings: Dictionary = {}
+var _presentation_ready := false
+var _legacy_built := false
+var _last_mission_snapshot: Dictionary = {}
+
+func prepare_presentation(window_mode: bool, _hidden_categories: PackedStringArray = PackedStringArray()) -> void:
+	# World calls this before add_child triggers _ready. Standalone scenes retain
+	# legacy EVA by default; a mode request must never allocate geometry early.
+	_window_mode = window_mode
+	if _presentation_ready: set_window_presentation(window_mode)
 
 func _ready() -> void:
-	_materials.ivory = _material(IVORY, 0.78, 0.0)
-	_materials.pearl = _material(IVORY.darkened(0.12), 0.86, 0.0)
+	# Only these shared finishes are needed for the lightweight window enclosure.
 	_materials.navy = _material(GRAPHITE, 0.80, 0.0)
-	_materials.dark = _material(GRAPHITE, 0.86, 0.0)
 	_materials.chrome = _material(VisualStyle.color("steel").darkened(0.22), 0.65, 0.10)
 	_materials.cyan = _material(CYAN, 0.80, 0.0, 0.08)
+	_presentation_ready = true
+	set_window_presentation(_window_mode)
+
+func _ensure_legacy_content() -> void:
+	if _legacy_built: return
+	_legacy_built = true
+	_materials.ivory = _material(IVORY, 0.78, 0.0)
+	_materials.pearl = _material(IVORY.darkened(0.12), 0.86, 0.0)
+	_materials.dark = _material(GRAPHITE, 0.86, 0.0)
 	_materials.cloth = _material(IVORY.darkened(0.05), 0.95, 0.0)
 	_materials.leaf = _material(Color("576d59"), 0.95, 0.0)
 	_materials.leaf.cull_mode = BaseMaterial3D.CULL_DISABLED
@@ -49,11 +65,14 @@ func _ready() -> void:
 	_build_planter(Vector3(-7.5, 0.05, -3.9), 0.15)
 	_build_planter(Vector3(7.4, 0.05, -4.5), 1.1)
 	if batch_static_geometry: _batch_static_meshes()
-	apply_mission_visuals({})
+	_refresh_mission_labels()
 	for child in get_children():
-		if child is Node3D and not child.is_queued_for_deletion(): _legacy_content.append(child)
+		if child is Node3D and child != _window_enclosure and not child.is_queued_for_deletion():
+			_legacy_content.append(child)
+
+func _ensure_window_enclosure() -> void:
+	if is_instance_valid(_window_enclosure): return
 	_build_window_enclosure()
-	_set_branch_enabled(_window_enclosure, false)
 
 func _material(color: Color, roughness: float, metal: float, glow: float = 0.0) -> StandardMaterial3D:
 	var material := StandardMaterial3D.new()
@@ -277,7 +296,14 @@ func _build_display(position: Vector3, yaw: float, title: String, key: String) -
 	return [primary, secondary]
 
 func apply_mission_visuals(snapshot: Dictionary) -> void:
+	# Keep detached state even before a branch exists. Later construction must
+	# never reset displayed resources to the scenario's initial defaults.
+	_last_mission_snapshot = snapshot.duplicate(true)
+	_refresh_mission_labels()
+
+func _refresh_mission_labels() -> void:
 	if not is_instance_valid(_power_label): return
+	var snapshot := _last_mission_snapshot
 	var solar := float(snapshot.get("solar_kw", 0.0))
 	var habitat := float(snapshot.get("habitat_kwh", 8.0))
 	var suit := float(snapshot.get("suit_kwh", 0.9))
@@ -349,7 +375,9 @@ func _batch_static_meshes() -> void:
 	var pending: Array[Node] = [self]
 	while not pending.is_empty():
 		var node: Node = pending.pop_back()
-		if node == _mars: continue
+		# A late EVA build must not merge/free the already-built window and its
+		# attached door colliders, nor capture it as legacy content.
+		if node == _mars or node == _window_enclosure: continue
 		for child in node.get_children(): pending.append(child)
 		if not node is MeshInstance3D: continue
 		var instance := node as MeshInstance3D
@@ -461,17 +489,21 @@ func _set_branch_enabled(branch: Node3D, enabled: bool) -> void:
 
 func set_window_presentation(enabled: bool) -> void:
 	_window_mode = enabled
+	if not _presentation_ready: return
+	if enabled: _ensure_window_enclosure()
+	else: _ensure_legacy_content()
 	for branch in _legacy_content:
 		if is_instance_valid(branch): _set_branch_enabled(branch, not enabled)
-	_set_branch_enabled(_window_enclosure, enabled)
+	if is_instance_valid(_window_enclosure): _set_branch_enabled(_window_enclosure, enabled)
 	if enabled: set_airlock_phase(_airlock_phase)
+	set_process(not enabled and is_instance_valid(_mars))
 
 func set_airlock_phase(phase: String) -> void:
 	# The orchestrator alone decides crew travel, cycle time and shelter state.
 	# Showing an open door never changes Mission.shelter or scientific equations.
 	if phase not in ["idle", "approach", "cycling", "complete"]: return
 	_airlock_phase = phase
-	if not _window_mode: return
+	if not _window_mode or not is_instance_valid(_window_enclosure): return
 	_set_branch_enabled(_outer_airlock_door, phase != "approach")
 	_set_branch_enabled(_inner_airlock_door, phase != "complete")
 	var messages := {"idle": "CREW ENTRY / CLOSED", "approach": "CREW ENTRY / RECEIVING", "cycling": "CREW ENTRY / CYCLING", "complete": "CREW ENTRY / READY"}

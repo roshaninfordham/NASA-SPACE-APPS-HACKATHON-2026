@@ -1,0 +1,395 @@
+{
+  "full_world": {
+    "game_nodes": 636,
+    "geometry_nodes": 277,
+    "largest_geometry": [
+      {
+        "instances": 1,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993049463093_1",
+        "potential_triangles": 42696,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976809117257_1",
+        "potential_triangles": 13600,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993032685876_1",
+        "potential_triangles": 13416,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976775562823_1",
+        "potential_triangles": 12924,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993015908659_1",
+        "potential_triangles": 7728,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371992982354225_1",
+        "potential_triangles": 6352,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976121251360_0",
+        "potential_triangles": 5872,
+        "visible": true
+      },
+      {
+        "instances": 72,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/AirlockFastenerInstances",
+        "potential_triangles": 5760,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/RecessedInteriorLiner",
+        "potential_triangles": 5112,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial4",
+        "potential_triangles": 4312,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/PearlArmor",
+        "potential_triangles": 3872,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt0",
+        "potential_triangles": 3840,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt1",
+        "potential_triangles": 3840,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt2",
+        "potential_triangles": 3840,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial8",
+        "potential_triangles": 3648,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/WarmGold",
+        "potential_triangles": 3560,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/WarmGold",
+        "potential_triangles": 3088,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976792340040_1",
+        "potential_triangles": 3076,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/PartialRegolithBerm",
+        "potential_triangles": 3072,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/CrimsonHarness",
+        "potential_triangles": 2260,
+        "visible": true
+      }
+    ],
+    "potential_instanced_triangles": 220746,
+    "scope": "Separate inventory process. Mesh channel payload estimates exclude allocator, textures, materials, driver and MultiMesh instance-buffer overhead. Triangle multiplicity is not rendered work. No MultiMesh transform/bounds readback.",
+    "unique_mesh_channel_bytes": 8187944,
+    "unique_meshes": 277,
+    "visible_instanced_triangles": 202858
+  },
+  "window": {
+    "game_nodes": 636,
+    "geometry_nodes": 277,
+    "largest_geometry": [
+      {
+        "instances": 1,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993049463093_1",
+        "potential_triangles": 42696,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976809117257_1",
+        "potential_triangles": 13600,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993032685876_1",
+        "potential_triangles": 13416,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976775562823_1",
+        "potential_triangles": 12924,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993015908659_1",
+        "potential_triangles": 7728,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371992982354225_1",
+        "potential_triangles": 6352,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976121251360_0",
+        "potential_triangles": 5872,
+        "visible": false
+      },
+      {
+        "instances": 72,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/AirlockFastenerInstances",
+        "potential_triangles": 5760,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/RecessedInteriorLiner",
+        "potential_triangles": 5112,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial4",
+        "potential_triangles": 4312,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/PearlArmor",
+        "potential_triangles": 3872,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt0",
+        "potential_triangles": 3840,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt1",
+        "potential_triangles": 3840,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt2",
+        "potential_triangles": 3840,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial8",
+        "potential_triangles": 3648,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/WarmGold",
+        "potential_triangles": 3560,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/WarmGold",
+        "potential_triangles": 3088,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976792340040_1",
+        "potential_triangles": 3076,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/PartialRegolithBerm",
+        "potential_triangles": 3072,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/CrimsonHarness",
+        "potential_triangles": 2260,
+        "visible": true
+      }
+    ],
+    "potential_instanced_triangles": 220746,
+    "scope": "Separate inventory process. Mesh channel payload estimates exclude allocator, textures, materials, driver and MultiMesh instance-buffer overhead. Triangle multiplicity is not rendered work. No MultiMesh transform/bounds readback.",
+    "unique_mesh_channel_bytes": 8187944,
+    "unique_meshes": 277,
+    "visible_instanced_triangles": 40008
+  },
+  "window_return": {
+    "game_nodes": 636,
+    "geometry_nodes": 277,
+    "largest_geometry": [
+      {
+        "instances": 1,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993049463093_1",
+        "potential_triangles": 42696,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976809117257_1",
+        "potential_triangles": 13600,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993032685876_1",
+        "potential_triangles": 13416,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976775562823_1",
+        "potential_triangles": 12924,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371993015908659_1",
+        "potential_triangles": 7728,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/StaticMaterialBatch_-9223371992982354225_1",
+        "potential_triangles": 6352,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976121251360_0",
+        "potential_triangles": 5872,
+        "visible": false
+      },
+      {
+        "instances": 72,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/AirlockFastenerInstances",
+        "potential_triangles": 5760,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/RecessedInteriorLiner",
+        "potential_triangles": 5112,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial4",
+        "potential_triangles": 4312,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/PearlArmor",
+        "potential_triangles": 3872,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt0",
+        "potential_triangles": 3840,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt1",
+        "potential_triangles": 3840,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/LandscapeAnchor/RoseRegolithLandscape/QuietDuneBelt2",
+        "potential_triangles": 3840,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/InteriorAnchor/RedVeilInterior/BatchedInteriorMaterial8",
+        "potential_triangles": 3648,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/WarmGold",
+        "potential_triangles": 3560,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/WarmGold",
+        "potential_triangles": 3088,
+        "visible": true
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/RefugeAnchor/RedVeilShieldedRefuge/StaticMaterialBatch_-9223371976792340040_1",
+        "potential_triangles": 3076,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/HabitatAnchor/RedVeilSculptedHabitat/PartialRegolithBerm",
+        "potential_triangles": 3072,
+        "visible": false
+      },
+      {
+        "instances": 1,
+        "path": "@Node3D@2/CompanionAnchor/MiraPearlAndCrimson/BreathingUpperBody/CrimsonHarness",
+        "potential_triangles": 2260,
+        "visible": true
+      }
+    ],
+    "potential_instanced_triangles": 220746,
+    "scope": "Separate inventory process. Mesh channel payload estimates exclude allocator, textures, materials, driver and MultiMesh instance-buffer overhead. Triangle multiplicity is not rendered work. No MultiMesh transform/bounds readback.",
+    "unique_mesh_channel_bytes": 8187944,
+    "unique_meshes": 277,
+    "visible_instanced_triangles": 40008
+  }
+}

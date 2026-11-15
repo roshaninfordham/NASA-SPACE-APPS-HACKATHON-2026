@@ -1,0 +1,9 @@
+{
+  "purpose": "inventory",
+  "backend": "headless",
+  "wall_seconds": 1.7952520409999124,
+  "rss_poll_peak_bytes": 129441792,
+  "rss_poll_samples": 168,
+  "host_load_start": [3.72900390625, 1.55078125, 0.7841796875],
+  "checkpoints": {}
+}
