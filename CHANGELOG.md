@@ -4,7 +4,7 @@ All published game versions and notable unreleased work are recorded here. The v
 
 ## [0.8.0-alpha.1] — 2026-11-15
 
-Source snapshot for the final words-only workflow. **Publication and new pace-model integration/release acceptance remain pending** until the exact candidate passes its gates. Historical entries below retain their original scope.
+Published [v0.8.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.8.0-alpha.1) from `8b13e027ce5e0fa941a6bbeb1e09c5873b11baee`. Validation **43683254365**, signed build/native launch **43683280236**, eight Mac/Windows update jobs **43683700390**, and publication **43683976252** passed. The unchanged public Linux 0.4 installer also passed activation/recovery. [Release evidence](docs/evidence/release-0.8.0-alpha.1.json) records all ten public files redownloaded and matched to the accepted build, all four ZIP integrity checks and exact inclusion of both reviewed PDFs. Publication did not rebuild artifacts.
 
 - Introduce a short Mars opening followed by control-room preflight. Set a starting pace and explicitly press START MISSION; all model quantities remain frozen beforehand. Science bubbles and the constellation are optional learning routes.
 - Replace radio/recall controls with SLOWER, FASTER and a seven-step pace slider from 0.25 to 1.75. Fictional fatigue grows above pace 1 and recovers below 1 while cleaning remains; effective work is 0.125 × pace × (1 − fatigue) sections/minute.
@@ -13,8 +13,10 @@ Source snapshot for the final words-only workflow. **Publication and new pace-mo
 - Use 210 µGy/day as a historical Curiosity reference inside an explicitly authored increasing rate curve. All completed default rounds accumulate 10.9375 µGy; remove lower-dose stars. Keep gray distinct from sievert and omit health/wearable inference.
 - Retain shared navigation, focus/fullscreen recovery, paused science readings, accessible audio/motion settings, the optional advanced lab and local progress boundaries. Preserve earlier quiz identities instead of relabeling past learning records.
 - Add NASA SDO's latest available solar browse image with verified HTTPS, bounded decoding, cache/fallback, publication-age labels and required attribution. The imagery does not change mission equations or score.
-- Update the model guide, science PDF, pitch and captures for the final workflow. Fresh final-workflow fingerprints, numerical audit and integrated evidence must replace earlier radio/recall evidence before release acceptance is claimed.
-- Preserve stable branding/save/update identities, credited audio and original design references. Continue signed desktop content updates, without claiming new compatibility until the actual release bytes are tested.
+- Update the model guide, science PDF, pitch and captures for the final workflow. Final-workflow numerical, controller, responsive capture and native-navigation evidence is recorded separately from earlier radio/recall checks.
+- Preserve stable branding/save/update identities, credited audio and original design references. Retain signed desktop content updates; the exact released pack passed the supported historical-installer activation and recovery matrix.
+
+Post-release documentation adds a [word-only equation sheet](docs/media/KOMAKU-Video-Equations-Simple.pdf) and [result-screen copy](docs/RESULT-SCREEN-COPY.md) for the design team; these do not alter the published packages.
 
 Mac remains ad-hoc signed without Developer ID/notarization; Windows remains unsigned. Native Android/iOS installers are not provided.
 

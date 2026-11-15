@@ -1,0 +1,151 @@
+{
+  "system": "Darwin",
+  "os": "macOS-26.7.2-arm64-arm-64bit",
+  "machine": "arm64",
+  "commands": [
+    {
+      "label": "extract",
+      "command": [
+        "ditto",
+        "-x",
+        "-k",
+        "/Users/runner/work/NASA-SPACE-APPS-HACKATHON-2026/NASA-SPACE-APPS-HACKATHON-2026/releases/distribution/KOMAKU-Shield-Protocol-0.8.0-alpha.1-macOS-universal.zip",
+        "/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/komaku-native-ptliza4i/extracted"
+      ],
+      "timeout_seconds": 90,
+      "exit_code": 0,
+      "elapsed_seconds": 0.671,
+      "log": "/Users/runner/work/NASA-SPACE-APPS-HACKATHON-2026/NASA-SPACE-APPS-HACKATHON-2026/native-launch-logs/extract.log",
+      "output": ""
+    },
+    {
+      "label": "signature-verify",
+      "command": [
+        "codesign",
+        "--verify",
+        "--deep",
+        "--strict",
+        "--verbose=4",
+        "/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/komaku-native-ptliza4i/extracted/KŌMAKU- Shield Protocol.app"
+      ],
+      "timeout_seconds": 90,
+      "exit_code": 0,
+      "elapsed_seconds": 0.499,
+      "log": "/Users/runner/work/NASA-SPACE-APPS-HACKATHON-2026/NASA-SPACE-APPS-HACKATHON-2026/native-launch-logs/signature-verify.log",
+      "output": "/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/komaku-native-ptliza4i/extracted/KŌMAKU- Shield Protocol.app: valid on disk\n/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/komaku-native-ptliza4i/extracted/KŌMAKU- Shield Protocol.app: satisfies its Designated Requirement\n"
+    },
+    {
+      "label": "signature-details",
+      "command": [
+        "codesign",
+        "--display",
+        "--verbose=4",
+        "/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/komaku-native-ptliza4i/extracted/KŌMAKU- Shield Protocol.app"
+      ],
+      "timeout_seconds": 90,
+      "exit_code": 0,
+      "elapsed_seconds": 0.015,
+      "log": "/Users/runner/work/NASA-SPACE-APPS-HACKATHON-2026/NASA-SPACE-APPS-HACKATHON-2026/native-launch-logs/signature-details.log",
+      "output": "Executable=/private/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/komaku-native-ptliza4i/extracted/KŌMAKU- Shield Protocol.app/Contents/MacOS/KŌMAKU- Shield Protocol\nIdentifier=io.github.roshaninfordham.redveil\nFormat=app bundle with Mach-O universal (x86_64 arm64)\nCodeDirectory v=20500 size=692258 flags=0x10002(adhoc,runtime) hashes=21622+7 location=embedded\nVersionPlatform=1\nVersionMin=720896\nVersionSDK=1704192\nHash type=sha256 size=32\nCandidateCDHash sha256=f1bda098072ee13e9bbd49333730abb85b3cd8f7\nCandidateCDHashFull sha256=f1bda098072ee13e9bbd49333730abb85b3cd8f76399ac398ea88573244df6cd\nHash choices=sha256\nCMSDigest=f1bda098072ee13e9bbd49333730abb85b3cd8f76399ac398ea88573244df6cd\nCMSDigestType=2\nExecutable Segment base=0\nExecutable Segment limit=73826304\nExecutable Segment flags=0x1\nPage size=4096\nCDHash=f1bda098072ee13e9bbd49333730abb85b3cd8f7\nSignature=adhoc\nInfo.plist entries=25\nTeamIdentifier=not set\nRuntime Version=11.3.0\nSealed Resources version=2 rules=13 files=3\nInternal requirements count=0 size=12\n"
+    },
+    {
+      "label": "architectures",
+      "command": [
+        "lipo",
+        "-archs",
+        "/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/komaku-native-ptliza4i/extracted/KŌMAKU- Shield Protocol.app/Contents/MacOS/KŌMAKU- Shield Protocol"
+      ],
+      "timeout_seconds": 90,
+      "exit_code": 0,
+      "elapsed_seconds": 1.726,
+      "log": "/Users/runner/work/NASA-SPACE-APPS-HACKATHON-2026/NASA-SPACE-APPS-HACKATHON-2026/native-launch-logs/architectures.log",
+      "output": "x86_64 arm64\n"
+    },
+    {
+      "label": "gatekeeper-assessment",
+      "command": [
+        "spctl",
+        "--assess",
+        "--type",
+        "execute",
+        "--verbose=4",
+        "/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/komaku-native-ptliza4i/extracted/KŌMAKU- Shield Protocol.app"
+      ],
+      "timeout_seconds": 90,
+      "exit_code": 3,
+      "elapsed_seconds": 1.19,
+      "log": "/Users/runner/work/NASA-SPACE-APPS-HACKATHON-2026/NASA-SPACE-APPS-HACKATHON-2026/native-launch-logs/gatekeeper-assessment.log",
+      "output": "/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/komaku-native-ptliza4i/extracted/KŌMAKU- Shield Protocol.app: rejected\n"
+    },
+    {
+      "label": "headless-startup",
+      "command": [
+        "/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/komaku-native-ptliza4i/extracted/KŌMAKU- Shield Protocol.app/Contents/MacOS/KŌMAKU- Shield Protocol",
+        "--headless",
+        "--audio-driver",
+        "Dummy",
+        "--log-file",
+        "/Users/runner/work/NASA-SPACE-APPS-HACKATHON-2026/NASA-SPACE-APPS-HACKATHON-2026/native-launch-logs/headless-startup-engine.log",
+        "--",
+        "--smoke-test"
+      ],
+      "timeout_seconds": 90,
+      "exit_code": 0,
+      "elapsed_seconds": 1.417,
+      "log": "/Users/runner/work/NASA-SPACE-APPS-HACKATHON-2026/NASA-SPACE-APPS-HACKATHON-2026/native-launch-logs/headless-startup.log",
+      "output": "Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org\n\nRED_VEIL_SCENE_READY version=0.8.0-alpha.1 nodes=226 journey=mission\n"
+    },
+    {
+      "label": "graphical-startup",
+      "command": [
+        "/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/komaku-native-ptliza4i/extracted/KŌMAKU- Shield Protocol.app/Contents/MacOS/KŌMAKU- Shield Protocol",
+        "--audio-driver",
+        "Dummy",
+        "--log-file",
+        "/Users/runner/work/NASA-SPACE-APPS-HACKATHON-2026/NASA-SPACE-APPS-HACKATHON-2026/native-launch-logs/graphical-startup-engine.log",
+        "--",
+        "--smoke-test"
+      ],
+      "timeout_seconds": 90,
+      "exit_code": 0,
+      "elapsed_seconds": 30.162,
+      "log": "/Users/runner/work/NASA-SPACE-APPS-HACKATHON-2026/NASA-SPACE-APPS-HACKATHON-2026/native-launch-logs/graphical-startup.log",
+      "output": "WARNING: Virtual Machine detected, switching to ANGLE.\n     at: DisplayServerMacOS (platform/macos/display_server_macos.mm:3854)\nGodot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org\nOpenGL API OpenGL ES 3.0 (ANGLE 2.1.1 git hash: aaebda1c5a40) - Compatibility - Using Device: Google Inc. (Apple) - ANGLE (Apple, ANGLE Metal Renderer: Apple Paravirtual device, Version 26.7.2 (Build 25G332))\n\nRED_VEIL_SCENE_READY version=0.8.0-alpha.1 nodes=226 journey=mission\n"
+    },
+    {
+      "label": "launchservices-startup",
+      "command": [
+        "open",
+        "-W",
+        "-n",
+        "/var/folders/h5/t85nd63d71x27_8gl5gw3l_w0000gn/T/komaku-native-ptliza4i/extracted/KŌMAKU- Shield Protocol.app",
+        "--args",
+        "--audio-driver",
+        "Dummy",
+        "--log-file",
+        "/Users/runner/work/NASA-SPACE-APPS-HACKATHON-2026/NASA-SPACE-APPS-HACKATHON-2026/native-launch-logs/launchservices-startup-engine.log",
+        "--",
+        "--smoke-test"
+      ],
+      "timeout_seconds": 90,
+      "exit_code": 0,
+      "elapsed_seconds": 16.898,
+      "log": "/Users/runner/work/NASA-SPACE-APPS-HACKATHON-2026/NASA-SPACE-APPS-HACKATHON-2026/native-launch-logs/launchservices-startup.log",
+      "output": ""
+    }
+  ],
+  "passed": true,
+  "scope": "Exact native release executable startup on CI; not Finder approval, physical-device playtesting, or updater acceptance.",
+  "audio": "Dummy driver: hosted runners have no audio device; real audio is not verified.",
+  "trust": "Ad-hoc Mac signature is integrity only; no Developer ID/notarization. Windows executable is unsigned.",
+  "version": "0.8.0-alpha.1",
+  "source_commit": "8b13e027ce5e0fa941a6bbeb1e09c5873b11baee",
+  "manifest_sha256": "17598cbdaa9ed4d028e64ed886d9c723dd0a192f7c4ea4096698336a031619cf",
+  "archive": "KOMAKU-Shield-Protocol-0.8.0-alpha.1-macOS-universal.zip",
+  "archive_sha256": "15feed5e21cc14e12ed8176cf97b505ca71a44acca66bd0cae809a09688fe749",
+  "profile": "Fresh application-specific profile; deleted after check",
+  "gatekeeper": 3,
+  "headless-startup": true,
+  "graphical-startup": true,
+  "launchservices-startup": true
+}

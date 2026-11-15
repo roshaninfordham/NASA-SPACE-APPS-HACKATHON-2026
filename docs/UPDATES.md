@@ -1,18 +1,12 @@
 # Updating <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand -->
 
-**Release source snapshot: 0.8.0-alpha.1.** Prepared November 15, 2026, America/New_York. Publication was pending when this source snapshot was prepared; check the [release index](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases) for available files and the final acceptance record. A versioned source document alone is not proof of publication.
+**Published [0.8.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.8.0-alpha.1) — November 15, 2026.** Built from `8b13e027ce5e0fa941a6bbeb1e09c5873b11baee`. All ten public files were redownloaded and matched to the accepted build; all four ZIPs passed integrity checks and contain the reviewed science and technical equation PDFs. [Release evidence](evidence/release-0.8.0-alpha.1.json).
 
 ## What players can expect
 
-**This document accompanies the 0.8.0-alpha.1 source.** Publication and exact-pack acceptance must be verified from its release record. Historical [0.7.1 evidence](evidence/release-0.7.1-alpha.1.json) established signed content delivery for the earlier indoor operator model; it does not automatically prove compatibility of a new pack. [Earlier startup scope](WINDOW-STARTUP-PERFORMANCE.md).
+**0.8.0-alpha.1 is published and available to compatible desktop installations.** The exact signed pack passed activation, healthy repeat startup and same-size corruption recovery using unchanged public **0.6.0, 0.6.1, 0.7.0 and 0.7.1 Mac/Windows executables**, plus **0.4 Linux**. [Release record](evidence/release-0.8.0-alpha.1.json) · [Eight native update jobs](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43683700390).
 
-The **0.6.1-alpha.1 packaging repair** keeps the signed-content updater introduced in 0.4. Broken 0.6.0 Mac installations need one corrected full download: a content pack cannot repair the enclosing app signature, and a blocked app cannot run its updater. The older v0.3 installer also needs one manual upgrade. Existing saves and the pinned update key remain compatible.
-
-From 0.6.1, discovery runs on every fresh game launch, once per process. The title screen also has **Learn & more → Check for updates**. An offline launch does not suppress checks on the next fresh launch. Updates appear at safe menu/debrief points, not over an active mission. There are no background notifications while the game is closed and no forced restart. Network availability and GitHub rate limits can delay discovery.
-
-The unchanged public **0.6.0, 0.6.1 and 0.7.0 Mac/Windows executables**, plus **0.4 Linux**, passed signed 0.7.1 content activation, repeated healthy startup and same-size tamper recovery. These native headless checks use local signed artifacts; they do not independently test HTTP transport, notification clicks or automatic GUI relaunch. Directly launching the historical 0.6.0 Mac executable does not repair its invalid Finder bundle signature. [Mac 0.6.0](evidence/update-0.6.0-to-0.7.1-macos.json) · [Windows 0.6.0](evidence/update-0.6.0-to-0.7.1-windows.json) · [Mac 0.6.1](evidence/update-0.6.1-to-0.7.1-macos.json) · [Windows 0.6.1](evidence/update-0.6.1-to-0.7.1-windows.json) · [Mac 0.7.0](evidence/update-0.7.0-to-0.7.1-macos.json) · [Windows 0.7.0](evidence/update-0.7.0-to-0.7.1-windows.json) · [Linux 0.4](evidence/update-0.4-to-0.7.1-linux.json).
-
-The historical [0.7 release record](evidence/release-0.7.0-alpha.1.json) retains its separate baseline checks. [Earlier Linux live-download/restart/recovery evidence](evidence/update-0.4.0-alpha.1.json) used a disposable older-version fixture. Native startup gates and content activation tests have distinct evidence scopes; neither implies every physical device has been tested.
+These headless tests use local signed artifact bytes; they do not independently establish HTTP transfer, notification clicks or automatic graphical relaunch. The separately hosted Mac/Windows package launch gates passed, and every public file was redownloaded and hash-matched. A historical 0.6.0 Mac executable can load content in a harness while its invalid Finder bundle still needs one corrected full installation. Physical devices and first-download OS trust remain separate checks.
 
 The desktop flow is **Update available → Install → Restart**. Checks use this public GitHub repository without a GitHub login. The game checks a signed manifest and exact pack size/hash before staging new game content. It keeps the previous working content for recovery if startup fails. It never asks a player for administrator credentials or a GitHub token. A missing signing configuration allows a manual-preview release notice, not unsigned automatic installation.
 
@@ -22,11 +16,18 @@ Godot initializes global script-class and resource UID registries before content
 
 A successful startup acknowledgement only means that the startup checkpoint completed. It cannot certify every mission, device, or later gameplay path. Initial app signing/notarization, backups, real-device tests, and release review remain separate from content signatures.
 
-## Acceptance required for the new journey
+## Accepted final journey
 
-The 0.8 source introduces new screens, scripts, fonts, audio, and a separate pace-and-fatigue model (explicit Start, continuous cleaning/transmission, generation/load/battery balance, fixed-deadline automatic entry) while retaining the existing Godot runtime and pinned trust root. Keeping those identities alone does not prove compatibility. Build the signed candidate, then run native launch and supported historical-installer activation, repeat-start, and tamper-recovery checks on that exact pack. New resource and script loading must respect the baseline registries described above.
+The final pace/fatigue journey retains the Godot 4.6.3 runtime and existing pinned public key. Published pack SHA-256 is `652c48d054742f2ad81c3d7b2639b5ec21ac18c6e8d4e4d7d942532cead14dab`; source is `8b13e027ce5e0fa941a6bbeb1e09c5873b11baee`. The build, native launch, supported baseline transitions, repeat startup, tamper recovery and public-file checks all passed on these exact bytes.
 
-Only after those gates and public-file verification should the release be advertised as an available in-game update. Existing staging/signature/recovery implementation is established; successful 0.7.1 acceptance is historical evidence, not a substitute for testing 0.8. Native runtime or bootstrap-contract changes still require an installer transition.
+| Baseline | Mac                                               | Windows                                             |
+| -------- | ------------------------------------------------- | --------------------------------------------------- |
+| 0.6.0    | [Passed](evidence/update-0.6.0-to-0.8-macos.json) | [Passed](evidence/update-0.6.0-to-0.8-windows.json) |
+| 0.6.1    | [Passed](evidence/update-0.6.1-to-0.8-macos.json) | [Passed](evidence/update-0.6.1-to-0.8-windows.json) |
+| 0.7.0    | [Passed](evidence/update-0.7.0-to-0.8-macos.json) | [Passed](evidence/update-0.7.0-to-0.8-windows.json) |
+| 0.7.1    | [Passed](evidence/update-0.7.1-to-0.8-macos.json) | [Passed](evidence/update-0.7.1-to-0.8-windows.json) |
+
+[Linux 0.4 → 0.8](evidence/update-0.4-to-0.8-linux.json) also passed. Historical releases keep their own evidence. Every future signed pack still requires exact-artifact acceptance; unchanged engine/key identities alone are insufficient.
 
 ## Existing signing setup (already completed)
 

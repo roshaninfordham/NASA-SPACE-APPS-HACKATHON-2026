@@ -6,9 +6,9 @@ A Mars learning game for ages 7–12, built with Godot. You are inside mission c
 
 [![Validation](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml/badge.svg)](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/workflows/validate.yml)
 
-**Release source snapshot: 0.8.0-alpha.1.** Prepared November 15, 2026, America/New_York. Publication was pending when this source snapshot was prepared; check the [release index](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases) for available files and the final acceptance record. A versioned source document alone is not proof of publication.
+**Published [0.8.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.8.0-alpha.1) — November 15, 2026.** Built from `8b13e027ce5e0fa941a6bbeb1e09c5873b11baee`. All ten public files were redownloaded and matched to the accepted build; all four ZIPs passed integrity checks and contain the reviewed science and technical equation PDFs. [Release evidence](docs/evidence/release-0.8.0-alpha.1.json).
 
-![Journey prototype captures; final pace-workflow media pending](docs/media/journey/contact-sheet.png)
+![Final pace-workflow screenshots: story, preflight, cleaning and reflection](docs/media/journey/contact-sheet.png)
 
 [Gameplay screenshots](docs/media/journey/README.md) · [Live NASA observation](docs/media/journey/LIVE-SUN.md) · [30-second pitch](docs/VIDEO-PITCH.md)
 
@@ -30,13 +30,13 @@ Pace ranges from 0.25 to 1.75 in steps of 0.25. Effective work is `0.125 × pace
 
 **Controls:** 1 = slower, 3 = faster, Enter = Start in preflight, Escape = contextual Back/Pause, F11 = fullscreen. Shared theme, science content, audio, navigation and model components keep visual changes separate from the rules. The older operator/EVA/lab activities remain under **Advanced lab · earlier mission**, with distinct rules.
 
-The [independent pace-model audit](docs/evidence/pace-model-0.8-audit.json) is recorded; final captures, controller and release acceptance remain pending until their evidence is updated. [Model](docs/TRAINING-MODEL.md) · [Journey contract](docs/design-specs/JOURNEY-0.8.md) · [Team status](docs/TEAM-STATUS.md) · [Roadmap](docs/ROADMAP.md).
+The [independent pace-model audit](docs/evidence/pace-model-0.8-audit.json) passed 1,665 checks. The full source suite, native launch, update compatibility and public-file acceptance passed. [Current screenshots and animation](docs/media/journey/README.md) record exact runtime fingerprints. [Model](docs/TRAINING-MODEL.md) · [Journey contract](docs/design-specs/JOURNEY-0.8.md) · [Team status](docs/TEAM-STATUS.md) · [Roadmap](docs/ROADMAP.md).
 
 ## Download this version
 
-Release assets contain the runnable game; the GitHub Packages tab is not needed. The links below target **0.8.0-alpha.1** and become available only after publication. Check the [release index](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases) if a link is not yet live; do not infer availability from a filename.
+Release assets contain the runnable game; the GitHub Packages tab is not needed. These **0.8.0-alpha.1** downloads are published and verified.
 
-| Platform or document                    | Versioned asset — available once published                                                                                                                                         |
+| Platform or document                    | Verified versioned asset                                                                                                                                                           |
 | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Apple Silicon, including M5 / Intel Mac | [macOS universal ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-macOS-universal.zip) |
 | Windows x64                             | [Windows ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-Windows-x64.zip)             |
@@ -44,7 +44,7 @@ Release assets contain the runnable game; the GitHub Packages tab is not needed.
 | WebGL2 browser                          | [Web export ZIP](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-Web.zip)                  |
 | Guide accompanying 0.8                  | [Versioned science PDF](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.8.0-alpha.1/KOMAKU-Shield-Protocol-0.8.0-alpha.1-Science-Guide.pdf) |
 
-Extract the whole ZIP and read `START-HERE.txt`; native players need no editor or developer tools. **Mac is ad-hoc signed without Apple Developer ID or notarization; Windows is unsigned.** The Mac archive includes a consent-based installer helper for a trusted download. It verifies integrity and changes quarantine only on the installed copy. The native hosted launch gates for 0.7.1 passed; that does not establish performance on every physical M5, PC, or graphics driver. [Installation instructions](docs/DOWNLOADS.md) · [Mac repair](docs/MACOS-LAUNCH-REPAIR.md) · [0.7.1 evidence](docs/evidence/release-0.7.1-alpha.1.json).
+Extract the whole ZIP and read `START-HERE.txt`; native players need no editor or developer tools. **Mac is ad-hoc signed without Apple Developer ID or notarization; Windows is unsigned.** The Mac archive includes a consent-based installer helper for a trusted download. It verifies integrity and changes quarantine only on the installed copy. The 0.8 hosted Mac and Windows launch gates passed; physical M5 performance and every graphics driver remain unverified. [Installation instructions](docs/DOWNLOADS.md) · [Mac repair](docs/MACOS-LAUNCH-REPAIR.md) · [0.8 evidence](docs/evidence/release-0.8.0-alpha.1.json).
 
 No production Android or iOS native installer is published. Web exports require HTTP(S) hosting and WebGL2. Public hosting remains deferred by owner choice; a cross-platform engine does not remove iOS distribution requirements.
 
@@ -54,13 +54,13 @@ Historical mission screenshots and performance evidence remain in the [media gal
 
 Compatible desktop content follows **Update available → Install → Restart**. The app checks public GitHub releases at each fresh launch and on request, verifies a signed manifest plus exact size/hash, and retains recovery content. Notifications wait for safe menu/debrief points. There are no background notifications while the app is closed and no forced restart.
 
-Published older installers passed local signed-content activation and recovery checks for **0.7.1**. Those historical results alone do not verify a different content pack. Each 0.8 candidate needs exact-artifact baseline acceptance; consult its final release record for those results. Native engine or bootstrap-contract changes require a full installer; a Mac app that cannot launch needs one corrected installation. [Update behavior, evidence, and limits](docs/UPDATES.md).
+Public Mac/Windows installers from **0.6.0, 0.6.1, 0.7.0 and 0.7.1**, plus the **0.4 Linux** installer, passed signed 0.8 activation, healthy repeat startup and corruption recovery. These use the unchanged installers and local exact signed artifacts; they do not independently test HTTP notification clicks or automatic graphical relaunch. Native engine or bootstrap-contract changes require a full installer; a Mac app that cannot launch needs one corrected installation. [Update evidence and limits](docs/UPDATES.md).
 
 ## Understand the science
 
-For video editing, the separate [equation-card PDF](docs/media/KOMAKU-Video-Equations.pdf) and [plain-language equation notes](docs/VIDEO-EQUATIONS.md) explain the final pace/fatigue model. They accompany the game documentation; the standalone release science-guide asset remains the main guide.
+For the design team: [word-only equation sheet](docs/media/KOMAKU-Video-Equations-Simple.pdf), [editable simple equations](docs/VIDEO-EQUATIONS-SIMPLE.md), and [WIN/PASS/LOSE page copy](docs/RESULT-SCREEN-COPY.md). These presentation handoffs were added after the game build. The [technical equation PDF](docs/media/KOMAKU-Video-Equations.pdf) and [exact formulas](docs/VIDEO-EQUATIONS.md) are the detailed companion included in the release archives.
 
-The [illustrated guide](docs/media/KOMAKU-Science-Guide.pdf) and [readable Markdown](docs/SCIENCE-GUIDE.md) are being refreshed for the final pace/fatigue model, diagrams, units and worked examples. Final PDF/fingerprint acceptance remains pending until regeneration. Historical 0.7.1 archives retain their earlier guide.
+The [16-page illustrated guide](docs/media/KOMAKU-Science-Guide.pdf) and [readable Markdown](docs/SCIENCE-GUIDE.md) explain the final pace/fatigue model, diagrams, units and worked examples. Both packaged PDFs passed source-fingerprint and visual review; their exact bytes were verified in every public archive. Historical 0.7.1 archives retain their earlier guide.
 
 The mission uses the historical **210 ± 40 µGy/day** Curiosity RAD tissue-like detector result as the baseline for an explicitly authored increasing rate curve. It does not measure the child or infer injury. Fatigue, deadline, cleaning rate, panel transmission, load and battery parameters are scenario choices. The battery uses a dimensioned generation-minus-load energy balance. The original Pathfinder dust result measured a relative current decrease; it is not silently relabelled as a universal power or dust rate. [Verified sources and corrections](docs/SCIENCE-JOURNEY-SOURCES.md) · [Complete science and learning source index](docs/SOURCE-INDEX.md).
 

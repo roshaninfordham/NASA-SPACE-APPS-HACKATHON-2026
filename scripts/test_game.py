@@ -46,6 +46,7 @@ def main():
             checked(["godot", "--headless", "--path", "game", "--script", f"res://tests/{suite}.gd"], suite_environment)
         checked([sys.executable, "scripts/build_science_guide.py", "--check"], environment)
         checked([sys.executable, "scripts/build_video_equations.py", "--check"], environment)
+        checked([sys.executable, "scripts/build_video_equations_simple.py", "--check"], environment)
         for script in ("test_updater.py", "test_update_bootstrap.py"):
             checked([sys.executable, "scripts/" + script], environment)
         for suite in PYTHON_SUITES:

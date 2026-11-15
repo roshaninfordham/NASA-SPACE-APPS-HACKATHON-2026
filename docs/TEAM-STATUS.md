@@ -1,6 +1,6 @@
 # <!-- brand:display_name -->KŌMAKU: Shield Protocol<!-- /brand --> — team progress
 
-**Release source snapshot: 0.8.0-alpha.1.** Prepared November 15, 2026, America/New_York. Publication was pending when this source snapshot was prepared; check the [release index](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases) for available files and the final acceptance record. A versioned source document alone is not proof of publication.
+**Published prerelease: [0.8.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.8.0-alpha.1).** Released November 15, 2026 at 06:07:25 UTC (01:07:25 America/New_York), from source `8b13e027ce5e0fa941a6bbeb1e09c5873b11baee`. All ten public assets were downloaded again and matched to the accepted build. [Release evidence](evidence/release-0.8.0-alpha.1.json).
 
 ## The change the team can explain
 
@@ -8,7 +8,7 @@ The final 0.8 direction is **short opening → control-room preflight → pace/f
 
 Preflight lets the player select a starting pace without spending mission time. During the five-minute default round, SLOWER, FASTER and the slider choose seven multipliers from 0.25 to 1.75. Fictional fatigue changes effective cleaning. Partial work improves solar output, and generation minus a 1 kW load accumulates actual battery energy. At 30 simulated minutes Ren enters automatically. There is no recall, walking or reserve forecast.
 
-WIN/PASS/LOSE depends on final cleanliness: at least 80%, at least 40%, or less than 40%. Energy, fatigue and dose explain what happened. Shared components keep this workflow separate from replaceable visual assets. The [independent pace-model audit](evidence/pace-model-0.8-audit.json) is recorded. **Final integrated controls, new captures and package acceptance remain pending until their evidence is updated.** Earlier radio/recall checks do not certify this pivot.
+WIN/PASS/LOSE depends on final cleanliness: at least 80%, at least 40%, or less than 40%. Energy, fatigue and dose explain what happened. Shared components keep this workflow separate from replaceable visual assets. The [independent pace-model audit](evidence/pace-model-0.8-audit.json) is recorded. The final shared suite, integrated controls, native package gates and compatible-content update checks passed for the released source. The gallery contains 51 current captures and a GIF made from 17 rendered frames; these are documented captures, not a physical-device frame-rate measurement.
 
 ## Science that changed
 
@@ -18,15 +18,20 @@ Fatigue is fictional balancing, starting at zero and clamped to 0–0.9. Its rat
 
 NASA SDO's optional latest solar browse image remains a genuine online source with connected/cached/bundled/stale labels. It does not supply the radiation ramp or score. Publication metadata is not exposure time. [Live-data contract](LIVE-DATA.md) · [All sources](SOURCE-INDEX.md).
 
-## Acceptance for the versioned release
+## Accepted 0.8 release
 
-1. Finish integration and run the shared source suite, focused journey input/layout checks, and real rendered captures on the exact candidate.
-2. Freeze the source, regenerate the science-guide fingerprint, and build signed content plus platform archives.
-3. Run native Mac/Windows package launch gates and compatible baseline-installer update activation/recovery checks on those exact bytes.
-4. Publish a versioned prerelease, verify every public asset/checksum, and then update download links and release evidence.
-5. Obtain physical laptop/mobile-browser feedback and supervised learner testing. Hosted rendering is not a substitute for those observations.
+| Gate                             | Result and evidence                                                                                                                                                                                                                                                                                                                            |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Shared source validation         | [Run 43683254365](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43683254365) passed, including the current journey, retained advanced lab, updater and release checks.                                                                                                                                        |
+| Signed build and native startup  | [Run 43683280236](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43683280236) passed. Exact [macOS](evidence/native-launch-0.8-macos.json) and [Windows](evidence/native-launch-0.8-windows.json) archives passed their hosted launch gates.                                                                   |
+| Existing-install content updates | [Run 43683700390](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43683700390) passed all eight Mac/Windows jobs: public 0.6.0, 0.6.1, 0.7.0 and 0.7.1 installers accepted the signed 0.8 content. [Public Linux 0.4 baseline](evidence/update-0.4-to-0.8-linux.json) also passed its documented gate.          |
+| Publication and public files     | [Run 43683976252](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/actions/runs/43683976252) published the accepted files. All ten were redownloaded and hash matched; four ZIP CRC checks passed. Every ZIP contains the exact reviewed 16-page science guide, two-page technical equation PDF and versioned START-HERE.txt. |
 
-This source snapshot does not invent a build number, native-gate result, public asset count, or successful update transition. The final release evidence must identify the exact tested bytes; verify current availability in the release index.
+Focused source evidence includes **183 model assertions, 1,665 independent audit checks, 261 HUD assertions, 233 shell assertions, 107 full-main integration assertions, 167 local-progress assertions, 29 update-UI assertions and 29 native-navigation assertions**. These suites have distinct scopes and should not be summed into a claim of physical-device coverage. [Validation and scope](VALIDATION.md) · [Current media](MEDIA.md).
+
+The unauthenticated public release manifest returned HTTP 200 and SHA-256 `17598cbdaa9ed4d028e64ed886d9c723dd0a192f7c4ea4096698336a031619cf`. Publication preserved the accepted artifacts. Website deployment was skipped because the owner deferred public hosting; the Web ZIP is available for separate hosting.
+
+Native content gates use local signed artifacts to verify activation, repeated healthy startup and recovery. They do not independently prove HTTP transfer, notification clicks or automatic graphical relaunch. Hosted macOS/Windows results do not establish physical M5, phone, GPU or device-audio behavior. Mac remains ad-hoc signed without notarization, Windows unsigned, and no production Android/iOS native installer is supplied.
 
 ## Historical 0.7.1 delivery evidence
 
@@ -37,6 +42,8 @@ Its validation, signed build/native launch, six native updater jobs, and publica
 The Mac app is ad-hoc signed without Developer ID or notarization; Windows is unsigned. Initial OS trust prompts can remain. The earlier damaged Mac bundle needs one corrected full installation; a content update cannot repair an app that cannot open. No production native Android/iOS package is published, and public web hosting remains deferred by owner choice.
 
 ## Open product work
+
+The follow-up [result-screen copy](RESULT-SCREEN-COPY.md), [words-only equation notes](VIDEO-EQUATIONS-SIMPLE.md) and [one-page simple equation PDF](media/KOMAKU-Video-Equations-Simple.pdf) are repository documentation created after the release build. They are **not included in the published 0.8 ZIPs**. Those ZIPs contain the reviewed technical two-page equation PDF. New result wording is a future design change, not an already shipped UI update.
 
 Final authored art and character animation, more curriculum and missions, expert scientific review, physical-device performance/audio/accessibility, and evidence of learning transfer remain open. The team can iterate modular visuals without rewriting the short mission model, but collision, input, source, and device checks still matter.
 
