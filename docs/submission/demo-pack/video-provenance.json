@@ -1,0 +1,27 @@
+{
+  "duration_seconds": 29.5,
+  "input_gameplay_edit": "docs/media/submission-demo/KOMAKU-30-second-demo.mp4",
+  "input_sha256": "6c69a5123f164f007a0cc0a2b163822340b6bdb693c8ff10be0ef29766baf8d5",
+  "output_sha256": "c8ab3f36321ba43af59de6fcc99547049075629c69bfe9cf569335c9f5705291",
+  "final_segment": "Last 2 seconds show an actual captured live companion page; not a moving browser recording.",
+  "audio": "Existing credited en-IN-PrabhatNeural synthetic narration and original project ambience.",
+  "labels": "Visible SI-generated story-art and AI-narration disclosure; corresponding metadata embedded.",
+  "ffprobe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "codec_name": "aac"
+      }
+    ],
+    "format": {
+      "duration": "29.500000",
+      "size": "2501855"
+    }
+  }
+}

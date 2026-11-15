@@ -1,0 +1,12 @@
+"""Reuse verified gameplay edit, add live companion capture and explicit SI label."""
+from pathlib import Path
+import subprocess,json,hashlib
+R=Path(__file__).resolve().parents[1];O=R/'docs/submission/demo-pack';S=R/'docs/media/submission-demo'
+label=O/'video-disclosure.txt';label.write_text('Prototype footage | SI-generated story art | AI-generated narration')
+font=R/'game/assets/fonts/journey/IBMPlexSans-Variable.ttf'
+out=O/'KOMAKU-Hackathon-Demo-29s.mp4'
+filters=f"[1:v]scale=1664:936:force_original_aspect_ratio=decrease,pad=1664:936:(ow-iw)/2:(oh-ih)/2:color=0x101a22[lab];[0:v][lab]overlay=128:18:enable='gte(t,27.5)'[cut];[cut]drawbox=x=0:y=0:w=iw:h=32:color=0x101a22:t=fill,drawtext=fontfile={font}:textfile={label}:fontsize=20:fontcolor=white:x=24:y=4[v]"
+subprocess.run(['ffmpeg','-y','-hide_banner','-loglevel','warning','-i',str(S/'KOMAKU-30-second-demo.mp4'),'-loop','1','-i',str(O/'live-companion.png'),'-filter_complex',filters,'-map','[v]','-map','0:a','-t','29.5','-r','24','-c:v','libx264','-preset','fast','-crf','19','-threads','2','-pix_fmt','yuv420p','-c:a','aac','-b:a','160k','-metadata','title=KŌMAKU: Dust & Radiation — hackathon prototype demo','-metadata','artist=Team Roshan Xingbo','-metadata','comment=AI-generated Indian English male narration: Microsoft en-IN-PrabhatNeural via edge-tts. SI-generated story art. Actual prototype engine capture; source/result fixtures documented. Original procedural background music. Final companion panel is a captured live-page screenshot.', '-movflags','+faststart',str(out)],check=True)
+probe=json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration,size:stream=codec_name,width,height','-of','json',str(out)]));assert float(probe['format']['duration'])<=30
+(O/'video-provenance.json').write_text(json.dumps({'duration_seconds':float(probe['format']['duration']),'input_gameplay_edit':str((S/'KOMAKU-30-second-demo.mp4').relative_to(R)),'input_sha256':hashlib.sha256((S/'KOMAKU-30-second-demo.mp4').read_bytes()).hexdigest(),'output_sha256':hashlib.sha256(out.read_bytes()).hexdigest(),'final_segment':'Last 2 seconds show an actual captured live companion page; not a moving browser recording.','audio':'Existing credited en-IN-PrabhatNeural synthetic narration and original project ambience.','labels':'Visible SI-generated story-art and AI-narration disclosure; corresponding metadata embedded.','ffprobe':probe},indent=2)+'\n')
+print(probe)
