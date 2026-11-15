@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "passed": true,
+  "recorded_utc": "2026-11-15T15:21:30.044589+00:00",
+  "engine": "Godot 4.6.3",
+  "backend": "Linux X11 on authenticated private Xvfb; Mesa llvmpipe",
+  "native_assertions": 39,
+  "integration_assertions": 224,
+  "hud_assertions": 2216,
+  "profile_assertions": 216,
+  "complete_shared_native_suite_passed": true,
+  "failures": 0,
+  "source_sha256_recorded_after_test": {
+    "game/main.tscn": "3bc87b51a9d232dfb6523136b855d588103a2860df9f546bf71a42f0cc3576ef",
+    "game/project.godot": "cc145e0908298e97a90f0f02486b076a1ba8bf3380ad90199ed305580197671a",
+    "game/scripts/journey_game.gd": "94779bba52a7ef282fe39a48a85fd69e4154e8db2e181dd7aa2338a9f1b9324b",
+    "game/scripts/journey_progress.gd": "a68f8b464b3b102db8fb8c02c3c84bef7d563546f671049884686a0d05f3c0bb",
+    "game/scripts/pace_mission.gd": "9286d861007f81a821c092fc1d983190a597d7ab509d4a6f0d810cdb120f08ef",
+    "game/scripts/navigation_policy.gd": "1954c40babf5f4de83adc9580a7b3b0c1c6849ed1aafefa94866cf6a1f8a5f7b",
+    "game/scripts/journey_input_guard.gd": "5f9894ecde5a6d6dcf57b498cd7a02c80f177d9dec580de95638b7dc7d7cb63a",
+    "game/ui/training_hud.gd": "9f1c83637d80f356c593b2f1e1077cf935f7f0d860ec81d87b7615e8a2360dfb",
+    "game/ui/concept_orb.gd": "d41b1b638aa71b40a337434897ca08beb6c6733d8ba8c217c448ad08bf4886ae",
+    "game/ui/outpost_window_frame.gd": "12c7f723c92242eaef83128cc142288828d595a799c481f1c6936bfd93f7c9c4",
+    "game/ui/journey_shell.gd": "a12fa9a569f8cbbf2e239a6815261f31f1c28233fe52a3d9ad38d7922ee17e26",
+    "game/tests/journey_native_navigation_test.gd": "a76176fc6cf3b5e9032b7245f5afa6ffc7c557ab634fe010c2d50f5a9f11cbd4",
+    "game/tests/journey_integration_test.gd": "2b655136ad07755ceb9faf015650e5ceaa919d04a6827977fae51d6dfea056e4"
+  },
+  "checks": [
+    "Actual main scene; explicit Start after loading",
+    "Live bubbles and their paused explanations",
+    "Science/Focused layout preserves complete model snapshot",
+    "View/Settings Back and Escape routing",
+    "Muted radio command and reply captions",
+    "Pointer-selected View presets",
+    "Fullscreen exit preserves modal and mission",
+    "External X11 focus loss and explicit resume",
+    "Restart/Home cancellation and preflight Home",
+    "Existing updater/quit/legacy navigation safety"
+  ],
+  "network": "Disabled in native/navigation fixtures",
+  "profile": "Fresh isolated user-data directories",
+  "not_verified": [
+    "Physical MacBook or Windows device behavior",
+    "Physical keyboard/mouse events",
+    "Physical mobile or assistive-technology support",
+    "Learner effectiveness"
+  ],
+  "log": "journey-native-0.11.txt"
+}

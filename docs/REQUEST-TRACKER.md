@@ -2,6 +2,18 @@
 
 **Published [0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1) — November 15, 2026, 13:53:05 UTC.** Built from `26f19540baf330b00b0ac4a1b470d0e1439f7382`. This release simplifies the interface and corrects the installation handoff while preserving the 90-second mission and its equations. [Release notes](releases/0.10.0-alpha.1.md).
 
+**0.11 candidate, not published:** restore the outpost/window and eight visible science bubbles without replacing 0.10 wording/fonts or changing the model. [Candidate contract](design-specs/JOURNEY-0.11.md). The table below separates that work from the published baseline.
+
+| Candidate request                           | Intended / current source change                                                                     | Acceptance still required                                                                   |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Restore the outpost and eight live bubbles  | Science window restores model-linked concept readings around the window; explanations pause play.    | Responsive composition, legibility, live-value binding and source-capture review.           |
+| Keep focus available                        | View selects Science window or Focused window without changing the running mission.                  | State/pause/navigation checks and selected-view persistence.                                |
+| Easy Home navigation and radio feedback     | Menu/Settings expose Home; scripted captions acknowledge Start and pace changes.                     | Every caller/return path, terminal handling, focus loss and caption timing.                 |
+| Preserve progress during the new preference | Schema 2 adds mission_view; recognized schema 1 settings, reviewed concepts and run history migrate. | Migration, invalid-profile preservation and save-conflict checks.                           |
+| Release the restored interface safely       | Preserve model rules, source wording, typography, application identity and update trust.             | New build/startup/update/package/public-file evidence; 0.10 remains the available download. |
+
+## Published baseline and longer-term requests
+
 | Request                                   | Current source or established baseline                                                                                                                                   | Remaining acceptance / boundary                                                                                                                    |
 | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | KŌMAKU: Dust & Radiation everywhere       | Shared current branding and new package stem; generated PDF headings read the same canonical source.                                                                     | Historical screenshots/releases and stable app/save/update IDs retain their original names. Existing installed filenames do not rename themselves. |
@@ -25,6 +37,6 @@
 | Local intelligence and future adaptation  | Transparent current explanations and local progress; older academy scheduler retained separately.                                                                        | More curriculum, learner evaluation and trained adaptation are future work.                                                                        |
 | GitHub progress / sidebar                 | File ownership enables parallel work; root integrates and commits. Owner configured About and Actions/signing are established.                                           | GitHub derives activity/contributor counts; no artificial contribution target or repeated permissions loop.                                        |
 
-Current release work is defined by the [0.10 contract](design-specs/JOURNEY-0.10.md), [roadmap](ROADMAP.md) and [validation record](VALIDATION.md). The release is published and its [ten public files are verified](evidence/release-0.10.0-alpha.1.json). Physical-device usability and learning outcomes need their own evidence.
+Candidate work is defined by the [0.11 contract](design-specs/JOURNEY-0.11.md), [roadmap](ROADMAP.md) and [validation record](VALIDATION.md). The [historical 0.10 contract](design-specs/JOURNEY-0.10.md) describes the published baseline, whose [ten public files are verified](evidence/release-0.10.0-alpha.1.json). That evidence does not establish 0.11 publication. Physical-device usability and learning outcomes need their own evidence.
 
 Made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC.

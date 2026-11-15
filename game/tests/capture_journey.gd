@@ -51,6 +51,18 @@ func press_modal_button(label: String) -> void:
 		button.pressed.emit()
 	await frames(2)
 
+func press_modal_named(node_name: String) -> void:
+	var button: Button = game.modal.find_child(node_name, true, false) if is_instance_valid(game.modal) else null
+	check(button != null and button.is_visible_in_tree() and not button.disabled, "Visible modal control: " + node_name)
+	if button != null and button.is_visible_in_tree() and not button.disabled: button.pressed.emit()
+	await frames(2)
+
+func check_live_orbs(expected: int, context: String) -> void:
+	var visible := 0
+	for orb in game.hud.orbs.values():
+		if orb.is_visible_in_tree(): visible += 1
+	check(visible == expected, "%s: expected %d live bubbles, found %d" % [context, expected, visible])
+
 func walk_controls(node: Node, found: Array[Dictionary]) -> void:
 	if node is Control and node.is_visible_in_tree() and (node is BaseButton or node is Label):
 		var rect: Rect2 = node.get_global_rect()
@@ -75,7 +87,7 @@ func capture(name: String, settle_frames: int = 8) -> void:
 	check(result == OK,"Could not save " + filename)
 	var controls: Array[Dictionary] = []
 	walk_controls(game,controls)
-	captures.append({"file":filename,"screen":name,"width":dimensions.x,"height":dimensions.y,"stage":game.stage,"shell_state":game.shell.state,"modal":game.modal_kind,"nasa_viewer_open":is_instance_valid(game.solar_data_panel),"snapshot":game.model.snapshot(),"fixture_actions":fixture_actions.duplicate(),"visible_controls":controls})
+	captures.append({"file":filename,"screen":name,"width":dimensions.x,"height":dimensions.y,"stage":game.stage,"shell_state":game.shell.state,"modal":game.modal_kind,"nasa_viewer_open":is_instance_valid(game.solar_data_panel),"mission_view":game.hud.get_mission_view(),"saved_mission_view":str(game.progress.settings.get("mission_view", "science")),"work_view_rect":str(game.hud.get_work_view_rect()),"snapshot":game.model.snapshot(),"fixture_actions":fixture_actions.duplicate(),"visible_controls":controls})
 	print("JOURNEY_CAPTURE ",filename)
 	fixture_actions.clear()
 
@@ -159,7 +171,34 @@ func run_size(size: Vector2i) -> void:
 	check(screen_feet.y < game.hud._bottom.get_global_rect().position.y,"Bottom controls must not cover the real astronaut or panel base at "+str(dimensions))
 	check(is_equal_approx(float(game.model.snapshot().cleaned_work),1.9),"Final workflow fixture incorporates slower actual cleaning as fatigue grows")
 	action("Press FASTER once to1.25x; advance24active seconds:1.9sections cleaned and16percent game fatigue, not the prior fatigue-free2section model")
+	check_live_orbs(8, "Default Science window")
 	await capture("04-cleaning")
+	var view_snapshot := JSON.stringify(game.model.snapshot())
+	game.hud.view_button.pressed.emit()
+	await frames(2)
+	check(game.modal_kind == "view" and game.paused, "View menu pauses active cleaning")
+	action("Press the visible HUD View button; the Science window is selected and all model values remain unchanged")
+	await capture("27-view-menu")
+	await press_modal_named("View_focus")
+	await press_modal_button("Resume mission")
+	check(str(game.progress.settings.mission_view) == "focus" and game.hud.get_mission_view() == "focus", "Focused view selection reaches HUD and saved preferences")
+	check_live_orbs(0, "Focused window")
+	action("Select Focused window through its real View control and Resume mission; the larger work view retains the pace controls and Science access")
+	await capture("28-focused-window")
+	game.hud.pause_button.pressed.emit()
+	await press_modal_button("View & accessibility")
+	await press_modal_button("Sound, motion & pace")
+	check(game.modal_kind == "settings" and game.paused, "Settings reached from View stays paused")
+	action("Open Settings from View; navigation keeps the current mission paused")
+	await capture("29-view-settings")
+	await press_modal_button("Back")
+	check(game.modal_kind == "view" and game.paused, "Settings Back restores its originating View menu")
+	action("Press Settings Back; return to the originating View menu with Focused window still selected")
+	await capture("30-settings-view-return")
+	await press_modal_named("View_science")
+	await press_modal_button("Resume mission")
+	check_live_orbs(8, "Restored Science window")
+	check(JSON.stringify(game.model.snapshot()) == view_snapshot, "View and Settings navigation never changes mission physics or time")
 	game.hud.notebook_button.pressed.emit()
 	check(game.modal_kind == "notebook" and game.paused,"Science opens an optional paused discovery library")
 	action("Press Science to reveal the eight optional discoveries while the actual mission clock is paused")
@@ -188,7 +227,11 @@ func run_size(size: Vector2i) -> void:
 	await press_modal_button("Sound, motion & pace")
 	action("Open Sound, motion and pace from pause")
 	await capture("06-settings")
-	game.resume_mission()
+	await press_modal_button("Back")
+	check(game.modal_kind == "pause" and game.paused, "Settings Back restores Pause")
+	action("Press Settings Back; restore the paused mission menu rather than silently resuming")
+	await capture("31-settings-pause-return")
+	await press_modal_button("Resume mission")
 	game.hud.slower_button.pressed.emit()
 	game.model.advance(47.7)
 	game.hud.refresh(game.model.snapshot())
@@ -236,6 +279,14 @@ func run_size(size: Vector2i) -> void:
 	game.shell._footer.get_node("Finish").pressed.emit()
 	action("Press Home after the completed mission; only the main destinations appear first")
 	await capture("23-home")
+	await press_modal_button("Sound, motion & pace")
+	check(game.modal_kind == "settings" and game.stage == "home", "Home exposes Settings directly")
+	action("Open Sound, motion & pace directly from Home")
+	await capture("32-home-settings")
+	await press_modal_button("Back")
+	check(game.modal_kind == "home" and game.stage == "home", "Settings Back restores Home")
+	action("Press Settings Back; restore Home without entering or restarting a mission")
+	await capture("33-settings-home-return")
 	await press_modal_button("More")
 	action("Open More from Home to reveal optional settings, NASA observations, the earlier lab and Quit")
 	await capture("24-more")

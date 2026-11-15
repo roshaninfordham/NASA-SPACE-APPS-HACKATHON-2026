@@ -48,7 +48,7 @@ class NativePackageTest(unittest.TestCase):
             with self.subTest(title=title):
                 native.validate_archive(self.archive([f"{title}.app/Contents/MacOS/{title}", "DOWNLOADS.md"]))
 
-    def distribution(self, version="0.9.0-alpha.1"):
+    def distribution(self, version="0.11.0-alpha.1"):
         stem = native.archive_stem(version)
         name = f"{stem}-{version}-Windows-x64.zip"
         path = self.archive([f"{stem}.exe"])
@@ -63,7 +63,7 @@ class NativePackageTest(unittest.TestCase):
         return path, native.digest(manifest_path)
 
     def test_historical_and_current_download_names_select_exact_versions(self):
-        for version, prefix in [("0.4.0-alpha.1", "Red-Veil"), ("0.6.1-alpha.1", "KOMAKU-Shield-Protocol"), ("0.8.0-alpha.1", "KOMAKU-Shield-Protocol"), ("0.9.0-alpha.1", "KOMAKU-Dust-and-Radiation")]:
+        for version, prefix in [("0.4.0-alpha.1", "Red-Veil"), ("0.6.1-alpha.1", "KOMAKU-Shield-Protocol"), ("0.8.0-alpha.1", "KOMAKU-Shield-Protocol"), ("0.9.0-alpha.1", "KOMAKU-Dust-and-Radiation"), ("0.10.0-alpha.1", "KOMAKU-Dust-and-Radiation"), ("0.11.0-alpha.1", "KOMAKU-Dust-and-Radiation")]:
             with self.subTest(version=version):
                 path, manifest_sha = self.distribution(version)
                 selected, manifest, _ = native.select_archive(self.folder, "Windows", manifest_sha)
@@ -105,7 +105,7 @@ class NativePackageTest(unittest.TestCase):
                 native.select_archive(self.folder, "Windows")
 
     def test_scene_marker_requires_exact_version_and_no_engine_errors(self):
-        for version in ["0.6.1-alpha.1", "0.8.0-alpha.1", "0.9.0-alpha.1"]:
+        for version in ["0.6.1-alpha.1", "0.8.0-alpha.1", "0.9.0-alpha.1", "0.10.0-alpha.1", "0.11.0-alpha.1"]:
             with self.subTest(version=version):
                 marker = f"RED_VEIL_SCENE_READY version={version} nodes=123 HUD=(960, 540)"
                 self.assertTrue(native.scene_ready(marker, version))

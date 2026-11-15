@@ -14,6 +14,8 @@ var measurement_scale := false
 var _caption: Label
 var _status: Label
 var _backdrop: StyleBoxFlat
+var _pulse_remaining := 0.0
+var _feedback_paused := false
 
 static func short_title(id: String, fallback: String = "Science") -> String:
 	return TITLES.get(id,fallback)
@@ -21,6 +23,7 @@ static func short_title(id: String, fallback: String = "Science") -> String:
 func _ready() -> void:
 	custom_minimum_size = Vector2(80, 104)
 	focus_mode = Control.FOCUS_ALL
+	set_process(false)
 	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	_backdrop = Style.panel()
 	_backdrop.bg_color = Color(Style.GLASS,0.97)
@@ -71,8 +74,27 @@ func set_measurement_scale(value: bool) -> void:
 	queue_redraw()
 
 func set_reduced_motion(value: bool) -> void:
-	# No continuous motion is required for understanding any orb state.
+	# Readings remain exact; only a short input acknowledgement is optional.
 	reduced_motion = value
+	if value: _pulse_remaining = 0.0
+	set_process(_pulse_remaining > 0.0 and not _feedback_paused and not value)
+	queue_redraw()
+
+func set_feedback_paused(value: bool) -> void:
+	_feedback_paused = value
+	set_process(_pulse_remaining > 0.0 and not value and not reduced_motion)
+
+func pulse() -> void:
+	if reduced_motion: return
+	_pulse_remaining = 0.45
+	set_process(not _feedback_paused)
+	queue_redraw()
+
+func _process(delta: float) -> void:
+	if _feedback_paused or reduced_motion: return
+	_pulse_remaining = maxf(0.0,_pulse_remaining-minf(maxf(delta,0.0),0.25))
+	queue_redraw()
+	if _pulse_remaining <= 0.0: set_process(false)
 
 func _update_accessible_description() -> void:
 	tooltip_text = title + ": " + status_text + ". Open the science card."
@@ -113,6 +135,9 @@ func _draw() -> void:
 		draw_arc(center, radius, -PI * 0.5, -PI * 0.5 + TAU * level, 64, accent, 4.0, true)
 	if has_focus() or is_hovered():
 		draw_arc(center, radius + 4.0, 0, TAU, 64, Style.PEARL if has_focus() else accent, 2.0, true)
+	if _pulse_remaining > 0.0 and not reduced_motion:
+		var strength := _pulse_remaining/0.45
+		draw_arc(center,radius+4.0+(1.0-strength)*4.0,0,TAU,64,Color(accent,strength*0.55),2.0,true)
 	_draw_glyph(center, radius * 0.48, accent)
 	if measurement_scale and not compact:
 		var x := size.x - 8.0

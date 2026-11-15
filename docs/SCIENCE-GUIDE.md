@@ -24,7 +24,7 @@ This guide explains an educational model. It does not certify spacecraft, real a
 
 ### Explore the vocabulary without blocking play
 
-Open **Science** to choose one of eight ideas. Each card starts with a brief explanation, diagram, and everyday analogy. **Learn more** reveals fuller reasoning and equations. **Data & sources** separates real evidence from game settings and opens cited sources in the device's browser when connected.
+Choose a live bubble around the outpost window, or open **Science** to choose one of eight ideas. **View** can switch to a Focused window without changing the mission. Each card starts with a brief explanation, diagram, and everyday analogy. **Learn more** reveals fuller reasoning and equations. **Data & sources** separates real evidence from game settings and opens cited sources in the device's browser when connected.
 
 | Concept   | The idea to take away                                                                                  |
 | --------- | ------------------------------------------------------------------------------------------------------ |

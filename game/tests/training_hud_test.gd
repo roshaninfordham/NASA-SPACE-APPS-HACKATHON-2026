@@ -47,36 +47,53 @@ func run() -> void:
 	hud.start_requested.connect(func():events.append("start"))
 	hud.pause_requested.connect(func():events.append("pause"))
 	hud.notebook_requested.connect(func():events.append("book"))
+	hud.view_requested.connect(func():events.append("view"))
+	check(hud.get_mission_view() == "science","Science window with live bubbles is the default")
 	for dimensions in [Vector2i(1280,720),Vector2i(960,540),Vector2i(390,844),Vector2i(844,390),Vector2i(320,568),Vector2i(1280,720)]:
 		root.size = dimensions
-		for before_start in [true,false]:
-			hud.set_preflight(before_start)
-			hud.refresh(model.snapshot())
-			await frames()
-			for control in [hud.slower_button,hud.faster_button,hud.speed_slider,hud.notebook_button,hud.pause_button]: target(control,str(control.name)+" "+str(dimensions))
-			if before_start: target(hud.start_button,"Start "+str(dimensions))
-			check(not hud.slower_button.get_global_rect().intersects(hud.speed_slider.get_global_rect()) and not hud.speed_slider.get_global_rect().intersects(hud.faster_button.get_global_rect()),"Pace actions and slider do not overlap")
-			check(not hud.notebook_button.get_global_rect().intersects(hud.pause_button.get_global_rect()),"Science and Pause remain separate actions")
-			if before_start:
-				check(not hud.start_button.get_global_rect().intersects(hud.faster_button.get_global_rect()),"Start does not overlap the pace controls")
-			for label in [hud._title_label,hud._subtitle_label,hud._clean_title,hud._clean_value,hud._power_title,hud._power_value,hud._timer_label,hud._timer_caption,hud._mission_label,hud._pace_value,hud._effort_label]:
-				text_fits(label,label.text+" "+str(dimensions))
-			for label in [hud._clean_value,hud._power_value,hud._timer_label]:
-				check(label.is_visible_in_tree() and label.get_theme_font_size("font_size") >= 26,"All three primary readings stay visible and large")
-			check(hud._clean_progress.is_visible_in_tree() and is_equal_approx(hud._clean_progress.value,model.snapshot().clean_fraction),"Cleaned fraction is direct rather than dust-left arithmetic")
-			check("80%" in hud._clean_title.text and hud._clean_target.is_visible_in_tree(),"The visible cleaning goal agrees with the model win target")
-			check(not hud._rail.is_visible_in_tree() and not hud._left_rail.is_visible_in_tree() and not hud._right_rail.is_visible_in_tree(),"Science concepts do not permanently crowd the working scene")
-			for orb in hud.orbs.values(): check(not orb.is_visible_in_tree(),"Optional "+orb.title+" is kept out of the main play HUD")
-			var work_rect := hud.get_work_view_rect()
-			check(work_rect.size.x >= dimensions.x-24.1 and work_rect.size.y >= 120,"Work camera receives the full available window width")
-			check(work_rect.position.y >= hud._top.get_rect().end.y and work_rect.end.y < hud._bottom.get_rect().position.y,"Work camera rectangle avoids header and controls")
-			# Every selectable pace remains legible even on a small phone.
-			for pace in [0.25,1.0,1.75]:
-				var sample := model.snapshot()
-				sample.selected_multiplier = pace
-				hud.refresh(sample)
-				text_fits(hud._pace_value,"Pace name "+str(pace)+" "+str(dimensions))
-			hud.refresh(model.snapshot())
+		for mode in ["science","focus"]:
+			hud.set_mission_view(mode)
+			for before_start in [true,false]:
+				hud.set_preflight(before_start)
+				hud.refresh(model.snapshot())
+				await frames()
+				for control in [hud.slower_button,hud.faster_button,hud.speed_slider,hud.notebook_button,hud.view_button,hud.pause_button]: target(control,str(control.name)+" "+str(dimensions))
+				if before_start: target(hud.start_button,"Start "+str(dimensions))
+				check(not hud.slower_button.get_global_rect().intersects(hud.speed_slider.get_global_rect()) and not hud.speed_slider.get_global_rect().intersects(hud.faster_button.get_global_rect()),"Pace actions and slider do not overlap")
+				check(not hud.notebook_button.get_global_rect().intersects(hud.view_button.get_global_rect()) and not hud.view_button.get_global_rect().intersects(hud.pause_button.get_global_rect()),"Science, View, and Menu remain separate actions")
+				if before_start:
+					check(not hud.start_button.get_global_rect().intersects(hud.faster_button.get_global_rect()),"Start does not overlap the pace controls")
+				for label in [hud._title_label,hud._subtitle_label,hud._clean_title,hud._clean_value,hud._power_title,hud._power_value,hud._timer_label,hud._timer_caption,hud._mission_label,hud._pace_value,hud._effort_label]:
+					text_fits(label,label.text+" "+str(dimensions))
+				for label in [hud._clean_value,hud._power_value,hud._timer_label]:
+					check(label.is_visible_in_tree() and label.get_theme_font_size("font_size") >= 26,"All three primary readings stay visible and large")
+				check(hud._clean_progress.is_visible_in_tree() and is_equal_approx(hud._clean_progress.value,model.snapshot().clean_fraction),"Cleaned fraction is direct rather than dust-left arithmetic")
+				check("80%" in hud._clean_title.text and hud._clean_target.is_visible_in_tree(),"The visible cleaning goal agrees with the model win target")
+				check(hud.get_mission_view() == mode,"The requested display preset remains selected")
+				for orb in hud.orbs.values():
+					check(orb.is_visible_in_tree() == (mode == "science"),orb.title+" visibility follows the chosen view")
+					if mode == "science":
+						text_fits(orb._caption,orb.title+" name")
+						text_fits(orb._status,orb.title+" live reading")
+				if mode == "science":
+					hud.orbs.shelter.grab_focus()
+					await frames()
+					if hud._rail.visible: check(hud._rail.get_global_rect().grow(1).encloses(hud.orbs.shelter.get_global_rect()),"Keyboard scrolls the last live bubble into view")
+					else:
+						for orb in hud.orbs.values(): target(orb,orb.title+" live bubble")
+				var work_rect := hud.get_work_view_rect()
+				check(work_rect.size.x >= 250.0 and work_rect.size.y >= 50.0,"Work camera receives an unobstructed pressure-window opening")
+				check(hud._window_frame.get_opening().is_equal_approx(work_rect),"Interior window frame uses the exact camera-safe aperture")
+				if mode == "focus": check(work_rect.size.x >= dimensions.x-24.1,"Focused window restores the full available window width")
+				check(work_rect.position.y >= hud._top.get_rect().end.y and work_rect.end.y < hud._bottom.get_rect().position.y,"Work camera rectangle avoids header and controls")
+				# Every selectable pace remains legible even on a small phone.
+				for pace in [0.25,1.0,1.75]:
+					var sample := model.snapshot()
+					sample.selected_multiplier = pace
+					hud.refresh(sample)
+					text_fits(hud._pace_value,"Pace name "+str(pace)+" "+str(dimensions))
+				hud.refresh(model.snapshot())
+	hud.set_mission_view("science")
 	hud.set_preflight(true)
 	hud.refresh(model.snapshot())
 	check(Style.font("display_bold") is FontVariation,"Shared headings use bundled bold variable fonts")
@@ -162,6 +179,35 @@ func run() -> void:
 	check(root.gui_get_focus_owner() == hud.notebook_button,"Completion moves focus to available Science navigation")
 	check(hud.orbs.shelter.status_text == "Inside" and hud._timer_label.text == "00:00","Countdown ends with automatic shelter entry")
 	check(not hud.has_signal("return_requested") and not hud.has_signal("radio_cue_requested"),"No discarded recall or radio mechanic returns")
+	var unchanged := model.snapshot()
+	hud.set_mission_view("focus")
+	hud.set_mission_view("science")
+	hud.set_mission_view("invalid")
+	check(hud.get_mission_view() == "science" and model.snapshot() == unchanged,"View changes only change presentation, and invalid presets are ignored")
+	await press(hud.view_button)
+	check(events[-1] == "view" and hud.pause_button.text == "Menu","View and Menu have explicit navigation labels")
+	hud.show_radio_exchange("Hurry, Ren!","Picking up the pace.")
+	hud.set_process(false)
+	check(hud.get_radio_exchange().phase == "player" and hud._effort_label.text == "You: Hurry, Ren!","Player radio caption appears immediately without an audio dependency")
+	hud.set_feedback_paused(true)
+	var caption_before := hud.get_radio_exchange()
+	var pulse_before: float = hud.orbs.speed._pulse_remaining
+	for index in range(8):
+		hud._process(0.25)
+		hud.orbs.speed._process(0.25)
+	check(hud.get_radio_exchange() == caption_before and hud.orbs.speed._pulse_remaining == pulse_before,"Pause freezes both radio timing and the decorative response")
+	hud.set_feedback_paused(false)
+	hud.set_process(false)
+	for index in range(6): hud._process(0.25)
+	check(hud.get_radio_exchange().phase == "reply" and hud._effort_label.text == "Ren: Picking up the pace.","Ren’s reply follows in the same compact caption line")
+	hud.set_reduced_motion(true)
+	hud.orbs.speed.pulse()
+	check(hud.orbs.speed._pulse_remaining == 0.0,"Reduced motion removes the decorative bubble pulse")
+	for index in range(20): hud._process(0.25)
+	check(not hud.get_radio_exchange().active and model.snapshot() == unchanged,"Radio feedback expires without changing physics or outcomes")
+	hud.show_radio_exchange("Again?","Ready.")
+	hud.clear_radio_exchange()
+	check(hud.get_radio_exchange().player == "" and hud.get_radio_exchange().reply == "" and not hud.is_processing(),"Starting another mission can clear all stale radio feedback")
 	hud.queue_free()
 	await frames()
 	print("TRAINING HUD ASSERTIONS: ",assertions," FAILURES: ",failures)

@@ -61,6 +61,12 @@ func button_named(parent: Node, title: String) -> Button:
 func click_button(button: Button) -> void:
 	check(is_instance_valid(button) and button.is_visible_in_tree(), "Native viewport contains a visible navigation button")
 	if not is_instance_valid(button): return
+	var ancestor: Node = button.get_parent()
+	while is_instance_valid(ancestor):
+		if ancestor is ScrollContainer:
+			ancestor.ensure_control_visible(button)
+			await frames()
+		ancestor = ancestor.get_parent()
 	var position: Vector2 = button.get_global_transform_with_canvas() * (button.size / 2.0)
 	for pressed in [true, false]:
 		var event := InputEventMouseButton.new()
@@ -119,8 +125,10 @@ func run() -> void:
 	check(not game.navigation.is_fullscreen() and DisplayServer.window_get_size() == original_size, "Actual main scene preserves the initial windowed geometry")
 	check(root.get_child(root.get_child_count() - 1) == game._guard, "Actual main scene installs its input guard last on the root Window")
 	game.start_mission()
+	await frames()
 	game.launch_mission()
 	await frames()
+	check(game.mission_started and game.model.snapshot().elapsed_seconds > 0.0, "Native navigation runs against a genuinely started, advancing mission")
 	await key(KEY_F11, true)
 	check(game.navigation.is_fullscreen() and not game.paused, "Real F11 input enters fullscreen without pausing active play")
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -133,6 +141,20 @@ func run() -> void:
 	check(game.model.snapshot() == frozen, "Paused native mission does not charge time, dose or cleaning progress")
 	await key(KEY_ESCAPE, true)
 	check(not game.paused and not is_instance_valid(game.modal), "Second Escape resumes exactly one pause layer")
+	await click_button(game.hud.view_button)
+	check(game.modal_kind == "view" and game.paused, "A native pointer opens the visible View control and pauses play")
+	var before_view: Dictionary = game.model.snapshot()
+	await click_button(game.modal.find_child("View_focus", true, false))
+	check(game.progress.settings.mission_view == "focus" and game.hud.get_mission_view() == "focus", "A real pointer changes the window presentation")
+	check(game.model.snapshot() == before_view, "Native presentation changes preserve time, cleaning, energy and dose")
+	await key(KEY_F11)
+	await key(KEY_ESCAPE)
+	check(not game.navigation.is_fullscreen() and game.modal_kind == "view" and game.paused, "Fullscreen Escape retains View and its paused mission")
+	await click_button(game.modal.find_child("View_science", true, false))
+	await key(KEY_ESCAPE)
+	check(game.modal_kind == "pause" and game.model.snapshot() == before_view, "The next Escape returns to Menu without restarting the mission")
+	await key(KEY_ESCAPE)
+	check(not game.paused, "Only the explicit final Escape resumes after native View navigation")
 	await focus_check()
 	await key(KEY_ESCAPE)
 	check(not game.paused, "Explicit Escape resumes after real focus returns")

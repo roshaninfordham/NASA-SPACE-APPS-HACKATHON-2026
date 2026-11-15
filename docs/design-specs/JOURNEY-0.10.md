@@ -1,6 +1,6 @@
 # <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand --> — 0.10 interface contract
 
-**Current source contract · November 15, 2026.** This simplifies the [0.9 presentation](JOURNEY-0.9.md) without changing the [mission equations](../TRAINING-MODEL.md). Publication and physical-device acceptance are separate from implementation.
+**Historical 0.10 contract · November 15, 2026.** This records the published 0.10 interface. The [0.11 candidate contract](JOURNEY-0.11.md) describes the restoration now in progress; it does not alter this release’s screenshots or acceptance record. This simplifies the [0.9 presentation](JOURNEY-0.9.md) without changing the [mission equations](../TRAINING-MODEL.md). Publication and physical-device acceptance are separate from implementation.
 
 ## First action, then optional detail
 

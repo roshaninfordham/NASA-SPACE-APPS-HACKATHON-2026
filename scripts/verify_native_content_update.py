@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Test signed content using unchanged public 0.6 through 0.9.0 Mac/Windows installers.
+"""Test signed content using unchanged public 0.6 through 0.10 Mac/Windows installers.
 
 Runs only on a fresh native CI runner, refuses an existing player profile, and
 cleans its newly created profile. Staging uses the matching editor with the
@@ -29,7 +29,7 @@ from branding import archive_name, archive_stem, supplemental_asset_names
 
 ROOT = Path(__file__).resolve().parent.parent
 REPOSITORY = "roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026"
-DEFAULT_BASELINE = "0.9.0-alpha.1"
+DEFAULT_BASELINE = "0.10.0-alpha.1"
 # Independent immutable identities; evidence files supply the complete asset list.
 BASELINES = {
     "0.6.0-alpha.1": {
@@ -67,6 +67,12 @@ BASELINES = {
         "manifest_sha256": "c016d1d18303881f1a814f8cffaede6e6874b815fa1a0f6609b109c73c7e9a30",
         "macOS-universal": "6912d3478cbcacb7d29939b3133d9e75cd74a701cd4220f2e0ad80203e4278c8",
         "Windows-x64": "1fdaff22a94f92d7b9ce0e8f9d7ccee95930df29614bf34c9987a4af2919857f"
+    },
+    "0.10.0-alpha.1": {
+        "source_commit": "26f19540baf330b00b0ac4a1b470d0e1439f7382",
+        "manifest_sha256": "dbf95ccd9fd266070f04e8dafa8b73b62b931244d6525fbfdc5d71d682b01657",
+        "macOS-universal": "7fc1e215980aa3f30d6f9ce1e5a395f115c6901c645817ff9d1d4054fbb7df95",
+        "Windows-x64": "ae018f0ce8a13ea5a7d431393b960dc1c52fa77c056584361d8753c6d0e546be",
     },
 }
 

@@ -1,18 +1,18 @@
 # Download and play <!-- brand:display_name -->KŌMAKU: Dust & Radiation<!-- /brand -->
 
-**This package: 0.10.0-alpha.1.** These instructions name the files in this version. Official downloads and publication status are listed on the [0.10.0 release page](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1). GitHub **Release assets**, rather than the Packages tab or source-code ZIP, contain the runnable game.
+**This package: 0.11.0-alpha.1.** These instructions name the files in this version. Official downloads and publication status are listed on the [0.11.0 release page](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.11.0-alpha.1). GitHub **Release assets**, rather than the Packages tab or source-code ZIP, contain the runnable game.
 
-This version simplifies the interface and corrects the packaged installation handoff. It retains the 90-second format of [0.9.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.9.0-alpha.1). The underlying science equations remain unchanged. That earlier release is preserved rather than overwritten. Use the files and filenames for this package below.
+This version restores the outpost window and eight live science bubbles while retaining the clearer fonts, controls and 90-second format of [0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1). The underlying science equations remain unchanged. That earlier release is preserved rather than overwritten. Use the files and filenames for this package below.
 
 ## Choose the download for this version
 
-| Platform or document      | Official 0.10.0 file                                                                                                                                                                                                             |
+| Platform or document      | Official 0.11.0 file                                                                                                                                                                                                             |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Mac Apple Silicon / Intel | [KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-macOS-universal.zip](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-macOS-universal.zip) |
-| Windows x64               | [KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Windows-x64.zip](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Windows-x64.zip)         |
-| Linux x64                 | [KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Linux-x64.zip](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Linux-x64.zip)             |
-| WebGL2 browser            | [KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Web.zip](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Web.zip)                         |
-| Science guide             | [KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Science-Guide.pdf](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.10.0-alpha.1/KOMAKU-Dust-and-Radiation-0.10.0-alpha.1-Science-Guide.pdf)     |
+| Mac Apple Silicon / Intel | [KOMAKU-Dust-and-Radiation-0.11.0-alpha.1-macOS-universal.zip](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.11.0-alpha.1/KOMAKU-Dust-and-Radiation-0.11.0-alpha.1-macOS-universal.zip) |
+| Windows x64               | [KOMAKU-Dust-and-Radiation-0.11.0-alpha.1-Windows-x64.zip](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.11.0-alpha.1/KOMAKU-Dust-and-Radiation-0.11.0-alpha.1-Windows-x64.zip)         |
+| Linux x64                 | [KOMAKU-Dust-and-Radiation-0.11.0-alpha.1-Linux-x64.zip](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.11.0-alpha.1/KOMAKU-Dust-and-Radiation-0.11.0-alpha.1-Linux-x64.zip)             |
+| WebGL2 browser            | [KOMAKU-Dust-and-Radiation-0.11.0-alpha.1-Web.zip](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.11.0-alpha.1/KOMAKU-Dust-and-Radiation-0.11.0-alpha.1-Web.zip)                         |
+| Science guide             | [KOMAKU-Dust-and-Radiation-0.11.0-alpha.1-Science-Guide.pdf](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/download/v0.11.0-alpha.1/KOMAKU-Dust-and-Radiation-0.11.0-alpha.1-Science-Guide.pdf)     |
 
 Extract the **whole archive** into a normal folder before starting. Read its `START-HERE.txt`; native players do not need Godot, a code editor or a developer account. The archives include the science guide, technical equation sheet and word-only equation sheet. Keep bundled data files with the application.
 
@@ -41,7 +41,7 @@ Extract the Linux ZIP, then run **`KOMAKU-Dust-and-Radiation.x86_64`**. If your 
 
 After the three story scenes, **Opening the window…** appears while Ren and the panel are prepared. **Back to Home** cancels loading. The control room then opens in **preflight**: choose Ren's starting pace and press **START MISSION**, or press **Enter**. Nothing advances before Start.
 
-The main view shows **panel cleaned, energy stored and storm time**. Use **Slower / 1**, **Faster / 3**, or the red stepped slider to choose pace. The timer counts about **90 active real seconds** at standard pacing. **Science** pauses the mission and opens the optional eight-concept library; cards begin with a short explanation and diagram, with **Learn more** and **Data & sources** for detail. **Time → Learn more** explains the **30 simulated minutes** used in the equations.
+The main view shows **panel cleaned, energy stored and storm time**, with eight live science bubbles around the outpost window. **View** offers the default **Science window** or a **Focused window**; switching preserves the current mission. **Menu** opens paused navigation. Scripted radio captions remain visible when sound is off. Use **Slower / 1**, **Faster / 3**, or the red stepped slider to choose pace. The timer counts about **90 active real seconds** at standard pacing. **Science** pauses the mission and opens the optional eight-concept library; cards begin with a short explanation and diagram, with **Learn more** and **Data & sources** for detail. **Time → Learn more** explains the **30 simulated minutes** used in the equations.
 
 Pause, reading and accessibility clock settings can extend actual wall time. Escape handles the current dialog, Pause and fullscreen exit; F11 toggles fullscreen.
 
@@ -53,13 +53,13 @@ WIN means at least 80% cleaned, PASS at least 40%, otherwise TRY AGAIN. Ren is i
 
 Open **Updates & downloads**, check for a new compatible release, choose **Install**, then confirm **Restart**. The game verifies the signed content and keeps recovery content. It also checks at a fresh launch; there are no closed-app push notifications or forced restarts. Native engine/bootstrap changes require a full installer.
 
-A content update preserves the existing OS app filename while the game displays its current title. This is expected; progress, app IDs and signing trust remain stable. New 0.10.0 installers use the filenames above. Mac metadata is `0.10.0`, Windows file/product metadata is `0.10.0.1`, and the full game/update identity is `0.10.0-alpha.1`.
+A content update preserves the existing OS app filename while the game displays its current title. This is expected; progress, app IDs and signing trust remain stable. New 0.11.0 installers use the filenames above. Mac metadata is `0.11.0`, Windows file/product metadata is `0.11.0.1`, and the full game/update identity is `0.11.0-alpha.1`.
 
-Release acceptance uses activation/recovery checks on six original Mac/Windows baseline versions, including 0.9.0, plus the documented Linux 0.4 baseline. See the official release page and [update evidence and limits](UPDATES.md) for the results and scope; local content-activation checks do not establish every physical-device or HTTP/relaunch path.
+Release acceptance uses activation/recovery checks on seven original Mac/Windows baseline versions, including 0.10.0, plus the documented Linux 0.4 baseline. See the official release page and [update evidence and limits](UPDATES.md) for the results and scope; local content-activation checks do not establish every physical-device or HTTP/relaunch path.
 
 ## Browser and mobile
 
-The Web archive requires HTTP(S) hosting and WebGL2; do not double-click `index.html` using a file URL. For a local test, serve the extracted folder with `python3 -m http.server 5190 --directory <extracted-folder>`, then visit that server in a browser. Public hosting remains deferred by the owner. No production native Android or iOS installer is published.
+The Web archive requires HTTP(S) hosting and WebGL2; do not double-click `index.html` using a file URL. For a local test, serve the extracted folder with `python3 -m http.server 5190 --directory <extracted-folder>`, then visit that server in a browser. Public hosting of the current playable game remains deferred. The separate [screen-review gallery](https://roshaninfordham.github.io/NASA-SPACE-APPS-HACKATHON-2026/review/) contains screenshots and annotations, not a playable browser build. No production native Android or iOS installer is published.
 
 ## Historical versions and optional earlier activities
 

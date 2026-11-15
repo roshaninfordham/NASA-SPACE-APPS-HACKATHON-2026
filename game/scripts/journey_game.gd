@@ -57,6 +57,7 @@ var _previous_focus: WeakRef
 var _dialog_margin: MarginContainer
 var _concept_return_to_library := false
 var _mission_load_serial := 0
+var _settings_return := ""
 
 func _ready() -> void:
 	DisplayServer.window_set_title(Branding.display_name())
@@ -102,6 +103,7 @@ func _ready() -> void:
 	hud.concept_requested.connect(open_concept)
 	hud.notebook_requested.connect(show_notebook)
 	hud.pause_requested.connect(show_pause)
+	hud.view_requested.connect(show_view)
 	hud.work_view_changed.connect(_frame_work_view)
 	_apply_preferences()
 	shell.show_story(bool(progress.settings.reduced_motion))
@@ -201,6 +203,7 @@ func start_mission() -> void:
 	camera.current = true
 	hud.show()
 	hud.set_preflight(true)
+	hud.clear_radio_exchange()
 	hud.refresh(model.snapshot())
 	_frame_work_view.call_deferred()
 	_sync_world(model.snapshot())
@@ -213,10 +216,12 @@ func launch_mission() -> void:
 	mission_started = true
 	hud.set_preflight(false)
 	audio.cue("confirm")
+	hud.show_radio_exchange("Let’s clear this panel, Ren.", "On it! Keep an eye on the storm.")
 	_sync_world(model.snapshot())
 
 func _process(delta: float) -> void:
 	if not is_instance_valid(navigation): return
+	if is_instance_valid(hud): hud.set_feedback_paused(stage != "mission" or paused or not focused or shell.concept_open)
 	if navigation.poll_external_exit(): _pause_after_window_exit()
 	if stage == "mission" and is_instance_valid(world):
 		world.process_mode = Node.PROCESS_MODE_DISABLED if not mission_started or paused or not focused or shell.concept_open else Node.PROCESS_MODE_INHERIT
@@ -260,6 +265,11 @@ func set_cleaning_speed(multiplier: float) -> void:
 	var previous := float(model.snapshot().cleaning_multiplier)
 	if _can_act() and model.set_cleaning_speed(multiplier):
 		audio.cue("pace_up" if multiplier > previous else "pace_down")
+		var faster := multiplier > previous
+		var reply := "Picking up the pace!" if faster else "Taking it steady."
+		if float(model.snapshot().fatigue) >= 0.4:
+			reply = "I’m getting tired." if faster else "Thanks. A slower pace helps me recover."
+		hud.show_radio_exchange("A little faster, Ren." if faster else "Take it steady, Ren.", reply)
 	hud.refresh(model.snapshot())
 	_sync_world(model.snapshot())
 
@@ -329,6 +339,8 @@ func handle_global_input(event: InputEvent) -> bool:
 		elif is_instance_valid(modal):
 			if modal_kind == "pause": resume_mission()
 			elif modal_kind == "notebook": resume_mission()
+			elif modal_kind == "settings": _back_from_settings()
+			elif modal_kind == "view": _back_from_view()
 			elif stage == "mission": show_pause()
 			elif stage == "home": show_home()
 			else: _close_modal()
@@ -467,6 +479,7 @@ func show_pause() -> void:
 	audio.set_paused(true)
 	var box := _dialog("Paused", "Your mission is waiting.", "pause")
 	_button(box, "Resume mission", resume_mission, true)
+	_button(box, "View & accessibility", show_view)
 	_button(box, "Science", show_notebook)
 	_button(box, "Sound, motion & pace", show_settings)
 	_button(box, "Restart this mission", confirm_restart)
@@ -521,17 +534,55 @@ func _apply_preferences() -> void:
 	if audio.has_method("set_reduced_motion"): audio.set_reduced_motion(bool(progress.settings.reduced_motion))
 	shell.set_reduced_motion(bool(progress.settings.reduced_motion))
 	hud.set_reduced_motion(bool(progress.settings.reduced_motion))
+	hud.set_mission_view(str(progress.settings.get("mission_view", "science")))
 	if is_instance_valid(world) and is_instance_valid(world.dust_particles): world.dust_particles.emitting = not bool(progress.settings.reduced_motion)
 
+func show_view() -> void:
+	if stage == "mission": paused = true
+	audio.set_paused(stage == "mission")
+	var box := _dialog("Your window", "Choose your view. Your mission stays paused." if stage == "mission" else "Choose how you see the mission.", "view")
+	if stage == "mission": _button(box, "Resume mission", resume_mission, true)
+	_button(box, "Back to menu" if stage == "mission" else "Back to Home", _back_from_view, stage != "mission")
+	var selected := str(progress.settings.get("mission_view", "science"))
+	for mode in ["science", "focus"]:
+		var title := "Science window" if mode == "science" else "Focused window"
+		var button := Style.button(title + (" · selected" if selected == mode else ""), selected == mode)
+		button.name = "View_" + mode
+		button.accessibility_description = "Keep all eight live science bubbles beside the window." if mode == "science" else "A larger window. Science stays available from the Science button."
+		button.pressed.connect(func():
+			progress.set_setting("mission_view", mode)
+			hud.set_mission_view(mode)
+			_frame_work_view()
+			show_view()
+		)
+		box.add_child(button)
+		var detail := Style.label(button.accessibility_description, 18, Style.MUTED)
+		detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		box.add_child(detail)
+	_button(box, "Sound, motion & pace", show_settings)
+	_button(box, "Leave fullscreen" if navigation.is_fullscreen() else "Enter fullscreen · F11", func(): navigation.toggle_fullscreen(); show_view())
+	var help := Style.label("Mouse or touch: choose controls. Keyboard: Tab to move, Enter to choose, 1 for slower, 3 for faster. Escape opens the menu or goes back. In fullscreen, Escape first returns to a window.", 18, Style.MUTED)
+	help.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	box.add_child(help)
+	if not progress.last_error.is_empty(): box.add_child(Style.label("This view works now, but could not be saved on this device.", 16, Style.AMBER))
+
+func _back_from_view() -> void:
+	if stage == "mission": show_pause()
+	elif stage == "home": show_home()
+	else: _close_modal()
+
+func _back_from_settings() -> void:
+	if _settings_return == "view": show_view()
+	elif stage == "mission": show_pause()
+	elif stage == "home": show_home()
+	else: _close_modal()
+
 func show_settings() -> void:
+	if modal_kind != "settings": _settings_return = modal_kind
 	if stage == "mission": paused = true
 	audio.set_paused(stage == "mission")
 	var box := _dialog("Settings", "Sound, motion and play time.", "settings")
-	_button(box, "Back", func():
-		if stage == "mission": show_pause()
-		elif stage == "home": show_home()
-		else: _close_modal()
-	, true)
+	_button(box, "Back", _back_from_settings, true)
 	for setting in ["music_enabled", "effects_enabled", "reduced_motion"]:
 		var toggle := CheckButton.new()
 		toggle.text = {"music_enabled": "Background music", "effects_enabled": "Sound effects", "reduced_motion": "Reduce motion"}[setting]
@@ -550,6 +601,9 @@ func show_settings() -> void:
 		slider.value_changed.connect(func(value: float): progress.set_setting(setting, value); _apply_preferences())
 		box.add_child(slider)
 	var pace := OptionButton.new()
+	pace.name = "RoundLength"
+	pace.accessibility_name = "Round length"
+	box.add_child(Style.label("Round length · time to think", 18, Style.PEARL, "body_bold"))
 	pace.custom_minimum_size.y = 48
 	for title in ["Relaxed · 3 minutes", "Standard · 90 seconds", "Quick practice · 45 seconds"]: pace.add_item(title)
 	pace.select([0.5, 1.0, 2.0].find(float(progress.settings.pace)))
@@ -581,7 +635,7 @@ func confirm_restart() -> void:
 	_button(box, "Restart mission", start_mission)
 
 func request_home() -> void:
-	if stage == "mission":
+	if stage == "mission" and mission_started:
 		paused = true
 		var box := _dialog("Return home?", "This unfinished attempt will end. Your explored ideas stay saved.", "confirm")
 		_button(box, "Keep this mission", show_pause, true)
@@ -603,6 +657,8 @@ func show_home() -> void:
 	_button(box, "Science", show_preparation)
 	_button(box, "Replay the story", func(): _close_modal(); stage = "story"; shell.show_story(bool(progress.settings.reduced_motion)); audio.set_context("story"))
 	_button(box, "Updates & downloads", show_updates)
+	_button(box, "View & accessibility", show_view)
+	_button(box, "Sound, motion & pace", show_settings)
 	_button(box, "More", show_more)
 	_refresh_updates()
 

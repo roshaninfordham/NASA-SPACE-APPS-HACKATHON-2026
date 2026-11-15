@@ -2,6 +2,19 @@
 
 All published game versions and notable unreleased work are recorded here. The version and source commit in each release manifest identify the exact downloadable build. Documentation on `main` can be newer than an installer.
 
+## [0.11.0-alpha.1] — Unreleased candidate
+
+Restore the outpost-window presentation and eight visible, updating science bubbles while preserving the published 0.10 wording, fonts, short explanations and mission rules. This entry describes candidate work, not a published package or completed release acceptance. [Design contract](docs/design-specs/JOURNEY-0.11.md).
+
+- Add **View → Science window / Focused window** for the same mission. The default Science window exposes the eight concepts during play; a bubble opens a paused explanation, while Focused window reduces surrounding information.
+- Add direct **Home** actions to **Menu** and **Settings**, retaining contextual Back/Resume destinations and safe pause behavior.
+- Add brief player/Ren radio captions for Start and pace changes. These are scripted feedback, not microphone input, voice recognition or AI conversation.
+- Migrate recognized local schema 1 progress to schema 2, adding the saved view preference without resetting existing settings or run history. Keep application/save identity and content-update trust stable.
+- Preserve the 90-second standard clock, 30 simulated minutes, pace/fatigue model, actual energy, automatic entry, cleaned-fraction outcomes and equal final dose. The optional NASA SDO image remains separate from the model.
+- Prepare copy-ready submission answers and replace the obsolete EVA submission outline with the current window-mission scope. Record source wording for the Pathfinder citation and distinguish concept footage from gameplay.
+
+The published 0.10 downloads and historical galleries remain available. New source/layout, native startup, compatible-content updates, packaged-document checks and public-file verification are required before claiming a 0.11 release. Physical-device and learner acceptance retain their separate scope.
+
 ## Team screen review website — 2026-11-15
 
 Add a separate versioned review gallery for the published 0.10 game screens: drawing tools, numbered notes, local drafts, annotated links, PNG/JSON export and explicit prefilled GitHub feedback. Screen identity is bound to the version, source commit and image hash. Deployment preserves the existing Pages game and older review versions. The published game packages and science model are unchanged. [Review guide](docs/SCREEN-REVIEW.md).

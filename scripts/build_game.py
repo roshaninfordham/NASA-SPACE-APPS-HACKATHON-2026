@@ -63,6 +63,10 @@ All controls also work by click/touch. No microphone is required.
 Science cards and Pause stop the mission clock. Escape leaves fullscreen
 first and pauses; another Escape closes one panel or offers Resume.
 Settings has music, sound effects, reduced motion and relaxed/quick pacing.
+View chooses a Science window with eight live bubbles or a Focused window.
+Menu offers Resume, Science, view/accessibility, Restart and Home.
+Changing the view preserves your current mission. Radio replies stay visible
+when sound is off. View and Settings pause play until you choose Resume.
 Debrief connects your actual run to four equations and an optional quiz.
 Home > More > Advanced lab retains the earlier Mira/EVA mission separately.
 

@@ -45,11 +45,11 @@ func _initialize() -> void:
 	var path := test_dir.path_join("profile.json")
 	var store = Progress.new(path)
 	check(store.storage_available and store.last_error.is_empty() and not FileAccess.file_exists(path), "Missing progress loads defaults without eagerly creating a file")
-	check(store.settings == {"music_enabled": true, "effects_enabled": true, "music_volume": 0.35, "effects_volume": 0.55, "soundtrack": "supplied", "reduced_motion": false, "pace": 1.0}, "First-run settings use audible, standard-pace defaults")
+	check(store.settings == {"music_enabled": true, "effects_enabled": true, "music_volume": 0.35, "effects_volume": 0.55, "soundtrack": "supplied", "reduced_motion": false, "pace": 1.0, "mission_view": "science"}, "First-run settings use audible, standard-pace defaults with visible science")
 	check(store.save_data(), "Initial settings save atomically")
 	var initial_bytes := read_text(path)
 	var initial: Dictionary = JSON.parse_string(initial_bytes)
-	check(initial.kind == "komaku-journey-progress" and initial.schema_version == 1, "Progress has a dedicated schema discriminator")
+	check(initial.kind == "komaku-journey-progress" and initial.schema_version == 2, "Progress has a dedicated version-two schema discriminator")
 	check(initial.reviewed_ids.is_empty() and initial.runs.is_empty(), "Empty reviews and results round-trip")
 	check(store.set_setting("music_enabled", false) and store.set_setting("effects_enabled", false) and store.set_setting("reduced_motion", true), "Boolean accessibility and audio settings save")
 	check(store.set_setting("music_volume", 0.0) and store.set_setting("effects_volume", 1.0), "Volume endpoints are valid")
@@ -57,9 +57,12 @@ func _initialize() -> void:
 	check(store.set_setting("soundtrack", "supplied") and Progress.new(path).settings.soundtrack == "supplied", "Supplied soundtrack choice persists")
 	for pace in [0.5, 1.0, 2.0]:
 		check(store.set_setting("pace", pace) and Progress.new(path).settings.pace == pace, "Supported pace persists: " + str(pace))
+	for view in ["focus", "science"]:
+		check(store.set_setting("mission_view", view) and Progress.new(path).settings.mission_view == view, "Supported mission view persists: " + view)
+		check(store.settings.pace == 2.0 and store.reviewed_ids.is_empty() and store.runs.is_empty(), "Changing presentation does not change pace, learning or results")
 	var before: Dictionary = store.settings.duplicate(true)
 	var before_file := read_text(path)
-	for setting in [["unknown", true], ["music_enabled", 1], ["effects_enabled", "true"], ["reduced_motion", null], ["music_volume", -0.01], ["effects_volume", 1.01], ["music_volume", NAN], ["effects_volume", INF], ["pace", 1.5], ["pace", true], ["soundtrack", "unknown"], ["soundtrack", true]]:
+	for setting in [["unknown", true], ["music_enabled", 1], ["effects_enabled", "true"], ["reduced_motion", null], ["music_volume", -0.01], ["effects_volume", 1.01], ["music_volume", NAN], ["effects_volume", INF], ["pace", 1.5], ["pace", true], ["soundtrack", "unknown"], ["soundtrack", true], ["mission_view", "wide"], ["mission_view", "SCIENCE"], ["mission_view", " focus"], ["mission_view", true], ["mission_view", 1], ["mission_view", null], ["camera_view", "wide"], ["text_scale", 1.5]]:
 		check(not store.set_setting(setting[0], setting[1]), "Invalid setting is rejected: " + str(setting[0]) + " = " + str(setting[1]))
 	check(store.settings == before and read_text(path) == before_file, "Rejected settings do not mutate memory or disk")
 	check(store.record_reviewed(["radiation", "dose", "radiation"]) and store.reviewed_ids == ["radiation", "dose"], "Repeated review IDs are unioned once")
@@ -101,6 +104,44 @@ func _initialize() -> void:
 	var previous = Progress.new(previous_path)
 	check(previous.storage_available and previous.runs[0].quiz.question_id == "cleaning-rate-transfer-1", "Prior cleaning quiz retains its original meaning after the fatigue pivot")
 	check(not previous.record_result(sample_result(), legacy_payload.runs[0].quiz), "New quiz records cannot pretend to answer a retired cleaning question")
+	# A real schema-one profile must remain readable without a load-time write.
+	# Its older quiz history retains meaning; the only new default is visual.
+	var version_one: Dictionary = initial.duplicate(true)
+	version_one.schema_version = 1
+	version_one.settings.erase("mission_view")
+	version_one.settings.music_enabled = false
+	version_one.settings.soundtrack = "original"
+	version_one.settings.reduced_motion = true
+	version_one.settings.pace = 0.5
+	version_one.reviewed_ids = ["dust", "dose"]
+	version_one.runs = [legacy_row.duplicate(true)]
+	var version_one_text := JSON.stringify(version_one, "  ") + "\n"
+	var migration_path := test_dir.path_join("schema-one.json")
+	write_text(migration_path, version_one_text)
+	var migrated = Progress.new(migration_path)
+	check(migrated.storage_available and migrated.settings.mission_view == "science", "A valid schema-one profile gains the science view in memory")
+	check(read_text(migration_path) == version_one_text, "Loading schema one leaves the original bytes untouched")
+	for key: String in version_one.settings:
+		check(migrated.settings[key] == version_one.settings[key], "Migration preserves existing preference: " + key)
+	check(migrated.reviewed_ids == version_one.reviewed_ids and migrated.runs == version_one.runs, "Migration preserves reviewed ideas and historical quiz results")
+	var stale_migration = Progress.new(migration_path)
+	check(migrated.set_setting("mission_view", "focus"), "An ordinary view save publishes the migrated profile")
+	var migrated_payload: Dictionary = JSON.parse_string(read_text(migration_path))
+	check(migrated_payload.schema_version == 2 and migrated_payload.settings.mission_view == "focus", "The ordinary save writes the complete version-two format")
+	var migrated_reopened = Progress.new(migration_path)
+	check(migrated_reopened.storage_available and migrated_reopened.settings == migrated.settings and migrated_reopened.runs == migrated.runs and migrated_reopened.reviewed_ids == migrated.reviewed_ids, "Migrated preferences and historical learning round-trip together")
+	var newer_migration_bytes := read_text(migration_path)
+	check(not stale_migration.set_setting("mission_view", "science") and read_text(migration_path) == newer_migration_bytes, "A second migrating window cannot overwrite the newer version-two save")
+	check(stale_migration.settings.mission_view == "science" and not stale_migration.storage_available, "A stale migrating window retains its view for this session only")
+	check(stale_migration.load_data(migration_path) and stale_migration.settings.mission_view == "focus", "Explicit reload adopts the newer saved view after a migration conflict")
+	var externally_edited_path := test_dir.path_join("schema-one-edited.json")
+	write_text(externally_edited_path, version_one_text)
+	var migration_conflict = Progress.new(externally_edited_path)
+	var external_payload: Dictionary = version_one.duplicate(true)
+	external_payload.settings.music_volume = 0.7
+	var external_text := JSON.stringify(external_payload)
+	write_text(externally_edited_path, external_text)
+	check(not migration_conflict.record_reviewed(["time"]) and read_text(externally_edited_path) == external_text, "Migration retains the original fingerprint and protects an intervening schema-one edit")
 	var bad_quiz := quiz(1)
 	bad_quiz.correct = true
 	check(not store.record_result(sample_result(), bad_quiz), "Forged correct flag is rejected")
@@ -131,14 +172,20 @@ func _initialize() -> void:
 	assert_rejected_file("empty", "")
 	assert_rejected_file("oversize", "x".repeat(65537))
 	assert_rejected_file("foreign", JSON.stringify({"name": "unrelated document"}))
-	for mutation in ["wrong-kind", "wrong-version", "boolean-version", "wrong-setting-type", "extra-setting", "duplicate-review", "unknown-review", "extra-root", "oversize-history", "bad-run", "extra-quiz"]:
+	for mutation in ["wrong-kind", "wrong-version", "boolean-version", "wrong-setting-type", "extra-setting", "missing-view", "invalid-view", "legacy-extra-view", "legacy-missing-setting", "duplicate-review", "unknown-review", "extra-root", "oversize-history", "bad-run", "extra-quiz"]:
 		var payload: Dictionary = initial.duplicate(true)
 		match mutation:
 			"wrong-kind": payload.kind = "something-else"
-			"wrong-version": payload.schema_version = 2
+			"wrong-version": payload.schema_version = 3
 			"boolean-version": payload.schema_version = true
 			"wrong-setting-type": payload.settings.music_enabled = 1
 			"extra-setting": payload.settings["tracking"] = true
+			"missing-view": payload.settings.erase("mission_view")
+			"invalid-view": payload.settings.mission_view = "cinematic"
+			"legacy-extra-view": payload.schema_version = 1
+			"legacy-missing-setting":
+				payload = version_one.duplicate(true)
+				payload.settings.erase("soundtrack")
 			"duplicate-review": payload.reviewed_ids = ["dose", "dose"]
 			"unknown-review": payload.reviewed_ids = ["mystery"]
 			"extra-root": payload["personal_data"] = {}

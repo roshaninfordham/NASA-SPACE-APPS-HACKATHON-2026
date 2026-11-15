@@ -1,6 +1,7 @@
 """Historical update gates must fail before trusting substituted baseline bytes."""
 import copy
 import json
+import re
 from pathlib import Path
 import sys
 import tempfile
@@ -17,8 +18,9 @@ EXPECTED_STEMS = {
     "0.7.1-alpha.1": "KOMAKU-Shield-Protocol",
     "0.8.0-alpha.1": "KOMAKU-Shield-Protocol",
     "0.9.0-alpha.1": "KOMAKU-Dust-and-Radiation",
+    "0.10.0-alpha.1": "KOMAKU-Dust-and-Radiation",
 }
-BASELINES_WITH_GUIDES = {"0.7.0-alpha.1", "0.7.1-alpha.1", "0.8.0-alpha.1", "0.9.0-alpha.1"}
+BASELINES_WITH_GUIDES = {"0.7.0-alpha.1", "0.7.1-alpha.1", "0.8.0-alpha.1", "0.9.0-alpha.1", "0.10.0-alpha.1"}
 
 
 class NativeContentBaselinesTest(unittest.TestCase):
@@ -33,7 +35,7 @@ class NativeContentBaselinesTest(unittest.TestCase):
         (self.root / f"docs/evidence/release-{version}.json").write_text(json.dumps(record), encoding="utf-8")
 
     def test_all_immutable_records_match_independent_pins(self):
-        self.assertEqual(native.DEFAULT_BASELINE, "0.9.0-alpha.1")
+        self.assertEqual(native.DEFAULT_BASELINE, "0.10.0-alpha.1")
         self.assertEqual(set(native.BASELINES), set(EXPECTED_STEMS))
         for version, record in self.records.items():
             self.assertEqual(record["version"], version)
@@ -43,6 +45,21 @@ class NativeContentBaselinesTest(unittest.TestCase):
                 f"{EXPECTED_STEMS[version]}-{version}-{platform}.zip"
                 for platform in ["macOS-universal", "Windows-x64", "Linux-x64", "Web"]
             })
+
+    def test_hosted_matrix_covers_every_pinned_baseline_on_both_platforms(self):
+        workflow = (native.ROOT / ".github/workflows/probe-native-update.yml").read_text()
+        baseline_section = re.search(r"(?ms)^        baseline:\s*\[(.*?)\]", workflow)
+        self.assertIsNotNone(baseline_section, "The baseline matrix must be explicit and reviewable")
+        versions = re.findall(r'"([0-9.]+-alpha\.[0-9]+)"', baseline_section[1])
+        self.assertEqual(len(versions), len(set(versions)), "Duplicate baselines must not disguise a missing job")
+        self.assertEqual(set(versions), set(native.BASELINES))
+        operating_systems = re.search(r"(?m)^        os:\s*\[([^\]]+)\]", workflow)
+        self.assertIsNotNone(operating_systems)
+        platforms = [value.strip() for value in operating_systems[1].split(",")]
+        self.assertEqual(set(platforms), {"macos-latest", "windows-latest"})
+        self.assertEqual(len(versions) * len(platforms), 14)
+        self.assertIn('BASELINE_VERSION: ${{ matrix.baseline }}', workflow)
+        self.assertIn('--baseline "$BASELINE_VERSION"', workflow)
 
     def test_science_guide_required_only_for_baselines_that_shipped_it(self):
         for version, original in self.records.items():
@@ -85,13 +102,14 @@ class NativeContentBaselinesTest(unittest.TestCase):
                         native.baseline_evidence(version)
 
     def test_renamed_baseline_cannot_substitute_historical_archive_names(self):
-        version = "0.9.0-alpha.1"
-        record = copy.deepcopy(self.records[version])
-        for asset in record["assets"]:
-            asset["name"] = asset["name"].replace("KOMAKU-Dust-and-Radiation", "KOMAKU-Shield-Protocol")
-        self.write_record(version, record)
-        with patch.object(native, "ROOT", self.root), self.assertRaisesRegex(ValueError, "unexpected assets"):
-            native.baseline_evidence(version)
+        for version in ["0.9.0-alpha.1", "0.10.0-alpha.1"]:
+            with self.subTest(version=version):
+                record = copy.deepcopy(self.records[version])
+                for asset in record["assets"]:
+                    asset["name"] = asset["name"].replace("KOMAKU-Dust-and-Radiation", "KOMAKU-Shield-Protocol")
+                self.write_record(version, record)
+                with patch.object(native, "ROOT", self.root), self.assertRaisesRegex(ValueError, "unexpected assets"):
+                    native.baseline_evidence(version)
 
     def test_missing_duplicate_and_unexpected_assets_rejected(self):
         version = native.DEFAULT_BASELINE

@@ -3,12 +3,14 @@ extends Control
 const Style = preload("res://ui/journey_style.gd")
 const Branding = preload("res://scripts/branding.gd")
 const ConceptOrb = preload("res://ui/concept_orb.gd")
+const WindowFrame = preload("res://ui/outpost_window_frame.gd")
 signal start_requested
 signal cleaning_speed_requested(multiplier: float)
 signal concept_requested(id: String)
 signal pause_requested
 signal notebook_requested
 signal work_view_changed
+signal view_requested
 const CONCEPT_IDS := ["radiation","dose","sievert","dust","power","time","speed","shelter"]
 const MIN_PACE := 0.25
 const MAX_PACE := 1.75
@@ -24,6 +26,16 @@ var speed_slider: HSlider
 var start_button: Button
 var notebook_button: Button
 var pause_button: Button
+var view_button: Button
+var _window_frame: Control
+var _mission_view := "science"
+var _feedback_paused := false
+var _radio_player := ""
+var _radio_reply := ""
+var _radio_elapsed := 5.0
+var _effort_copy := ""
+var _effort_tint := Style.MUTED
+var _compact_energy := false
 var _top: Panel
 var _bottom: Panel
 var _rail: ScrollContainer
@@ -65,6 +77,11 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	theme = Style.theme()
+	_window_frame = WindowFrame.new()
+	_window_frame.name = "OutpostWindowFrame"
+	add_child(_window_frame)
+	_window_frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	set_process(false)
 	_top = _panel()
 	add_child(_top)
 	_timer_label = _label(_top,"01:30",46,Style.CORAL,"mono")
@@ -85,9 +102,12 @@ func _ready() -> void:
 	_clean_target.color = Style.PEARL
 	_clean_target.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_top.add_child(_clean_target)
-	pause_button = _button(_top,"Pause","TrainingPause")
+	pause_button = _button(_top,"Menu","TrainingPause")
 	pause_button.tooltip_text = "Pause or open navigation. Escape also pauses."
 	pause_button.pressed.connect(func():pause_requested.emit())
+	view_button = _button(_top,"View","TrainingView")
+	view_button.tooltip_text = "Choose Science window or Focused window. View changes do not change the mission."
+	view_button.pressed.connect(func():view_requested.emit())
 	_rail = ScrollContainer.new()
 	_rail.name = "ScienceConceptRail"
 	_rail.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO
@@ -242,6 +262,56 @@ func set_reduced_motion(value: bool) -> void:
 	reduced_motion = value
 	for orb in orbs.values(): orb.set_reduced_motion(value)
 
+func set_mission_view(mode: String) -> void:
+	if mode not in ["science","focus"]: return
+	if mode == _mission_view: return
+	_mission_view = mode
+	if is_instance_valid(_top):
+		var focused := get_viewport().gui_get_focus_owner()
+		if mode == "focus" and focused in orbs.values(): view_button.grab_focus.call_deferred()
+		_layout()
+
+func get_mission_view() -> String:
+	return _mission_view
+
+func set_feedback_paused(value: bool) -> void:
+	_feedback_paused = value
+	for orb in orbs.values(): orb.set_feedback_paused(value)
+	set_process(not value and _radio_elapsed < 5.0)
+
+func show_radio_exchange(player: String, reply: String) -> void:
+	_radio_player = player.strip_edges().left(160)
+	_radio_reply = reply.strip_edges().left(160)
+	_radio_elapsed = 0.0
+	if is_instance_valid(_effort_label):
+		_refresh_radio_caption()
+		if orbs.has("speed"): orbs.speed.pulse()
+	set_process(not _feedback_paused)
+
+func clear_radio_exchange() -> void:
+	_radio_player = ""
+	_radio_reply = ""
+	_radio_elapsed = 5.0
+	set_process(false)
+	if is_instance_valid(_effort_label): _refresh_radio_caption()
+
+func get_radio_exchange() -> Dictionary:
+	return {"player":_radio_player,"reply":_radio_reply,"phase":"idle" if _radio_elapsed >= 5.0 else ("player" if _radio_elapsed < 1.2 else "reply"),"active":_radio_elapsed < 5.0}
+
+func _process(delta: float) -> void:
+	if _feedback_paused: return
+	_radio_elapsed = minf(5.0,_radio_elapsed+minf(maxf(delta,0.0),0.25))
+	_refresh_radio_caption()
+	if _radio_elapsed >= 5.0: set_process(false)
+
+func _refresh_radio_caption() -> void:
+	var active := _radio_elapsed < 5.0
+	_effort_label.text = (("You: "+_radio_player) if _radio_elapsed < 1.2 else ("Ren: "+_radio_reply)) if active else _effort_copy
+	_effort_label.tooltip_text = ("You: "+_radio_player+"\nRen: "+_radio_reply) if active else "Authored game effort feedback, not a health measurement."
+	_effort_label.accessibility_description = _effort_label.tooltip_text
+	_effort_label.add_theme_color_override("font_color",Style.CYAN if active else _effort_tint)
+	_effort_label.visible = not preflight or active
+
 static func format_clock(seconds: float) -> String:
 	var whole := maxi(0,int(ceil(seconds-0.000001)))
 	return "%02d:%02d" % [whole/60,whole%60]
@@ -290,11 +360,12 @@ func refresh(value: Dictionary) -> void:
 	var pace_index := clampi(int(round((_selected_multiplier-MIN_PACE)/PACE_STEP)),0,PACE_NAMES.size()-1)
 	_pace_value.text = PACE_NAMES[pace_index]
 	_pace_value.tooltip_text = "Selected cleaning pace %.2f×. The slider has seven quarter-step settings." % _selected_multiplier
-	_effort_label.text = "Ren is ready." if preflight else ("Ren is inside." if inside else ("Ren is getting tired." if fatigue >= 0.4 else ("Ren is recovering." if _selected_multiplier < 1.0 and fatigue > 0.02 else ("Ren is working hard." if fatigue >= 0.1 else "Ren is fresh."))))
-	_effort_label.add_theme_color_override("font_color",Style.AMBER if fatigue >= 0.4 else Style.MUTED)
+	_effort_copy = "Ren is ready." if preflight else ("Ren is inside." if inside else ("Ren is getting tired." if fatigue >= 0.4 else ("Ren is recovering." if _selected_multiplier < 1.0 and fatigue > 0.02 else ("Ren is working hard." if fatigue >= 0.1 else "Ren is fresh."))))
+	_effort_tint = Style.AMBER if fatigue >= 0.4 else Style.MUTED
+	_refresh_radio_caption()
 	_mission_label.text = "Choose Ren’s cleaning pace" if preflight else ("Goal reached!" if float(snapshot.get("clean_fraction",0.0)) >= float(snapshot.get("win_clean_fraction",0.8)) else ("Cleaning pace" if size.x < 600.0 else "Help Ren clear the panel."))
 	speed_slider.accessibility_description = "Selected pace %.2f times normal. Actual cleaning %.3f sections per simulated minute. Game fatigue %.0f percent. This is an authored game effort indicator, not a health reading." % [_selected_multiplier,0.0 if preflight else rate,fatigue*100.0]
-	_power_value.text = ("%.2f" if size.x < 600.0 else "%.2f kWh") % battery
+	_power_value.text = ("%.2f" if _compact_energy else "%.2f kWh") % battery
 	_goal_fraction = clampf(float(snapshot.get("win_clean_fraction",0.8)),0.0,1.0)
 	var cleaned := clampf(float(snapshot.get("clean_fraction",1.0-dust)),0.0,1.0)
 	_clean_title.text = ("Clean to %d%%" if size.x < 600.0 else "Clean · goal %d%%") % int(round(_goal_fraction*100.0))
@@ -343,14 +414,9 @@ func _layout() -> void:
 	var short := size.y < 600.0
 	var margin := 12.0 if phone or short else 20.0
 	var width := maxf(240.0,size.x-margin*2.0)
-	var top_height := 144.0 if phone else (78.0 if short else 98.0)
+	var top_height := 180.0 if phone else (78.0 if short else 98.0)
 	_place(_top,margin,margin,width,top_height)
-	# Science is available through one named action. It opens the paused
-	# library owned by the controller; its eight concepts never crowd play.
-	_rail.hide()
-	_left_rail.hide()
-	_right_rail.hide()
-	_side_orbs = false
+	_arrange_orbs(margin,width,top_height,short,phone)
 	for hidden in [_storm_label,_storm_progress,_storm_caption,_rate_label,_pace_min,_pace_max,_solar_title,_solar_value,_fatigue_title,_fatigue_value,_fatigue_progress,_mission_subtitle]:
 		hidden.hide()
 	_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -360,19 +426,30 @@ func _layout() -> void:
 	_subtitle_label.visible = not phone
 	notebook_button.add_theme_font_size_override("font_size",15 if phone else (17 if short else 19))
 	pause_button.add_theme_font_size_override("font_size",15 if phone else (17 if short else 19))
+	view_button.add_theme_font_size_override("font_size",15 if phone else (17 if short else 19))
 	var nav_gap := 6.0 if phone else 8.0
-	var science_width := 74.0 if size.x < 360.0 else (84.0 if phone else (94.0 if compact else 108.0))
-	var pause_width := 60.0 if size.x < 360.0 else (66.0 if phone else (76.0 if compact else 88.0))
-	var nav_x := width-14.0-science_width-nav_gap-pause_width
-	_place(notebook_button,nav_x,8.0 if phone else (15.0 if short else 25.0),science_width,48)
-	_place(pause_button,width-14.0-pause_width,8.0 if phone else (15.0 if short else 25.0),pause_width,48)
+	var science_width := 94.0 if compact else 108.0
+	var pause_width := 76.0 if compact else 88.0
+	var view_width := 70.0 if compact else 84.0
+	var nav_x := width-14.0-science_width-pause_width-view_width-nav_gap*2.0
+	if phone:
+		var action_width := (width-28.0-nav_gap*2.0)/3.0
+		for index in range(3):
+			_place([notebook_button,view_button,pause_button][index],14.0+index*(action_width+nav_gap),48.0,action_width,48.0)
+	else:
+		var nav_y := 15.0 if short else 25.0
+		_place(notebook_button,nav_x,nav_y,science_width,48.0)
+		_place(view_button,nav_x+science_width+nav_gap,nav_y,view_width,48.0)
+		_place(pause_button,width-14.0-pause_width,nav_y,pause_width,48.0)
 	var metrics_x := 14.0 if phone else (174.0 if compact else 242.0)
 	var metrics_width := width-28.0 if phone else nav_x-metrics_x-18.0
 	var metric_gap := 12.0 if phone else 18.0
 	var metric_width := (metrics_width-metric_gap*2.0)/3.0
-	var metrics_y := 68.0 if phone else 9.0
+	var metrics_y := 104.0 if phone else 9.0
+	_compact_energy = phone or metric_width < 138.0
 	if phone:
-		_place(_title_label,14,8,nav_x-20.0,44)
+		_title_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		_place(_title_label,14,3,width-28.0,44)
 	else:
 		_place(_title_label,16,9.0 if short else 14.0,metrics_x-30.0,44)
 		_place(_subtitle_label,17,49.0 if short else 58.0,metrics_x-31.0,22)
@@ -384,19 +461,19 @@ func _layout() -> void:
 		value.add_theme_font_size_override("font_size",(29 if index != 2 else 26) if phone else ((28 if index != 2 else 30) if compact else (32 if index == 1 else 40)))
 		_place(title,x,metrics_y,metric_width,21.0)
 		_place(value,x,metrics_y+20.0,metric_width,43.0)
-	_power_title.text = "Energy · kWh" if phone else "Energy stored"
+	_power_title.text = "Energy · kWh" if _compact_energy else "Energy stored"
 	_place(_clean_progress,metrics_x,metrics_y+63.0,metric_width,5.0)
 	_place(_clean_target,metrics_x+metric_width*_goal_fraction-1.0,metrics_y+60.0,2.0,11.0)
 	# One compact console: one pace choice, one plain-language effort cue.
 	# Start is a separate preflight action and disappears once the round runs.
-	var bottom_width := minf(900.0,width)
+	var bottom_width := minf(900.0,width-2.0*((146.0 if short else 160.0)+12.0)) if _mission_view == "science" and not phone else minf(900.0,width)
 	var bottom_height := (184.0 if preflight else 126.0) if phone else ((146.0 if preflight else 116.0) if short else (150.0 if preflight else 132.0))
 	_place(_bottom,(size.x-bottom_width)*0.5,size.y-margin-bottom_height,bottom_width,bottom_height)
 	var inner := bottom_width-28.0
 	_mission_label.add_theme_font_size_override("font_size",18 if phone else (20 if short else 24))
 	_mission_label.visible = true
 	_mission_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER if phone and preflight else HORIZONTAL_ALIGNMENT_LEFT
-	_place(_mission_label,14,4.0 if not preflight else 8.0,(inner if preflight else inner*0.60) if phone else (inner-210.0 if preflight else inner*0.65),26.0 if not preflight else 30.0)
+	_place(_mission_label,14,4.0 if not preflight else 8.0,(inner if preflight else inner*0.60) if phone else (inner-(190.0 if short else 210.0) if preflight else inner*0.65),26.0 if not preflight else 30.0)
 	var controls_y := (40.0 if preflight else 36.0) if phone else ((60.0 if preflight else 32.0) if short else (64.0 if preflight else 42.0))
 	var button_width := 68.0 if phone else (96.0 if compact else 112.0)
 	for button in [slower_button,faster_button]:
@@ -409,7 +486,7 @@ func _layout() -> void:
 	_pace_value.add_theme_font_size_override("font_size",22 if phone else 25)
 	_pace_value.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_place(_pace_value,bottom_width*0.60 if phone and not preflight else slider_x,4.0 if phone and not preflight else controls_y+48.0,inner*0.38 if phone and not preflight else slider_width,29.0)
-	_effort_label.add_theme_font_size_override("font_size",16 if phone else 18)
+	_effort_label.add_theme_font_size_override("font_size",16 if phone or short else 18)
 	_effort_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER if phone else HORIZONTAL_ALIGNMENT_RIGHT
 	_place(_effort_label,14 if phone else 14.0+inner*0.65,controls_y+52.0 if phone else 5.0,inner if phone else inner*0.35,25.0)
 	# Phone labels use shorter familiar words, while accessible names keep the
@@ -423,20 +500,61 @@ func _layout() -> void:
 		_place(start_button,14,bottom_height-58.0,inner,48.0)
 	else:
 		_effort_label.visible = not preflight
-		var start_width := 196.0
+		var start_width := 176.0 if short else 196.0
 		_place(start_button,bottom_width-14.0-start_width,6.0,start_width,48.0)
 	start_button.add_theme_font_size_override("font_size",19 if phone or short else 21)
 	_laying_out = false
 	refresh(snapshot)
+	_window_frame.set_opening(get_work_view_rect())
+	_follow_rail_focus.call_deferred()
 	work_view_changed.emit()
+
+func _arrange_orbs(margin: float, width: float, top_height: float, short: bool, phone: bool) -> void:
+	var science := _mission_view == "science"
+	var side := not phone
+	var previous_focus := get_viewport().gui_get_focus_owner()
+	if side != _side_orbs:
+		for index in range(CONCEPT_IDS.size()):
+			var orb: Control = orbs[CONCEPT_IDS[index]]
+			orb.reparent((_left_rail if index < 4 else _right_rail) if side else _orb_row,false)
+		_side_orbs = side
+		if previous_focus in orbs.values() and science: previous_focus.grab_focus.call_deferred()
+	_rail.visible = science and not side
+	_left_rail.visible = science and side
+	_right_rail.visible = science and side
+	if side:
+		var rail_width := 146.0 if short else 160.0
+		var rail_y := margin+top_height+10.0
+		var available := size.y-rail_y-margin
+		var gap := 8.0
+		var orb_height := minf(132.0,(available-gap*3.0)/4.0)
+		_place(_left_rail,margin,rail_y,rail_width,available)
+		_place(_right_rail,size.x-margin-rail_width,rail_y,rail_width,available)
+		for index in range(CONCEPT_IDS.size()):
+			var orb: Control = orbs[CONCEPT_IDS[index]]
+			orb.custom_minimum_size = Vector2(110.0,60.0 if short else 96.0)
+			_place(orb,0,(index%4)*(orb_height+gap),rail_width,orb_height)
+	else:
+		var compact_phone := size.y < 700.0
+		_place(_rail,margin,margin+top_height+8.0,width,96.0 if compact_phone else 120.0)
+		for orb in orbs.values(): orb.custom_minimum_size = Vector2(146.0,88.0) if compact_phone else Vector2(148.0,112.0)
+
+func _follow_rail_focus() -> void:
+	if not is_inside_tree(): return
+	await get_tree().process_frame
+	if not is_instance_valid(_rail) or not _rail.visible: return
+	var focused := get_viewport().gui_get_focus_owner()
+	if focused != null and _rail.is_ancestor_of(focused): _rail.ensure_control_visible(focused)
 
 func get_work_view_rect() -> Rect2:
 	if not is_instance_valid(_top) or not is_instance_valid(_bottom):
 		return Rect2(Vector2.ZERO,size)
-	var edge := 12.0
-	var upper := _top.position.y+_top.size.y+10.0
+	var side := _mission_view == "science" and _side_orbs
+	var left := _left_rail.position.x+_left_rail.size.x+12.0 if side else 12.0
+	var right := _right_rail.position.x-12.0 if side else size.x-12.0
+	var upper := _rail.position.y+_rail.size.y+10.0 if _mission_view == "science" and not _side_orbs else _top.position.y+_top.size.y+10.0
 	var lower := _bottom.position.y-10.0
-	return Rect2(Vector2(edge,upper),Vector2(maxf(1.0,size.x-edge*2.0),maxf(1.0,lower-upper)))
+	return Rect2(Vector2(left,upper),Vector2(maxf(1.0,right-left),maxf(1.0,lower-upper)))
 
 func get_science_readings() -> Dictionary:
 	# Optional library consumers get the same current model readings as the

@@ -24,7 +24,7 @@ SOURCE_FILES = ["game/main.tscn", "game/scripts/journey_game.gd", "game/scripts/
 
 def fingerprints():
     sources = set(SOURCE_FILES) | {"game/project.godot", "game/tests/capture_journey.gd", "scripts/capture_journey.py", "game/tests/capture_cleaning_clip.gd", "scripts/capture_cleaning_clip.py", "scripts/branding.py"}
-    extensions = {".gd", ".gdshader", ".tscn", ".tres", ".json", ".ttf", ".otf", ".png", ".jpg", ".svg", ".webp", ".glb", ".obj"}
+    extensions = {".gd", ".gdshader", ".tscn", ".tres", ".json", ".ttf", ".otf", ".png", ".jpg", ".svg", ".webp", ".glb", ".obj", ".ogg", ".wav", ".mp3"}
     for path in (ROOT / "game").rglob("*"):
         relative = path.relative_to(ROOT)
         if path.is_file() and path.suffix.lower() in extensions and not {".godot", "tests"}.intersection(relative.parts):
@@ -42,7 +42,7 @@ def publish_selected(output, destination, manifest):
         ("01-story-1280x720.png", "story-desktop.png", "Story"),
         ("04-preflight-1280x720.png", "preflight-desktop.png", "Control room · before Start"),
         ("03-concept-1280x720.png", "concept-desktop.png", "Microgray science card"),
-        ("04-cleaning-1280x720.png", "mission-desktop.png", "Three readings and one pace control"),
+        ("04-cleaning-1280x720.png", "mission-desktop.png", "Window frame, eight live ideas and pace"),
         ("08-debrief-1280x720.png", "debrief-desktop.png", "Immediate mission result"),
         ("04-cleaning-390x844.png", "mission-portrait.png", "Portrait mission"),
     ]
@@ -83,6 +83,14 @@ def publish_selected(output, destination, manifest):
         ("23-home-1280x720.png", "home-desktop.png", "Home"),
         ("24-more-1280x720.png", "more-desktop.png", "Optional destinations"),
         ("25-nasa-context-1280x720.png", "nasa-context-desktop.png", "NASA context · offline fixture"),
+        ("27-view-menu-1280x720.png", "view-menu-desktop.png", "View and accessibility"),
+        ("28-focused-window-1280x720.png", "focused-window-desktop.png", "Focused window"),
+        ("30-settings-view-return-1280x720.png", "settings-view-return-desktop.png", "Settings returns to View"),
+        ("31-settings-pause-return-1280x720.png", "settings-pause-return-desktop.png", "Settings returns to Pause"),
+        ("33-settings-home-return-1280x720.png", "settings-home-return-desktop.png", "Settings returns to Home"),
+        ("04-cleaning-320x568.png", "mission-small-phone.png", "Small phone science window"),
+        ("04-cleaning-844x390.png", "mission-landscape.png", "Short landscape science window"),
+        ("28-focused-window-390x844.png", "focused-window-portrait.png", "Portrait focused window"),
     ]:
         shutil.copyfile(output / source, destination / name)
         record = next(item for item in manifest["captures"] if item["file"] == source).copy()
@@ -91,14 +99,14 @@ def publish_selected(output, destination, manifest):
         records.append(record)
         selection.append((source, name, caption))
 
-    provenance = {key: manifest[key] for key in ["kind", "engine", "method", "source_sha256", "source_changed_during_capture", "layout_failures"]}
+    provenance = {key: manifest[key] for key in ["kind", "engine", "method", "source_revision", "source_sha256", "source_changed_during_capture", "layout_failures"]}
     provenance["captures"] = records
     provenance["contact_sheet"] = {"file": "contact-sheet.png", "method": "Scaled copies of the six unchanged native screenshots, with labels outside the game images; no invented renders or visual retouching.", "sha256": hashlib.sha256((destination / "contact-sheet.png").read_bytes()).hexdigest()}
     (destination / "capture-provenance.json").write_text(json.dumps(provenance, indent=2, ensure_ascii=False) + "\n")
     links = "\n".join(f"| [{caption}]({name}) | {next(item for item in records if item['file']==name)['width']} × {next(item for item in records if item['file']==name)['height']} |" for _, name, caption in selection)
     (destination / "README.md").write_text("""# Native journey screenshots
 
-These are actual Godot screenshots of the stationary-cleaning journey in `game/main.tscn`. The first scene preparation has a real cancellable loading state. Ren starts cleaning only after START MISSION. Three main readings show cleaned fraction, stored energy and remaining play time; all eight scientific concepts live in an optional paused discovery library. The operator chooses a pace with slower/faster buttons or the stepped slider; faster work builds an authored game-fatigue indicator. The default round lasts 90 active-play seconds, compressing 30 simulated minutes; at the countdown's end Ren steps directly inside. The visible panel clears dust continuously from the mission model.
+These are actual Godot screenshots of the stationary-cleaning journey in `game/main.tscn`. The first scene preparation has a real cancellable loading state. Ren starts cleaning only after START MISSION. Three main readings show cleaned fraction, stored energy and remaining play time; the default Science window restores the outpost frame and all eight live scientific bubbles. View & accessibility offers a larger Focused window while retaining Science access. Reading a concept pauses the mission. The operator chooses a pace with slower/faster buttons or the stepped slider; faster work builds an authored game-fatigue indicator. The default round lasts 90 active-play seconds, compressing 30 simulated minutes; at the countdown's end Ren steps directly inside. The visible panel clears dust continuously from the mission model.
 
 ![Native game contact sheet](contact-sheet.png)
 
@@ -110,7 +118,7 @@ The capture fixture uses normal screen intents, then advances the actual model t
 
 Captured with Godot's Linux compatibility renderer under authenticated Xvfb/Mesa. This checks native composition at desktop, portrait and short-landscape sizes. It does not establish Mac/Windows installation, mobile-device performance, audio quality, live update acceptance or real-time player usability. Audio output is muted only in the capture fixture, and user data is isolated.
 
-`capture-provenance.json` records the source SHA-256 hashes, image hashes, actual model snapshots and fixture actions. The contact sheet contains only scaled native screenshots with external labels. The full QA run also captures all three story beats, cancellable loading, preflight, steady/faster cleaning, live concepts, pause, settings, storm countdown, automatic entry, the immediate result, the eight-bubble transition, four visual science connections, optional graphs, the learning-transfer question the return to results, the discovery library, offline NASA context and expanded connection details, Home and More at 1280×720, 960×540, 390×844, 320×568 and 844×390.
+`capture-provenance.json` records the source SHA-256 hashes, image hashes, actual model snapshots and fixture actions. The contact sheet contains only scaled native screenshots with external labels. The full QA run also captures all three story beats, cancellable loading, preflight, steady/faster cleaning, live concepts, pause, settings, storm countdown, automatic entry, the immediate result, the eight-bubble transition, four visual science connections, optional graphs, the learning-transfer question the return to results, the discovery library, offline NASA context and expanded connection details, View & accessibility, Focused window, Settings return routes to View/Pause/Home, Home and More at 1280×720, 960×540, 390×844, 320×568 and 844×390.
 
 Reproduce from the repository root (Godot, Xvfb and Pillow required):
 
@@ -127,12 +135,15 @@ def main():
     parser.add_argument("--output", type=Path, default=Path("/tmp/komaku-journey-capture"))
     parser.add_argument("--godot", default="godot")
     parser.add_argument("--xvfb", type=Path)
-    parser.add_argument("--timeout", type=int, default=240)
+    parser.add_argument("--timeout", type=int, default=360)
     parser.add_argument("--publish-to", type=Path, help="Copy reviewed native screens plus contact sheet and provenance; requires Pillow")
     args = parser.parse_args()
     output = args.output.expanduser().resolve()
     output.mkdir(parents=True, exist_ok=True)
     source_before = fingerprints()
+    source_revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    # A prior interrupted run must never supply a stale successful manifest.
+    (output / "capture-manifest.json").unlink(missing_ok=True)
     with tempfile.TemporaryDirectory(prefix="komaku-journey-visual-") as temporary:
         workspace = Path(temporary)
         (workspace / "logs").mkdir()
@@ -152,6 +163,7 @@ def main():
         manifest = json.loads(manifest_path.read_text())
         source_after = fingerprints()
         manifest["source_sha256"] = source_before
+        manifest["source_revision"] = source_revision
         manifest["source_changed_during_capture"] = source_before != source_after
         manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n")
         cards = []
@@ -163,6 +175,10 @@ def main():
     print(log_text[-12000:])
     if result.returncode or "SCRIPT ERROR:" in log_text or "\nERROR:" in log_text:
         raise SystemExit(result.returncode or 1)
+    if not manifest_path.exists():
+        raise SystemExit("Capture did not produce a completion manifest")
+    if manifest["source_changed_during_capture"] or manifest["layout_failures"]:
+        raise SystemExit("Capture rejected: source changed or layout checks failed")
     if args.publish_to:
         publish_selected(output, args.publish_to.expanduser().resolve(), manifest)
 

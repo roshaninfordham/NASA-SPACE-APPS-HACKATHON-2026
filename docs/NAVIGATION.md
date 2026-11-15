@@ -10,7 +10,10 @@ The journey controller separates two actions: changing the operating system's wi
 - **Escape in fullscreen:** leave fullscreen, show the pointer and pause an active mission. A second Escape can handle the current dialog or pause screen. Reading or changing window mode should not cost mission time.
 - **Escape in a window:** close the top concept/dialog or open the mission pause menu. Each press handles only one layer. A confirmation dialog's Escape means “keep playing.”
 - **F11 / Fullscreen button:** toggle fullscreen explicitly. The app starts in a normal window; entering fullscreen is never a prerequisite to play.
-- **Pause:** provides Resume, Restart, Home and the window-mode control. Restart/Home during an unfinished attempt require confirmation; completed progress and settings are preserved.
+- **View:** choose **Science window** (eight live bubbles) or **Focused window**. Both retain the outpost framing and the same mission. View also links to sound/motion/round-length settings and fullscreen. Layout changes preserve every model quantity.
+- **Menu:** pauses and provides Resume, View & accessibility, Science, Sound/motion/pace, Restart, Home and Quit. Restart or leaving a started attempt requires confirmation; leaving untouched preflight for Home does not discard a running mission.
+- **Settings and Back:** Home offers View and sound settings directly. Settings opened from View returns to View; View returns to the paused menu. Only an explicit Resume continues the mission. Each layout preference is saved locally when storage is available.
+- **Radio captions:** pace commands produce a short player line and Ren's reply without microphone input. Captions work with sound disabled; motion and caption timing respect pause and reduced motion.
 - **Exit:** is an explicit desktop action. Browser players close the browser tab; the game must not claim it can close an ordinary tab. A native window-close request during an attempt follows the same confirmation path as Exit.
 - **Focus loss:** pauses the mission and releases captured input. Returning to the app does not resume the countdown or capture the pointer automatically.
 

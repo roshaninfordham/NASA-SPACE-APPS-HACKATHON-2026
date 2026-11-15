@@ -6,7 +6,7 @@ This contract follows the team's November 15, 2026 **Game Workflow (Words Only)*
 
 ## One round
 
-The control room opens in **preflight**. The player can inspect science bubbles and set a starting pace without changing time, fatigue, work, energy or dose. **START MISSION** begins the simulation. The main view shows three readings—cleaning, stored energy and time—beside one pace control. **Science** opens all eight live concept tiles. Reading every card is optional, not a prerequisite for play. Brief card introductions lead to **Learn more** and **Data & sources** when the player wants detail.
+The control room opens in **preflight**. The player can inspect science bubbles and set a starting pace without changing time, fatigue, work, energy or dose. **START MISSION** begins the simulation. The main view shows three readings—cleaning, stored energy and time—beside one pace control. Eight live bubbles surround the default Science window. The optional Focused window keeps them available through **Science**; switching views never changes the model. Reading every card is optional, not a prerequisite for play. Brief card introductions lead to **Learn more** and **Data & sources** when the player wants detail.
 
 During play, SLOWER, FASTER and the stepped slider choose one of seven dimensionless multipliers: **0.25, 0.50, 0.75, 1.00, 1.25, 1.50, 1.75**. Ren remains at the panel. There is no recall, walking route, manual work hold or early-entry command. Reading and Pause freeze the whole model, so pausing cannot recover fatigue while other quantities advance.
 

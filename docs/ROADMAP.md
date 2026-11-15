@@ -2,6 +2,14 @@
 
 **Published [0.10.0-alpha.1](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1) — November 15, 2026, 13:53:05 UTC.** Built from `26f19540baf330b00b0ac4a1b470d0e1439f7382`. This release simplifies the interface and corrects the installation handoff while preserving the 90-second mission and its equations. [Release notes](releases/0.10.0-alpha.1.md).
 
+## Next delivery: 0.11 candidate
+
+The next release restores the outpost window and eight live mission-concept bubbles. It retains the current short wording, fonts and equations, adds **View → Science window / Focused window**, direct Home actions in Menu/Settings, scripted radio captions, and local schema 2 view-preference migration. It is **not published**. [Candidate contract](design-specs/JOURNEY-0.11.md).
+
+The immediate gates are integrated responsive/navigation review, profile migration and pause behavior, recorded source captures, native exports and compatible-content update checks, exact packaged-document checks, and public-file verification after publication. A source implementation or old screenshot does not complete those gates. Keep the 0.10 download links active until actual release acceptance.
+
+## Published baseline and continuing work
+
 The released journey is **a readable opening → close window mission → 90-second round → clear result → four science relationships**. Keep the player indoors with Ren and the panel close to the window. Three main readings, one pace control and optional science details support the action; restrained Asian-inspired details remain, while older ornate dome references remain design history.
 
 | #   | Outcome                                 | Published behavior / established baseline                                                                              | Next review / remaining boundary                                                                             |
@@ -19,8 +27,8 @@ The released journey is **a readable opening → close window mission → 90-sec
 
 The current release acceptance does not by itself establish physical M5 performance, all mobile/browser support, learning effectiveness, photoreal reference fidelity or a complete astronaut curriculum. Those claims need their own measurements and reviews.
 
-The next priority is feedback from the design team and target learners: can a child find Start, see what speed changes, reach an ending, and explain one connection? Use that evidence to guide the next mission and any future personalized progression.
+After candidate acceptance, the next priority is feedback from the design team and target learners: can a child find Start, see what speed changes, reach an ending, and explain one connection? Use that evidence to guide the next mission and any future personalized progression.
 
-[Team status](TEAM-STATUS.md) · [Request tracker](REQUEST-TRACKER.md) · [0.10 design contract](design-specs/JOURNEY-0.10.md) · [Downloads](DOWNLOADS.md) · [Submission draft](SUBMISSION-DRAFT.md).
+[Team status](TEAM-STATUS.md) · [Request tracker](REQUEST-TRACKER.md) · [0.11 candidate contract](design-specs/JOURNEY-0.11.md) · [historical 0.10 contract](design-specs/JOURNEY-0.10.md) · [Downloads](DOWNLOADS.md) · [Submission draft](SUBMISSION-DRAFT.md).
 
 Made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC.

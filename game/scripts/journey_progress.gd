@@ -2,10 +2,11 @@ extends RefCounted
 ## Small local preferences/review record. No identity, medical data or telemetry.
 const DEFAULT_PATH := "user://journey-progress.json"
 const PROFILE_KIND := "komaku-journey-progress"
-const SCHEMA_VERSION := 1
+const SCHEMA_VERSION := 2
 const MAX_BYTES := 65536
 const MAX_RUNS := 10
 const CONCEPT_IDS := ["radiation", "dose", "sievert", "dust", "power", "time", "speed", "shelter"]
+const LEGACY_SETTING_KEYS := ["music_enabled", "effects_enabled", "music_volume", "effects_volume", "soundtrack", "reduced_motion", "pace"]
 const DEFAULT_SETTINGS := {
 	"music_enabled": true,
 	"effects_enabled": true,
@@ -14,6 +15,7 @@ const DEFAULT_SETTINGS := {
 	"soundtrack": "supplied",
 	"reduced_motion": false,
 	"pace": 1.0,
+	"mission_view": "science",
 }
 const QUIZ_ID := "pace-fatigue-transfer-1"
 const PREVIOUS_QUIZ_ID := "cleaning-rate-transfer-1"
@@ -51,8 +53,11 @@ func load_data(path_override: String = "") -> bool:
 	if parser.parse(read.bytes.get_string_from_utf8()) != OK:
 		return _block("Local progress was not recognized. Defaults are active and the existing file was kept.")
 	var value: Variant = parser.data
-	if not _valid_payload(value): return _block("Local progress was not recognized. Defaults are active and the existing file was kept.")
-	settings = value.settings.duplicate(true)
+	if not _valid_payload(value, true): return _block("Local progress was not recognized. Defaults are active and the existing file was kept.")
+	# Schema 1 lacks only the presentation preference. Migrate in memory and
+	# retain the original disk fingerprint: an ordinary later save writes schema
+	# 2, still refusing to overwrite another window's intervening changes.
+	settings.merge(value.settings.duplicate(true), true)
 	for id: String in value.reviewed_ids: reviewed_ids.append(id)
 	for item: Dictionary in value.runs: runs.append(_normalize_run(item, true))
 	_expected_hash = _hash(read.bytes)
@@ -204,6 +209,7 @@ static func _valid_setting(key: String, value: Variant) -> bool:
 		"music_volume", "effects_volume": return _number(value, 0.0, 1.0)
 		"pace": return _number(value, 0.5, 2.0) and float(value) in [0.5, 1.0, 2.0]
 		"soundtrack": return value is String and value in ["supplied", "original"]
+		"mission_view": return value is String and value in ["science", "focus"]
 	return false
 
 static func _normalize_quiz(value: Dictionary, allow_legacy := false) -> Dictionary:
@@ -234,11 +240,12 @@ static func _normalize_run(value: Dictionary, from_disk: bool) -> Dictionary:
 		quiz = _normalize_quiz({})
 	return {"status": value.status, "elapsed_seconds": float(value.elapsed_seconds), "sim_elapsed_seconds": float(value.sim_elapsed_seconds), "sections_cleaned": int(value.sections_cleaned), "dose_ugy": float(value.dose_ugy), "quiz": quiz}
 
-static func _valid_payload(value: Variant) -> bool:
+static func _valid_payload(value: Variant, allow_legacy := false) -> bool:
 	if not value is Dictionary or not _exact_keys(value, ["kind", "schema_version", "settings", "reviewed_ids", "runs"]): return false
-	if value.kind != PROFILE_KIND or not _number(value.schema_version, SCHEMA_VERSION, SCHEMA_VERSION, true): return false
-	if not value.settings is Dictionary or not _exact_keys(value.settings, DEFAULT_SETTINGS.keys()): return false
-	for key: String in DEFAULT_SETTINGS:
+	if value.kind != PROFILE_KIND or not _number(value.schema_version, 1 if allow_legacy else SCHEMA_VERSION, SCHEMA_VERSION, true): return false
+	var expected_keys: Array = LEGACY_SETTING_KEYS if value.schema_version == 1 else DEFAULT_SETTINGS.keys()
+	if not value.settings is Dictionary or not _exact_keys(value.settings, expected_keys): return false
+	for key: String in expected_keys:
 		if not _valid_setting(key, value.settings[key]): return false
 	if not value.reviewed_ids is Array or value.reviewed_ids.size() > CONCEPT_IDS.size(): return false
 	var seen: Array[String] = []

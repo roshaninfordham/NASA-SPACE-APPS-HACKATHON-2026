@@ -14,7 +14,18 @@ A short Mars learning game for ages 7–12, built with Godot. From mission contr
 
 **Team feedback:** [Open the screen-review gallery](https://roshaninfordham.github.io/NASA-SPACE-APPS-HACKATHON-2026/review/) to draw boxes, arrows and pins, attach notes, and share an annotated screen or submit a GitHub issue. [Review guide](docs/SCREEN-REVIEW.md). This is a review gallery, not the playable browser edition.
 
-## The 0.10 experience
+## The 0.11 candidate
+
+**In development: 0.11.0-alpha.1 candidate — not published.** The next interface restores the outpost-window presentation and eight visible science bubbles, with **View → Science window / Focused window**, direct Home navigation, and captioned radio feedback. It retains the 0.10 short wording, typography, 90-second mission and equations. [Candidate design contract](docs/design-specs/JOURNEY-0.11.md). Downloads and published acceptance below still refer to 0.10 until the new build passes its own release checks.
+
+- **Science window** restores the visible outpost frame and eight concept bubbles whose readings follow the running mission. Opening an explanation pauses play. These are simulated readings; only the separate NASA viewer retrieves a solar image.
+- **Focused window** offers a quieter view of the same mission through **View**. View changes do not change the rules or restart the round; the selected view is saved locally.
+- **Menu** and **Settings** provide direct Home actions. Short player/Ren radio captions acknowledge Start and pace changes without microphone input or generated conversation.
+- Local profile schema 2 adds the view preference while migrating recognized schema 1 progress and settings. The existing save identity and update trust remain unchanged.
+
+Candidate source checks, new screenshots, exported startup and update evidence must be recorded separately. The existing 0.10 images retain their original source scope; they are not screenshots of the restored interface.
+
+## The published 0.10 experience
 
 1. **Start with a short story:** exterior habitat → Ren → the interior control room. Large titles and brief captions sit over unlettered illustrations, with optional sound and reduced motion. The first mission shows **Opening the window…** while preparing the scene; **Back to Home** cancels loading.
 2. **Choose a starting pace:** preflight has no running clock. Set the pace and press **START MISSION**. There is no reading-completion gate.
@@ -41,7 +52,7 @@ The [0.10 capture record](docs/media/journey-0.10/capture-provenance.json) docum
 
 ## Download and open this version
 
-**This source/package: 0.10.0-alpha.1.** [Official version page](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1) lists publication status and available files. Download the matching platform ZIP below, then extract the whole archive.
+**Latest published download: 0.10.0-alpha.1.** The 0.11 candidate is not yet available as a published release. [Official version page](https://github.com/roshaninfordham/NASA-SPACE-APPS-HACKATHON-2026/releases/tag/v0.10.0-alpha.1) lists publication status and available files. Download the matching platform ZIP below, then extract the whole archive.
 
 | Platform                  | 0.10.0 archive                                                                                                                                                                          | Open after extracting the whole ZIP                  |
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
@@ -70,7 +81,7 @@ The historical **210 ±40 µGy/day** Curiosity RAD tissue-like detector observat
 
 The optional **NASA SDO solar view** requests the latest available AIA 193 Å image with online, stale, cached and bundled-fallback labels. This observational image does not drive the Mars dose curve, mission deadline or score. [Live-data contract](docs/LIVE-DATA.md).
 
-For the team: [submission draft](docs/SUBMISSION-DRAFT.md), [55-word video narration and recording guide](docs/VIDEO-PITCH.md), [changelog](CHANGELOG.md), and [team briefing](docs/TEAM-STATUS.md). Submission text is a review draft; nothing has been submitted.
+For the team: [copy-ready submission answers](docs/SUBMISSION-COPY-PASTE.md), [longer draft](docs/SUBMISSION-DRAFT.md), [55-word video narration and recording guide](docs/VIDEO-PITCH.md), [changelog](CHANGELOG.md), and [team briefing](docs/TEAM-STATUS.md). Submission text is a review draft; nothing has been submitted.
 
 No account, ads, analytics, wearable health collection or cloud tutor is required. Preferences and limited progress stay local. GitHub supplies update discovery/downloads; the optional solar view contacts NASA; selected source links open in the system browser. The mission is playable offline. NASA does not endorse this project, and learning effectiveness still needs evaluation with the intended audience.
 
