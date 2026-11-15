@@ -985,3 +985,46 @@ dialog textarea {
     min-height: 200px;
   }
 }
+
+/* Grid/flex children must be allowed to shrink so long notes ellipsize
+   inside the inspector rather than widening their whole row. */
+.mark-list > li {
+  min-width: 0;
+}
+.mark-choice {
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+.mark-summary {
+  min-width: 0;
+  flex: 1;
+  display: block;
+}
+.mark-number {
+  flex: 0 0 23px;
+}
+.tool-icon,
+.link-icon {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: middle;
+  flex: none;
+}
+.tool-icon {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
+.link-icon {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  margin-left: 2px;
+}
+.mark-choice:focus-visible {
+  outline-offset: -3px;
+}
