@@ -1,0 +1,30 @@
+{
+  "probe_ran_at_utc": "2026-11-15T15:56:44.455Z",
+  "scope": "Local Node execution of the Worker handler against NASA HTTPS, using an in-memory cache. Not a Cloudflare deployment or a Godot-client acceptance test.",
+  "http_status": 200,
+  "result": {
+    "schema_version": 1,
+    "status": "available",
+    "delivery": "upstream",
+    "upstream_check": "validated",
+    "cache_stored": true,
+    "source_url": "https://sdo.gsfc.nasa.gov/assets/img/latest/latest_512_0193.jpg",
+    "source_page_url": "https://sdo.gsfc.nasa.gov/data/",
+    "policy_url": "https://sdo.gsfc.nasa.gov/data/rules.php",
+    "credit": "Courtesy of NASA/SDO and the AIA, EVE, and HMI science teams.",
+    "image_path": "/v1/solar/latest.jpg",
+    "sha256": "4be7dca0a039f7c1201c02b8185d0d9e1c024ff8942d320ed58a058b01ab8a90",
+    "width": 512,
+    "height": 512,
+    "bytes": 46400,
+    "fetched_at_utc": "2026-11-15T15:56:44.449Z",
+    "last_checked_utc": "2026-11-15T15:56:44.449Z",
+    "file_updated_utc": "2026-11-15T15:53:06.000Z",
+    "http_last_modified": "Sun, 15 Nov 2026 15:53:06 GMT",
+    "observed_at_utc": null,
+    "cache_age_seconds": 0.005,
+    "publication_age_seconds": 218.454,
+    "message": "NASA image validated. File publication time is not observation time.",
+    "scientific_scope": "Educational AIA 193 Å browse imagery only. No Mars dose, storm prediction, solar-panel output or game scoring is derived from this image."
+  }
+}

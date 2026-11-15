@@ -1,0 +1,32 @@
+{
+  "verified_at_utc": "2026-11-15T16:01:24.230849+00:00",
+  "status": "passed",
+  "source_sha256": {
+    "src/index.js": "90ceca76d9deb0ee78d480e783e78ebe1806007e4fa3c1f5f47b694d55f62bf0",
+    "test/worker.test.js": "e4ea50a1934637eebacdbf517ae42925ad1323af7ee4a9156c065d268da7c169",
+    "wrangler.jsonc": "461e4f74a429cfed9e0bad33c7a7275d958de42559afd6944847189c2debb293"
+  },
+  "tests": {
+    "command": "npm test",
+    "runner": "Node.js 24.22.1 built-in node:test",
+    "passed": 17,
+    "failed": 0,
+    "network": "mocked"
+  },
+  "bundle": {
+    "tool": "Wrangler 4.162.0",
+    "command": "wrangler deploy --dry-run",
+    "status": "passed",
+    "bindings": 0,
+    "account_authentication_used": false
+  },
+  "upstream_probe": "upstream-probe.json",
+  "deployment_performed": false,
+  "godot_client_changed": false,
+  "limitations": [
+    "Cloudflare deployed edge-cache behavior not tested",
+    "No native or browser game client integration performed",
+    "JPEG structure and dimensions checked; full decoding remains a client responsibility",
+    "Cache is best-effort per location, not durable offline storage"
+  ]
+}
