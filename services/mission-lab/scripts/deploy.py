@@ -27,7 +27,7 @@ def part(name, value, filename=None):
     if filename: disposition += '; filename="' + filename + '"'
     parts.append(('--' + boundary + '\r\n' + disposition + '\r\nContent-Type: ' + ('application/javascript+module' if filename else 'application/json') + '\r\n\r\n').encode() + value + b'\r\n')
 part('metadata', json.dumps(metadata).encode())
-for name in ['services/mission-lab/src/index.js', 'services/mission-lab/src/coach.js', 'services/mission-lab/src/ui.js', 'services/nasa-context-worker/src/index.js']:
+for name in ['services/mission-lab/src/index.js', 'services/mission-lab/src/coach.js', 'services/mission-lab/src/ui.js', 'services/mission-lab/src/data.js', 'services/nasa-context-worker/src/index.js']:
     part(name, (ROOT / name).read_bytes(), name)
 payload = b''.join(parts) + ('--' + boundary + '--\r\n').encode()
 result = call('/workers/scripts/' + NAME, 'PUT', payload, 'multipart/form-data; boundary=' + boundary)

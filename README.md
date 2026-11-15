@@ -18,7 +18,7 @@ A short Mars learning game for ages 7–12, built with Godot. From mission contr
 
 ## Cloudflare + Gemini companion demo
 
-The [Mission Science Lab](services/mission-lab/README.md) combines a real NASA image, three science lessons and an optional Gemini explanation button. The Worker is uploaded, but its public URL needs Cloudflare account onboarding; Gemini generation is blocked by this project's free-tier eligibility. Local browser checks and 25 service tests pass. This is a companion demo, not a new game release or a claim of a live AI service.
+The [Mission Science Lab](https://komaku-mission-lab.roshan-cloudmail.workers.dev) is live: NASA imagery through Cloudflare, an attributed OpenSpace Mars scale reference, and an audit snapshot from local TimescaleDB. Its source-based built-in guide works even though Gemini generation remains blocked by the project's free-tier eligibility. [Implementation and limits](services/mission-lab/README.md) · [Five-slide deck, 29.5-second video and presenter notes](docs/submission/demo-pack/README.md). This companion does not change the released game's physics.
 
 ## New visual and learning work — unreleased
 

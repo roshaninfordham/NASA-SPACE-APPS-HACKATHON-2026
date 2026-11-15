@@ -55,3 +55,11 @@ The new countdown, warning, and urgent beeps are original procedural cues; the r
 ReportLab, Matplotlib, Pillow, and PyMuPDF generate the illustrated PDF and diagrams from repository sources. They are build tools, not requirements for playing the native app. The generator records source/artifact fingerprints and verifies the exact embedded font notice. Future third-party assets must record creator, license, source, and modifications before distribution.
 
 Made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC.
+
+## Mission Science Lab additions — November 15, 2026
+
+The companion lab uses an attributed OpenSpace Mars globe configuration, pinned to commit `5ac175a7154e57909085131bcd9d9366670c2a4f`. The [original asset and MIT notice](services/mission-lab/vendor/openspace/) are retained; [provenance](services/mission-lab/data/openspace.json) records its hash and how its spherical rendering radius is used. This is not a claim that the game runs the OpenSpace engine.
+
+[TimescaleDB](https://github.com/timescale/timescaledb), maintained by Tiger Data, powers a local observation-history demonstration in Apache-license mode. [Deployment scope and license boundaries](services/observation-history/README.md) distinguish its Apache core from other distribution components and the managed Tiger Cloud service. Public-page statistics are an exported snapshot of real retrieval checks.
+
+[The presentation pack](docs/submission/demo-pack/README.md) contains actual prototype screenshots, AI-assisted writing, and a 29.5-second video using the existing credited synthetic narration. Gemini generation remains blocked by the project's free-tier eligibility; fallback explanations are prewritten and labelled Built-in guide, not credited as Gemini output.

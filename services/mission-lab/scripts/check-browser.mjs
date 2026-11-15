@@ -4,8 +4,10 @@ try{
  const page=await browser.newPage({viewport:{width:1280,height:1000}}),errors=[];
  page.on('pageerror',e=>errors.push(e.message));
  await page.goto(process.env.MISSION_LAB_TEST_URL||'http://127.0.0.1:8788');
- await page.getByRole('button',{name:'Explain with Gemini'}).click();
- await page.getByText('Gemini is not connected yet. The source explanation remains available.',{exact:true}).waitFor();
+ await page.getByRole('button',{name:'Explain this'}).click();
+ await page.getByText('Built-in guide · Gemini unavailable',{exact:true}).waitFor();
+ await page.locator('#explanation').filter({hasText:'Dust'}).waitFor();
+ await page.screenshot({path:'services/mission-lab/evidence/coach-live.png',fullPage:true});
  await page.getByRole('button',{name:'ϟ Energy',exact:true}).click();
  await page.getByRole('heading',{name:'Power is a rate. Energy is stored.'}).waitFor();
  await page.getByRole('button',{name:'◷ Radiation',exact:true}).click();

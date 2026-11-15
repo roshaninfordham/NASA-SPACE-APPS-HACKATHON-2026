@@ -1,0 +1,23 @@
+{
+  "checks": 2,
+  "distinct_images": 1,
+  "first_check": "2026-11-15T18:11:52.996697+00:00",
+  "last_check": "2026-11-15T18:12:25.298937+00:00",
+  "nasa_file_updated_at": "2026-11-15T18:03:06+00:00",
+  "generated_at": "2026-11-15T18:12:25.298937+00:00",
+  "engine": "TimescaleDB 2.32.0",
+  "license_mode": "apache",
+  "scope": "Export from local self-hosted TimescaleDB; not a live cloud database. Records retrieval checks, not new NASA observations or radiation measurements.",
+  "buckets": [
+    {
+      "minute": "2026-11-15T18:11:00+00:00",
+      "checks": 1,
+      "distinct_images": 1
+    },
+    {
+      "minute": "2026-11-15T18:12:00+00:00",
+      "checks": 1,
+      "distinct_images": 1
+    }
+  ]
+}
