@@ -58,4 +58,6 @@ Use Godot 4.6.3; the full test runner uses isolated Linux player profiles. Captu
 
 The next substantial fidelity step is authored character/hand animation, materials and close-up assets, followed by real-device profiling. Keeping Godot preserves the working mission, accessibility and updater architecture; changing engines alone would not supply those assets. Native package, signing and update acceptance must be repeated on the final release bytes before a new download is advertised.
 
+The next package's generated `START-HERE.txt` also documents the offline default and the online opt-in needed for updates; published 0.10 archives retain their historical behavior and instructions.
+
 Made with love by Team Roshan Xingbo at the NASA Space App Hackathon 2026, NYC.

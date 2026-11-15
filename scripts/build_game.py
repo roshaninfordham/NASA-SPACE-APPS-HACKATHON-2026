@@ -63,6 +63,7 @@ All controls also work by click/touch. No microphone is required.
 Science cards and Pause stop the mission clock. Escape leaves fullscreen
 first and pauses; another Escape closes one panel or offers Resume.
 Settings has music, sound effects, reduced motion and relaxed/quick pacing.
+Graphics offers Auto, Battery saver, Balanced and High; mission rules stay the same.
 View chooses a Science window with eight live bubbles or a Focused window.
 Menu offers Resume, Science, view/accessibility, Restart and Home.
 Changing the view preserves your current mission. Radio replies stay visible
@@ -71,8 +72,10 @@ Debrief connects your actual run to four equations and an optional quiz.
 Home > More > Advanced lab retains the earlier Mira/EVA mission separately.
 
 UPDATES AND SCIENCE
-Compatible desktop updates appear at a safe menu on a fresh launch:
+The game starts offline. Settings > Online sources permits NASA image requests
+and update checks. With it enabled, compatible desktop updates appear at a safe menu:
 Update available → Install → Restart. Engine changes need a new installer.
+Science cards also offer an offline source-based coach; no AI download is needed.
 Read KOMAKU-Science-Guide.pdf for equations, data and teaching assumptions.
 Live Sun shows NASA SDO imagery with timestamps; cached imagery works offline.
 Its latest image is educational context, not a Mars radiation prediction.
